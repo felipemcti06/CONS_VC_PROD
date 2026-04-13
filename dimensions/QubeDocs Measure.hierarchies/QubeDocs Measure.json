@@ -1,0 +1,86 @@
+{
+	"@type":"Hierarchy",
+	"Name":"QubeDocs Measure",
+	"Elements":
+	[
+		{
+			"Name":"#Desc",
+			"Type":"String"
+		},
+		{
+			"Name":"#IncludeInApplication",
+			"Type":"String"
+		},
+		{
+			"Name":"#IncludeInApplicationAs",
+			"Type":"String"
+		},
+		{
+			"Name":"#DocumentElements",
+			"Type":"String"
+		},
+		{
+			"Name":"#ShowUndocumentedElements",
+			"Type":"String"
+		},
+		{
+			"Name":"#CustomAppGroup",
+			"Type":"String"
+		},
+		{
+			"Name":"#AppGroup",
+			"Type":"String"
+		},
+		{
+			"Name":"#DimCalc",
+			"Type":"String"
+		},
+		{
+			"Name":"#DimCCalc",
+			"Type":"String"
+		},
+		{
+			"Name":"#Picklist",
+			"Type":"String"
+		},
+		{
+			"Name":"#Indent",
+			"Type":"String"
+		},
+		{
+			"Name":"#DocumentName",
+			"Type":"String"
+		},
+		{
+			"Name":"#DocumentLink",
+			"Type":"String"
+		},
+		{
+			"Name":"#LinkName",
+			"Type":"String"
+		},
+		{
+			"Name":"#Link",
+			"Type":"String"
+		},
+		{
+			"Name":"#Owner",
+			"Type":"String"
+		},
+		{
+			"Name":"#Users",
+			"Type":"String"
+		}
+	],
+	"Subsets@Code.links":
+	[
+		"QubeDocs Measure.subsets/Default.json",
+		"QubeDocs Measure.subsets/Level0.json",
+		"QubeDocs Measure.subsets/QUBEdocs.Application Measures.json",
+		"QubeDocs Measure.subsets/QUBEdocs.Desc.json",
+		"QubeDocs Measure.subsets/QUBEdocs.Document Elements.json",
+		"QubeDocs Measure.subsets/QUBEdocs.Include In Application.json",
+		"QubeDocs Measure.subsets/QUBEdocs.Other Documentation.json",
+		"QubeDocs Measure.subsets/SYS.Level0.json"
+	]
+}

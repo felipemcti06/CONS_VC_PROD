@@ -1,0 +1,33 @@
+{
+	"@type":"Process",
+	"Name":"zCTI.SwapAlias",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"zCTI.SwapAlias.ti",
+	"DataSource":
+	{
+		"Type":"None"
+	},
+	"Parameters":
+	[
+		{
+			"Name":"pDimension",
+			"Prompt":"Dimension",
+			"Value":"",
+			"Type":"String"
+		},
+		{
+			"Name":"pAlias",
+			"Prompt":"Alias",
+			"Value":"",
+			"Type":"String"
+		},
+		{
+			"Name":"pSwitch",
+			"Prompt":"Switch",
+			"Value":"",
+			"Type":"String"
+		}
+	],
+	"Variables":[],
+	"VariablesUIData": []
+}

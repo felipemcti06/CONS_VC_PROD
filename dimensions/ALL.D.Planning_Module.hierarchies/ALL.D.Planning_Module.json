@@ -1,0 +1,16 @@
+{
+	"@type":"Hierarchy",
+	"Name":"ALL.D.Planning_Module",
+	"Elements":
+	[
+		{
+			"Name":"KPI",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Financial_Planning",
+			"Type":"Numeric"
+		}
+	],
+	"Subsets@Code.links":[]
+}

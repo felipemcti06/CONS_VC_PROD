@@ -1,0 +1,36 @@
+{
+	"@type":"Hierarchy",
+	"Name":"}Plans_Control",
+	"Elements":
+	[
+		{
+			"Name":"Name",
+			"Type":"String"
+		},
+		{
+			"Name":"Owner",
+			"Type":"String"
+		},
+		{
+			"Name":"Created",
+			"Type":"String"
+		},
+		{
+			"Name":"Dimension",
+			"Type":"String"
+		},
+		{
+			"Name":"Hierarchy",
+			"Type":"String"
+		},
+		{
+			"Name":"Subset",
+			"Type":"String"
+		},
+		{
+			"Name":"State",
+			"Type":"Numeric"
+		}
+	],
+	"Subsets@Code.links":[]
+}

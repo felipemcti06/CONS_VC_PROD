@@ -1,0 +1,1662 @@
+#region Prolog
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+
+
+# ===============================================================================================================
+#GENERALCOMMENT             Descrição:          	Carrega dados CSV para o Cubo 
+#GENERALCOMMENT             Responsável:   	Miranda / Helder
+#GENERALCOMMENT             Data Criação:    	01/2026
+#
+#LASTCHANGE                 Alterações:
+#LASTCHANGE                 Responsavel Alterações:
+# ===============================================================================================================
+
+# ===============================================================================================================
+#PROLOGCOMMENT               Descrição:            Define arquivo fonte utlizando como filtro Parametros de Versão, Ano e Mês.
+# ===============================================================================================================
+
+# =================================================================================
+# 									Glosário 
+# =================================================================================
+# Prefixos de Variáveis 
+#
+# v - Variáveis de entrada		- relacionado a origem de dados do turbo
+# p - Parâmetros de entrada		- relacionado ao input realizado pelo usuário no momento de disparo do processo
+# c - Constantes			- variáveis que receberão um valor fixo (Não serão alteradas durante o processo)
+# n - Numerica
+# s - String (Texto)
+#
+# Variáveis que deverão ser alteradas
+# cCuboDestino			- Armazena o nome do cubo de destino
+# cSuprimirConsolidado		- (S/N) - Suprimir a informação dos elementos consolidados
+# cSuprimirZero			- (S/N) - Suprimir os valores 0 da view
+# cSuprimirCamposCalculados		- (S/N) - Suprimir os campos calculados 
+# cViewTemporaria			- (S/N) - Se a view deve ser temporária 
+#
+#
+# Variáveis configuradas no cubo de controle 
+# cCaminhoArquivoFonte 		- Busca o caminho de origem do processo no cubo de controle
+# cCaminhoArquivoRejeitado 		- Busca o caminho de rejeitado do processo no cubo de controle
+# cPrefixoArquivoFonte 		- Busca o prefixo do arquivo de origem do processo no cubo de controle
+# cUtilizarDebug		 	- Busca no cubo de controle se ao executar o processo, será utilizado o modo Debug (Grava em arquivo texto o que seria gravado no cubo)
+# cGravarLogAlteracao		- Busca no cubo de controle se ao executar o processo, serão gravados as alterações no cubo de destino
+#
+#
+# Variáveis que não precisam ser alteradas
+# cCuboParametro 			- Armazena o nome do cubo de parâmetro utilizado
+# cCuboPropriedade		- Armazena o nome do cubo de sistema onde estão as principais propriedades dos cubos
+# cExisteCabecalhoRejeitado		- Variável que irá controlar o cabeçalho do arquivo de rejeitado sejá criado uma única vez
+# cExisteRegistroRejeitado 		- Variável que irá controlar se o registro possuí algum erro de integridade ou validação dos dados
+# cHorarioInicio			- Armazena o horário de inicio do processo
+# cMensagemRegistro		- Armazena a mensagem de erro/log do registro
+# cMensagemProcesso		- Armazena a mensagem de erro do processo
+# cProcesso			- Armazena o nome do processo
+# cQtdRegistroRejeitado		- Contador de registros rejeitados
+# cTipoErro			- Controla o tipo de erro (Erro 1 - Prologo / Erro 2 - Dados)
+# cUsuario			- Armazena o nome do usuário ou chore que executou o processo
+
+# =================================================================================
+# Variáveis do padrão CTI que devem ser alteradas
+# =================================================================================
+
+
+# Informações do cubo de Destino
+# ========================================
+cCuboDestino		= 'STG.100.DataBase_Uploads';
+
+cCuboReject                                      = 'SYS.250.Rejeitados';
+
+
+# =================================================================================
+# Variáveis do padrão CTI não devem ser alteradas
+# =================================================================================
+
+# Recupera o usuário que executou o processo
+# ========================================
+cUsuario = IF( DimIx( '}Clients' , TM1User() ) = 0, 'Executed by Chore' , ATTRS('}Clients', TM1User(), '}TM1_DefaultDisplayValue') );
+  
+
+  
+# Variáveis de controle do processo
+# ========================================
+cCuboParametro			= 'SYS.150.Controle_Cargas';
+cCuboPropriedade			= '}CubeProperties';
+cHorarioInicio			= Now();
+cProcesso			= GetProcessName();
+cMensagemRegistro	 	= '';
+cMensagemProcesso 		= '';
+cExisteRegistroRejeitado 		= 0;
+cExisteCabecalhoRejeitado 		= 0;
+cQtdRegistroRejeitado		= 0;
+cTipoErro				= 0;
+cContadorRegistro 			= 0;
+cQtdRegistroRejeitadoCubo                    = 0;
+
+
+# Variáveis do cubo de controle
+# ========================================
+#cCaminhoArquivoFonte 		= CellGetS( cCuboParametro , cProcesso , 'Caminho do Arquivo Fonte' );
+cCaminhoArquivoFonte 		= '';
+cCaminhoArquivoRejeitado  		= CellGetS( cCuboParametro , cProcesso , 'Caminho do Arquivo de Rejeitado' );
+cPrefixoArquivoFonte 		= CellGetS( cCuboParametro , cProcesso , 'Prefixo do Arquivo' );
+cUtilizarDebug		 	= CellGetS( cCuboParametro , cProcesso , 'Debug (S/N)' );
+cGravarLogAlteracao		= CellGetS( cCuboParametro , cProcesso , 'Gerar Log de Alteração (S/N)' );
+
+
+
+# Tratamento para os campos vindos do cubo de controle que recebem (S/N)
+# ========================================
+cUtilizarDebug		 	= IF( cUtilizarDebug @= 'S' , 'S' , 'N' );
+cGravarLogAlteracao		= IF( cGravarLogAlteracao @= 'S' , 'S' , 'N' );
+
+
+
+# =================================================================================
+# Verificar se sistema esta aberto para Input
+# =================================================================================
+sVersaoInput = CellGetS( 'ALL.100.Assumptions_Upload', 'Current Version Planning', 'Value' );
+pAnoInicial = CellGetS( 'ALL.100.Assumptions_Upload', 'Planning Start Year', 'Value' );
+
+# if (sVersaoInput@<>'Planning Preview'   %  sVersaoInput@='' ); 
+#     cMensagemProcesso 			= 'The requested period is not available for updates. Please, contact administrator';  
+#       cTipoErro = 2;
+
+#         cMensagemProcessoReject 	=cMensagemProcesso;
+
+
+#    CellPutS('Mensagem', cCuboReject,cUsuario,cProcesso,'0000001','Coluna 01') ;
+#    CellPutS(cMensagemProcessoReject, cCuboReject,cUsuario,cProcesso,'0000001','Mensagem') ;
+
+#       vElemento = 3;
+#       vCount = vElemento;
+#       WHILE(vCount <= 30);
+#       vElementoN = DimNm('SYS.D.Linhas', vCount);
+
+#           CellPutS(' ', cCuboReject,cUsuario,cProcesso,vElementoN,'Mensagem') ;
+#           CellPutS(' ', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 01') ;
+#           CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 02') ;
+#           CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 02') ;
+#           CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 03') ;
+#           CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 04') ;
+#           CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 05') ;
+#           CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 06') ;
+#           CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 07') ;
+#           CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 08') ;
+#           CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 09') ;
+#           CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 10') ;
+#           CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 11') ;
+#           CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 12') ;
+#           CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 13') ;
+#           CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 14') ;
+#           CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 15') ;
+#           CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 16') ;
+#           CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 17') ;
+#           CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 18') ;
+#           CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 19') ;
+#           CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 20') ;
+
+
+#       vCount = vCount + 1;
+#       END;
+    
+#    ProcessBreak ; 
+# endif;
+
+
+#sStatus = CellGetS( 'ALL.002.Uploads_Status', sVersaoInput, pRegion, 'Status' );
+sStatus = CellGetS( 'ALL.004.Uploads_Status_Planning', sVersaoInput, pRegion,'Status'  );
+
+if (sStatus@='Closed'); 
+    cMensagemProcesso 			= 'The requested period is not available for updates. Please, contact administrator';  
+      cTipoErro = 2;
+
+    cMensagemProcessoReject 	=cMensagemProcesso;
+
+
+   CellPutS('Mensagem', cCuboReject,cUsuario,cProcesso,'0000001','Coluna 01') ;
+   CellPutS(cMensagemProcessoReject, cCuboReject,cUsuario,cProcesso,'0000001','Mensagem') ;
+
+    
+      vElemento = 3;
+      vCount = vElemento;
+      WHILE(vCount <= 30);
+      vElementoN = DimNm('SYS.D.Linhas', vCount);
+
+          CellPutS(' ', cCuboReject,cUsuario,cProcesso,vElementoN,'Mensagem') ;
+          CellPutS(' ', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 01') ;
+          CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 02') ;
+          CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 02') ;
+          CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 03') ;
+          CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 04') ;
+          CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 05') ;
+          CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 06') ;
+          CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 07') ;
+          CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 08') ;
+          CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 09') ;
+          CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 10') ;
+          CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 11') ;
+          CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 12') ;
+          CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 13') ;
+          CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 14') ;
+          CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 15') ;
+          CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 16') ;
+          CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 17') ;
+          CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 18') ;
+          CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 19') ;
+          CellPutS('', cCuboReject,cUsuario,cProcesso,vElementoN,'Coluna 20') ;
+
+
+      vCount = vCount + 1;
+      END;
+    
+    ProcessBreak ; 
+endif;
+
+
+# =================================================================================
+# Define variáveis locais de arquivo
+# =================================================================================
+cDelimitadorArquivo 		= ';';
+cSeparadorMilhar			= '.';
+cSeparadorDecimal			= ',';
+
+DataSourceASCIIDelimiter 		= cDelimitadorArquivo;
+DataSourceASCIIThousandSeparator 	= cSeparadorMilhar;
+DataSourceASCIIDecimalSeparator 	= cSeparadorDecimal;
+DataSourceQuoteCharacter 		= '';
+
+
+# =================================================================================
+# Define o Log inicial da carga como falha
+# Registra esse log logo no inicio para garantir que tenha algum log de falha registrado
+# Caso o processo não consiga chegar no próximo registro de log por alguma falha inesperada
+# =================================================================================
+cMensagemProcesso	= 'Upload failed. Please, contact administrator' ;
+s01			= TimSt( cHorarioInicio , '\Y-\m-\d \hh\im\ss' );
+s02 			= cUsuario ;
+s03 			= cMensagemProcesso ;
+s04 			= '0' ;
+s05 			= TimSt( cHorarioInicio - Now, '\Y-\m-\d \hh\im\ss' );
+
+CellPutS( s01 , cCuboParametro, cProcesso, 'DataHora Inicio' );
+CellPutS( s01 , cCuboParametro, cProcesso, 'DataHora Fim' );
+CellPutS( s02 , cCuboParametro, cProcesso, 'Usuário' );
+CellPutS( s03 , cCuboParametro, cProcesso, 'Mensagem de Log' );
+CellPutS( s04 , cCuboParametro, cProcesso, 'Registros Processados' );
+CellPutS( s05 , cCuboParametro, cProcesso, 'Tempo de Execução' );
+
+
+
+
+# =================================================================================
+# Validação dos parâmetros
+# CUBO Assumptions Uploads
+# =================================================================================
+
+pVersao = sVersaoInput;
+
+pAnoInicial = CellGetS( 'ALL.100.Assumptions_Upload', 'Planning Start Year', 'Value' );
+pAnoFinal = NumberToString (  StringToNumber( pAnoInicial )+5 );
+
+
+
+
+
+
+
+# Parâmetro 4
+# =========================
+sDim = 'ALL.D.REGION';
+sElm = pRegion;
+
+If( Trim( sDim ) @<> '' );
+  If( Trim( sElm ) @= '' );
+    cTipoErro = 1;
+    DataSourceType = 'NULL';
+    cMensagemProcesso = 'Please, inform the region to upload the data' ;
+    ItemReject( cMensagemProcesso );
+  ElseIf( DimIx( sDim , sElm ) = 0 );
+    cTipoErro = 1;
+    DataSourceType = 'NULL';
+    cMensagemProcesso = 'The region    [ ' | sElm | ' ]    does not exist in the dimension    [ ' | sDim | ' ]';
+    ItemReject( cMensagemProcesso );
+  EndIf;
+EndIf;
+
+
+
+# =================================================================================
+# Bloco para verificação se o pFileName foi configurado corretamenta
+# =================================================================================
+
+# Define o nome dos arquivos
+# ======================================================
+cNomeArquivoFonte	=  pFileName ;
+
+# =================================================================================
+# Valida se o pFileName recebeu o arquivo via parametro
+# Author: Flavio Santana
+# Date: 03/2025
+# =================================================================================
+IF ( cNomeArquivoFonte @= '' );
+
+    # Cria as mensagens de rejeitado e orientação ao usuário.
+    cMensagemProcesso 			= 'Process completed with rejected records. Please, verify the rejected records tab';    
+    cMensagemProcessoReject 	= 'Arquivo inexistente. Verificar se o parâmetro está configurado como "Arquivo" no Tipo de Controle das configurações do botão de ação.' ;
+
+    # Alimenta o cubo de Rejeitado
+    #CellPutS('Mensagem'					, cCuboRejeitado, cProcesso, cUsuario, 'L1', 'Mensagem');
+    #CellPutS( cMensagemProcessoReject 	, cCuboRejeitado, cProcesso, cUsuario, 'L2', 'Mensagem');
+   CellPutS('Mensagem', cCuboReject,cUsuario,cProcesso,'0000001','Coluna 01') ;
+   CellPutS(cMensagemProcessoReject, cCuboReject,cUsuario,cProcesso,'0000001','Mensagem') ;
+    # Alimenta a variavel "cTipoErro" usado no epilogo e aborta o processo.
+    cTipoErro = 2;
+    ProcessBreak;
+
+Endif;
+
+# =================================================================================
+# Valida se a extensão do arquivo esta no formato ".csv" e ".txt"
+# Author: Flavio Santana
+# Date: 10/2024
+# =================================================================================
+
+# Verifica os últimos quatro caracteres.
+cExtensaoArquivo = SUBST(cNomeArquivoFonte, LONG(cNomeArquivoFonte) - 3, 4);
+
+# Verifica se a extensão é diferente de ".csv" e ".txt".
+IF ( cExtensaoArquivo @<> '.csv' & cExtensaoArquivo @<> '.txt');
+
+    # Cria as mensagens de rejeitado e orientação ao usuário.
+    cMensagemProcesso 			= 'Process completed with rejected records. Please, verify the rejected records tab';    
+    cMensagemProcessoReject 	= 'The File extension is incorrect, it has to be  ".csv" ou ".txt”.' ;
+
+    # Alimenta o cubo de Rejeitado
+    #CellPutS('Mensagem'					, cCuboRejeitado, cProcesso, cUsuario, 'L1', 'Mensagem');
+    #CellPutS( cMensagemProcessoReject 	, cCuboRejeitado, cProcesso, cUsuario, 'L2', 'Mensagem');
+       CellPutS('Mensagem', cCuboReject,cUsuario,cProcesso,'0000001','Coluna 01') ;
+       CellPutS(cMensagemProcessoReject, cCuboReject,cUsuario,cProcesso,'0000001','Mensagem') ;
+
+    # Alimenta a variavel "cTipoErro" usado no epilogo e aborta o processo.
+    cMensagemProcesso =  'The File extension is incorrect, it has to be  ".csv" ou ".txt”.' ;
+    cTipoErro = 2;
+    ProcessBreak;
+
+Endif;
+
+# Insere o caractere "\" no final do caminho caso ainda não tenha
+# ======================================================
+cCaminhoArquivoFonte 	= IF( SUBST( cCaminhoArquivoFonte , LONG( cCaminhoArquivoFonte ) , 1 ) @<> '\' , cCaminhoArquivoFonte | '\' , cCaminhoArquivoFonte ); 
+
+# Monta o caminho completo 
+# ======================================================
+cNomeArquivoFonteCompleto 	= cCaminhoArquivoFonte | cNomeArquivoFonte;
+
+
+
+# Aborta o processo se o arquivo fonte não existir na pasta de origem
+# ======================================================
+IF( FileExists( cNomeArquivoFonteCompleto ) = 0 );
+   cTipoErro = 1;
+   cMensagemProcesso = 'File  "' | cNomeArquivoFonte | '"   does not exist in the directory:   "' | cCaminhoArquivoFonte | '"' ;
+   DataSourceType = 'NULL';
+   ItemReject( cMensagemProcesso );
+ENDIF;
+
+
+
+
+
+
+
+# =================================================================================
+#
+# Definição da Origem de Dados
+#
+# =================================================================================
+
+# Define o arquivo fonte como a nova fonte de dados deste processo
+# ======================================================
+
+DatasourceNameForServer		= cNomeArquivoFonteCompleto ;
+DatasourceNameForClient		= cNomeArquivoFonteCompleto ;
+
+
+
+# =================================================================================
+#
+# Definição View de Limpeza do Cudo de Destino
+#
+# =================================================================================
+
+cSuprimirConsolidado	= 'S';
+cSuprimirZero		= 'S'; 
+cSuprimirCamposCalculados	= 'S';
+cViewTemporaria	 	= 'S';
+nViewTemporaria		= If( cViewTemporaria @= 'S', 1, 0);
+
+
+
+# Busca parametro para ativação de Log do Cubo
+# ======================================================
+sLog       	= IF ( cGravarLogAlteracao @= 'N', 'NO', 'YES' );
+
+
+
+# Grava no cubo de Log
+# ======================================================
+#CellPutS( sLog, cCuboPropriedade, cCuboDestino, 'LOGGING' );
+
+
+
+# Define nome da view e subset de limpeza
+# ======================================================
+cViewDestino	= 'processo.' | cProcesso | '.' | 'Limpeza' | '.' | TimSt( cHorarioInicio, '\Y-\m-\d \hh\im\ss' );
+cSubsetDestino	= cViewDestino;
+
+
+
+# Cria a view que será utilizada para a limpeza
+# ======================================================
+ViewCreate( cCuboDestino , cViewDestino , nViewTemporaria );
+
+
+
+# Cria os subsets que serão utilizados para filtrar a view de limpeza
+# ======================================================
+
+cDimensao	= 'ALL.D.YEAR';
+#cElemento	= pAno;
+
+
+
+If( cDimensao @<> '');
+  SubsetCreate( cDimensao, cSubsetDestino , nViewTemporaria );  
+  ViewSubsetAssign( cCuboDestino , cViewDestino, cDimensao , cSubsetDestino );  
+  SubsetElementInsert( cDimensao, cSubsetDestino, pAnoInicial	, 1 );
+  SubsetElementInsert( cDimensao, cSubsetDestino, NumberToString (  StringToNumber( pAnoInicial )+1 )	, 1 );
+  SubsetElementInsert( cDimensao, cSubsetDestino, NumberToString (  StringToNumber( pAnoInicial )+2 )	, 1 );
+  SubsetElementInsert( cDimensao, cSubsetDestino, NumberToString (  StringToNumber( pAnoInicial )+3 )	, 1 );
+  SubsetElementInsert( cDimensao, cSubsetDestino, NumberToString (  StringToNumber( pAnoInicial )+4 ), 1 );  
+SubsetElementInsert( cDimensao, cSubsetDestino, NumberToString (  StringToNumber( pAnoInicial )+5 ), 1 );  
+EndIf;
+  
+
+cDimensao	= 'ALL.D.REGION';
+cElemento	= pRegion;
+If( cDimensao @<> '');
+
+
+    if( DTYPE( 'ALL.D.Region', pRegion )@='N' );
+    SubsetCreate( cDimensao, cSubsetDestino , nViewTemporaria );  
+    ViewSubsetAssign( cCuboDestino , cViewDestino, cDimensao , cSubsetDestino );  
+     SubsetElementInsert( cDimensao, cSubsetDestino, cElemento	, 1 );
+     ELSE;
+        # Cria os subsets a partir de MDX
+        # ======================================================
+        
+        cMDX		= '{TM1FILTERBYLEVEL( {TM1DRILLDOWNMEMBER( {TM1FILTERBYPATTERN( {TM1SUBSETALL( [ALL.D.REGION] )}, "'| pRegion |'")}, ALL, RECURSIVE )}, 0)}';
+        
+         SubsetCreatebyMDX(cSubsetDestino, cMDX, nViewTemporaria);
+        ViewSubsetAssign( cCuboDestino , cViewDestino, cDimensao , cSubsetDestino );  
+        SubsetMDXSet(cDimensao, cSubsetDestino, '');
+
+    endif;
+
+EndIf;
+
+
+cDimensao	= 'ALL.D.Version';
+cElemento	= pVersao;
+If( cDimensao @<> '');
+  SubsetCreate( cDimensao, cSubsetDestino , nViewTemporaria );  
+  ViewSubsetAssign( cCuboDestino , cViewDestino, cDimensao , cSubsetDestino );  
+  SubsetElementInsert( cDimensao, cSubsetDestino, cElemento	, 1 );
+EndIf;
+
+
+
+# Cria os subsets a partir de MDX
+# ======================================================
+cDimensao	= '';
+cMDX		= '';
+If( cDimensao @<> '');
+  SubsetCreatebyMDX(cSubsetDestino, cMDX, nViewTemporaria);
+  ViewSubsetAssign( cCuboDestino , cViewDestino, cDimensao , cSubsetDestino );  
+  SubsetMDXSet(cDimensao, cSubsetDestino, '');
+EndIf;
+
+
+
+# Configuração da View
+# ======================================================
+ViewExtractSkipCalcsSet( cCuboDestino, cViewDestino, If( cSuprimirConsolidado @= 'S', 1, 0) );
+ViewExtractSkipZeroesSet( cCuboDestino, cViewDestino, If( cSuprimirZero @= 'S', 1, 0)  );
+ViewExtractSkipRuleValuesSet( cCuboDestino, cViewDestino, If( cSuprimirCamposCalculados @= 'S', 1, 0) );
+
+
+
+# Apaga os valores da View criada
+# ======================================================
+ViewZeroOut( cCuboDestino , cViewDestino );
+
+
+# =================================================================================
+#
+# Definição View de Limpeza do Cudo de Rejeitados
+#
+# =================================================================================
+
+cSuprimirConsolidado			= 'S';
+cSuprimirZero					= 'S'; 
+cSuprimirCamposCalculados		= 'S';
+cViewTemporariaRejeitado	 	= 'S';
+nViewTemporariaRejeitado		= If( cViewTemporariaRejeitado @= 'S', 1, 0);
+
+# Define nome da view e subset de limpeza
+# ======================================================
+cViewDestinoRejeitado	= 'processo.' | cProcesso | '.' | 'Limpeza' | '.' | TimSt( cHorarioInicio, '\Y-\m-\d \hh\im\ss' );
+cSubsetDestinoRejeitado	= cViewDestinoRejeitado;
+
+
+
+# Cria a view que será utilizada para a limpeza
+# ======================================================
+ViewCreate( cCuboReject , cViewDestinoRejeitado , nViewTemporariaRejeitado );
+
+# Cria os subsets que serão utilizados para filtrar a view de limpeza
+# ======================================================
+
+cDimensaoRejeitado	= '}Processes';
+cElemento	= cProcesso;
+If( cDimensaoRejeitado @<> '');
+  SubsetCreate( cDimensaoRejeitado, cSubsetDestinoRejeitado , nViewTemporariaRejeitado );  
+  ViewSubsetAssign( cCuboReject , cViewDestinoRejeitado, cDimensaoRejeitado , cSubsetDestinoRejeitado );  
+  SubsetElementInsert( cDimensaoRejeitado, cSubsetDestinoRejeitado, cElemento	, 1 );
+EndIf;
+
+cDimensaoRejeitado	= '}Clients';
+cElemento	= cUsuario;
+If( cDimensaoRejeitado @<> '');
+  SubsetCreate( cDimensaoRejeitado, cSubsetDestinoRejeitado , nViewTemporariaRejeitado );  
+  ViewSubsetAssign( cCuboReject , cViewDestinoRejeitado, cDimensaoRejeitado , cSubsetDestinoRejeitado );  
+  SubsetElementInsert( cDimensaoRejeitado, cSubsetDestinoRejeitado, cElemento	, 1 );
+EndIf;
+
+# Configuração da View
+# ======================================================
+ViewExtractSkipCalcsSet( cCuboReject, cViewDestinoRejeitado, If( cSuprimirConsolidado @= 'S', 1, 0) );
+ViewExtractSkipZeroesSet( cCuboReject, cViewDestinoRejeitado, If( cSuprimirZero @= 'S', 1, 0)  );
+ViewExtractSkipRuleValuesSet( cCuboReject, cViewDestinoRejeitado, If( cSuprimirCamposCalculados @= 'S', 1, 0) );
+
+# Apaga os valores da View criada
+# ======================================================
+ViewZeroOut( cCuboReject , cViewDestinoRejeitado );
+
+
+#endregion
+#region Metadata
+
+sElm = vConta;
+sDim = 'ALL.D.Accounts';
+
+If( sElm @<> '' & DimIx( sDim, sElm ) = 0 );
+    DimensionElementInsert( sDim, '', sElm,  'n' );
+EndIf;
+
+
+sElm = vSubConta;
+sDim = 'ALL.D.Account_Line';
+
+If( sElm @<> '' & DimIx( sDim, sElm ) = 0 );
+    DimensionElementInsert( sDim, '', sElm,  'n' );
+EndIf;
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+#endregion
+#region Data
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+
+
+# ===============================================================================================================
+#DATACOMMENT        Descrição:  Grava dados no cubo
+# ===============================================================================================================
+
+# ===================================================================================
+# Gera contador para o arquivo de debug ou registros rejeitados o e quantid. total de registros processados
+# ===================================================================================
+cContadorRegistro = cContadorRegistro + 1;
+sContadorRegistro = NumberToString( cContadorRegistro );
+
+
+# ===================================================================================
+# Retira os espaços em branco das variáveis
+# ===================================================================================
+vAno	= Trim( vAno );
+
+vConta	= Trim( vConta );
+vSubConta	= Trim( vSubConta );
+vCod_Produto	= Trim( vCod_Produto );
+vMoeda	= Trim( vMoeda );
+vRegiao= Trim( vRegiao );
+
+v01 = TRIM( v01 );
+v02 = TRIM( v02 );
+v03 = TRIM( v03 );
+v04 = TRIM( v04 );
+v05 = TRIM( v05 );
+v06 = TRIM( v06 );
+v07 = TRIM( v07 );
+v08 = TRIM( v08 );
+v09 = TRIM( v09 );
+v10 = TRIM( v10 );
+v11 = TRIM( v11 );
+v12 = TRIM( v12 );
+
+vMesPE1 = TRIM( vMesPE1 );
+vMesPE2 = TRIM( vMesPE2 );
+vMesPE3 = TRIM( vMesPE3 );
+vMesPE4 = TRIM( vMesPE4 );
+vMesPE5 = TRIM( vMesPE5 );
+
+
+
+
+# ===================================================================================
+# Pula o Registro se todas as variáveis estiverem vazias
+# ===================================================================================
+IF( '' @= vAno 
+  & '' @= vConta 
+  & '' @= vSubConta 
+  & '' @= vMoeda 
+  & '' @= vRegiao
+  );
+  ItemSkip;
+EndIf;
+
+
+
+if (vSubConta@=''); 
+    vSubConta = 'N/A'; 
+endif;
+
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso a variavel estiver em branco, se não existir na dimensão ou se for um totalizador
+# ===================================================================================
+# sDim	= 'ALL.D.YEAR';
+# sElm	= vAno;
+# sCol	= 'Ano';
+
+# If( cExisteRegistroRejeitado = 0 );
+#    If( sElm @= '' );
+#       cMensagemRegistro = 'A coluna    [ ' | sCol | ' ]    está em branco e é obrigatório ter algum valor';
+#       cExisteRegistroRejeitado = 1;
+#    ElseIf( DimIx( sDim , sElm ) = 0 );
+#       cMensagemRegistro = 'A coluna    [ ' | sCol | ' ]    contêm o valor:    [ ' | sElm | ' ]    que não existe na dimensão:    [ ' | sDim | ' ]';
+#       cExisteRegistroRejeitado = 1;
+#    ElseIf( dType( sDim , sElm ) @= 'C' );
+#       cMensagemRegistro = 'A coluna    [ ' | sCol | ' ]    contêm o valor:    [ ' | sElm | ' ]    que é um totalizador na dimensão:    [ ' | sDim | ' ]    totalizadores não podem receber carga';
+#       cExisteRegistroRejeitado = 1;
+#    EndIf;
+# EndIf;
+
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso a variavel estiver em branco, se não existir na dimensão ou se for um totalizador
+# ===================================================================================
+sDim	='ALL.D.Currency';
+sElm	= vMoeda;
+sCol	= 'Moeda';
+
+
+If( cExisteRegistroRejeitado = 0 );
+   If( sElm @= '' );
+      cMensagemRegistro = 'The column  [ ' | sCol | ' ]    is blank and it is mandatory to have a value';
+      cExisteRegistroRejeitado = 1;
+   ElseIf( DimIx( sDim , sElm ) = 0 );
+      cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains a value:    [ ' | sElm | ' ]    which does not exist in the dimension:    [ ' | sDim | ' ]';
+      cExisteRegistroRejeitado = 1;
+   ElseIf( dType( sDim , sElm ) @= 'C' );
+      cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains a value:    [ ' | sElm | ' ]    which does not exist in the dimension:    [ ' | sDim | ' ] . Aggregated elements cannot recieve data loads';
+      cExisteRegistroRejeitado = 1;
+   EndIf;
+EndIf;
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso a variavel estiver em branco, se não existir na dimensão ou se for um totalizador
+# ===================================================================================
+sDim	='ALL.D.Region';
+sElm	= vRegiao;
+sCol	= 'Região ';
+
+
+If( cExisteRegistroRejeitado = 0 );
+   If( sElm @= '' );
+      cMensagemRegistro = 'The column  [ ' | sCol | ' ]    is blank and it is mandatory to have a value';
+      cExisteRegistroRejeitado = 1;
+   ElseIf( DimIx( sDim , sElm ) = 0 );
+      cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains a value:    [ ' | sElm | ' ]    which does not exist in the dimension:    [ ' | sDim | ' ]';
+      cExisteRegistroRejeitado = 1;
+   ElseIf( dType( sDim , sElm ) @= 'C' );
+      cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains a value:    [ ' | sElm | ' ]    which does not exist in the dimension:    [ ' | sDim | ' ] . Aggregated elements cannot recieve data loads';
+      cExisteRegistroRejeitado = 1;
+   EndIf;
+EndIf;
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso a variavel estiver em branco, se não existir na dimensão ou se for um totalizador
+# ===================================================================================
+sDim	='ALL.D.Products';
+sElm	= vCod_Produto;
+sCol	= 'Produto';
+
+
+If( cExisteRegistroRejeitado = 0 );
+   If( sElm @= '' );
+      cMensagemRegistro = 'The column  [ ' | sCol | ' ]    is blank and it is mandatory to have a value';
+      cExisteRegistroRejeitado = 1;
+   ElseIf( DimIx( sDim , sElm ) = 0 );
+      cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains a value:    [ ' | sElm | ' ]    which does not exist in the dimension:    [ ' | sDim | ' ]';
+      cExisteRegistroRejeitado = 1;
+   ElseIf( dType( sDim , sElm ) @= 'C' );
+      cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains a value:    [ ' | sElm | ' ]    which does not exist in the dimension:    [ ' | sDim | ' ] . Aggregated elements cannot recieve data loads';
+      cExisteRegistroRejeitado = 1;
+   EndIf;
+EndIf;
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso a variavel estiver em branco, se não existir na dimensão ou se for um totalizador
+# ===================================================================================
+sDim	='ALL.D.Accounts';
+sElm	= vConta;
+sCol	= 'Conta';
+
+
+If( cExisteRegistroRejeitado = 0 );
+   If( sElm @= '' );
+      cMensagemRegistro = 'The column  [ ' | sCol | ' ]    is blank and it is mandatory to have a value';
+      cExisteRegistroRejeitado = 1;
+   ElseIf( DimIx( sDim , sElm ) = 0 );
+      cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains a value:    [ ' | sElm | ' ]    which does not exist in the dimension:    [ ' | sDim | ' ]';
+      cExisteRegistroRejeitado = 1;
+   ElseIf( dType( sDim , sElm ) @= 'C' );
+      cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains a value:    [ ' | sElm | ' ]    which does not exist in the dimension:    [ ' | sDim | ' ] . Aggregated elements cannot recieve data loads';
+      cExisteRegistroRejeitado = 1;
+   EndIf;
+EndIf;
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso a variavel estiver em branco, se não existir na dimensão ou se for um totalizador
+# ===================================================================================
+sDim	='ALL.D.Account_Line';
+sElm	= vSubConta;
+sCol	= 'SubConta';
+
+IF( vSubConta@<>'N/A' );
+
+If( cExisteRegistroRejeitado = 0 );
+   If( sElm @= '' );
+      cMensagemRegistro = 'The column  [ ' | sCol | ' ]    is blank and it is mandatory to have a value';
+      cExisteRegistroRejeitado = 1;
+   ElseIf( DimIx( sDim , sElm ) = 0 );
+      cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains a value:    [ ' | sElm | ' ]    which does not exist in the dimension:    [ ' | sDim | ' ]';
+      cExisteRegistroRejeitado = 1;
+   ElseIf( dType( sDim , sElm ) @= 'C' );
+      cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains a value:    [ ' | sElm | ' ]    which does not exist in the dimension:    [ ' | sDim | ' ] . Aggregated elements cannot recieve data loads';
+      cExisteRegistroRejeitado = 1;
+   EndIf;
+EndIf;
+    
+EndIf;
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso a variavel for diferente do parametro informado
+# ===================================================================================
+
+sElmVar	= vAno;
+nAnoArquivo = StringToNumber( vAno ); 
+nAnoInicial = StringToNumber( pAnoInicial );  
+nAnoFinal =      StringToNumber( pAnoFinal );
+
+sCol	= 'Ano';
+
+If( cExisteRegistroRejeitado = 0 );
+   If( nAnoArquivo<nAnoInicial % nAnoArquivo>nAnoFinal );
+      cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains the value:    [ ' | sElmVar | ' ]    different from the informed parameter:    [ ' | pAnoInicial |'-'| pAnoFinal |' ]';
+      cExisteRegistroRejeitado = 1;
+   EndIf;
+EndIf;
+
+sElmPar	= pRegion;
+sElmVar	= vRegiao;
+sCol	= 'Regiao';
+
+If( cExisteRegistroRejeitado = 0 );
+
+    if( DTYPE( 'ALL.D.Region', pRegion )@='N' );
+
+   If( sElmVar @<> sElmPar );
+      cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains the value:    [ ' | sElmVar | ' ]    different from the informed parameter:    [ ' | sElmPar | ' ]';
+      cExisteRegistroRejeitado = 1;
+    
+   EndIf;
+
+    else;
+    If( cExisteRegistroRejeitado = 0 );
+     If( ELISANC( 'ALL.D.Region', sElmPar, sElmVar )=0 );
+      cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains the value:    [ ' | sElmVar | ' ]    that does not belong to the group:    [ ' | sElmPar | ' ]';
+      cExisteRegistroRejeitado = 1;
+   EndIf;
+    EndIf;
+    
+   EndIf;     
+EndIf;
+
+
+#sStatus = CellGetS( 'ALL.002.Uploads_Status', sVersaoInput, vRegiao, 'Status' );
+sStatus = CellGetS( 'ALL.004.Uploads_Status_Planning', sVersaoInput, pRegion,'Status'  );
+if (sStatus@='Closed'); 
+    cMensagemRegistro 			= 'The requested region is not available for updates. Please, contact administrator';  
+       cExisteRegistroRejeitado = 1;
+
+endif;
+
+
+
+# # ===================================================================================
+# # Marca o registro para rejeitar 
+# # Caso a variavel for diferente do parametro informado
+# # ===================================================================================
+# sElmPar	= pVersao;
+# sElmVar	= vVersao;
+# sCol	= 'Versao';
+
+# If( cExisteRegistroRejeitado = 0 );
+#    If( sElmVar @<> sElmPar );
+#       cMensagemRegistro = 'A coluna    [ ' | sCol | ' ]    contêm o valor:    [ ' | sElmVar | ' ]    que é diferente do parâmetro informado:    [ ' | sElmPar | ' ]';
+#       cExisteRegistroRejeitado = 1;
+#    EndIf;
+# EndIf;
+
+
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso contenha algum caractere de texto na variavel numérica
+# ===================================================================================
+
+
+
+# ===================================================================================
+#
+# ===================================================================================
+sElm = v01;
+sCol = 'Janeiro';
+
+If( cExisteRegistroRejeitado = 0 );
+  MxChar = long( sElm );
+  ixChar = 1;
+  fail = 0;
+  While ( ixChar <= mxChar   &   fail = 0 );
+    testASCII = Code( sElm , ixChar );
+    #Se o código Ascii estiver fora do intervalo 48 a 57 (0-10) e for diferente de 44(.) e diferente 46(,)  existem caracteres de string
+    If ( ~ ( testASCII >= 48   &   testASCII <= 57 )   &   testASCII <> 44   &   testASCII <> 46   &   testASCII <> 45 ) ; 
+      cExisteRegistroRejeitado = 1;
+       cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains text or text caracters:    [ ' | Subst( sElm, ixChar, 1)  | ' ]    . This column must only contain numeric data';
+      fail = 1;
+    endif;
+    ixChar = ixChar + 1;
+  End;
+EndIf;
+
+# ===================================================================================
+sElm = v02;
+sCol = 'Fevereiro';
+
+If( cExisteRegistroRejeitado = 0 );
+  MxChar = long( sElm );
+  ixChar = 1;
+  fail = 0;
+  While ( ixChar <= mxChar   &   fail = 0 );
+    testASCII = Code( sElm , ixChar );
+    #Se o código Ascii estiver fora do intervalo 48 a 57 (0-10) e for diferente de 44(.) e diferente 46(,)  existem caracteres de string
+    If ( ~ ( testASCII >= 48   &   testASCII <= 57 )   &   testASCII <> 44   &   testASCII <> 46   &   testASCII <> 45 ) ; 
+      cExisteRegistroRejeitado = 1;
+       cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains text or text caracters:    [ ' | Subst( sElm, ixChar, 1)  | ' ]    . This column must only contain numeric data';
+      fail = 1;
+    endif;
+    ixChar = ixChar + 1;
+  End;
+EndIf;
+
+# ===================================================================================
+sElm = v03;
+sCol = 'Março';
+
+If( cExisteRegistroRejeitado = 0 );
+  MxChar = long( sElm );
+  ixChar = 1;
+  fail = 0;
+  While ( ixChar <= mxChar   &   fail = 0 );
+    testASCII = Code( sElm , ixChar );
+    #Se o código Ascii estiver fora do intervalo 48 a 57 (0-10) e for diferente de 44(.) e diferente 46(,)  existem caracteres de string
+    If ( ~ ( testASCII >= 48   &   testASCII <= 57 )   &   testASCII <> 44   &   testASCII <> 46   &   testASCII <> 45 ) ; 
+      cExisteRegistroRejeitado = 1;
+       cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains text or text caracters:    [ ' | Subst( sElm, ixChar, 1)  | ' ]    . This column must only contain numeric data';
+      fail = 1;
+    endif;
+    ixChar = ixChar + 1;
+  End;
+EndIf;
+
+# ===================================================================================
+sElm = v04;
+sCol = 'Abril';
+
+If( cExisteRegistroRejeitado = 0 );
+  MxChar = long( sElm );
+  ixChar = 1;
+  fail = 0;
+  While ( ixChar <= mxChar   &   fail = 0 );
+    testASCII = Code( sElm , ixChar );
+    #Se o código Ascii estiver fora do intervalo 48 a 57 (0-10) e for diferente de 44(.) e diferente 46(,)  existem caracteres de string
+    If ( ~ ( testASCII >= 48   &   testASCII <= 57 )   &   testASCII <> 44   &   testASCII <> 46   &   testASCII <> 45 ) ; 
+      cExisteRegistroRejeitado = 1;
+       cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains text or text caracters:    [ ' | Subst( sElm, ixChar, 1)  | ' ]    . This column must only contain numeric data';
+      fail = 1;
+    endif;
+    ixChar = ixChar + 1;
+  End;
+EndIf;
+
+# ===================================================================================
+sElm = v05;
+sCol = 'Maio';
+
+If( cExisteRegistroRejeitado = 0 );
+  MxChar = long( sElm );
+  ixChar = 1;
+  fail = 0;
+  While ( ixChar <= mxChar   &   fail = 0 );
+    testASCII = Code( sElm , ixChar );
+    #Se o código Ascii estiver fora do intervalo 48 a 57 (0-10) e for diferente de 44(.) e diferente 46(,)  existem caracteres de string
+    If ( ~ ( testASCII >= 48   &   testASCII <= 57 )   &   testASCII <> 44   &   testASCII <> 46   &   testASCII <> 45 ) ; 
+      cExisteRegistroRejeitado = 1;
+       cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains text or text caracters:    [ ' | Subst( sElm, ixChar, 1)  | ' ]    . This column must only contain numeric data';
+      fail = 1;
+    endif;
+    ixChar = ixChar + 1;
+  End;
+EndIf;
+
+# ===================================================================================
+sElm = v06;
+sCol = 'Junho';
+
+If( cExisteRegistroRejeitado = 0 );
+  MxChar = long( sElm );
+  ixChar = 1;
+  fail = 0;
+  While ( ixChar <= mxChar   &   fail = 0 );
+    testASCII = Code( sElm , ixChar );
+    #Se o código Ascii estiver fora do intervalo 48 a 57 (0-10) e for diferente de 44(.) e diferente 46(,)  existem caracteres de string
+    If ( ~ ( testASCII >= 48   &   testASCII <= 57 )   &   testASCII <> 44   &   testASCII <> 46   &   testASCII <> 45 ) ; 
+      cExisteRegistroRejeitado = 1;
+       cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains text or text caracters:    [ ' | Subst( sElm, ixChar, 1)  | ' ]    . This column must only contain numeric data';
+      fail = 1;
+    endif;
+    ixChar = ixChar + 1;
+  End;
+EndIf;
+
+# ===================================================================================
+sElm = v07;
+sCol = 'Julho';
+
+If( cExisteRegistroRejeitado = 0 );
+  MxChar = long( sElm );
+  ixChar = 1;
+  fail = 0;
+  While ( ixChar <= mxChar   &   fail = 0 );
+    testASCII = Code( sElm , ixChar );
+    #Se o código Ascii estiver fora do intervalo 48 a 57 (0-10) e for diferente de 44(.) e diferente 46(,)  existem caracteres de string
+    If ( ~ ( testASCII >= 48   &   testASCII <= 57 )   &   testASCII <> 44   &   testASCII <> 46   &   testASCII <> 45 ) ; 
+      cExisteRegistroRejeitado = 1;
+       cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains text or text caracters:    [ ' | Subst( sElm, ixChar, 1)  | ' ]    . This column must only contain numeric data';
+      fail = 1;
+    endif;
+    ixChar = ixChar + 1;
+  End;
+EndIf;
+
+# ===================================================================================
+sElm = v08;
+sCol = 'Agosto';
+
+If( cExisteRegistroRejeitado = 0 );
+  MxChar = long( sElm );
+  ixChar = 1;
+  fail = 0;
+  While ( ixChar <= mxChar   &   fail = 0 );
+    testASCII = Code( sElm , ixChar );
+    #Se o código Ascii estiver fora do intervalo 48 a 57 (0-10) e for diferente de 44(.) e diferente 46(,)  existem caracteres de string
+    If ( ~ ( testASCII >= 48   &   testASCII <= 57 )   &   testASCII <> 44   &   testASCII <> 46   &   testASCII <> 45 ) ; 
+      cExisteRegistroRejeitado = 1;
+       cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains text or text caracters:    [ ' | Subst( sElm, ixChar, 1)  | ' ]    . This column must only contain numeric data';
+      fail = 1;
+    endif;
+    ixChar = ixChar + 1;
+  End;
+EndIf;
+
+# ===================================================================================
+sElm = v09;
+sCol = 'Setembro';
+
+If( cExisteRegistroRejeitado = 0 );
+  MxChar = long( sElm );
+  ixChar = 1;
+  fail = 0;
+  While ( ixChar <= mxChar   &   fail = 0 );
+    testASCII = Code( sElm , ixChar );
+    #Se o código Ascii estiver fora do intervalo 48 a 57 (0-10) e for diferente de 44(.) e diferente 46(,)  existem caracteres de string
+    If ( ~ ( testASCII >= 48   &   testASCII <= 57 )   &   testASCII <> 44   &   testASCII <> 46   &   testASCII <> 45 ) ; 
+      cExisteRegistroRejeitado = 1;
+       cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains text or text caracters:    [ ' | Subst( sElm, ixChar, 1)  | ' ]    . This column must only contain numeric data';
+      fail = 1;
+    endif;
+    ixChar = ixChar + 1;
+  End;
+EndIf;
+
+# ===================================================================================
+sElm = v10;
+sCol = 'Outubro' ;
+
+If( cExisteRegistroRejeitado = 0 );
+  MxChar = long( sElm );
+  ixChar = 1;
+  fail = 0;
+  While ( ixChar <= mxChar   &   fail = 0 );
+    testASCII = Code( sElm , ixChar );
+    #Se o código Ascii estiver fora do intervalo 48 a 57 (0-10) e for diferente de 44(.) e diferente 46(,)  existem caracteres de string
+    If ( ~ ( testASCII >= 48   &   testASCII <= 57 )   &   testASCII <> 44   &   testASCII <> 46   &   testASCII <> 45 ) ; 
+      cExisteRegistroRejeitado = 1;
+       cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains text or text caracters:    [ ' | Subst( sElm, ixChar, 1)  | ' ]    . This column must only contain numeric data';
+      fail = 1;
+    endif;
+    ixChar = ixChar + 1;
+  End;
+EndIf;
+
+# ===================================================================================
+sElm = v11;
+sCol = 'Novembro' ;
+
+If( cExisteRegistroRejeitado = 0 );
+  MxChar = long( sElm );
+  ixChar = 1;
+  fail = 0;
+  While ( ixChar <= mxChar   &   fail = 0 );
+    testASCII = Code( sElm , ixChar );
+    #Se o código Ascii estiver fora do intervalo 48 a 57 (0-10) e for diferente de 44(.) e diferente 46(,)  existem caracteres de string
+    If ( ~ ( testASCII >= 48   &   testASCII <= 57 )   &   testASCII <> 44   &   testASCII <> 46   &   testASCII <> 45 ) ; 
+      cExisteRegistroRejeitado = 1;
+       cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains text or text caracters:    [ ' | Subst( sElm, ixChar, 1)  | ' ]    . This column must only contain numeric data';
+      fail = 1;
+    endif;
+    ixChar = ixChar + 1;
+  End;
+EndIf;
+
+# ===================================================================================
+sElm = v12;
+sCol = 'Dezembro' ;
+
+If( cExisteRegistroRejeitado = 0 );
+  MxChar = long( sElm );
+  ixChar = 1;
+  fail = 0;
+  While ( ixChar <= mxChar   &   fail = 0 );
+    testASCII = Code( sElm , ixChar );
+    #Se o código Ascii estiver fora do intervalo 48 a 57 (0-10) e for diferente de 44(.) e diferente 46(,)  existem caracteres de string
+    If ( ~ ( testASCII >= 48   &   testASCII <= 57 )   &   testASCII <> 44   &   testASCII <> 46   &   testASCII <> 45 ) ; 
+      cExisteRegistroRejeitado = 1;
+       cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains text or text caracters:    [ ' | Subst( sElm, ixChar, 1)  | ' ]    . This column must only contain numeric data';
+      fail = 1;
+    endif;
+    ixChar = ixChar + 1;
+  End;
+EndIf;
+
+
+# ===================================================================================
+sElm = vMesPE1;
+sCol = 'PE1' ;
+
+If( cExisteRegistroRejeitado = 0 );
+  MxChar = long( sElm );
+  ixChar = 1;
+  fail = 0;
+  While ( ixChar <= mxChar   &   fail = 0 );
+    testASCII = Code( sElm , ixChar );
+    #Se o código Ascii estiver fora do intervalo 48 a 57 (0-10) e for diferente de 44(.) e diferente 46(,)  existem caracteres de string
+    If ( ~ ( testASCII >= 48   &   testASCII <= 57 )   &   testASCII <> 44   &   testASCII <> 46   &   testASCII <> 45 ) ; 
+      cExisteRegistroRejeitado = 1;
+       cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains text or text caracters:    [ ' | Subst( sElm, ixChar, 1)  | ' ]    . This column must only contain numeric data';
+      fail = 1;
+    endif;
+    ixChar = ixChar + 1;
+  End;
+EndIf;
+# ===================================================================================
+sElm = vMesPE2;
+sCol = 'PE2' ;
+
+If( cExisteRegistroRejeitado = 0 );
+  MxChar = long( sElm );
+  ixChar = 1;
+  fail = 0;
+  While ( ixChar <= mxChar   &   fail = 0 );
+    testASCII = Code( sElm , ixChar );
+    #Se o código Ascii estiver fora do intervalo 48 a 57 (0-10) e for diferente de 44(.) e diferente 46(,)  existem caracteres de string
+    If ( ~ ( testASCII >= 48   &   testASCII <= 57 )   &   testASCII <> 44   &   testASCII <> 46   &   testASCII <> 45 ) ; 
+      cExisteRegistroRejeitado = 1;
+       cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains text or text caracters:    [ ' | Subst( sElm, ixChar, 1)  | ' ]    . This column must only contain numeric data';
+      fail = 1;
+    endif;
+    ixChar = ixChar + 1;
+  End;
+EndIf;
+# ===================================================================================
+sElm = vMesPE3;
+sCol = 'PE3' ;
+
+If( cExisteRegistroRejeitado = 0 );
+  MxChar = long( sElm );
+  ixChar = 1;
+  fail = 0;
+  While ( ixChar <= mxChar   &   fail = 0 );
+    testASCII = Code( sElm , ixChar );
+    #Se o código Ascii estiver fora do intervalo 48 a 57 (0-10) e for diferente de 44(.) e diferente 46(,)  existem caracteres de string
+    If ( ~ ( testASCII >= 48   &   testASCII <= 57 )   &   testASCII <> 44   &   testASCII <> 46   &   testASCII <> 45 ) ; 
+      cExisteRegistroRejeitado = 1;
+       cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains text or text caracters:    [ ' | Subst( sElm, ixChar, 1)  | ' ]    . This column must only contain numeric data';
+      fail = 1;
+    endif;
+    ixChar = ixChar + 1;
+  End;
+EndIf;
+# ===================================================================================
+sElm = vMesPE4;
+sCol = 'PE4' ;
+
+If( cExisteRegistroRejeitado = 0 );
+  MxChar = long( sElm );
+  ixChar = 1;
+  fail = 0;
+  While ( ixChar <= mxChar   &   fail = 0 );
+    testASCII = Code( sElm , ixChar );
+    #Se o código Ascii estiver fora do intervalo 48 a 57 (0-10) e for diferente de 44(.) e diferente 46(,)  existem caracteres de string
+    If ( ~ ( testASCII >= 48   &   testASCII <= 57 )   &   testASCII <> 44   &   testASCII <> 46   &   testASCII <> 45 ) ; 
+      cExisteRegistroRejeitado = 1;
+       cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains text or text caracters:    [ ' | Subst( sElm, ixChar, 1)  | ' ]    . This column must only contain numeric data';
+      fail = 1;
+    endif;
+    ixChar = ixChar + 1;
+  End;
+EndIf;
+# ===================================================================================
+sElm = vMesPE5;
+sCol = 'PE5' ;
+
+If( cExisteRegistroRejeitado = 0 );
+  MxChar = long( sElm );
+  ixChar = 1;
+  fail = 0;
+  While ( ixChar <= mxChar   &   fail = 0 );
+    testASCII = Code( sElm , ixChar );
+    #Se o código Ascii estiver fora do intervalo 48 a 57 (0-10) e for diferente de 44(.) e diferente 46(,)  existem caracteres de string
+    If ( ~ ( testASCII >= 48   &   testASCII <= 57 )   &   testASCII <> 44   &   testASCII <> 46   &   testASCII <> 45 ) ; 
+      cExisteRegistroRejeitado = 1;
+       cMensagemRegistro = 'The column    [ ' | sCol | ' ]    contains text or text caracters:    [ ' | Subst( sElm, ixChar, 1)  | ' ]    . This column must only contain numeric data';
+      fail = 1;
+    endif;
+    ixChar = ixChar + 1;
+  End;
+EndIf;
+
+
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso a celula do cubo de destino não puder ser atualizada
+# ===================================================================================
+# If( cExisteRegistroRejeitado = 0 );
+#     nCellIsUpdateable = CellIsUpdateable( cCuboDestino, pAno , '01' , pVersao , vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , 'Value' );
+#     If( nCellIsUpdateable = 0);
+#       cExisteRegistroRejeitado = 1;
+#       cMensagemRegistro = 'A célula do cubo não pode receber a carga de dados neste cruzamento, possivelmente esta celula é calculada ou você não tem permissão de escrever nesta célula';
+#     EndIf;
+# EndIf;
+
+
+
+# ===================================================================================
+# DEBUG ou REJEIÇÃO
+# Registra em arquivo os registros
+# ===================================================================================
+If( cExisteRegistroRejeitado = 1  %  cUtilizarDebug @= 'S' );
+ 
+   #--------------------------------------------------------------------------------------------
+   # Escreve o cabeçalho do arquivo de registros rejeitados
+   #--------------------------------------------------------------------------------------------
+   If( cExisteCabecalhoRejeitado  = 0 );
+      
+      sT01 = 'Conta';      
+      sT02 = 'SubConta';       
+      sT03 = 'CodProduto';  
+      sT04 = 'Regiao';
+      sT05 = 'Moeda';
+      sT06 = 'Ano';
+      sT07 = 'Jan';
+      sT08 = 'Fev';
+      sT09 = 'Mar';
+      sT10 = 'Abr';
+      sT11 = 'Mai';
+      sT12 = 'Jun';
+      sT13 = 'Jul';      
+      sT14 = 'Ago';       
+      sT15 = 'Set';       
+      sT16 = 'Out';
+      sT17 = 'Nov';      
+      sT18= 'Dez'; 
+      sT19= 'PE1'; 
+      sT20= 'PE2'; 
+      sT21= 'PE3'; 
+      sT22= 'PE4'; 
+      sT23= 'PE5'; 
+
+
+
+
+
+      
+      sTMsg = 'Descrição do erro';
+      CellPutS(sTMsg,cCuboReject,cUsuario,cProcesso,'Título','Mensagem') ;
+      CellPutS(sT01,cCuboReject,cUsuario,cProcesso,'Título','Coluna 01') ;
+      CellPutS(sT02,cCuboReject,cUsuario,cProcesso,'Título','Coluna 02') ;
+      CellPutS(sT03,cCuboReject, cUsuario,cProcesso, 'Título','Coluna 03') ;
+      CellPutS(sT04,cCuboReject, cUsuario,cProcesso, 'Título','Coluna 04') ; 
+      CellPutS(sT05,cCuboReject,cUsuario,cProcesso,'Título','Coluna 05') ;
+      CellPutS(sT06,cCuboReject,cUsuario,cProcesso,'Título','Coluna 06') ;
+      CellPutS(sT07,cCuboReject,cUsuario,cProcesso,'Título','Coluna 07') ;
+      CellPutS(sT08,cCuboReject,cUsuario,cProcesso,'Título','Coluna 08') ;
+      CellPutS(sT09,cCuboReject,cUsuario,cProcesso,'Título','Coluna 09') ;
+      CellPutS(sT10,cCuboReject, cUsuario,cProcesso, 'Título','Coluna 10') ;
+      CellPutS(sT11,cCuboReject, cUsuario,cProcesso, 'Título','Coluna 11') ;     
+      CellPutS(sT12,cCuboReject, cUsuario,cProcesso, 'Título','Coluna 12') ;      
+      CellPutS(sT13,cCuboReject,cUsuario,cProcesso,'Título','Coluna 13') ;
+      CellPutS(sT14,cCuboReject,cUsuario,cProcesso,'Título','Coluna 14') ; 
+      CellPutS(sT15,cCuboReject, cUsuario,cProcesso, 'Título','Coluna 15') ;     
+      CellPutS(sT16,cCuboReject, cUsuario,cProcesso, 'Título','Coluna 16') ;      
+      CellPutS(sT17,cCuboReject,cUsuario,cProcesso,'Título','Coluna 17') ;
+      CellPutS(sT18,cCuboReject,cUsuario,cProcesso,'Título','Coluna 18') ;
+      CellPutS(sT19,cCuboReject,cUsuario,cProcesso,'Título','Coluna 19') ;
+      CellPutS(sT20,cCuboReject,cUsuario,cProcesso,'Título','Coluna 20') ;
+     CellPutS(sT21,cCuboReject,cUsuario,cProcesso,'Título','Coluna 21') ;
+     CellPutS(sT22,cCuboReject,cUsuario,cProcesso,'Título','Coluna 22') ;
+     CellPutS(sT23,cCuboReject,cUsuario,cProcesso,'Título','Coluna 23') ;
+
+    
+
+    cExisteCabecalhoRejeitado = 1;
+    
+  EndIf;
+
+
+    #----------------------------------------------------------------------------------------------
+   # Escreve o registro no arquivo de rejeitados e pula o registro
+   #---------------------------------------------------------------------------------------------- 
+sReg01 = vConta; 
+sReg02 = vSubConta;
+sReg03 =  vCod_Produto;
+sReg04 =  vRegiao;
+sReg05 =  vMoeda;
+sReg06 =  vAno;
+sReg07 = v01;
+sReg08 = v02;
+sReg09 = v03;
+sReg10= v04;
+sReg11 = v05;
+sReg12 = v06;
+sReg13 = v07;
+sReg14 = v08;
+sReg15 = v09;
+sReg16 = v10;
+sReg17 = v11;
+sReg18 = v12;
+sReg19 = vMesPE1;
+sReg20 = vMesPE2;
+sReg21 = vMesPE3;
+sReg22 = vMesPE4;
+sReg23 = vMesPE5;    
+    
+#    #----------------------------------------------------------------------------------------------
+#    # Escreve o registro no arquivo de rejeitados e pula o registro
+#    #----------------------------------------------------------------------------------------------
+   cQtdRegistroRejeitadoCubo = cQtdRegistroRejeitadoCubo + 1;
+   vLinha = FILL( '0', 7 - LONG( Trim( NumberToString(cQtdRegistroRejeitadoCubo ) ) ) ) | Trim( NumberToString(cQtdRegistroRejeitadoCubo ) );
+   
+   # =================================================================================
+   # Atualiza dimensão do Item Rejeitado
+   # =================================================================================
+   sElm = vLinha;
+   sDim = 'SYS.D.LINHAS' ;
+   If( sElm @<> '' & DimIx( sDim, sElm ) = 0 );
+      DimensionElementInsertDirect( sDim, '', sElm, 'N' );
+   EndIf;
+   
+   CellPutS(sReg01, cCuboReject,cUsuario,cProcesso,vLinha,'Coluna 01') ;
+   CellPutS(sReg02, cCuboReject, cUsuario,cProcesso,vLinha,'Coluna 02') ;
+   CellPutS(sReg03, cCuboReject, cUsuario,cProcesso,vLinha,'Coluna 03') ;
+   CellPutS(sReg04, cCuboReject, cUsuario,cProcesso,vLinha,'Coluna 04') ;  
+   CellPutS(sReg05, cCuboReject, cUsuario,cProcesso,vLinha,'Coluna 05') ;
+   CellPutS(sReg06, cCuboReject, cUsuario,cProcesso,vLinha,'Coluna 06') ;
+   CellPutS(sReg07, cCuboReject, cUsuario,cProcesso,vLinha,'Coluna 07') ;
+   CellPutS(sReg08, cCuboReject, cUsuario,cProcesso,vLinha,'Coluna 08') ;
+   CellPutS(sReg09, cCuboReject,cUsuario,cProcesso,vLinha,'Coluna 09') ;
+   CellPutS(sReg10, cCuboReject, cUsuario,cProcesso,vLinha,'Coluna 10') ;
+   CellPutS(sReg11, cCuboReject, cUsuario,cProcesso,vLinha,'Coluna 11') ;
+   CellPutS(sReg12, cCuboReject, cUsuario,cProcesso,vLinha,'Coluna 12') ; 
+   CellPutS(sReg13, cCuboReject,cUsuario,cProcesso,vLinha,'Coluna 13') ;
+   CellPutS(sReg14, cCuboReject, cUsuario,cProcesso,vLinha,'Coluna 14') ;
+   CellPutS(sReg15, cCuboReject, cUsuario,cProcesso,vLinha,'Coluna 15') ;
+   CellPutS(sReg16, cCuboReject, cUsuario,cProcesso,vLinha,'Coluna 16') ;    
+   CellPutS(sReg17, cCuboReject, cUsuario,cProcesso,vLinha,'Coluna 17') ;
+   CellPutS(sReg18, cCuboReject, cUsuario,cProcesso,vLinha,'Coluna 18') ;  
+   CellPutS(sReg19, cCuboReject, cUsuario,cProcesso,vLinha,'Coluna 19') ;  
+   CellPutS(sReg20, cCuboReject, cUsuario,cProcesso,vLinha,'Coluna 20') ;  
+   CellPutS(sReg21, cCuboReject, cUsuario,cProcesso,vLinha,'Coluna 21') ;  
+   CellPutS(sReg22, cCuboReject, cUsuario,cProcesso,vLinha,'Coluna 22') ;  
+   CellPutS(sReg23, cCuboReject, cUsuario,cProcesso,vLinha,'Coluna 23') ;  
+    
+
+   
+
+   CellPutS( cMensagemRegistro, cCuboReject, cUsuario,cProcesso, vLinha,'Mensagem') ;
+   
+   # ============================
+   # Limpa as variaveis e pula o registro
+   # ============================
+   IF( cExisteRegistroRejeitado = 1 );
+      cExisteRegistroRejeitado = 0;
+      cMensagemRegistro = '';
+      cMensagemProcesso = 'Process completed with rejected records. Please, verify the rejected records tab' ;
+      cTipoErro = 2;
+      ItemSkip;
+   EndIf;
+  
+EndIf; 
+
+
+# ===================================================================================
+# Grava os dados no cubo
+# ===================================================================================
+vMetrica = 'Value';
+
+s01 =v01;
+s02 =v02;
+s03 =v03;
+s04 =v04;
+s05 =v05;
+s06 =v06;
+s07 =v07;
+s08 =v08;
+s09 =v09;
+s10 =v10;
+s11 =v11;
+s12 =v12;
+
+n01 = StringToNumberEx( s01, cSeparadorDecimal, cSeparadorMilhar);
+n02 = StringToNumberEx( s02, cSeparadorDecimal, cSeparadorMilhar);
+n03 = StringToNumberEx( s03, cSeparadorDecimal, cSeparadorMilhar);
+n04 = StringToNumberEx( s04, cSeparadorDecimal, cSeparadorMilhar);
+n05 = StringToNumberEx( s05, cSeparadorDecimal, cSeparadorMilhar);
+n06 = StringToNumberEx( s06, cSeparadorDecimal, cSeparadorMilhar);
+n07 = StringToNumberEx( s07, cSeparadorDecimal, cSeparadorMilhar);
+n08 = StringToNumberEx( s08, cSeparadorDecimal, cSeparadorMilhar);
+n09 = StringToNumberEx( s09, cSeparadorDecimal, cSeparadorMilhar);
+n10 = StringToNumberEx( s10, cSeparadorDecimal, cSeparadorMilhar);
+n11 = StringToNumberEx( s11, cSeparadorDecimal, cSeparadorMilhar);
+n12 = StringToNumberEx( s12, cSeparadorDecimal, cSeparadorMilhar);
+
+nPE1 = StringToNumberEx( vMesPE1, cSeparadorDecimal, cSeparadorMilhar);
+nPE2 = StringToNumberEx( vMesPE2, cSeparadorDecimal, cSeparadorMilhar);
+nPE3 = StringToNumberEx( vMesPE3, cSeparadorDecimal, cSeparadorMilhar);
+nPE4 = StringToNumberEx( vMesPE4, cSeparadorDecimal, cSeparadorMilhar);
+nPE5 = StringToNumberEx( vMesPE5, cSeparadorDecimal, cSeparadorMilhar);
+
+if( CellIsUpdateable( cCuboDestino,vAno, '01' , pVersao, vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );
+CellIncrementN( n01, cCuboDestino,vAno, '01' , pVersao, vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica );
+endif;
+  if( CellIsUpdateable( cCuboDestino,vAno, '02' , pVersao, vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 ); 
+CellIncrementN( n02, cCuboDestino,vAno, '02' , pVersao,vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica );
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '03' , pVersao, vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );      
+CellIncrementN( n03, cCuboDestino,vAno, '03' , pVersao,vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '04' , pVersao, vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n04, cCuboDestino,vAno, '04' , pVersao,vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '05' , pVersao, vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n05, cCuboDestino,vAno, '05' , pVersao,vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '06' , pVersao, vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n06, cCuboDestino,vAno, '06' , pVersao,vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '07' , pVersao, vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n07, cCuboDestino,vAno, '07' , pVersao,vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '08' , pVersao, vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n08, cCuboDestino,vAno, '08' , pVersao,vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '09' , pVersao, vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );
+CellIncrementN( n09, cCuboDestino,vAno, '09' , pVersao,vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '10' , pVersao, vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );
+CellIncrementN( n10, cCuboDestino,vAno, '10' , pVersao,vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '11' , pVersao, vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n11, cCuboDestino,vAno, '11' , pVersao,vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '12' , pVersao, vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n12, cCuboDestino,vAno, '12' , pVersao,vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+
+if( pVersao@='PE' );
+
+CellIncrementN( nPE1, cCuboDestino,NumberToString ( StringToNumber( pAnoInicial )+1) , 'PE' , pVersao,vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+CellIncrementN( nPE2, cCuboDestino,NumberToString ( StringToNumber( pAnoInicial )+2), 'PE' , pVersao,vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+CellIncrementN( nPE2, cCuboDestino,NumberToString ( StringToNumber( pAnoInicial )+3), 'PE' , pVersao,vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+CellIncrementN( nPE4, cCuboDestino,NumberToString ( StringToNumber( pAnoInicial )+4), 'PE' , pVersao,vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+CellIncrementN( nPE5, cCuboDestino,NumberToString ( StringToNumber( pAnoInicial )+5), 'PE' , pVersao,vMoeda , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+ENDIF;
+
+# ( OPCIONAL )
+# Caso o arquivo não possa ter registros duplicados 
+# CellPutN( n01, cCuboDestino, s01, s02, s03, s04, s05, s06 );
+
+
+if( CellGetS( '}ElementAttributes_ALL.D.Accounts', vConta, 'QTY' )@='Y' );
+sMoedaQTY = 'BRL Conv.';   
+# CellIncrementN( n01, cCuboDestino,vAno, '01' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica );
+# CellIncrementN( n02, cCuboDestino,vAno, '02' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica );
+# CellIncrementN( n03, cCuboDestino,vAno, '03' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n04, cCuboDestino,vAno, '04' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n05, cCuboDestino,vAno, '05' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n06, cCuboDestino,vAno, '06' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n07, cCuboDestino,vAno, '07' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n08, cCuboDestino,vAno, '08' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n09, cCuboDestino,vAno, '09' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n10, cCuboDestino,vAno, '10' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n11, cCuboDestino,vAno, '11' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n12, cCuboDestino,vAno, '12' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n12, cCuboDestino,vAno, 'PE' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+
+if( CellIsUpdateable( cCuboDestino,vAno, '01' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );
+CellIncrementN( n01, cCuboDestino,vAno, '01' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica );
+endif;
+  if( CellIsUpdateable( cCuboDestino,vAno, '02' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 ); 
+CellIncrementN( n02, cCuboDestino,vAno, '02' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica );
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '03' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );      
+CellIncrementN( n03, cCuboDestino,vAno, '03' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '04' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n04, cCuboDestino,vAno, '04' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '05' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n05, cCuboDestino,vAno, '05' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '06' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n06, cCuboDestino,vAno, '06' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '07' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n07, cCuboDestino,vAno, '07' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '08' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n08, cCuboDestino,vAno, '08' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '09' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );
+CellIncrementN( n09, cCuboDestino,vAno, '09' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '10' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );
+CellIncrementN( n10, cCuboDestino,vAno, '10' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '11' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n11, cCuboDestino,vAno, '11' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '12' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n12, cCuboDestino,vAno, '12' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+
+
+    
+ sMoedaQTY = 'USD Conv.';
+# CellIncrementN( n01, cCuboDestino,vAno, '01' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica );
+# CellIncrementN( n02, cCuboDestino,vAno, '02' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica );
+# CellIncrementN( n03, cCuboDestino,vAno, '03' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n04, cCuboDestino,vAno, '04' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n05, cCuboDestino,vAno, '05' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n06, cCuboDestino,vAno, '06' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n07, cCuboDestino,vAno, '07' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n08, cCuboDestino,vAno, '08' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n09, cCuboDestino,vAno, '09' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n10, cCuboDestino,vAno, '10' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n11, cCuboDestino,vAno, '11' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n12, cCuboDestino,vAno, '12' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n12, cCuboDestino,vAno, 'PE' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+
+
+if( CellIsUpdateable( cCuboDestino,vAno, '01' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );
+CellIncrementN( n01, cCuboDestino,vAno, '01' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica );
+endif;
+  if( CellIsUpdateable( cCuboDestino,vAno, '02' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 ); 
+CellIncrementN( n02, cCuboDestino,vAno, '02' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica );
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '03' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );      
+CellIncrementN( n03, cCuboDestino,vAno, '03' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '04' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n04, cCuboDestino,vAno, '04' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '05' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n05, cCuboDestino,vAno, '05' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '06' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n06, cCuboDestino,vAno, '06' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '07' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n07, cCuboDestino,vAno, '07' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '08' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n08, cCuboDestino,vAno, '08' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '09' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );
+CellIncrementN( n09, cCuboDestino,vAno, '09' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '10' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );
+CellIncrementN( n10, cCuboDestino,vAno, '10' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '11' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n11, cCuboDestino,vAno, '11' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '12' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n12, cCuboDestino,vAno, '12' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+    
+    
+sMoedaQTY = 'EUR Conv.';
+# CellIncrementN( n01, cCuboDestino,vAno, '01' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica );
+# CellIncrementN( n02, cCuboDestino,vAno, '02' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica );
+# CellIncrementN( n03, cCuboDestino,vAno, '03' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n04, cCuboDestino,vAno, '04' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n05, cCuboDestino,vAno, '05' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n06, cCuboDestino,vAno, '06' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n07, cCuboDestino,vAno, '07' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n08, cCuboDestino,vAno, '08' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n09, cCuboDestino,vAno, '09' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n10, cCuboDestino,vAno, '10' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n11, cCuboDestino,vAno, '11' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n12, cCuboDestino,vAno, '12' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+# CellIncrementN( n12, cCuboDestino,vAno, 'PE' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);    
+ 
+if( CellIsUpdateable( cCuboDestino,vAno, '01' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );
+CellIncrementN( n01, cCuboDestino,vAno, '01' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica );
+endif;
+  if( CellIsUpdateable( cCuboDestino,vAno, '02' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 ); 
+CellIncrementN( n02, cCuboDestino,vAno, '02' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica );
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '03' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );      
+CellIncrementN( n03, cCuboDestino,vAno, '03' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '04' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n04, cCuboDestino,vAno, '04' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '05' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n05, cCuboDestino,vAno, '05' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '06' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n06, cCuboDestino,vAno, '06' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '07' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n07, cCuboDestino,vAno, '07' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '08' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n08, cCuboDestino,vAno, '08' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '09' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );
+CellIncrementN( n09, cCuboDestino,vAno, '09' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '10' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );
+CellIncrementN( n10, cCuboDestino,vAno, '10' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '11' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n11, cCuboDestino,vAno, '11' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+if( CellIsUpdateable( cCuboDestino,vAno, '12' , pVersao, sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica )=1 );    
+CellIncrementN( n12, cCuboDestino,vAno, '12' , pVersao,sMoedaQTY , vRegiao , vCod_Produto , vConta , vSubConta , vMetrica);
+endif;
+   
+endif;
+
+
+#endregion
+#region Epilog
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+
+
+# ===============================================================================================================
+#EPILOGCOMMENT        Descrição:  Habilita log do cubo de destino, realiza CubeSaveData e registra log de status do processo.
+# ===============================================================================================================
+
+
+# =================================================================================
+# Registra o Log de Erro ou Sucesso no Cubo de Controle
+# =================================================================================
+If( cTipoErro = 0 );
+   cMensagemProcesso  = 'Upload completed sucessfully';
+EndIf;
+
+
+s01	  = TimSt( cHorarioInicio , '\Y-\m-\d \hh\im\ss' );
+s02 	= cUsuario ;
+s03 	= cMensagemProcesso ;
+s04 	= sContadorRegistro  ;
+s05 	= TimSt( Now - cHorarioInicio, ' \h:\i:\s') ;
+
+CellPutS( s01 , cCuboParametro, cProcesso, 'DataHora Fim' );
+CellPutS( s02 , cCuboParametro, cProcesso, 'Usuário' );
+CellPutS( s03 , cCuboParametro, cProcesso, 'Mensagem de Log' );
+CellPutS( s04 , cCuboParametro, cProcesso, 'Registros Processados' );
+CellPutS( s05 , cCuboParametro, cProcesso, 'Tempo de Execução' );
+
+
+If( cTipoErro = 2 );
+  ItemReject( cMensagemProcesso );
+EndIf;
+#endregion

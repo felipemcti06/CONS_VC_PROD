@@ -1,0 +1,14 @@
+{
+	"@type":"Cube",
+	"Name":"}Plans_Errors",
+	"Dimensions":
+	[
+		{
+			"@id":"Dimensions('}Plans_ErrorLines')"
+		},
+		{
+			"@id":"Dimensions('}Plans_Errors')"
+		}
+	],
+	"Views@Code.links":[]
+}

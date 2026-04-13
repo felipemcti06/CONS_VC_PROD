@@ -1,0 +1,12 @@
+{
+	"@type":"Process",
+	"Name":"zCTI.010.02.UPD_SYS.925.Copy_Validation",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"zCTI.010.02.UPD_SYS.925.Copy_Validation.ti",
+	"DataSource":
+	{
+		"Type":"None"
+	},
+	"Parameters":[],
+	"Variables":[]
+}

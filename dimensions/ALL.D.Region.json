@@ -1,0 +1,13 @@
+{
+	"@type":"Dimension",
+	"Name":"ALL.D.Region",
+	"Hierarchies@Code.links":
+	[
+		"ALL.D.Region.hierarchies/ALL.D.Region.json",
+		"ALL.D.Region.hierarchies/Hierarquia_Regiao.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('ALL.D.Region')/Hierarchies('ALL.D.Region')"
+	}
+}

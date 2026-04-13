@@ -1,0 +1,55 @@
+{
+	"@type":"Hierarchy",
+	"Name":"SYS.M.150.Controle_Cargas",
+	"Elements":
+	[
+		{
+			"Name":"DataHora Inicio",
+			"Type":"String"
+		},
+		{
+			"Name":"DataHora Fim",
+			"Type":"String"
+		},
+		{
+			"Name":"Tempo de Execução",
+			"Type":"String"
+		},
+		{
+			"Name":"Mensagem de Log",
+			"Type":"String"
+		},
+		{
+			"Name":"Prefixo do Arquivo",
+			"Type":"String"
+		},
+		{
+			"Name":"Caminho do Arquivo Fonte",
+			"Type":"String"
+		},
+		{
+			"Name":"Caminho do Arquivo de Rejeitado",
+			"Type":"String"
+		},
+		{
+			"Name":"Usuário",
+			"Type":"String"
+		},
+		{
+			"Name":"Registros Processados",
+			"Type":"String"
+		},
+		{
+			"Name":"Gerar Log de Alteração (S/N)",
+			"Type":"String"
+		},
+		{
+			"Name":"Debug (S/N)",
+			"Type":"String"
+		}
+	],
+	"Subsets@Code.links":
+	[
+		"SYS.M.150.Controle_Cargas.subsets/Default.json"
+	]
+}

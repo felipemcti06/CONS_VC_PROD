@@ -1,0 +1,44 @@
+{
+	"@type":"Process",
+	"Name":"SYS.777.Shadow_Copy_Backup",
+	"HasSecurityAccess":true,
+	"Code@Code.link":"SYS.777.Shadow_Copy_Backup.ti",
+	"DataSource":
+	{
+		"Type":"ASCII",
+		"dataSourceNameForServer":"\\\\10.29.228.94\\Cognos\\AMX_RECEITA\\Shadow_Copy\\Backup\\ShadowVolumeInformation.txt",
+		"dataSourceNameForClient":"\\\\10.29.228.94\\Cognos\\AMX_RECEITA\\Shadow_Copy\\Backup\\ShadowVolumeInformation.txt",
+		"asciiHeaderRecords":0,
+		"asciiQuoteCharacter":"\"",
+		"asciiDecimalSeparator":".",
+		"asciiThousandSeparator":",",
+		"asciiDelimiterType":"Character",
+		"asciiDelimiterChar":":"
+	},
+	"Parameters":
+	[
+		{
+			"Name":"pIdade_Bakcup",
+			"Prompt":"Indique a quantidade de dias do backup :",
+			"Value":"7",
+			"Type":"String"
+		}
+	],
+	"Variables":
+	[
+		{
+			"Name":"vTrash",
+			"Type":"String",
+			"Position":1,
+			"StartByte":0,
+			"EndByte":0
+		},
+		{
+			"Name":"vShadowInformation",
+			"Type":"String",
+			"Position":2,
+			"StartByte":0,
+			"EndByte":0
+		}
+	]
+}

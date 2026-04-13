@@ -1,0 +1,43 @@
+{
+	"@type":"MDXView",
+	"Name":"Sys.Report.CashGeneration",
+	"MDX@Code.link":"Sys.Report.CashGeneration.mdx",
+	"Meta": {
+		"Aliases": {
+			"[ALL.D.Month].[ALL.D.Month]": "Desc",
+			"[ALL.D.Version].[ALL.D.Version]": "Descrição"
+		},
+		"ExpandAboves": {
+			"[DFS.D.Accounts_ICF].[DFS.D.Accounts_ICF]": false,
+			"[ALL.D.Month].[ALL.D.Month]": false,
+			"[DFS.M.140.Indirect_Cash_Flow].[DFS.M.140.Indirect_Cash_Flow]": false,
+			"[ALL.D.Currency].[ALL.D.Currency]": false,
+			"[ALL.D.Region].[ALL.D.Region]": false,
+			"[ALL.D.Year].[ALL.D.Year]": false,
+			"[ALL.D.Version].[ALL.D.Version]": false
+		},
+		"ContextSets": {
+			"[DFS.D.Accounts_ICF].[DFS.D.Accounts_ICF]": {
+				"Expression": "{[DFS.D.Accounts_ICF].[DFS.D.Accounts_ICF].[Cash generation before financing]}"
+			},
+			"[DFS.M.140.Indirect_Cash_Flow].[DFS.M.140.Indirect_Cash_Flow]": {
+				"Expression": "{[DFS.M.140.Indirect_Cash_Flow].[DFS.M.140.Indirect_Cash_Flow].MEMBERS}"
+			},
+			"[ALL.D.Currency].[ALL.D.Currency]": {
+				"Expression": "{[ALL.D.Currency].[ALL.D.Currency].[BRL Conv.]}"
+			},
+			"[ALL.D.Region].[ALL.D.Region]": {
+				"Expression": "{[ALL.D.Region].[ALL.D.Region].[Global]}"
+			},
+			"[ALL.D.Year].[ALL.D.Year]": {
+				"Expression": "{Descendants({[ALL.D.Year].[ALL.D.Year].[2025]},1, SELF_AND_BEFORE)}"
+			}
+		}
+	},
+	"ViewExtractSkipRuleValues": false,
+	"ViewExtractSkipConsolidatedValues": true,
+	"ViewExtractSkipZeroes": true,
+	"IsSuppressComputeOnOpen": false,
+	"IsAutocalculate": true,
+	"IsDeferComputeOnLeafDataEntry": false
+}

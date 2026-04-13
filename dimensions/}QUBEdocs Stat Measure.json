@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"}QUBEdocs Stat Measure",
+	"Hierarchies@Code.links":
+	[
+		"}QUBEdocs Stat Measure.hierarchies/}QUBEdocs Stat Measure.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('}QUBEdocs Stat Measure')/Hierarchies('}QUBEdocs Stat Measure')"
+	}
+}

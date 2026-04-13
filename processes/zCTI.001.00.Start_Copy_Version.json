@@ -1,0 +1,38 @@
+{
+	"@type":"Process",
+	"Name":"zCTI.001.00.Start_Copy_Version",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"zCTI.001.00.Start_Copy_Version.ti",
+	"DataSource":
+	{
+		"Type":"TM1DimensionSubset",
+		"dataSourceNameForServer":"ALL.D.Year:ALL.D.Year",
+		"dataSourceNameForClient":"ALL.D.Year:ALL.D.Year",
+		"subset":"All"
+	},
+	"Parameters":
+	[
+		{
+			"Name":"psStart",
+			"Prompt":"Are you sure you want to run the version copy?(Y/N)",
+			"Value":"S",
+			"Type":"String"
+		},
+		{
+			"Name":"psScenario",
+			"Prompt":"",
+			"Value":"",
+			"Type":"String"
+		}
+	],
+	"Variables":
+	[
+		{
+			"Name":"vsCube",
+			"Type":"String",
+			"Position":1,
+			"StartByte":0,
+			"EndByte":0
+		}
+	]
+}

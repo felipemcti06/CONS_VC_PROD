@@ -1,0 +1,24 @@
+{
+	"@type":"Hierarchy",
+	"Name":"}QUBEdocs Client",
+	"Elements":
+	[
+		{
+			"Name":"All Clients",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Server",
+			"Type":"Numeric"
+		}
+	],
+	"Edges":
+	[
+		{
+			"ParentName":"All Clients",
+			"ComponentName":"Server",
+			"Weight":1
+		}
+	],
+	"Subsets@Code.links":[]
+}

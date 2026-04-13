@@ -1,0 +1,20 @@
+{
+	"@type":"Process",
+	"Name":"zCTI.999.01.Start_Copy_Create_Objects",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"zCTI.999.01.Start_Copy_Create_Objects.ti",
+	"DataSource":
+	{
+		"Type":"None"
+	},
+	"Parameters":
+	[
+		{
+			"Name":"pDel",
+			"Prompt":"Delete Objets from Copy? (Y/N)",
+			"Value":"Y",
+			"Type":"String"
+		}
+	],
+	"Variables":[]
+}

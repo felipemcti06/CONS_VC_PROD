@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"DFS.M.160.Working_Capital",
+	"Hierarchies@Code.links":
+	[
+		"DFS.M.160.Working_Capital.hierarchies/DFS.M.160.Working_Capital.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('DFS.M.160.Working_Capital')/Hierarchies('DFS.M.160.Working_Capital')"
+	}
+}

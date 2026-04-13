@@ -1,0 +1,1369 @@
+#region Prolog
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+
+
+# ===============================================================================================================
+# Copyright ctiglobal.com Ver 3.0  08/2020
+# ===============================================================================================================
+# Esse processo executa copia de versão via RunProcess com opção de paralelismo 
+# ===============================================================================================================
+
+
+# =================================================================================
+# Descobre qual usuário executou o processo
+# =================================================================================
+pUser = IF( DimIx( '}Clients' , TM1User() ) = 0, 'Executed by Chore' , ATTRS('}Clients', TM1User(), '}TM1_DefaultDisplayValue') );
+
+
+
+# =================================================================================
+# Define variáveis locais de arquivo
+# =================================================================================
+DataSourceASCIIDelimiter = ';';
+DataSourceASCIIThousandSeparator = '.';
+DataSourceASCIIDecimalSeparator = ',';
+DatasourceASCIIQuoteCharacter='';
+DataSourceQuoteCharacter = '';
+
+
+
+# =================================================================================
+# Variáveis Gerais
+# =================================================================================
+cTimeStamp	= TimSt( Now, '\Y-\m-\d \hh\im\ss' );
+cProcesso 	= GetProcessName();
+
+sMensagemR 		= '';
+sMensagemP 		= '';
+nItemReject 	= 0;
+nRejectHeader 	= 0;
+nStatusHeader 	= 0;
+nRejectCount	= 0;
+nErrors 		= 0;
+nCount 			= 0;
+nStartTime 		= NOW;
+
+
+# =================================================================================
+# Variáveis do processo de cópia
+# =================================================================================
+cCubParam 			= 'SYS.900.Parametros_Copia_Versao';
+cCubRegistro		= 'SYS.915.Registro_Copia_Versao';
+cCubParamCopia    	= 'SYS.900.Parametros_Copia_Versao';
+cCuboCopiaVersao 	= 'SYS.910.Cubos_Copia_Versao';
+
+
+# =================================================================================
+# Definição View de Limpeza do Cubo de Registro
+# =================================================================================
+
+# Define nome da view e subset de limpeza 
+# ======================================================
+cViewDestino	= 'processo.' | cProcesso | '.' | cCubRegistro | '.' | 'Limpeza' | '.' | cTimeStamp;
+cSubsetDestino	= cViewDestino;
+
+
+# Cria a view que será utilizada para a limpeza
+# ======================================================
+ViewCreate( cCubRegistro , cViewDestino , 1 );
+
+
+cDimensao	= 'SYS.D.915.Timestamp';
+cElemento	= 'Cópia Atual';
+If( cDimensao @<> '');
+  SubsetCreate( cDimensao, cSubsetDestino , 1 );  
+  ViewSubsetAssign( cCubRegistro , cViewDestino, cDimensao , cSubsetDestino );  
+  SubsetElementInsert( cDimensao, cSubsetDestino, cElemento	, 1 );
+EndIf;
+
+
+# Configuração da View
+# ======================================================
+ViewExtractSkipCalcsSet( cCubRegistro, cViewDestino, 1 );
+ViewExtractSkipZeroesSet( cCubRegistro, cViewDestino, 1 );
+ViewExtractSkipRuleValuesSet( cCubRegistro, cViewDestino, 1 );
+
+
+# Apaga os valores da View criada
+# ======================================================
+ViewZeroOut( cCubRegistro , cViewDestino );
+CubeSaveData( cCubRegistro );
+
+# =================================================================================
+# Adiciona elemento TimeStamp
+# =================================================================================
+DimensionElementInsertDirect('SYS.D.915.Timestamp', DIMNM('SYS.D.915.Timestamp', DIMIX( 'SYS.D.915.Timestamp', 'Cópia Atual' ) + 1), cTimeStamp,'N');
+
+
+# =================================================================================
+# Busca parâmetros para a Copia de Versão
+# =================================================================================
+pSourceElement	= Trim ( CellGetS( cCubParamCopia, 'Valor' , 'Versão Origem' ) );
+pTargetElement	= Trim ( CellGetS( cCubParamCopia, 'Valor' , 'Versão Destino' ) );
+pRules			= Trim ( CellGetS( cCubParamCopia, 'Valor' , 'Considerar Regras' ) );
+
+pPeriodoIni		= Trim ( CellGetS( cCubParamCopia, 'Valor' , 'Período Início' ) );
+pPeriodoFim		= Trim ( CellGetS( cCubParamCopia, 'Valor' , 'Período Fim' ) );
+
+pThreads		= CellGetN( cCubParamCopia, 'Valor' , 'Qtd Threads' ) ;
+pTipoCopia		= Trim ( CellGetS( cCubParamCopia, 'Valor' , 'Tipo Cópia' ) );
+
+
+# Iniciar Cópia
+# =========================
+sElm = pStart;
+sParam = 'Iniciar Cópia';
+
+If( sElm @<> 'S' );
+   nErrors = 1;
+   DataSourceType = 'NULL';
+   sMensagemP = 'Cópia de versão não iniciada.' ;
+   ItemReject( sMensagemP );
+EndIf;
+
+
+# Periodo Início
+# =========================
+sElm = pPeriodoIni;
+sParam = 'Período Início';
+
+If( sElm @= '' );
+   nErrors = 1;
+   DataSourceType = 'NULL';
+   sMensagemP = 'O parâmetro    [ ' | sParam | ' ]    não foi Informado, informar corretamente no cubo  [ ' | cCubParamCopia | ' ]' ;
+   ItemReject( sMensagemP );
+EndIf;
+
+
+# Periodo Fim
+# =========================
+sElm = pPeriodoFim;
+sParam = 'Período Fim';
+
+If( sElm @= '' );
+   nErrors = 1;
+   DataSourceType = 'NULL';
+   sMensagemP = 'O parâmetro    [ ' | sParam | ' ]    não foi Informado, informar corretamente no cubo  [ ' | cCubParamCopia | ' ]' ;
+   ItemReject( sMensagemP );
+EndIf;
+
+
+# Cópia com Regras
+# =========================
+sElm = pRules;
+sParam = 'Considerar Regras';
+
+If( sElm @= '' );
+   nErrors = 1;
+   DataSourceType = 'NULL';
+   sMensagemP = 'O parâmetro    [ ' | sParam | ' ]    não foi Informado, informar corretamente no cubo  [ ' | cCubParamCopia | ' ]' ;
+   ItemReject( sMensagemP );
+EndIf;
+
+
+
+# Tipo da Cópia
+# =========================
+sElm = pTipoCopia;
+sParam = 'Tipo Cópia';
+
+If( sElm @= '' );
+   nErrors = 1;
+   DataSourceType = 'NULL';
+   sMensagemP = 'O parâmetro    [ ' | sParam | ' ]    não foi Informado, informar corretamente no cubo  [ ' | cCubParamCopia | ' ]' ;
+   ItemReject( sMensagemP );
+EndIf;
+
+
+# Threads
+# =========================
+sParam = 'Threads';
+
+If( pThreads <= 1 );
+   nErrors = 1;
+   DataSourceType = 'NULL';
+   sMensagemP = 'O parâmetro    [ ' | sParam | ' ]    não foi Informado, informar corretamente no cubo  [ ' | cCubParamCopia | ' ]' ;
+   ItemReject( sMensagemP );
+EndIf;
+
+
+
+# =================================================================================
+# Monta o caminho completo dos arquivos de registro
+# =================================================================================
+
+# Define o nome dos arquivos
+# ============================
+sPrefixo	= 'Copia_de_Versao_' | cTimeStamp;
+sSufixo		= 'Reject' ;
+sRejectFile	= sPrefixo | '_' | sSufixo | '.csv';
+sStatusFile	= sPrefixo | '_Status.csv' ;
+
+
+
+# Busca o caminho onde ficam os arquivos 
+# ========================================
+sRejectFolder  		=  CellGetS( cCubParamCopia , 'Valor' , 'CaminhoArqRejeitados' );
+sDirFarol	        =  CellGetS( cCubParamCopia , 'Valor' , 'CaminhoArqSemaforo' );
+sDirDataExport		=  CellGetS( cCubParamCopia , 'Valor' , 'CaminhoArqExport' );
+sDirStatus			=  CellGetS( cCubParamCopia , 'Valor' , 'CaminhoArqStatus' );
+sDirLog				=  CellGetS( cCubParamCopia , 'Valor' , 'CaminhoArqLog' );
+
+
+# Aborta o processo se o caminho do arquivo reject não foi informado
+# ======================================================
+IF( sRejectFolder  @= '' );
+   nErrors = 1;
+   sMensagemP = 'O caminho onde deverá ser salvo o arquivo com registros rejeitados não foi informado, informe no cubo:   "' | cCubParam | '"' ;
+   DataSourceType = 'NULL';
+   ItemReject( sMensagemP );
+ENDIF;
+
+
+
+# Aborta o processo se o caminho dos arquivos de farol não foi informado
+# ======================================================
+IF( sDirFarol  @= '' );
+   nErrors = 1;
+   sMensagemP = 'O caminho onde deverá ser salvo os arquivos para controle de processos não foi informado, informe no cubo:   "' | cCubParam | '"' ;
+   DataSourceType = 'NULL';
+   ItemReject( sMensagemP );
+ENDIF;
+
+
+
+# Aborta o processo se o caminho dos arquivos de data export não foi informado
+# ======================================================
+IF( sDirDataExport  @= '' );
+   nErrors = 1;
+   sMensagemP = 'O caminho onde deverá ser salvo os arquivos para data export não foi informado, informe no cubo:   "' | cCubParam | '"' ;
+   DataSourceType = 'NULL';
+   ItemReject( sMensagemP );
+ENDIF;
+
+
+
+# Aborta o processo se o caminho do arquivos de status não foi informado
+# ======================================================
+IF( sDirStatus  @= '' );
+   nErrors = 1;
+   sMensagemP = 'O caminho onde deverá ser salvo os arquivos para data export não foi informado, informe no cubo:   "' | cCubParam | '"' ;
+   DataSourceType = 'NULL';
+   ItemReject( sMensagemP );
+ENDIF;
+
+
+
+# Aborta o processo se o caminho do arquivos de log não foi informado
+# ======================================================
+IF( sDirLog  @= '' );
+   nErrors = 1;
+   sMensagemP = 'O caminho onde deverá ser salvo os arquivos para data export não foi informado, informe no cubo:   "' | cCubParam | '"' ;
+   DataSourceType = 'NULL';
+   ItemReject( sMensagemP );
+ENDIF;
+
+
+
+# Insere o caractere "\" no final do caminho caso ainda não tenha
+# =======================================================
+sRejectFolder  	= IF( SUBST( sRejectFolder  , LONG( sRejectFolder  ) , 1 ) @<> '\' , sRejectFolder  | '\' , sRejectFolder  );
+sDirFarol	    = IF( SUBST( sDirFarol  , LONG( sDirFarol ) , 1 ) @<> '\' , sDirFarol  | '\' , sDirFarol  );
+sDirDataExport	= IF( SUBST( sDirDataExport  , LONG( sDirDataExport ) , 1 ) @<> '\' , sDirDataExport  | '\' , sDirDataExport  );
+sDirStatus		= IF( SUBST( sDirStatus  , LONG( sDirStatus ) , 1 ) @<> '\' , sDirStatus  | '\' , sDirStatus  );
+sDirLog			= IF( SUBST( sDirLog  , LONG( sDirLog ) , 1 ) @<> '\' , sDirLog  | '\' , sDirLog  );
+
+
+
+# =================================================================================
+# Aborta o processo se o diretorio dos arquivos rejeitados não existir
+# =================================================================================
+IF( FileExists( sRejectFolder) = 0 );
+   nErrors = 1;
+   sMensagemP = 'O diretório especificado para o arquivo com registros rejeitados  "' | sRejectFolder | '"   não existe, informe no cubo:   "' | cCubParam | '"' ;
+   DataSourceType = 'NULL';
+   ItemReject( sMensagemP );
+ENDIF;
+
+
+
+# =================================================================================
+# Aborta o processo se o diretorio dos arquivos de semaforo não existir
+# =================================================================================
+IF( FileExists( sDirFarol ) = 0 );
+   nErrors = 1;
+   sMensagemP = 'O diretório especificado para os arquivos para controle de processos  "' | sDirFarol | '"   não existe, informe no cubo:   "' | cCubParam | '"' ;
+   DataSourceType = 'NULL';
+   ItemReject( sMensagemP );
+ENDIF;
+
+
+
+# =================================================================================
+# Aborta o processo se o diretorio dos arquivos de data export não existir
+# =================================================================================
+IF( FileExists( sDirDataExport ) = 0 );
+   nErrors = 1;
+   sMensagemP = 'O diretório especificado para os arquivos de data export  "' | sDirDataExport | '"   não existe, informe no cubo:   "' | cCubParam | '"' ;
+   DataSourceType = 'NULL';
+   ItemReject( sMensagemP );
+ENDIF;
+
+
+
+# =================================================================================
+# Aborta o processo se o diretorio dos arquivos de status não existir
+# =================================================================================
+IF( FileExists( sDirStatus ) = 0 );
+   nErrors = 1;
+   sMensagemP = 'O diretório especificado para os arquivos de data export  "' | sDirStatus| '"   não existe, informe no cubo:   "' | cCubParam | '"' ;
+   DataSourceType = 'NULL';
+   ItemReject( sMensagemP );
+ENDIF;
+
+
+
+# =================================================================================
+# Aborta o processo se o diretorio dos arquivos de log não existir
+# =================================================================================
+IF( FileExists( sDirLog ) = 0 );
+   nErrors = 1;
+   sMensagemP = 'O diretório especificado para os arquivos de data export  "' | sDirLog | '"   não existe, informe no cubo:   "' | cCubParam | '"' ;
+   DataSourceType = 'NULL';
+   ItemReject( sMensagemP );
+ENDIF;
+
+
+
+
+# Monta o caminho completo 
+# ==========================
+sRejectFolderFile  	= sRejectFolder | sRejectFile;
+sStatusFolderFile  	= sDirStatus | sStatusFile;
+
+
+# =================================================================================
+# Apaga o arquivo de reject caso exista
+# =================================================================================
+IF( FileExists( sRejectFolderFile ) = 1 );
+   ASCIIDelete( sRejectFolderFile );
+ENDIF;
+
+
+# =================================================================================
+# Apaga arquivos de log caso existam
+# =================================================================================
+ExecuteCommand ( 'cmd /c del /S /Q ' | sDirLog | '*' , 1); 
+
+
+
+# =================================================================================
+# Apaga arquivos de export caso existam
+# =================================================================================
+ExecuteCommand ( 'cmd /c del /S /Q ' | sDirDataExport | '*' , 1); 
+
+
+
+# =================================================================================
+# Define parâmetros para a Cópia
+# =================================================================================
+
+# Delimitadores
+# =====================================
+pMappingDelim		= '->';
+pEleStartDelim		= ':';
+pEleDelim			= '+';
+pFile				= If ( pTipoCopia @= 'Cópia direta' , 0, 
+			   		  If ( pTipoCopia @= 'Export/Import e apagar arquivos (recomendado)' , 1,
+			   		  If ( pTipoCopia @= 'Export/Import e manter arquivos' , 2 , 1 )));
+
+
+
+# =================================================================================
+# Registra log "Em andamento"
+# =================================================================================
+sMensagemP = 'Cópia em andamento' ;
+
+s01 = cTimeStamp ;
+s02 = pUser ;
+s03 = sMensagemP ;
+
+CellPutS( s01 , cCubRegistro, cCubRegistro, cTimeStamp,  'DataHoraInicio' );
+CellPutS( s02 , cCubRegistro, cCubRegistro, cTimeStamp,  'Usuário' );
+CellPutS( s03 , cCubRegistro, cCubRegistro, cTimeStamp,  'Mensagem' );
+CellPutS( 'Em Andamento' , cCubRegistro, cCubRegistro, cTimeStamp,  'Status' );
+
+CellPutS( s01 , cCubRegistro, cCubRegistro, 'Cópia Atual',  'DataHoraInicio' );
+CellPutS( s02 , cCubRegistro, cCubRegistro, 'Cópia Atual',  'Usuário' );
+CellPutS( s03 , cCubRegistro, cCubRegistro, 'Cópia Atual',  'Mensagem' );
+CellPutS( 'Em Andamento' , cCubRegistro, cCubRegistro, 'Cópia Atual',  'Status' );
+
+CellPutS( 'Em Andamento' , cCubParamCopia, 'Valor', 'Status' );
+CubeSaveData( cCubParamCopia );
+
+
+
+# =================================================================================
+# View de Origem
+# =================================================================================
+cViewOri = cProcesso | '_' | cCuboCopiaVersao | cTimeStamp;
+cSubSetOri = 'Subset_' | cProcesso | '_Ori' | cTimeStamp;
+
+
+
+# Cria view de origem (temporária)
+# ========================================
+If (ViewExists(cCuboCopiaVersao, cViewOri) = 0);
+    ViewCreate(cCuboCopiaVersao, cViewOri, 1);
+Else;
+    ViewDestroy(cCuboCopiaVersao, cViewOri);
+    ViewCreate(cCuboCopiaVersao, cViewOri, 1);
+EndIf;
+
+
+
+# Cria subset de metrica (temporário)
+# ========================================
+sDimension = 'SYS.M.910.Cubos_Copia_Versao';
+sSubset = cSubSetOri;
+
+If(SubsetExists( sDimension, sSubset ) = 1);
+  SubsetDestroy( sDimension, sSubset );
+EndIf;
+SubsetCreate( sDimension, sSubset, 1);
+
+SubsetElementInsert( sDimension, sSubset , 'Copia Versão (S/N)', 1);
+
+
+
+
+# Atribui subsets a view de origem
+# ========================================
+ViewSubsetAssign( cCuboCopiaVersao, cViewOri, sDimension, cSubsetOri );
+
+
+
+# Prepara View de Origem dos Dados Cubo Origem
+# ========================================
+
+ViewExtractSkipCalcsSet(cCuboCopiaVersao, cViewOri, 1 );
+ViewSuppressZeroesSet(cCuboCopiaVersao, cViewOri, 1);
+ViewExtractSkipRuleValuesSet(cCuboCopiaVersao, cViewOri,1);
+
+
+DataSourceCubeView = cViewOri;
+
+
+#endregion
+#region Metadata
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+#endregion
+#region Data
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+
+
+# =================================================================================
+# Busca Variáveis do Cubo SYS.910.Cubos_Copia_Versao
+# =================================================================================
+sCopiaVersao 	= Trim (CellGetS ( cCuboCopiaVersao, vCube, 'Copia Versão (S/N)' ));
+
+
+
+
+# ===================================================================================
+# Considera apenas cubos para copia se marcados com 'S'
+# ===================================================================================
+If ( sCopiaVersao @<> 'S' );
+       ItemSkip;
+EndIf;
+
+
+
+# =================================================================================
+# Valida parâmetros da Cópia
+# =================================================================================
+pDimVersao 	= Trim ( CellGetS( cCuboCopiaVersao, vCube , 'Dimensão Versão' ) );
+pDimAno		= Trim ( CellGetS( cCuboCopiaVersao, vCube , 'Dimensão Ano' ) );
+pDimMes		= Trim ( CellGetS( cCuboCopiaVersao, vCube , 'Dimensão Mês' ) );
+pDimAnoMes	= Trim ( CellGetS( cCuboCopiaVersao, vCube , 'Dimensão Ano e Mês' ) );
+
+
+
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso a dimensão não existir no cubo ou estiver em branco
+# ===================================================================================
+sDim	= '}Dimensions';
+sElm 	= pDimVersao;
+sParam	= 'Dimensão Versão';
+
+If( nItemReject = 0 );
+   If( sElm @= '' );
+      sMensagemR = 'O parâmetro    [ ' | sParam | ' ]    não foi Informado, informar corretamente no cubo  [ ' | cCuboCopiaVersao | ' ]' ;
+      nItemReject = 1;
+   ElseIf( DimIx( sDim , sElm ) = 0 );
+      sMensagemR = 'O parâmetro    [ ' | sParam | ' ]    contêm o valor:    [ ' | sElm | ' ]    que não existe na dimensão:    [ ' | sDim | ' ]';
+      nItemReject = 1;
+   EndIf;
+EndIf;
+
+
+
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso a dimensão não existir no cubo
+# ===================================================================================
+sDim	= pDimVersao ;
+pCube	= vCube ;
+
+If( nItemReject = 0 );
+   nSourceDimExists = 0;
+   nTargetDimExists = 0;
+   nDimensionCount = 0;
+   sDimension = TabDim( pCube, nDimensionCount + 1);
+
+   While( sDimension @<> '' );
+     nDimensionCount = nDimensionCount + 1;
+     If( sDimension @= sDim );
+       nSourceDimExists = 1;
+     EndIf;
+     sDimension = TabDim( pCube, nDimensionCount + 1);
+   End;
+
+   If( nSourceDimExists = 0 );
+      sMensagemR = 'A dimensão informada:    [ ' | sDim | ' ] não existe no cubo:    [ ' | pCube | ' ]';
+      nItemReject = 1;
+   EndIf;
+EndIf;
+
+
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso a dimensão não existir no cubo
+# ===================================================================================
+sDim	= pDimAno ;
+pCube	= vCube ;
+
+If( nItemReject = 0 & sDim @<> '' );
+   nSourceDimExists = 0;
+   nTargetDimExists = 0;
+   nDimensionCount = 0;
+   sDimension = TabDim( pCube, nDimensionCount + 1);
+
+   While( sDimension @<> '' );
+     nDimensionCount = nDimensionCount + 1;
+     If( sDimension @= sDim );
+       nSourceDimExists = 1;
+     EndIf;
+     sDimension = TabDim( pCube, nDimensionCount + 1);
+   End;
+
+   If( nSourceDimExists = 0 );
+      sMensagemR = 'A dimensão informada:    [ ' | sDim | ' ] não existe no cubo:    [ ' | pCube | ' ]';
+      nItemReject = 1;
+   EndIf;
+EndIf;
+
+
+
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso a dimensão não existir no cubo
+# ===================================================================================
+sDim	= pDimMes ;
+pCube	= vCube ;
+
+If( nItemReject = 0 & sDim @<> ''  );
+   nSourceDimExists = 0;
+   nTargetDimExists = 0;
+   nDimensionCount = 0;
+   sDimension = TabDim( pCube, nDimensionCount + 1);
+
+   While( sDimension @<> '' );
+     nDimensionCount = nDimensionCount + 1;
+     If( sDimension @= sDim );
+       nSourceDimExists = 1;
+     EndIf;
+     sDimension = TabDim( pCube, nDimensionCount + 1);
+   End;
+
+   If( nSourceDimExists = 0 );
+      sMensagemR = 'A dimensão informada:    [ ' | sDim | ' ] não existe no cubo:    [ ' | pCube | ' ]';
+      nItemReject = 1;
+   EndIf;
+EndIf;
+
+
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso a dimensão não existir no cubo
+# ===================================================================================
+sDim	= pDimAnoMes ;
+pCube	= vCube ;
+
+If( nItemReject = 0 & sDim @<> ''  );
+   nSourceDimExists = 0;
+   nTargetDimExists = 0;
+   nDimensionCount = 0;
+   sDimension = TabDim( pCube, nDimensionCount + 1);
+
+   While( sDimension @<> '' );
+     nDimensionCount = nDimensionCount + 1;
+     If( sDimension @= sDim );
+       nSourceDimExists = 1;
+     EndIf;
+     sDimension = TabDim( pCube, nDimensionCount + 1);
+   End;
+
+   If( nSourceDimExists = 0 );
+      sMensagemR = 'A dimensão informada:    [ ' | sDim | ' ] não existe no cubo:    [ ' | pCube | ' ]';
+      nItemReject = 1;
+   EndIf;
+EndIf;
+
+
+
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso a dimensão não existir no cubo
+# ===================================================================================
+sDim = pDimVersao;
+sElm = pSourceElement;
+sParam = 'Versão Origem';
+
+If( nItemReject = 0 );
+   If( Trim( sElm ) @= '' );
+      nItemReject = 1;
+      sMensagemP = 'O parâmetro    [ ' | sParam | ' ]    não foi Informado, informar corretamente no cubo  [ ' | cCubParamCopia | ' ]' ;
+      ElseIf( DimIx( sDim , sElm ) = 0 );
+      nItemReject = 1;
+      sMensagemP = 'O elemento    [ ' | sElm | ' ]    não existe na dimensão    [ ' | sDim | ' ], informar corretamente no cubo  [ ' | cCubParamCopia | ' ]' ;
+   ElseIf( DTYPE( sDim , sElm ) @= 'C' );
+      nItemReject = 1;
+      sMensagemP = 'O elemento    [ ' | sElm | ' ]    é um consolidador na dimensão    [ ' | sDim | ' ], informar corretamente no cubo  [ ' | cCubParamCopia | ' ]' ;
+   EndIf;
+EndIf;
+
+
+
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso o elemento não existir na dimensão
+# ===================================================================================
+sDim = pDimVersao;
+sElm = pTargetElement;
+sParam = 'Versão Destino';
+
+If( nItemReject = 0 );
+   If( Trim( sElm ) @= '' );
+      nItemReject = 1;
+      sMensagemP = 'O parâmetro    [ ' | sParam | ' ]    não foi Informado, informar corretamente no cubo  [ ' | cCubParamCopia | ' ]' ;
+      ElseIf( DimIx( sDim , sElm ) = 0 );
+      nItemReject = 1;
+      sMensagemP = 'O elemento    [ ' | sElm | ' ]    não existe na dimensão    [ ' | sDim | ' ], informar corretamente no cubo  [ ' | cCubParamCopia | ' ]' ;
+   ElseIf( DTYPE( sDim , sElm ) @= 'C' );
+      nItemReject = 1;
+      sMensagemP = 'O elemento    [ ' | sElm | ' ]    é um consolidador na dimensão    [ ' | sDim | ' ], informar corretamente no cubo  [ ' | cCubParamCopia | ' ]' ;
+   EndIf;
+EndIf;
+
+
+pAnoIni = SUBST( pPeriodoIni, 1, 4 ) ;
+pAnoFim = SUBST( pPeriodoFim, 1, 4 ) ;
+
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso o elemento não existir na dimensão
+# ===================================================================================
+sDim = pDimAno;
+sElm = pAnoIni;
+sParam = 'Ano Cópia Início';
+
+If( nItemReject = 0 & sDim @<> '' );
+   If( sElm @= '' );
+      sMensagemR = 'O parâmetro    [ ' | sParam | ' ]    não foi Informado, informar corretamente no cubo  [ ' | cCubParamCopia | ' ]' ;
+      nItemReject = 1;
+   ElseIf( DimIx( sDim , sElm ) = 0 );
+      sMensagemR = 'O parâmetro    [ ' | sParam | ' ]    contêm o valor:    [ ' | sElm | ' ]    que não existe na dimensão:    [ ' | sDim | ' ]';
+      nItemReject = 1;
+   EndIf;
+EndIf;
+
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso o elemento não existir na dimensão
+# ===================================================================================
+sDim = pDimAno;
+sElm = pAnoFim;
+sParam = 'Ano Cópia Fim';
+
+If( nItemReject = 0 & sDim @<> '' );
+   If( sElm @= '' );
+      sMensagemR = 'O parâmetro    [ ' | sParam | ' ]    não foi Informado, informar corretamente no cubo  [ ' | cCubParamCopia | ' ]' ;
+      nItemReject = 1;
+   ElseIf( DimIx( sDim , sElm ) = 0 );
+      sMensagemR = 'O parâmetro    [ ' | sParam | ' ]    contêm o valor:    [ ' | sElm | ' ]    que não existe na dimensão:    [ ' | sDim | ' ]';
+      nItemReject = 1;
+   EndIf;
+EndIf;
+
+
+pMesIni = SUBST( pPeriodoIni, 5, 2 ) ;
+pMesFim = SUBST( pPeriodoFim, 5, 2 ) ;
+
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso o elemento não existir na dimensão
+# ===================================================================================
+sDim = pDimMes;
+sElm = pMesIni;
+sParam = 'Mês Cópia Início';
+
+If( nItemReject = 0 & sElm @<> '' & sDim @<> '' );
+   If( DimIx( sDim , sElm ) = 0 );
+      sMensagemR = 'O parâmetro    [ ' | sParam | ' ]    contêm o valor:    [ ' | sElm | ' ]    que não existe na dimensão:    [ ' | sDim | ' ]';
+      nItemReject = 1;
+   EndIf;
+EndIf;
+
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso o elemento não existir na dimensão
+# ===================================================================================
+sDim = pDimMes;
+sElm = pMesFim;
+sParam = 'Mês Cópia Fim';
+
+If( nItemReject = 0 & sElm @<> '' & sDim @<> '' );
+   If( DimIx( sDim , sElm ) = 0 );
+      sMensagemR = 'O parâmetro    [ ' | sParam | ' ]    contêm o valor:    [ ' | sElm | ' ]    que não existe na dimensão:    [ ' | sDim | ' ]';
+      nItemReject = 1;
+   EndIf;
+EndIf;
+
+
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso o elemento não existir na dimensão
+# ===================================================================================
+sDim = pDimAnoMes;
+sElm = pPeriodoIni;
+sParam = 'Período Início';
+
+If( nItemReject = 0 & sElm @<> '' & sDim @<> '' );
+   If( DimIx( sDim , pPeriodoIni ) = 0 );
+      sMensagemR = 'O parâmetro    [ ' | sParam | ' ]    contêm o valor:    [ ' | sElm | ' ]    que não existe na dimensão:    [ ' | sDim | ' ]';
+      nItemReject = 1;
+   EndIf;
+EndIf;
+
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso o elemento não existir na dimensão
+# ===================================================================================
+sDim = pDimAnoMes;
+sElm = pPeriodoFim;
+sParam = 'Período Fim';
+
+If( nItemReject = 0 & sElm @<> '' & sDim @<> '' );
+   If( DimIx( sDim , pPeriodoIni ) = 0 );
+      sMensagemR = 'O parâmetro    [ ' | sParam | ' ]    contêm o valor:    [ ' | sElm | ' ]    que não existe na dimensão:    [ ' | sDim | ' ]';
+      nItemReject = 1;
+   EndIf;
+EndIf;
+
+
+# =================================================================================
+# Define variaveis de inicio da cópia do cubo
+# =================================================================================
+nInitialTime 		= NOW;
+cTimeStampInicio	= TimSt( Now, '\Y-\m-\d \hh\im\ss' );
+
+# =================================================================================
+# Registra o Log no Cubo de Controle 
+# =================================================================================
+sPeriodo	=  pPeriodoIni | ' ' | pPeriodoFim;
+s01 		=  cTimeStampInicio ;
+s02 		=  sMensagemR;
+s03 		=  pSourceElement;
+s04 		=  pTargetElement;
+s05 		=  sPeriodo ;
+s06			=  pRules;
+s07			=  NumberToString (pThreads);
+s08			=  pTipoCopia;
+s09			=  pUser;
+
+
+# ===================================================================================
+# REJEIÇÃO E STATUS
+# Registra em arquivo os registros
+# ===================================================================================
+If( nItemReject = 1 );
+
+
+  # Escreve o cabeçalho do arquivo de registros rejeitados
+  # =================================================================================
+  If( nRejectHeader = 0);
+    AsciiOutput( sRejectFolderFile , 'Cubo' , 'Dimensão Versão' , 'Dimensão Ano' , 'Dimensão Mês' , 'Dimensão Ano e Mês' , 'Período' , 'Versao Origem' , 'Versao Destino' , 'Mensagem de Erro');
+    nRejectHeader = 1;
+    nErrors = 2;
+    sMensagemP = ' Processo concluido com registros rejeitados, verificar o arquivo:    ' | sRejectFolderFile;
+  EndIf;
+
+
+  # Escreve o registro no arquivo de rejeitados e pula o registro
+  # =================================================================================
+  AsciiOutput( sRejectFolderFile , vCube , pDimVersao ,  pDimAno , pDimMes , pDimAnoMes , sPeriodo , pSourceElement , pTargetElement ,  sMensagemR );
+
+
+  # Escreve o cabeçalho do arquivo
+  # =================================================================================
+  If( nStatusHeader = 0);
+    AsciiOutput( sStatusFolderFile , 'Cubo' , 'Inicio Cópia' , 'Termino Cópia' , 'Tempo Decorrido' , 'Mensagem',  'Periodo' , 'Versao Origem' , 'Versao Destino' , 'Qtd Threads' , 'Cópia com Regras' , 'Tipo Cópia' , 'Usuário' );
+    nStatusHeader = 1;
+  EndIf;
+
+  # Escreve o registro no arquivo
+  # =================================================================================
+  AsciiOutput( sStatusFolderFile , vCube , cTimeStampInicio, '' , '' , sMensagemR , sPeriodo , pSourceElement , pTargetElement , NumberToString (pThreads) , pRules , pTipoCopia , pUser   );
+  
+  # =================================================================================
+  # Registra o log de "falha"" no Cubo de Controle 
+  # =================================================================================
+  CellPutS( s01 , cCubRegistro, vCube, cTimeStamp,  'DataHoraInicio' );
+  CellPutS( s02 , cCubRegistro, vCube, cTimeStamp,  'Mensagem' );
+  CellPutS( s03 , cCubRegistro, vCube, cTimeStamp,  'Versão Origem' );
+  CellPutS( s04 , cCubRegistro, vCube, cTimeStamp,  'Versão Destino' );
+  CellPutS( s05 , cCubRegistro, vCube, cTimeStamp,  'Período Cópia' );
+  CellPutS( s06 , cCubRegistro, vCube, cTimeStamp,  'Cópia Com Regras' );
+  CellPutS( s07 , cCubRegistro, vCube, cTimeStamp,  'Qtd Threads' );
+  CellPutS( s08 , cCubRegistro, vCube, cTimeStamp,  'Tipo Cópia' );
+  CellPutS( s09 , cCubRegistro, vCube, cTimeStamp,  'Usuário' );
+  CellPutS( 'Falha' , cCubRegistro, vCube, cTimeStamp,  'Status' );
+  
+  CellPutS( s01 , cCubRegistro, vCube, 'Cópia Atual',  'DataHoraInicio' );
+  CellPutS( s02 , cCubRegistro, vCube, 'Cópia Atual',  'Mensagem' );
+  CellPutS( s03 , cCubRegistro, vCube, 'Cópia Atual',  'Versão Origem' );
+  CellPutS( s04 , cCubRegistro, vCube, 'Cópia Atual',  'Versão Destino' );
+  CellPutS( s05 , cCubRegistro, vCube, 'Cópia Atual',  'Período Cópia' );
+  CellPutS( s06 , cCubRegistro, vCube, 'Cópia Atual',  'Cópia Com Regras' );
+  CellPutS( s07 , cCubRegistro, vCube, 'Cópia Atual',  'Qtd Threads' );
+  CellPutS( s08 , cCubRegistro, vCube, 'Cópia Atual',  'Tipo Cópia' );
+  CellPutS( s09 , cCubRegistro, vCube, 'Cópia Atual',  'Usuário' );
+  CellPutS( 'Falha' , cCubRegistro, vCube, 'Cópia Atual',  'Status' );
+  
+  CubeSaveData( cCubRegistro );
+
+  # Limpa as variaveis e pula o registro
+  # ============================
+  IF( nItemReject = 1 );
+     nItemReject = 0;
+     sMensagemR = '';
+     nErrors = 2;
+     ItemSkip;
+  EndIf;
+
+EndIf;
+
+
+
+# =================================================================================
+# Desabilita o log do cubo
+# =================================================================================
+CellPutS( 'NO', ' }CubeProperties', vCube, 'LOGGING' );
+
+
+# =================================================================================
+# Registra o log de "em andamento" no Cubo de Controle 
+# =================================================================================
+CellPutS( s01 , cCubRegistro, vCube, cTimeStamp,  'DataHoraInicio' );
+CellPutS( 'Cópia iniciada' , cCubRegistro, vCube, cTimeStamp,  'Mensagem' );
+CellPutS( s03 , cCubRegistro, vCube, cTimeStamp,  'Versão Origem' );
+CellPutS( s04 , cCubRegistro, vCube, cTimeStamp,  'Versão Destino' );
+CellPutS( s05 , cCubRegistro, vCube, cTimeStamp,  'Período Cópia' );
+CellPutS( s06 , cCubRegistro, vCube, cTimeStamp,  'Cópia Com Regras' );
+CellPutS( s07 , cCubRegistro, vCube, cTimeStamp,  'Qtd Threads' );
+CellPutS( s08 , cCubRegistro, vCube, cTimeStamp,  'Tipo Cópia' );
+CellPutS( s09 , cCubRegistro, vCube, cTimeStamp,  'Usuário' );
+CellPutS( 'Em andamento' , cCubRegistro, vCube, cTimeStamp,  'Status' );
+
+CellPutS( s01 , cCubRegistro, vCube, 'Cópia Atual',  'DataHoraInicio' );
+CellPutS( 'Cópia iniciada' , cCubRegistro, vCube, 'Cópia Atual',  'Mensagem' );
+CellPutS( s03 , cCubRegistro, vCube, 'Cópia Atual',  'Versão Origem' );
+CellPutS( s04 , cCubRegistro, vCube, 'Cópia Atual',  'Versão Destino' );
+CellPutS( s05 , cCubRegistro, vCube, 'Cópia Atual',  'Período Cópia' );
+CellPutS( s06 , cCubRegistro, vCube, 'Cópia Atual',  'Cópia Com Regras' );
+CellPutS( s07 , cCubRegistro, vCube, 'Cópia Atual',  'Qtd Threads' );
+CellPutS( s08 , cCubRegistro, vCube, 'Cópia Atual',  'Tipo Cópia' );
+CellPutS( s09 , cCubRegistro, vCube, 'Cópia Atual',  'Usuário' );
+CellPutS( 'Em andamento' , cCubRegistro, vCube, 'Cópia Atual',  'Status' );
+
+CubeSaveData( cCubRegistro );
+
+
+# =================================================================================
+# Exporta Arquivo de Log Inicio
+# =================================================================================
+sFileStatus = sDirLog | vCube | '.Inicio';
+TM1RunCmd = 'CMD.EXE /C "TYPE NUL >"' | sFileStatus | '" "';
+ExecuteCommand ( TM1RunCmd , 0 );
+
+
+# ===================================================================================
+# Monta parametros para processo de cópia
+# ===================================================================================
+
+# Trata parâmetro de Versão
+# =========================
+pEleMapping	= pDimVersao | ':' | pSourceElement | pMappingDelim | pTargetElement;
+
+
+# Trata parâmetro de Threads
+# =========================
+pCores	= If ( pDimMes @= '' & pDimAnoMes @= '', 1 , pThreads ) ;
+pCores     = If ( pDimMes @= '' & pDimAnoMes @= '' & pDimAno @<> '', pThreads, pCores );
+
+
+# Trata parâmetro Regras
+# =========================
+pSuppressRules		= If ( pRules @= 'Sim', 0, 1 );
+
+
+# =================================================================================
+# Início da fila para cópia de versão
+# =================================================================================
+queueDir = sDirFarol;
+#queueFile = queueDir | 'queue.log';
+
+
+# Apaga arquivos de fila caso existam
+# ===================================
+ExecuteCommand ( 'cmd /c del /S /Q ' | queueDir | '*' ,1); 
+
+   
+# =============================================
+# Define subset para fila caso a cópia for 
+# executada com paralelismo por Ano e Mês
+# =============================================
+IF ( pDimMes @<> '' & pDimAno @<> '' % pDimAnoMes @<> '' ) ;
+	  
+	  pSplitDimension = 'SYS.D.Copia_Versao_Ano_Mes';
+	  nIXIni = DimIX ( pSplitDimension, pPeriodoIni );
+	  nIXFim = DimIX ( pSplitDimension, pPeriodoFim );
+      subsetName = 'l0Subset'; 
+      IF ( SubsetExists ( pSplitDimension, subsetName ) = 1);
+           SubsetDestroy ( pSplitDimension, subsetName );
+      ENDIF;
+      SubsetCreate ( pSplitDimension, subsetName, 1 );
+
+      nCount = DimSiz( pSplitDimension );
+
+      WHILE(nCount <> 0);
+      ElementName = DimNm(pSplitDimension, nCount);
+                   IF(  DimIX ( pSplitDimension, ElementName) >= nIXIni  &  DimIX ( pSplitDimension, ElementName ) <= nIXFim );
+                        If ( ELLEV( pSplitDimension, ElementName ) = 0 );
+	                        SubsetElementInsert ( pSplitDimension, subsetName, ElementName, 1 );
+                        EndIf;
+                   ENDIF;
+      nCount = nCount - 1;
+      END;
+
+subsetIndexToQueue = 1;
+
+
+# =============================================
+# Define subset para fila caso a cópia for 
+# executada com paralelismo por Ano
+# =============================================
+ELSEIF ( pDimAno @<> '' ) ;
+	  
+	  pSplitDimension = 'SYS.D.Copia_Versao_Ano';
+	  nIXIni = DimIX ( pSplitDimension, SUBST( pPeriodoIni, 1, 4 ) );
+	  nIXFim = DimIX ( pSplitDimension, SUBST( pPeriodoFim, 1, 4 ) );
+      subsetName = 'l0Subset'; 
+      IF ( SubsetExists ( pSplitDimension, subsetName ) = 1);
+           SubsetDestroy ( pSplitDimension, subsetName );
+      ENDIF;
+      SubsetCreate ( pSplitDimension, subsetName, 1 );
+
+      nCount = DimSiz( pSplitDimension );
+
+      WHILE(nCount <> 0);
+      ElementName = DimNm(pSplitDimension, nCount);
+                   IF(  DimIX ( pSplitDimension, ElementName) >= nIXIni  &  DimIX ( pSplitDimension, ElementName ) <= nIXFim );
+                        If ( ELLEV( pSplitDimension, ElementName ) = 0 );
+	                        SubsetElementInsert ( pSplitDimension, subsetName, ElementName, 1 );
+                        EndIf;
+                   ENDIF;
+      nCount = nCount - 1;
+      END;
+
+subsetIndexToQueue = 1;
+
+
+# =============================================
+# Define subset para fila caso a cópia não for 
+# executada com paralelismo
+# =============================================
+ELSE;
+
+    pSplitDimension = pDimVersao;
+ 	ElementName	= CellGetS( cCubParamCopia , 'Valor' , 'Versão Origem' );
+    
+    subsetName 		= 'l0Subset'; 
+    IF ( SubsetExists ( pSplitDimension, subsetName ) = 1);
+       SubsetDestroy ( pSplitDimension, subsetName );
+    ENDIF;
+    SubsetCreate ( pSplitDimension, subsetName, 1 );
+
+    SubsetElementInsert ( pSplitDimension, subsetName, ElementName, 1);
+    subsetIndexToQueue = 1;
+    
+ENDIF;
+
+
+# =================================================================================
+# Inicia lógica de fila para controlar quantidade de threads
+# =================================================================================
+queueCount = 0;
+queue = '';
+queueSubStr = queue;
+
+
+WHILE ( subsetIndexToQueue <= SubsetGetSize( pSplitDimension, subsetName ) );
+   #Count number of elements in queue
+   queueSubStr = queue;
+   #ASCIIOUTPUT ( queueFile, 'Queue ' | queue );
+   queueCurrentSize = 0;
+  
+   delimPos = SCAN ( ',', queueSubStr );
+   IF ( SCAN ( ',', queue ) = 0 & queueSubStr @<> '' );
+      queueCurrentSize = 1;
+      #ASCIIOUTPUT ( queueFile, 'Found queued element: ' | queueSubStr );
+   ELSE;   
+      WHILE ( delimPos <> 0 );
+         #ASCIIOUTPUT ( queueFile, queueSubStr );
+         queuedElementName = SUBST ( queueSubStr, 1, delimPos -1 );
+         #ASCIIOUTPUT ( queueFile, 'Checking for file: ' | queueDir | queuedElementName | '.done' );
+         IF ( FileExists ( queueDir | queuedElementName | '.done' ) =1 );
+            #ASCIIOUTPUT ( queueFile, 'Found file ' | queuedElementName | '.done' );
+            elementIndexInQueue = SCAN ( queuedElementName, queue ); 
+            #ASCIIOUTPUT ( queueFile, 'Removing from queue ' | queuedElementName  );
+            queue =  DELET ( queue, elementIndexInQueue, LONG ( queuedElementName ) + 1 );     
+            queueSubStr = SUBST ( queueSubStr, delimPos + 1, LONG ( queueSubStr ) );   
+            #ASCIIOUTPUT ( queueFile, 'Queue ' | queue );
+         ELSE;             
+            queueCurrentSize = queueCurrentSize + 1;
+            queueSubStr = SUBST ( queueSubStr, delimPos + 1, LONG ( queueSubStr ) ); 
+         ENDIF;
+         delimPos = SCAN ( ',', queueSubStr );
+         IF ( delimPos = 0 );
+            #ASCIIOUTPUT ( queueFile, 'Checking for file: ' | queueDir | queueSubStr );
+            IF ( FileExists ( queueDir | queueSubStr ) =1 );
+                 #ASCIIOUTPUT ( queueFile, 'Found file ' | queueSubStr | '.done' );
+                 elementIndexInQueue = SCAN ( queueSubStr, queue ); 
+                 #ASCIIOUTPUT ( queueFile, 'Removing from queue ' | queueSubStr );
+                 queue =  DELET ( queue, elementIndexInQueue, LONG ( queueSubStr ) );     
+                 queueSubStr = SUBST ( queueSubStr, delimPos + 1, LONG ( queueSubStr ) );   
+                 #ASCIIOUTPUT ( queueFile, 'Queue ' | queue );
+            ELSE;             
+               queueCurrentSize = queueCurrentSize + 1;
+               queueSubStr = SUBST ( queueSubStr, delimPos + 1, LONG ( queueSubStr ) ); 
+            ENDIF;
+         ENDIF;
+       END;
+    ENDIF;
+    #ASCIIOUTPUT ( queueFile, NumberToString ( queueCurrentSize ) | ' items in queue'  );
+
+    # Adds more elements to the queue if the queue has less than the max number of members
+    IF ( queueCurrentSize < pCores );
+       elementToQueue = SubsetGetElementName ( pSplitDimension, subsetName, subsetIndexToQueue );
+       #ASCIIOUTPUT ( queueFile, 'Adding to queue ' | elementToQueue );
+       IF ( queueCurrentSize = 0 );
+           queue = elementToQueue;
+       ELSE;
+            queue = queue | ',' |  elementToQueue;
+       ENDIF;
+
+          # =============================================
+          # Define parâmetros e filtros e executa processo
+          # de cópia via RunProcess
+          # =============================================               
+          #Filtro com Dim Ano e Dim Mês
+          If ( pDimMes @<> '' & pDimAno @<> '' );
+          	sFilter = pDimAno | ':' | subst (elementToQueue, 1, 4) | '&' | pDimMes | ':' | subst (elementToQueue, 5, 2);
+          #Filtro Dim com Ano e Mês
+          ElseIf ( pDimAnoMes @<> '' );
+          	sFilter = pDimAnoMes | ':' | elementToQueue;
+          #Filtro com Ano
+          ElseIf ( pDimAno @<> '' );
+          	sFilter = pDimAno | ':' | elementToQueue;
+          #Filtro com Versão
+          Else;
+          	sFilter = '';
+          EndIf;
+          
+		  sProcessoCopia = 'zCTI.Version.Copy.002.Data.Copy';
+		  RunProcess ( sProcessoCopia
+                              , 'pLogOutput'			, 0
+                              , 'pCube'					, vCube
+                              , 'pSrcView'				, vCube | '_' | elementToQueue | '_' | 'Source'
+                              , 'pTgtView'				, vCube | '_' | elementToQueue | '_' | 'Target'
+                              , 'pFilter'				, sFilter
+                              , 'pEleMapping'			, pEleMapping
+                              , 'pMappingDelim'			, '->'
+                              , 'pDimDelim'				, '&'
+                              , 'pEleStartDelim'		, ':'
+                              , 'pEleDelim'				, '+'
+                              , 'pFactor'				, 1
+                              , 'pSuppressConsol'		, 1
+                              , 'pSuppressRules'		, pSuppressRules
+                              , 'pCumulate'				, 0
+                              , 'pZeroTarget'			, 1
+                              , 'pZeroSource'			, 0
+                              , 'pTemp'					, 1
+                              , 'pCubeLogging'			, 0
+                              , 'pSandbox'				, ''
+                              , 'pFile'					, 1
+                              , 'pThreadMode'			, 0
+                              , 'pSplitDimension'		, pSplitDimension
+                              , 'pElementName'			, elementToQueue );
+
+       subsetIndexToQueue = subsetIndexToQueue + 1;
+       
+    ENDIF;
+
+END;
+
+
+# =============================================
+# Controla a fila após execução dos processos
+# =============================================
+WHILE ( queue @<> '');
+#Count number of elements in queue
+   queueSubStr = queue;
+   #ASCIIOUTPUT ( queueFile, 'Queue ' | queue );
+   queueCurrentSize = 0;
+  
+   delimPos = SCAN ( ',', queueSubStr );
+   IF ( SCAN ( ',', queue ) = 0 & queueSubStr @<> '' );
+      queueCurrentSize = 1;
+       #ASCIIOUTPUT ( queueFile, 'Found queued element: ' | queueSubStr );
+        IF ( FileExists ( queueDir | queueSubStr | '.done' ) =1 );
+           #ASCIIOUTPUT ( queueFile, 'Found file ' | queueSubStr | '.done' );
+           queue = '';
+           queueSubStr = '';
+        ENDIF;
+   ELSE;   
+      WHILE ( delimPos <> 0 );
+         #ASCIIOUTPUT ( queueFile, queueSubStr );
+         queuedElementName = SUBST ( queueSubStr, 1, delimPos -1 );
+         #ASCIIOUTPUT ( queueFile, 'Found queued element: ' | queuedElementName );
+         IF ( FileExists ( queueDir | queuedElementName | '.done' ) =1 );
+            #ASCIIOUTPUT ( queueFile, 'Found file ' | queuedElementName | '.done' );
+            elementIndexInQueue = SCAN ( queuedElementName, queue ); 
+            #ASCIIOUTPUT ( queueFile, 'Removing from queue ' | queuedElementName  );
+            queue =  DELET ( queue, elementIndexInQueue, LONG ( queuedElementName ) + 1 );     
+            queueSubStr = SUBST ( queueSubStr, delimPos + 1, LONG ( queueSubStr ) );   
+            #ASCIIOUTPUT ( queueFile, 'Queue ' | queue );
+         ELSE;             
+            queueCurrentSize = queueCurrentSize + 1;
+            queueSubStr = SUBST ( queueSubStr, delimPos + 1, LONG ( queueSubStr ) ); 
+         ENDIF;
+         delimPos = SCAN ( ',', queueSubStr );
+         IF ( delimPos = 0 );
+            #ASCIIOUTPUT ( queueFile, 'Found queued element: ' | queueSubStr );
+            IF ( FileExists ( queueDir | queueSubStr ) =1 );
+                 #ASCIIOUTPUT ( queueFile, 'Found file ' | queueSubStr | '.done' );
+                 elementIndexInQueue = SCAN ( queueSubStr, queue ); 
+                 #ASCIIOUTPUT ( queueFile, 'Removing from queue ' | queueSubStr );
+                 queue =  DELET ( queue, elementIndexInQueue, LONG ( queueSubStr ) );     
+                 queueSubStr = SUBST ( queueSubStr, delimPos + 1, LONG ( queueSubStr ) );   
+                 #ASCIIOUTPUT ( queueFile, 'Queue ' | queue );
+            ELSE;             
+               queueCurrentSize = queueCurrentSize + 1;
+               queueSubStr = SUBST ( queueSubStr, delimPos + 1, LONG ( queueSubStr ) ); 
+            ENDIF;
+         ENDIF;
+       END;
+    ENDIF;
+    #ASCIIOUTPUT ( queueFile, NumberToString ( queueCurrentSize ) | ' items in queue'  );
+END;
+
+
+
+
+# =================================================================================
+# Exporta Arquivo de Log Fim
+# =================================================================================
+sFileStatus = sDirLog | vCube | '.Fim';
+TM1RunCmd = 'CMD.EXE /C "TYPE NUL >"' | sFileStatus | '" "';
+ExecuteCommand ( TM1RunCmd , 0 );
+
+
+
+# =================================================================================
+# Calcula tempo de carga
+# =================================================================================
+nElapsedSeconds = ROUND ((NOW - nInitialTime) / 0.000011574074074074);
+cTimeStampFim	= TimSt( Now, '\Y-\m-\d \hh\im\ss' );
+
+
+
+# ===================================================================================
+# STATUS
+# Registra em arquivo os registros
+# ===================================================================================
+sMensagemR =  ' Cópia do cubo concluída com sucesso';
+If( nItemReject = 0 );
+
+  # Escreve o cabeçalho do arquivo
+  # =================================================================================
+  If( nStatusHeader = 0);
+    AsciiOutput( sStatusFolderFile , 'Cubo' , 'Inicio Cópia' , 'Termino Cópia' , 'Tempo Decorrido' , 'Mensagem' ,  'Periodo' , 'Versao Origem' , 'Versao Destino' , 'Qtd Threads' , 'Cópia com Regras' , 'Tipo Cópia' , 'Usuário' );
+    nStatusHeader = 1;
+  EndIf;
+
+  # Escreve o registro no arquivo
+  # =================================================================================
+  AsciiOutput( sStatusFolderFile , vCube , cTimeStampInicio, cTimeStampFim , NumberToString (nElapsedSeconds) | 's' , sMensagemR , sPeriodo , pSourceElement , pTargetElement , NumberToString (pCores) , pRules , pTipoCopia , pUser );
+
+EndIf;
+
+
+# =================================================================================
+# Registra o log de "concluído" no Cubo de Controle 
+# =================================================================================
+s01 	=  cTimeStampFim ;
+s02 	=  'Cópia do cubo concluída com sucesso' ;
+s03		=  NumberToString ( nElapsedSeconds ) | 's' ;
+s04		=  NumberToString ( pCores ) ;
+
+CellPutS( s01 , cCubRegistro, vCube, cTimeStamp,  'DataHoraFim' );
+CellPutS( s02 , cCubRegistro, vCube, cTimeStamp,  'Mensagem' );
+CellPutS( s03 , cCubRegistro, vCube, cTimeStamp,  'Tempo Cópia' );
+CellPutS( s04 , cCubRegistro, vCube, cTimeStamp,  'Qtd Threads' );
+CellPutS( 'Concluído' , cCubRegistro, vCube, cTimeStamp,  'Status' );
+
+CellPutS( s01 , cCubRegistro, vCube, 'Cópia Atual',  'DataHoraFim' );
+CellPutS( s02 , cCubRegistro, vCube, 'Cópia Atual',  'Mensagem' );
+CellPutS( s03 , cCubRegistro, vCube, 'Cópia Atual',  'Tempo Cópia' );
+CellPutS( s04 , cCubRegistro, vCube, 'Cópia Atual',  'Qtd Threads' );
+CellPutS( 'Concluído' , cCubRegistro, vCube, 'Cópia Atual',  'Status' );
+
+CubeSaveData( cCubRegistro );
+
+
+
+# =================================================================================
+# Habilita o log do cubo
+# =================================================================================
+CellPutS( 'YES', ' }CubeProperties', vCube, 'LOGGING' );
+
+#endregion
+#region Epilog
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+
+# ===============================================================================================================
+#EPILOGCOMMENT        Descrição:  Executa SavedataAll e registra log de status da cópia
+# ===============================================================================================================
+
+
+# =================================================================================
+# Executa SaveDataAll
+# =================================================================================
+If( nErrors <> 1 );
+   LogOutput('INFO', 'TM1 SaveDataAll Iniciado' ); 
+   SaveDataAll;
+   LogOutput('INFO', 'TM1 SaveDataAll Concluído' ); 
+EndIf;
+
+
+# =================================================================================
+# Registra o Log de Erro ou Sucesso no Cubo de Controle 
+# =================================================================================
+nElapsedSeconds = ROUND ((NOW - nStartTime) / 0.000011574074074074);
+If( nErrors = 0 );
+   sMensagemP  = ' Cópia concluída com sucesso';
+EndIf;
+
+s01 = TimSt( Now, '\Y-\m-\d \hh\im\ss' ) ;
+s02 = sMensagemP ;
+s03 = pSourceElement;
+s04 = pTargetElement;
+s05 = sPeriodo;
+s06 = pRules;
+s07 = NumberToString (pThreads);
+s08 = pTipoCopia;
+s09 = NumberToString (nElapsedSeconds) |  's';
+
+
+CellPutS( 'Não iniciada' , cCubParamCopia, 'Valor', 'Status' );
+
+CellPutS( s01 , cCubRegistro, cCubRegistro, cTimeStamp,  'DataHoraFim' );
+CellPutS( s02 , cCubRegistro, cCubRegistro, cTimeStamp,  'Mensagem' );
+CellPutS( s03 , cCubRegistro, cCubRegistro, cTimeStamp,  'Versão Origem' );
+CellPutS( s04 , cCubRegistro, cCubRegistro, cTimeStamp,  'Versão Destino' );
+CellPutS( s05 , cCubRegistro, cCubRegistro, cTimeStamp,  'Período Cópia' );
+CellPutS( s06 , cCubRegistro, cCubRegistro, cTimeStamp,  'Cópia Com Regras' );
+CellPutS( s07 , cCubRegistro, cCubRegistro, cTimeStamp,  'Qtd Threads' );
+CellPutS( s08 , cCubRegistro, cCubRegistro, cTimeStamp,  'Tipo Cópia' );
+CellPutS( s09 , cCubRegistro, cCubRegistro, cTimeStamp,  'Tempo Cópia' );
+
+CellPutS( s01 , cCubRegistro, cCubRegistro, 'Cópia Atual',  'DataHoraFim' );
+CellPutS( s02 , cCubRegistro, cCubRegistro, 'Cópia Atual',  'Mensagem' );
+CellPutS( s03 , cCubRegistro, cCubRegistro, 'Cópia Atual',  'Versão Origem' );
+CellPutS( s04 , cCubRegistro, cCubRegistro, 'Cópia Atual',  'Versão Destino' );
+CellPutS( s05 , cCubRegistro, cCubRegistro, 'Cópia Atual',  'Período Cópia' );
+CellPutS( s06 , cCubRegistro, cCubRegistro, 'Cópia Atual',  'Cópia Com Regras' );
+CellPutS( s07 , cCubRegistro, cCubRegistro, 'Cópia Atual',  'Qtd Threads' );
+CellPutS( s08 , cCubRegistro, cCubRegistro, 'Cópia Atual',  'Tipo Cópia' );
+CellPutS( s09 , cCubRegistro, cCubRegistro, 'Cópia Atual',  'Tempo Cópia' );
+
+
+# Grava status de cópia parcial
+# ===================================
+If( nErrors = 2 );
+  CellPutS( 'Parcial' , cCubRegistro, cCubRegistro, cTimeStamp,  'Status' );
+  CellPutS( 'Parcial' , cCubRegistro, cCubRegistro, 'Cópia Atual',  'Status' );
+  ItemReject( sMensagemP );
+EndIf;
+
+
+# Grava status de cópia com falha
+# ===================================
+If( nErrors = 1 );
+  CellPutS( 'Falha' , cCubRegistro, cCubRegistro, cTimeStamp,  'Status' );
+  CellPutS( 'Falha' , cCubRegistro, cCubRegistro, 'Cópia Atual',  'Status' );
+EndIf;
+
+
+# Grava status de cópia com sucesso
+# ===================================
+If( nErrors <> 1 );
+   CellPutS( 'Sucesso' , cCubRegistro, cCubRegistro, cTimeStamp,  'Status' );
+   CellPutS( 'Sucesso' , cCubRegistro, cCubRegistro, 'Cópia Atual',  'Status' );
+EndIf;
+
+#endregion

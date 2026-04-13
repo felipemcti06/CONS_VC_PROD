@@ -1,0 +1,42 @@
+{
+	"@type":"Hierarchy",
+	"Name":"}QUBEdocs Stat Measure",
+	"Elements":
+	[
+		{
+			"Name":"Value",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Max",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Avg",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Min",
+			"Type":"Consolidated"
+		}
+	],
+	"Edges":
+	[
+		{
+			"ParentName":"Max",
+			"ComponentName":"Value",
+			"Weight":1
+		},
+		{
+			"ParentName":"Avg",
+			"ComponentName":"Value",
+			"Weight":1
+		},
+		{
+			"ParentName":"Min",
+			"ComponentName":"Value",
+			"Weight":1
+		}
+	],
+	"Subsets@Code.links":[]
+}

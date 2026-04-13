@@ -1,0 +1,530 @@
+#region Prolog
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+
+
+# ===============================================================================================================
+#GENERALCOMMENT             Descrição:          	Carrega dados CSV para o Cubo Mapa 
+#GENERALCOMMENT             Data Criação:    	01/2026
+#
+#LASTCHANGE                 Alterações:
+#LASTCHANGE                 Responsavel Alterações: Miranda / Helder
+# ===============================================================================================================
+
+# ===============================================================================================================
+#PROLOGCOMMENT               Descrição:            Define arquivo fonte 
+# ===============================================================================================================
+
+# =================================================================================
+# 									Glosário 
+# =================================================================================
+# Prefixos de Variáveis 
+#
+# v - Variáveis de entrada		- relacionado a origem de dados do turbo
+# p - Parâmetros de entrada		- relacionado ao input realizado pelo usuário no momento de disparo do processo
+# c - Constantes			- variáveis que receberão um valor fixo (Não serão alteradas durante o processo)
+# n - Numerica
+# s - String (Texto)
+#
+# Variáveis que deverão ser alteradas
+# cCuboDestino			- Armazena o nome do cubo de destino
+#
+#
+# Variáveis configuradas no cubo de controle 
+# cCaminhoArquivoFonte 		- Busca o caminho de origem do processo no cubo de controle
+# cCaminhoArquivoRejeitado 		- Busca o caminho de rejeitado do processo no cubo de controle
+# cPrefixoArquivoFonte 		- Busca o prefixo do arquivo de origem do processo no cubo de controle
+# cUtilizarDebug		 	- Busca no cubo de controle se ao executar o processo, será utilizado o modo Debug (Grava em arquivo texto o que seria gravado no cubo)
+# cGravarLogAlteracao		- Busca no cubo de controle se ao executar o processo, serão gravados as alterações no cubo de destino
+#
+#
+# Variáveis que não precisam ser alteradas
+# cCuboParametro 			- Armazena o nome do cubo de parâmetro utilizado
+# cCuboPropriedade		- Armazena o nome do cubo de sistema onde estão as principais propriedades dos cubos
+# cExisteCabecalhoRejeitado		- Variável que irá controlar o cabeçalho do arquivo de rejeitado sejá criado uma única vez
+# cExisteRegistroRejeitado 		- Variável que irá controlar se o registro possuí algum erro de integridade ou validação dos dados
+# cHorarioInicio			- Armazena o horário de inicio do processo
+# cMensagemRegistro		- Armazena a mensagem de erro/log do registro
+# cMensagemProcesso		- Armazena a mensagem de erro do processo
+# cProcesso			- Armazena o nome do processo
+# cQtdRegistroRejeitado		- Contador de registros rejeitados
+# cTipoErro			- Controla o tipo de erro (Erro 1 - Prologo / Erro 2 - Dados)
+# cUsuario			- Armazena o nome do usuário ou chore que executou o processo
+
+# =================================================================================
+# Variáveis do padrão CTI que devem ser alteradas
+# =================================================================================
+
+
+# Informações do cubo de Destino
+# ========================================
+cCuboDestino		= 'MAP.020.Conta_Contabil';
+
+cCuboReject                                      = 'SYS.250.Rejeitados';
+
+# =================================================================================
+# Variáveis do padrão CTI não devem ser alteradas
+# =================================================================================
+
+# Recupera o usuário que executou o processo
+# ========================================
+cUsuario = IF( DimIx( '}Clients' , TM1User() ) = 0, 'Executed by Chore' , ATTRS('}Clients', TM1User(), '}TM1_DefaultDisplayValue') );
+  
+
+  
+# Variáveis de controle do processo
+# ========================================
+cCuboParametro			= 'SYS.150.Controle_Cargas';
+cCuboPropriedade			= '}CubeProperties';
+cHorarioInicio			= Now();
+cProcesso			= GetProcessName();
+cMensagemRegistro	 	= '';
+cMensagemProcesso 		= '';
+cExisteRegistroRejeitado 		= 0;
+cExisteCabecalhoRejeitado 		= 0;
+cQtdRegistroRejeitado		= 0;
+cTipoErro				= 0;
+cContadorRegistro 			= 0;
+cQtdRegistroRejeitadoCubo                    = 0;
+
+
+# Variáveis do cubo de controle
+# ========================================
+cCaminhoArquivoFonte 		= CellGetS( cCuboParametro , cProcesso , 'Caminho do Arquivo Fonte' );
+cCaminhoArquivoRejeitado  		= CellGetS( cCuboParametro , cProcesso , 'Caminho do Arquivo de Rejeitado' );
+cPrefixoArquivoFonte 		= CellGetS( cCuboParametro , cProcesso , 'Prefixo do Arquivo' );
+cUtilizarDebug		 	= CellGetS( cCuboParametro , cProcesso , 'Debug (S/N)' );
+cGravarLogAlteracao		= CellGetS( cCuboParametro , cProcesso , 'Gerar Log de Alteração (S/N)' );
+
+
+
+# Tratamento para os campos vindos do cubo de controle que recebem (S/N)
+# ========================================
+cUtilizarDebug		 	= IF( cUtilizarDebug @= 'S' , 'S' , 'N' );
+cGravarLogAlteracao		= IF( cGravarLogAlteracao @= 'S' , 'S' , 'N' );
+
+
+
+
+# =================================================================================
+# Define variáveis locais de arquivo
+# =================================================================================
+cDelimitadorArquivo 		= ';';
+cSeparadorMilhar			= '.';
+cSeparadorDecimal			= ',';
+
+DataSourceASCIIDelimiter 		= cDelimitadorArquivo;
+DataSourceASCIIThousandSeparator 	= cSeparadorMilhar;
+DataSourceASCIIDecimalSeparator 	= cSeparadorDecimal;
+DataSourceQuoteCharacter 		= '';
+
+
+# =================================================================================
+# Define o Log inicial da carga como falha
+# Registra esse log logo no inicio para garantir que tenha algum log de falha registrado
+# Caso o processo não consiga chegar no próximo registro de log por alguma falha inesperada
+# =================================================================================
+cMensagemProcesso	= 'Processo com falha, contate o administrador para verificar os logs de erro do sistema' ;
+s01			= TimSt( cHorarioInicio , '\Y-\m-\d \hh\im\ss' );
+s02 			= cUsuario ;
+s03 			= cMensagemProcesso ;
+s04 			= '0' ;
+s05 			= TimSt( cHorarioInicio - Now, '\Y-\m-\d \hh\im\ss' );
+
+CellPutS( s01 , cCuboParametro, cProcesso, 'DataHora Inicio' );
+CellPutS( s01 , cCuboParametro, cProcesso, 'DataHora Fim' );
+CellPutS( s02 , cCuboParametro, cProcesso, 'Usuário' );
+CellPutS( s03 , cCuboParametro, cProcesso, 'Mensagem de Log' );
+CellPutS( s04 , cCuboParametro, cProcesso, 'Registros Processados' );
+CellPutS( s05 , cCuboParametro, cProcesso, 'Tempo de Execução' );
+
+
+
+
+# =================================================================================
+# Bloco para verificação se o pFileName foi configurado corretamenta
+# =================================================================================
+
+# Define o nome dos arquivos
+# ======================================================
+cNomeArquivoFonte	=  pFileName ;
+
+# =================================================================================
+# Valida se o pFileName recebeu o arquivo via parametro
+# Author: Flavio Santana
+# Date: 03/2025
+# =================================================================================
+IF ( cNomeArquivoFonte @= '' );
+
+    # Cria as mensagens de rejeitado e orientação ao usuário.
+    cMensagemProcesso 			= 'Processo concluido com registros rejeitados, verificar a aba "Rejeitados"';    
+    cMensagemProcessoReject 	= 'Arquivo inexistente. Verificar se o parâmetro está configurado como "Arquivo" no Tipo de Controle das configurações do botão de ação.' ;
+
+    # Alimenta o cubo de Rejeitado
+    #CellPutS('Mensagem'					, cCuboRejeitado, cProcesso, cUsuario, 'L1', 'Mensagem');
+    #CellPutS( cMensagemProcessoReject 	, cCuboRejeitado, cProcesso, cUsuario, 'L2', 'Mensagem');
+   CellPutS('Mensagem', cCuboReject,cUsuario,cProcesso,'0000001','Coluna 01') ;
+   CellPutS(cMensagemProcessoReject, cCuboReject,cUsuario,cProcesso,'0000001','Mensagem') ;
+    # Alimenta a variavel "cTipoErro" usado no epilogo e aborta o processo.
+    cTipoErro = 2;
+    ProcessBreak;
+
+Endif;
+
+# =================================================================================
+# Valida se a extensão do arquivo esta no formato ".csv" e ".txt"
+# Author: Flavio Santana
+# Date: 10/2024
+# =================================================================================
+
+# Verifica os últimos quatro caracteres.
+cExtensaoArquivo = SUBST(cNomeArquivoFonte, LONG(cNomeArquivoFonte) - 3, 4);
+
+# Verifica se a extensão é diferente de ".csv" e ".txt".
+IF ( cExtensaoArquivo @<> '.csv' & cExtensaoArquivo @<> '.txt');
+
+    # Cria as mensagens de rejeitado e orientação ao usuário.
+    cMensagemProcesso 			= 'Processo concluido com registros rejeitados, verificar a aba "Rejeitados"';    
+    cMensagemProcessoReject 	= 'O Arquivo não esta no formato correto. Corrigir para extensão ".csv" ou ".txt".' ;
+
+    # Alimenta o cubo de Rejeitado
+    #CellPutS('Mensagem'					, cCuboRejeitado, cProcesso, cUsuario, 'L1', 'Mensagem');
+    #CellPutS( cMensagemProcessoReject 	, cCuboRejeitado, cProcesso, cUsuario, 'L2', 'Mensagem');
+       CellPutS('Mensagem', cCuboReject,cUsuario,cProcesso,'0000001','Coluna 01') ;
+       CellPutS(cMensagemProcessoReject, cCuboReject,cUsuario,cProcesso,'0000001','Mensagem') ;
+
+    # Alimenta a variavel "cTipoErro" usado no epilogo e aborta o processo.
+    cMensagemProcesso =  'O Arquivo não esta no formato correto. Corrigir para extensão ".csv" ou ".txt".' ;
+    cTipoErro = 2;
+    ProcessBreak;
+
+Endif;
+
+# Insere o caractere "\" no final do caminho caso ainda não tenha
+# ======================================================
+cCaminhoArquivoFonte 	= IF( SUBST( cCaminhoArquivoFonte , LONG( cCaminhoArquivoFonte ) , 1 ) @<> '\' , cCaminhoArquivoFonte | '\' , cCaminhoArquivoFonte ); 
+
+# Monta o caminho completo 
+# ======================================================
+cNomeArquivoFonteCompleto 	= cCaminhoArquivoFonte | cNomeArquivoFonte;
+
+
+# =================================================================================
+#
+# Definição da Origem de Dados
+#
+# =================================================================================
+
+# Define o arquivo fonte como a nova fonte de dados deste processo
+# ======================================================
+DatasourceNameForServer		= cNomeArquivoFonteCompleto ;
+DatasourceNameForClient		= cNomeArquivoFonteCompleto ;
+
+
+# =================================================================================
+#
+# Definição View de Limpeza do Cudo de Rejeitados
+#
+# =================================================================================
+
+cSuprimirConsolidado			= 'S';
+cSuprimirZero					= 'S'; 
+cSuprimirCamposCalculados		= 'S';
+cViewTemporariaRejeitado	 	= 'S';
+nViewTemporariaRejeitado		= If( cViewTemporariaRejeitado @= 'S', 1, 0);
+
+# Define nome da view e subset de limpeza
+# ======================================================
+cViewDestinoRejeitado	= 'processo.' | cProcesso | '.' | 'Limpeza' | '.' | TimSt( cHorarioInicio, '\Y-\m-\d \hh\im\ss' );
+cSubsetDestinoRejeitado	= cViewDestinoRejeitado;
+
+
+
+# Cria a view que será utilizada para a limpeza
+# ======================================================
+ViewCreate( cCuboReject , cViewDestinoRejeitado , nViewTemporariaRejeitado );
+
+# Cria os subsets que serão utilizados para filtrar a view de limpeza
+# ======================================================
+
+cDimensaoRejeitado	= '}Processes';
+cElemento	= cProcesso;
+If( cDimensaoRejeitado @<> '');
+  SubsetCreate( cDimensaoRejeitado, cSubsetDestinoRejeitado , nViewTemporariaRejeitado );  
+  ViewSubsetAssign( cCuboReject , cViewDestinoRejeitado, cDimensaoRejeitado , cSubsetDestinoRejeitado );  
+  SubsetElementInsert( cDimensaoRejeitado, cSubsetDestinoRejeitado, cElemento	, 1 );
+EndIf;
+
+cDimensaoRejeitado	= '}Clients';
+cElemento	= cUsuario;
+If( cDimensaoRejeitado @<> '');
+  SubsetCreate( cDimensaoRejeitado, cSubsetDestinoRejeitado , nViewTemporariaRejeitado );  
+  ViewSubsetAssign( cCuboReject , cViewDestinoRejeitado, cDimensaoRejeitado , cSubsetDestinoRejeitado );  
+  SubsetElementInsert( cDimensaoRejeitado, cSubsetDestinoRejeitado, cElemento	, 1 );
+EndIf;
+
+# Configuração da View
+# ======================================================
+ViewExtractSkipCalcsSet( cCuboReject, cViewDestinoRejeitado, If( cSuprimirConsolidado @= 'S', 1, 0) );
+ViewExtractSkipZeroesSet( cCuboReject, cViewDestinoRejeitado, If( cSuprimirZero @= 'S', 1, 0)  );
+ViewExtractSkipRuleValuesSet( cCuboReject, cViewDestinoRejeitado, If( cSuprimirCamposCalculados @= 'S', 1, 0) );
+
+# Apaga os valores da View criada
+# ======================================================
+ViewZeroOut( cCuboReject , cViewDestinoRejeitado );
+
+#endregion
+#region Metadata
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+
+
+# ===============================================================================================================
+#METADATACOMMENT        Descrição:  Adiciona elementos na dimensão principal do cubo mapa
+# ===============================================================================================================
+
+
+# =================================================================================
+# Atualiza dimensão do Mapa
+# =================================================================================
+sElm = vElement;
+sDim = 'MAP.D.020.Conta_Contabil';
+
+If( sElm @<> '' & DimIx( sDim, sElm ) = 0 );
+    DimensionElementInsert( sDim, '', sElm,  'n' );
+EndIf;
+#endregion
+#region Data
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+
+
+# ===============================================================================================================
+#DATACOMMENT        Descrição:  Grava dados no cubo
+# ===============================================================================================================
+
+# ===================================================================================
+# Gera contador para o arquivo de debug ou registros rejeitados o e quantid. total de registros processados
+# ===================================================================================
+cContadorRegistro = cContadorRegistro + 1;
+sContadorRegistro = NumberToString( cContadorRegistro );
+
+
+# ===================================================================================
+# Retira os espaços em branco
+# ===================================================================================
+vElement		= Trim( vElement );
+vDesc_Element	= Trim( vDesc_Element );
+vCod_N1		= Trim( vCod_N1 );
+vDesc_N1	= Trim( vDesc_N1 );
+vCod_N2		= Trim( vCod_N2 );
+vDesc_N2	= Trim( vDesc_N2 );
+
+
+
+# ===================================================================================
+# Pula o Registro se todas as colunas estiverem vazias
+# ===================================================================================
+IF( '' @= vElement	 
+  & '' @= vDesc_Element 
+  & '' @= vCod_N1 
+  & '' @= vDesc_N1
+  & '' @= vCod_N2 
+  & '' @= vDesc_N2
+  );
+  ItemSkip;
+EndIf;
+
+
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso a variável for obrigatória e estiver em branco
+# ===================================================================================
+sElm	= vElement;
+sCol	= 'Código Conta';
+
+If( cExisteRegistroRejeitado = 0 );
+   If( sElm @= '' );
+      cMensagemRegistro = 'A coluna    [ ' | sCol | ' ]    está em branco e é obrigatório ter algum valor';
+      cExisteRegistroRejeitado = 1;
+   EndIf;
+EndIf;
+
+
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso a variável for obrigatória e estiver em branco
+# ===================================================================================
+sElm	= vDesc_Element ;
+sCol	= 'Decrição Conta';
+
+If( cExisteRegistroRejeitado = 0 );
+   If( sElm @= '' );
+      cMensagemRegistro = 'A coluna    [ ' | sCol | ' ]    está em branco e é obrigatório ter algum valor';
+      cExisteRegistroRejeitado = 1;
+   EndIf;
+EndIf;
+
+
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Verifica se o registro está duplicado no arquivo
+# ===================================================================================
+If( cExisteRegistroRejeitado = 0 );
+  sDuplic = CellGetS( cCuboDestino, vElement, 'Data Atualização' );
+   If ( sDuplic @<> '' );
+      cExisteRegistroRejeitado = 1;
+      cMensagemRegistro = 'Registro duplicado no arquivo fonte.';
+   EndIf;
+EndIf;
+
+
+
+
+# ===================================================================================
+# DEBUG ou REJEIÇÃO
+# Registra em arquivo os registros
+# ===================================================================================
+If( cExisteRegistroRejeitado = 1  %  cUtilizarDebug @= 'S' );
+ 
+   #--------------------------------------------------------------------------------------------
+   # Escreve o cabeçalho do arquivo de registros rejeitados
+   #--------------------------------------------------------------------------------------------
+   If( cExisteCabecalhoRejeitado  = 0 );
+      
+      sT01 = '';      
+      sT02 = '';       
+      sT03 = '';  
+      sT04 = '';
+      sT05 = '';
+
+
+
+
+
+      
+      sTMsg = 'Descrição do erro';
+      CellPutS(sTMsg,cCuboReject,cUsuario,cProcesso,'Título','Mensagem') ;
+      CellPutS(sT01,cCuboReject,cUsuario,cProcesso,'Título','Coluna 01') ;
+      CellPutS(sT02,cCuboReject,cUsuario,cProcesso,'Título','Coluna 02') ;
+      CellPutS(sT03,cCuboReject, cUsuario,cProcesso, 'Título','Coluna 03') ;
+      CellPutS(sT04,cCuboReject, cUsuario,cProcesso, 'Título','Coluna 04') ; 
+      CellPutS(sT05,cCuboReject,cUsuario,cProcesso,'Título','Coluna 05') ;
+
+ 
+
+    cExisteCabecalhoRejeitado = 1;
+    
+  EndIf;
+
+
+    #----------------------------------------------------------------------------------------------
+   # Escreve o registro no arquivo de rejeitados e pula o registro
+   #---------------------------------------------------------------------------------------------- 
+sReg01 = '' ; 
+sReg02 = '';
+sReg03 =  '';
+sReg04 =  '';
+sReg05 =  '';
+
+
+#    #----------------------------------------------------------------------------------------------
+#    # Escreve o registro no arquivo de rejeitados e pula o registro
+#    #----------------------------------------------------------------------------------------------
+   cQtdRegistroRejeitadoCubo = cQtdRegistroRejeitadoCubo + 1;
+   vLinha = FILL( '0', 7 - LONG( Trim( NumberToString(cQtdRegistroRejeitadoCubo ) ) ) ) | Trim( NumberToString(cQtdRegistroRejeitadoCubo ) );
+   
+   # =================================================================================
+   # Atualiza dimensão do Item Rejeitado
+   # =================================================================================
+   sElm = vLinha;
+   sDim = 'SYS.D.LINHAS' ;
+   If( sElm @<> '' & DimIx( sDim, sElm ) = 0 );
+      DimensionElementInsertDirect( sDim, '', sElm, 'N' );
+   EndIf;
+   
+   CellPutS(sReg01, cCuboReject,cUsuario,cProcesso,vLinha,'Coluna 01') ;
+   CellPutS(sReg02, cCuboReject, cUsuario,cProcesso,vLinha,'Coluna 02') ;
+   CellPutS(sReg03, cCuboReject, cUsuario,cProcesso,vLinha,'Coluna 03') ;
+   CellPutS(sReg04, cCuboReject, cUsuario,cProcesso,vLinha,'Coluna 04') ;  
+   CellPutS(sReg05, cCuboReject, cUsuario,cProcesso,vLinha,'Coluna 05') ;
+
+   
+
+   CellPutS( cMensagemRegistro, cCuboReject, cUsuario,cProcesso, vLinha,'Mensagem') ;
+   
+   # ============================
+   # Limpa as variaveis e pula o registro
+   # ============================
+   IF( cExisteRegistroRejeitado = 1 );
+      cExisteRegistroRejeitado = 0;
+      cMensagemRegistro = '';
+      cMensagemProcesso = ' Processo concluido com registros rejeitados. Verifique a aba Log Rejeitados' ;
+      cTipoErro = 2;
+      ItemSkip;
+   EndIf;
+  
+EndIf; 
+
+
+
+# ===================================================================================
+# Grava os dados no cubo
+# ===================================================================================
+s01 = vDesc_Element;
+s02 = vCod_N1;
+s03 = vDesc_N1;
+s04 = vCod_N2;
+s05 = vDesc_N2;
+
+CellPutS ( s01, cCuboDestino, vElement, 'Descrição' );
+CellPutS ( s02, cCuboDestino, vElement, 'Cód Nível 1' );
+CellPutS ( s03, cCuboDestino, vElement, 'Desc Nível 1' );
+CellPutS ( s04, cCuboDestino, vElement, 'Cód Nível 2' );
+CellPutS ( s05, cCuboDestino, vElement, 'Desc Nível 2' );
+
+CellPutS ( TimSt( cHorarioInicio , '\Y-\m-\d \hh\im\ss' ), cCuboDestino, vElement, 'Data Atualização' );
+#endregion
+#region Epilog
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+
+
+# ===============================================================================================================
+#EPILOGCOMMENT        Descrição:  Habilita log do cubo de destino, realiza CubeSaveData e registra log de status do processo.
+# ===============================================================================================================
+
+
+
+# =================================================================================
+# Registra o Log de Erro ou Sucesso no Cubo de Controle
+# =================================================================================
+If( cTipoErro = 0 );
+   cMensagemProcesso  = ' Processo concluído com sucesso';
+EndIf;
+
+
+s01	= TimSt( cHorarioInicio , '\Y-\m-\d \hh\im\ss' );
+s02 	= cUsuario ;
+s03 	= cMensagemProcesso ;
+s04 	= sContadorRegistro  ;
+s05 	= TimSt( Now - cHorarioInicio, ' \h:\i:\s') ;
+
+CellPutS( s01 , cCuboParametro, cProcesso, 'DataHora Fim' );
+CellPutS( s02 , cCuboParametro, cProcesso, 'Usuário' );
+CellPutS( s03 , cCuboParametro, cProcesso, 'Mensagem de Log' );
+CellPutS( s04 , cCuboParametro, cProcesso, 'Registros Processados' );
+CellPutS( s05 , cCuboParametro, cProcesso, 'Tempo de Execução' );
+
+
+If( cTipoErro = 2 );
+  ItemReject( cMensagemProcesso );
+EndIf;
+#endregion

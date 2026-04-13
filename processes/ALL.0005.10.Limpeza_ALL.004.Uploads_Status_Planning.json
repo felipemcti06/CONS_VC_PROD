@@ -1,0 +1,20 @@
+{
+	"@type":"Process",
+	"Name":"ALL.0005.10.Limpeza_ALL.004.Uploads_Status_Planning",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"ALL.0005.10.Limpeza_ALL.004.Uploads_Status_Planning.ti",
+	"DataSource":
+	{
+		"Type":"None"
+	},
+	"Parameters":
+	[
+		{
+			"Name":"pVersao",
+			"Prompt":"",
+			"Value":"",
+			"Type":"String"
+		}
+	],
+	"Variables":[]
+}

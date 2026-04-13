@@ -1,0 +1,24 @@
+{
+	"@type":"Process",
+	"Name":"zCTI.Template.Carga.Cubo.Mapa.Para.Dimensao.Balanceada",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"zCTI.Template.Carga.Cubo.Mapa.Para.Dimensao.Balanceada.ti",
+	"DataSource":
+	{
+		"Type":"TM1DimensionSubset",
+		"dataSourceNameForServer":"MAP.D.010.Centro_Custo",
+		"dataSourceNameForClient":"MAP.D.010.Centro_Custo",
+		"subset":"All"
+	},
+	"Parameters":[],
+	"Variables":
+	[
+		{
+			"Name":"vElement",
+			"Type":"String",
+			"Position":1,
+			"StartByte":0,
+			"EndByte":0
+		}
+	]
+}

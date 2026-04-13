@@ -1,0 +1,124 @@
+#region Prolog
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+
+# ===============================================================================================================
+# Copyright ctiglobal.com Ver 1.0  03/2017
+# ===============================================================================================================
+# Esse processo consolida elementos orfãos em um ou dois elementos consolidadores
+# ===============================================================================================================
+
+
+
+# =================================================================================
+# Variáveis
+# =================================================================================
+nErrors 	    = 0;
+
+
+# Retira os espaços em branco
+# =========================
+pDim	     	= Trim ( pDim );
+pTotalizador  	= Trim ( pTotalizador );
+pTotalizadorFilho  	= Trim ( pTotalizadorFilho );
+
+
+
+
+# Valida se dimensão existe
+# =========================
+sDim = '}Dimensions';
+sElm = pDim;
+
+If( Trim( sElm ) @= '' );
+   nErrors = 1;
+   sMensagemP = 'O parâmetro    [ ' | sDim | ' ]    não foi Informado' ;
+   ItemReject( sMensagemP );
+ElseIf( DimIx( sDim , sElm ) = 0 );
+   nErrors = 1;
+   sMensagemP = 'O elemento    [ ' | sElm | ' ]    não existe na dimensão    [ ' | sDim | ' ]';
+   ItemReject( sMensagemP );
+EndIf;
+
+
+
+# Valida se pTotalizador foi informado
+# =========================
+sElm = pTotalizador;
+
+If( Trim( sElm ) @= '' );
+   nErrors = 1;
+   sMensagemP = 'O parâmetro    [ ' | 'pTotalizador' | ' ]    não foi Informado' ;
+   ItemReject( sMensagemP );
+EndIf;
+
+
+
+# =================================================================================
+# Adiciona elementos fora da hierarquia para pTotalizador sem pFilho
+# =================================================================================
+
+IF ( pTotalizadorFilho @= '' );
+
+	#** Busca a Qtde de Elementos na dimensão
+	vElemento = DimSiz(pDim);
+	vCount = vElemento;
+
+	WHILE(vCount <> 0);
+	vElementoN = DimNm(pDim, vCount);
+	      IF( DTYPE(pDim, vElementoN ) @= 'N'  & ELPARN (pDim, vElementoN) = 0 );
+	         DimensionElementInsert ( pDim, '', pTotalizador, 'C' );
+	         DimensionElementComponentAdd ( pDim, pTotalizador, vElementoN, 1 );
+	      ENDIF;
+	vCount = vCount - 1;
+
+	END;
+
+ELSE;
+
+
+# =================================================================================
+# Adiciona elementos fora da hierarquia para pTotalizador com pFilho
+# =================================================================================
+
+	#** Busca a Qtde de Elementos na dimensão
+	vElemento = DimSiz(pDim);
+	vCount = vElemento;
+
+	WHILE(vCount <> 0);
+	vElementoN = DimNm(pDim, vCount);
+	      IF( DTYPE(pDim, vElementoN ) @= 'N'  & ELPARN (pDim, vElementoN) = 0 );
+	         DimensionElementInsert ( pDim, '', pTotalizador, 'C' );
+	         DimensionElementComponentAdd ( pDim, pTotalizador, pTotalizadorFilho, 1 );
+	         DimensionElementComponentAdd ( pDim, pTotalizadorFilho, vElementoN, 1 );
+	      ENDIF;
+	vCount = vCount - 1;
+
+	END;
+
+ENDIF;
+#endregion
+#region Metadata
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+#endregion
+#region Data
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+#endregion
+#region Epilog
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+
+
+# =================================================================================
+# Termina processo com erro caso nao encontre a dimensão
+# =================================================================================
+If( nErrors = 1 );
+   ProcessError;
+EndIf;
+#endregion

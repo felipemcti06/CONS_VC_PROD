@@ -1,0 +1,32 @@
+{
+	"@type":"Process",
+	"Name":"zCTI.Dim.Hierarchy.Consolidate.Orphans",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"zCTI.Dim.Hierarchy.Consolidate.Orphans.ti",
+	"DataSource":
+	{
+		"Type":"None"
+	},
+	"Parameters":
+	[
+		{
+			"Name":"pDim",
+			"Prompt":"Dimensão:",
+			"Value":"",
+			"Type":"String"
+		},
+		{
+			"Name":"pTotalizador",
+			"Prompt":"Elemento Totalizador:",
+			"Value":"",
+			"Type":"String"
+		},
+		{
+			"Name":"pTotalizadorFilho",
+			"Prompt":"Elemento Totalizador Filho:",
+			"Value":"",
+			"Type":"String"
+		}
+	],
+	"Variables":[]
+}

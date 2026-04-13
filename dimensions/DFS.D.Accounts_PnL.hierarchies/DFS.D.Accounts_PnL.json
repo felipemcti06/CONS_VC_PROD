@@ -1,0 +1,159 @@
+{
+	"@type":"Hierarchy",
+	"Name":"DFS.D.Accounts_PnL",
+	"Elements":
+	[
+		{
+			"Name":"Gross Revenue",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Tax on Sales",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Net Revenue",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Variable Selling Expenses",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Variable Costs",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Contribution Margin",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Contribution Margin (%)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Fixed Costs",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Depreciation",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Operational Expenses",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Op. Results",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"EBITDA",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"EBITDA/Net Revenue (%)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Operating Profit",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Financial Results",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Interest Accrual",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Financial Expenses",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Financial Revenues",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FX Variation",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Others",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Equity Pickup",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Non Op. Results",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Profit Before Income Tax",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Income Tax",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"% Income Tax",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Net Profit Before Minority Int.",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Minority Interests",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Net Profit",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"EBITDA Econômico",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"EBITDA FX",
+			"Type":"Numeric"
+		}
+	],
+	"Edges":
+	[
+		{
+			"ParentName":"Financial Results",
+			"ComponentName":"Interest Accrual",
+			"Weight":1
+		},
+		{
+			"ParentName":"Financial Results",
+			"ComponentName":"Financial Expenses",
+			"Weight":1
+		},
+		{
+			"ParentName":"Financial Results",
+			"ComponentName":"Financial Revenues",
+			"Weight":1
+		},
+		{
+			"ParentName":"Financial Results",
+			"ComponentName":"FX Variation",
+			"Weight":1
+		},
+		{
+			"ParentName":"Financial Results",
+			"ComponentName":"Others",
+			"Weight":1
+		}
+	],
+	"Subsets@Code.links":
+	[
+		"DFS.D.Accounts_PnL.subsets/Default.json"
+	]
+}

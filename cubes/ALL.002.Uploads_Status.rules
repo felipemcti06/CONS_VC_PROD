@@ -1,0 +1,76 @@
+#SKIPCHECK;
+
+# ['ALL.M.002.Uploads_Status':'ALL.M.002.Uploads​_Status':'Status']=S:
+#   IF(DB( 'ALL.002.Uploads_Status', !ALL.D.Version, !ALL.D.Region, 'Submission Flag' )  @<> ''
+# ,'Closed'
+# ,CONTINUE
+# );
+
+
+['ALL.M.002.Uploads_Status':'ALL.M.002.Uploads_Status':'Date_Hour_System']=S:
+  IF(DB( 'ALL.002.Uploads_Status', !ALL.D.Version, !ALL.D.Region, 'Day Closed' )  @<> ''
+  & 
+  DB( 'ALL.002.Uploads_Status', !ALL.D.Version, !ALL.D.Region, 'Month Closed' )@<> ''
+  
+  ,TimSt( Now , '\Y-\m-\d \h:\i' )
+  
+  ,'' );
+
+
+ 
+
+['ALL.M.002.Uploads_Status':'ALL.M.002.Uploads_Status':'Aux_Date_Closed']=S:
+
+  IF(DB( 'ALL.002.Uploads_Status', !ALL.D.Version, !ALL.D.Region, 'Date Closed' )  @<> ''
+
+  
+          ,TimSt( Now , '\Y')
+          | Subst( DB( 'ALL.002.Uploads_Status', !ALL.D.Version, !ALL.D.Region, 'Date Closed' ), 4,2)
+          | Subst( DB( 'ALL.002.Uploads_Status', !ALL.D.Version, !ALL.D.Region, 'Date Closed' ), 1,2)
+          | Subst( DB( 'ALL.002.Uploads_Status', !ALL.D.Version, !ALL.D.Region, 'Date Closed' ), 7,2)
+  ,'');
+
+['ALL.M.002.Uploads_Status':'ALL.M.002.Uploads_Status':'Date_Closed_Closed']=S:
+  IF(DB( 'ALL.002.Uploads_Status', !ALL.D.Version, !ALL.D.Region, 'Date Closed' )  @<> ''
+
+  
+         ,  Subst(  DB( 'ALL.002.Uploads_Status', !ALL.D.Version, !ALL.D.Region, 'Aux_Date_Closed' ) ,1,4)
+         |'-'|Subst(  DB( 'ALL.002.Uploads_Status', !ALL.D.Version, !ALL.D.Region, 'Aux_Date_Closed' ),5,2)
+         |'-'|Subst(  DB( 'ALL.002.Uploads_Status', !ALL.D.Version, !ALL.D.Region, 'Aux_Date_Closed' ),7,2)
+         |' '|Subst(  DB( 'ALL.002.Uploads_Status', !ALL.D.Version, !ALL.D.Region, 'Aux_Date_Closed' ),9,2)|':00'
+  
+    ,'');
+
+ 
+['ALL.M.002.Uploads_Status':'ALL.M.002.Uploads_Status':'Aux_Date_System']=S:
+  IF(DB( 'ALL.002.Uploads_Status', !ALL.D.Version, !ALL.D.Region, 'Date Closed' )  @<> ''
+  
+      #  , TimSt( Now , '\Y' )|TimSt( Now , '\m' )|TimSt( Now , '\d' )| TimSt( Now , '\h' )
+          , TimSt( Now , '\Y' )|TimSt( Now , '\m' )|TimSt( Now , '\d' )|  TRIM ( STR(  NUMBR(  TimSt( Now , '\h' ) )+5 ,4,0 ) )
+  ,'');
+
+
+['ALL.M.002.Uploads_Status':'ALL.M.002.Uploads_Status':'Status']=S:
+          IF (  DB( 'ALL.002.Uploads_Status', !ALL.D.Version, ELPAR( 'ALL.D.Region', !ALL.D.Region, 1 ), 'Status' ) @<>''
+                  & DB( 'ALL.002.Uploads_Status', !ALL.D.Version, !ALL.D.Region, 'Day Closed' )  @= ''
+                  & DB( 'ALL.002.Uploads_Status', !ALL.D.Version, !ALL.D.Region, 'Month Closed' )@= ''
+  
+  ,DB( 'ALL.002.Uploads_Status', !ALL.D.Version, ELPAR( 'ALL.D.Region', !ALL.D.Region, 1 ), 'Status' ),CONTINUE);
+
+
+
+['ALL.M.002.Uploads_Status':'ALL.M.002.Uploads_Status':'Status']=S:
+          IF (  Trim(  DB( 'ALL.002.Uploads_Status', !ALL.D.Version, !ALL.D.Region, 'Aux_Date_System' ) ) @>
+                Trim(  DB( 'ALL.002.Uploads_Status', !ALL.D.Version, !ALL.D.Region, 'Aux_Date_Closed' ) )
+  ,'Closed','');
+
+
+['ALL.M.002.Uploads_Status':'ALL.M.002.Uploads_Status':'Aux_Count']=N:
+          IF (  DB( 'ALL.002.Uploads_Status', !ALL.D.Version,  !ALL.D.Region, 'Status' )@='Closed',1,0)
+  ;
+
+['ALL.M.002.Uploads_Status':'ALL.M.002.Uploads_Status':'Aux_Count_Close' ]=N:
+       IF (  DB( 'ALL.002.Uploads_Status', !ALL.D.Version,  !ALL.D.Region, 'Status' )@<>'Closed',1,0);
+
+  
+#FEEDERS;

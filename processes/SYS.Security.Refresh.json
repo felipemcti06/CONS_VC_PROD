@@ -1,0 +1,12 @@
+{
+	"@type":"Process",
+	"Name":"SYS.Security.Refresh",
+	"HasSecurityAccess":true,
+	"Code@Code.link":"SYS.Security.Refresh.ti",
+	"DataSource":
+	{
+		"Type":"None"
+	},
+	"Parameters":[],
+	"Variables":[]
+}

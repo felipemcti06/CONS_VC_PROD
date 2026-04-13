@@ -1,0 +1,20 @@
+{
+	"@type":"Process",
+	"Name":"zCTI.001.01.Trigger_Parallel",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"zCTI.001.01.Trigger_Parallel.ti",
+	"DataSource":
+	{
+		"Type":"None"
+	},
+	"Parameters":
+	[
+		{
+			"Name":"psCube",
+			"Prompt":"",
+			"Value":"",
+			"Type":"String"
+		}
+	],
+	"Variables":[]
+}

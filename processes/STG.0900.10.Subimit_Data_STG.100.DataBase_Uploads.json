@@ -1,0 +1,20 @@
+{
+	"@type":"Process",
+	"Name":"STG.0900.10.Subimit_Data_STG.100.DataBase_Uploads",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"STG.0900.10.Subimit_Data_STG.100.DataBase_Uploads.ti",
+	"DataSource":
+	{
+		"Type":"None"
+	},
+	"Parameters":
+	[
+		{
+			"Name":"pRegion",
+			"Prompt":"",
+			"Value":"TURK",
+			"Type":"String"
+		}
+	],
+	"Variables":[]
+}

@@ -1,0 +1,754 @@
+#region Prolog
+
+# ===============================================================================================================
+#GENERALCOMMENT             Descrição:         Carrega dados do cubo STG.080 para o cubo COS.400
+#GENERALCOMMENT             Responsável:   	Vitor Ribeiro
+#GENERALCOMMENT             Data Criação:    Maio/2025
+#
+#LASTCHANGE                 Alterações:
+#LASTCHANGE                 Responsavel Alterações:
+# ===============================================================================================================
+
+# ===============================================================================================================
+#PROLOGCOMMENT               Descrição:            	Cria view de leitura utlizando como filtro Parametros de Ano e Mês.
+# ===============================================================================================================
+
+# =================================================================================
+# Variáveis do padrão CTI que devem ser alteradas
+# =================================================================================
+
+#Region  Variaveis Gegais
+# =================================================================================
+
+# Informações dos cubos de Origem e Destino
+# ========================================
+cCuboOrigem		= 'STG.080.AgendaHub';
+cCuboDestino		= 'COS.400.CustoHD';
+
+
+
+# =================================================================================
+# Variáveis do padrão CTI não devem ser alteradas
+# =================================================================================
+
+# Recupera o usuário que executou o processo
+# ========================================
+cUsuario = IF( DimIx( '}Clients' , TM1User() ) = 0, 'Executed by Chore' , ATTRS('}Clients', TM1User(), '}TM1_DefaultDisplayValue') );
+  
+
+  
+# Variáveis de controle do processo
+# ========================================
+cCuboParametro			= 'SYS.150.Controle_Cargas';
+cCuboRejeitado 			= 'SYS.300.Reject_Cube' ;
+cHorarioInicio			= Now();
+cProcesso			= GetProcessName();
+cMensagemRegistro	 	= '';
+cMensagemProcesso 		= '';
+cExisteRegistroRejeitado 		= 0;
+cExisteCabecalhoRejeitado 		= 0;
+cQtdRegistroRejeitado		= 0;
+cTipoErro				= 0;
+cContadorRegistro 			= 0;
+
+
+
+# Variáveis do cubo de controle
+# ========================================
+cUtilizarDebug		 	= CellGetS( cCuboParametro , cProcesso , 'Debug (S/N)' );
+cUtilizarDebug		 	= IF( cUtilizarDebug @= 'S' , 'S' , 'N' );
+
+# =================================================================================
+#EndRegion
+
+#Region SYS.150
+
+# =================================================================================
+# Define o Log inicial da carga como falha
+# Registra esse log logo no inicio para garantir que tenha algum log de falha registrado
+# Caso o processo não consiga chegar no próximo registro de log por alguma falha inesperada
+# =================================================================================
+cMensagemProcesso	= 'Processo com falha, contate o administrador para verificar os logs de erro do sistema' ;
+s01			= TimSt( cHorarioInicio , '\Y-\m-\d \hh\im\ss' );
+s02 			= cUsuario ;
+s03 			= cMensagemProcesso ;
+s04 			= '0' ;
+s05 			= TimSt( cHorarioInicio - Now, '\Y-\m-\d \hh\im\ss' );
+
+CellPutS( s01 , cCuboParametro, cProcesso, 'DataHora Inicio' );
+CellPutS( s01 , cCuboParametro, cProcesso, 'DataHora Fim' );
+CellPutS( s02 , cCuboParametro, cProcesso, 'Usuário' );
+CellPutS( s03 , cCuboParametro, cProcesso, 'Mensagem de Log' );
+CellPutS( s04 , cCuboParametro, cProcesso, 'Registros Processados' );
+CellPutS( s05 , cCuboParametro, cProcesso, 'Tempo de Execução' );
+
+# =================================================================================
+#EndRegion
+
+#Region Validação dos parâmetros
+# =================================================================================
+# Teste 1 - O parâmetro só será validado caso exista uma dimensão atrelada
+# Teste 2 - Parâmetro não informado
+# Teste 3 - Se o parâmetro informado existe na dimensão de validação
+# =================================================================================
+
+# Força 2 digitos no parâmetro pMes
+# ========================================
+pMes = FILL( '0', 2 - LONG( Trim( pMes ) ) ) | Trim( pMes );
+
+
+
+# Parâmetro 1
+# =========================
+sDim = 'ALL.D.ANO';
+sElm = pAno;
+
+If( Trim( sDim ) @<> '' );
+  If( Trim( sElm ) @= '' );
+    cTipoErro = 1;
+    DataSourceType = 'NULL';
+    cMensagemProcesso = 'O parâmetro    [ ' | sDim | ' ]    não foi Informado' ;
+    ItemReject( cMensagemProcesso );
+  ElseIf( DimIx( sDim , sElm ) = 0 );
+    cTipoErro = 1;
+    DataSourceType = 'NULL';
+    cMensagemProcesso = 'O elemento    [ ' | sElm | ' ]    não existe na dimensão    [ ' | sDim | ' ]';
+    ItemReject( cMensagemProcesso );
+  EndIf;
+EndIf;
+
+
+
+# Parâmetro 2
+# =========================
+sDim = 'ALL.D.Mes';
+sElm = pMes;
+
+If( Trim( sDim ) @<> '' );
+  If( Trim( sElm ) @= '' );
+    cTipoErro = 1;
+    DataSourceType = 'NULL';
+    cMensagemProcesso = 'O parâmetro    [ ' | sDim | ' ]    não foi Informado' ;
+    ItemReject( cMensagemProcesso );
+  ElseIf( DimIx( sDim , sElm ) = 0 );
+    cTipoErro = 1;
+    DataSourceType = 'NULL';
+    cMensagemProcesso = 'O elemento    [ ' | sElm | ' ]    não existe na dimensão    [ ' | sDim | ' ]';
+    ItemReject( cMensagemProcesso );
+  EndIf;
+EndIf;
+
+
+#EndRegion
+
+#Region View de Limpeza do Cudo de Destino
+# =================================================================================
+
+cSuprimirConsolidado	= 'S';
+cSuprimirZero		= 'S'; 
+cSuprimirCamposCalculados	= 'S';
+cViewTemporaria	 	= 'S';
+nViewTemporaria		= If( cViewTemporaria @= 'S', 1, 0);
+
+
+# Define nome da view e subset de limpeza
+# ======================================================
+cViewDestino	= 'processo.' | cProcesso | '.' | 'Limpeza' | '.' | TimSt( cHorarioInicio, '\Y-\m-\d \hh\im\ss' );
+cSubsetDestino	= cViewDestino;
+
+
+
+# Cria a view que será utilizada para a limpeza
+# ======================================================
+ViewCreate( cCuboDestino , cViewDestino , nViewTemporaria );
+
+
+
+# Cria os subsets que serão utilizados para filtrar a view de limpeza
+# ======================================================
+
+cDimensao	= 'ALL.D.Ano';
+cElemento	= pAno;
+If( cDimensao @<> '');
+  SubsetCreate( cDimensao, cSubsetDestino , nViewTemporaria );  
+  ViewSubsetAssign( cCuboDestino , cViewDestino, cDimensao , cSubsetDestino );  
+  SubsetElementInsert( cDimensao, cSubsetDestino, cElemento	, 1 );
+EndIf;
+
+
+
+cDimensao	= 'ALL.D.Mes';
+cElemento	= pMes;
+If( cDimensao @<> '');
+  SubsetCreate( cDimensao, cSubsetDestino , nViewTemporaria );  
+  ViewSubsetAssign( cCuboDestino , cViewDestino, cDimensao , cSubsetDestino );  
+  SubsetElementInsert( cDimensao, cSubsetDestino, cElemento	, 1 );
+EndIf;
+
+
+
+cDimensao	= 'ALL.D.Versao';
+cElemento	= pVersao;
+If( cDimensao @<> '');
+  SubsetCreate( cDimensao, cSubsetDestino , nViewTemporaria );  
+  ViewSubsetAssign( cCuboDestino , cViewDestino, cDimensao , cSubsetDestino );  
+  SubsetElementInsert( cDimensao, cSubsetDestino, cElemento	, 1 );
+EndIf;
+
+
+# Cria os subsets a partir de MDX
+# ======================================================
+cDimensao	= '';
+cMDX		= '';
+If( cDimensao @<> '');
+  SubsetCreatebyMDX(cSubsetDestino, cMDX, nViewTemporaria);
+  ViewSubsetAssign( cCuboDestino , cViewDestino, cDimensao , cSubsetDestino );  
+  SubsetMDXSet(cDimensao, cSubsetDestino, '');
+EndIf;
+
+
+
+# Configuração da View
+# ======================================================
+ViewExtractSkipCalcsSet( cCuboDestino, cViewDestino, If( cSuprimirConsolidado @= 'S', 1, 0) );
+ViewExtractSkipZeroesSet( cCuboDestino, cViewDestino, If( cSuprimirZero @= 'S', 1, 0)  );
+ViewExtractSkipRuleValuesSet( cCuboDestino, cViewDestino, If( cSuprimirCamposCalculados @= 'S', 1, 0) );
+
+
+
+# Apaga os valores da View criada
+# ======================================================
+ViewZeroOut( cCuboDestino , cViewDestino );
+
+
+# =================================================================================
+#EndRegion
+
+#Region Limpeza Cubo Rejeitados
+# ====================================================================================================
+
+# Definição View de Limpeza do Cudo de Rejeitados
+# =================================================================================
+
+# Define nome da view e subset de limpeza
+# ======================================================
+cViewRejeitado	= 'processo.' | cProcesso | '.Rejeitados.Limpeza' | '.' | TimSt( cHorarioInicio, '\Y-\m-\d \hh\im\ss' );
+cSubsetRejeitado	= cViewRejeitado;
+
+
+
+# Cria a view que será utilizada para a limpeza
+# ======================================================
+ViewCreate( cCuboRejeitado , cViewRejeitado , 1 );
+
+# Cria os subsets que serão utilizados para filtrar a view de limpeza
+# ======================================================
+
+cDimensao	= '}Clients';
+cElemento	= cUsuario;
+If( cDimensao @<> '');
+  SubsetCreate( cDimensao, cSubsetRejeitado , 1 );  
+  ViewSubsetAssign( cCuboRejeitado , cViewRejeitado, cDimensao , cSubsetRejeitado );  
+  SubsetElementInsert( cDimensao, cSubsetRejeitado, cElemento	, 1 );
+EndIf;
+
+
+
+cDimensao	= '}Processes';
+cElemento	= cProcesso;
+If( cDimensao @<> '');
+  SubsetCreate( cDimensao, cSubsetRejeitado , 1 );  
+  ViewSubsetAssign( cCuboRejeitado , cViewRejeitado, cDimensao , cSubsetRejeitado );  
+  SubsetElementInsert( cDimensao, cSubsetRejeitado, cElemento	, 1 );
+EndIf;
+
+
+# Configuração da View
+# ======================================================
+ViewExtractSkipCalcsSet( cCuboRejeitado, cViewRejeitado, 1 );
+ViewExtractSkipZeroesSet( cCuboRejeitado, cViewRejeitado, 1 );
+ViewExtractSkipRuleValuesSet( cCuboRejeitado, cViewRejeitado, 1 );
+
+# Apaga os valores da View criada
+# ======================================================
+ViewZeroOut( cCuboRejeitado, cViewRejeitado );
+
+# ====================================================================================================
+#EndRegion
+
+#Region View de Leitura do Cubo de Origem
+# =================================================================================
+
+cSuprimirConsolidado	= 'S';
+cSuprimirZero		= 'S'; 
+cSuprimirCamposCalculados	= 'N';
+cViewTemporaria	 	= 'S';
+nViewTemporaria		= If( cViewTemporaria @= 'S', 1, 0);
+
+
+
+
+# Define nome da view e subset de origem
+# ======================================================
+cViewOrigem	= 'processo.' | cProcesso | '.' | 'Leitura' | '.' | TimSt( cHorarioInicio, '\Y-\m-\d \hh\im\ss' );
+cSubsetOrigem	= cViewOrigem;
+
+
+
+# Cria a view que será utilizada para a leitura
+# ======================================================
+ViewCreate( cCuboOrigem , cViewOrigem , nViewTemporaria );
+
+
+
+# Cria os subsets que serão utilizados para filtrar a view de leitura
+# ======================================================
+
+cDimensao	= 'STG.D.Ano';
+cElemento	= pAno;
+If( cDimensao @<> '');
+  SubsetCreate( cDimensao, cSubsetOrigem, nViewTemporaria );  
+  ViewSubsetAssign( cCuboOrigem , cViewOrigem, cDimensao , cSubsetOrigem );  
+  SubsetElementInsert( cDimensao, cSubsetOrigem, cElemento	, 1 );
+EndIf;
+
+
+
+cDimensao	= 'STG.D.Mes';
+cElemento	= pMes;
+If( cDimensao @<> '');
+  SubsetCreate( cDimensao, cSubsetOrigem, nViewTemporaria );  
+  ViewSubsetAssign( cCuboOrigem , cViewOrigem, cDimensao , cSubsetOrigem );  
+  SubsetElementInsert( cDimensao, cSubsetOrigem, cElemento	, 1 );
+EndIf;
+
+
+
+cDimensao	= 'STG.D.Versao';
+cElemento	= 'Real';
+If( cDimensao @<> '');
+  SubsetCreate( cDimensao, cSubsetOrigem, nViewTemporaria );  
+  ViewSubsetAssign( cCuboOrigem , cViewOrigem, cDimensao , cSubsetOrigem );  
+  SubsetElementInsert( cDimensao, cSubsetOrigem, cElemento	, 1 );
+EndIf;
+
+
+cDimensao	= 'STG.080.M.AgendaHub';
+cElemento	= 'HdsPrevistos';
+If( cDimensao @<> '');
+  SubsetCreate( cDimensao, cSubsetOrigem, nViewTemporaria );  
+  ViewSubsetAssign( cCuboOrigem , cViewOrigem, cDimensao , cSubsetOrigem );  
+  SubsetElementInsert( cDimensao, cSubsetOrigem, cElemento	, 1 );
+EndIf;
+
+
+# Cria os subsets a partir de MDX
+# ======================================================
+cDimensao	= '';
+cMDX		= '';
+If( cDimensao @<> '');
+  SubsetCreatebyMDX(cSubsetOrigem, cMDX, nViewTemporaria);
+  ViewSubsetAssign( cCuboOrigem , cViewOrigem, cDimensao , cSubsetOrigem );  
+  SubsetMDXSet(cDimensao, cSubsetOrigem, '');
+EndIf;
+
+
+
+# Configuração da View de Leitura
+# ======================================================
+ViewExtractSkipCalcsSet( cCuboOrigem, cViewOrigem, If( cSuprimirConsolidado @= 'S', 1, 0) );
+ViewExtractSkipZeroesSet( cCuboOrigem, cViewOrigem, If( cSuprimirZero @= 'S', 1, 0)  );
+ViewExtractSkipRuleValuesSet( cCuboOrigem, cViewOrigem, If( cSuprimirCamposCalculados @= 'S', 1, 0) );
+
+
+
+# Define Cubo de Origem como Datasource
+# ==================================
+DataSourceCubeView = cViewOrigem;
+
+#EndRegion
+
+IF(pVersao@='Real');
+  sAno = pAno ;
+  sMes = pMes;
+else;
+  IF(pMes@='01');
+    sAno =  NumberToString( StringToNumber(pAno) - 1);
+    sMes = '12' ;
+  else;
+    sAno = pAno;
+    sMes = IF(pMes@<='10','0','')| NumberToString( StringToNumber(pMes) - 1);
+  endIF;
+endIF;
+
+#endregion
+#region Data
+
+# ===============================================================================================================
+#DATACOMMENT        Descrição:  Grava dados no cubo acumulando valores.
+# ===============================================================================================================
+
+# ===================================================================================
+# Gera contador para o arquivo de debug ou registros rejeitados o e quantid. total de registros processados
+# ===================================================================================
+cContadorRegistro = cContadorRegistro + 1;
+sContadorRegistro = NumberToString( cContadorRegistro );
+
+
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso a variavel estiver em branco, se não existir na dimensão ou se for um totalizador
+# ===================================================================================
+
+vFrente = IF(vFrente@='@STG.D.Frente','@ALL.D.Frentes',vFrente);
+sDim	= 'ALL.D.Frentes';
+sElm	= vFrente;
+sCol	= 'Frente';
+
+If( cExisteRegistroRejeitado = 0 );
+   If( DimIx( sDim , sElm ) = 0 );
+      cMensagemRegistro = 'A coluna    [ ' | sCol | ' ]    contêm o valor:    [ ' | sElm | ' ]    que não existe na dimensão:    [ ' | sDim | ' ]';
+      cExisteRegistroRejeitado = 1;
+   ElseIf( dType( sDim , sElm ) @= 'C' );
+      cMensagemRegistro = 'A coluna    [ ' | sCol | ' ]    contêm o valor:    [ ' | sElm | ' ]    que é um totalizador na dimensão:    [ ' | sDim | ' ]    totalizadores não podem receber carga';
+      cExisteRegistroRejeitado = 1;
+   EndIf;
+EndIf;
+
+# ===================================================================================
+# Marca o registro para rejeitar 
+# Caso a variavel estiver em branco, se não existir na dimensão ou se for um totalizador
+# ===================================================================================
+
+vPessoa = IF(vPessoa@='STG.D.Pessoa','@ALL.D.Pessoas',vPessoa) ;
+sDim	= 'ALL.D.Pessoas';
+sElm	= vPessoa;
+sCol	= 'Pessoa';
+
+If( cExisteRegistroRejeitado = 0 );
+   If( DimIx( sDim , sElm ) = 0 );
+      cMensagemRegistro = 'A coluna    [ ' | sCol | ' ]    contêm o valor:    [ ' | sElm | ' ]    que não existe na dimensão:    [ ' | sDim | ' ]';
+      cExisteRegistroRejeitado = 1;
+   ElseIf( dType( sDim , sElm ) @= 'C' );
+      cMensagemRegistro = 'A coluna    [ ' | sCol | ' ]    contêm o valor:    [ ' | sElm | ' ]    que é um totalizador na dimensão:    [ ' | sDim | ' ]    totalizadores não podem receber carga';
+      cExisteRegistroRejeitado = 1;
+   EndIf;
+EndIf;
+
+# ===================================================================================
+# DEBUG ou REJEIÇÃO
+# Registra em arquivo os registros
+# ===================================================================================
+If( cExisteRegistroRejeitado = 1  %  cUtilizarDebug @= 'S' );
+# Escreve o registro no arquivo de debug ou rejeitados
+# =================================================================================
+  cQtdRegistroRejeitado = cQtdRegistroRejeitado + 1;
+  if(cQtdRegistroRejeitado<1000);  
+    sLine = 'Line' | Fill( '0' , 3 - Long(NumberToString( cQtdRegistroRejeitado ))) | NumberToString( cQtdRegistroRejeitado ) ;
+    CellPutS( sContadorRegistro, cCuboRejeitado, cUsuario, cProcesso, sLine, 'Num. Registro' );
+    CellPutS( cMensagemRegistro, cCuboRejeitado, cUsuario, cProcesso, sLine, 'Mensagem de Erro' );
+      
+    CellPutS( vAno, cCuboRejeitado, cUsuario, cProcesso, sLine, 'Col01' );
+    CellPutS( vMes, cCuboRejeitado, cUsuario, cProcesso, sLine, 'Col02' );
+    CellPutS( vVersao, cCuboRejeitado, cUsuario, cProcesso, sLine, 'Col03' );
+    CellPutS( vItem, cCuboRejeitado, cUsuario, cProcesso, sLine, 'Col04' );
+    CellPutS( vFrente, cCuboRejeitado, cUsuario, cProcesso, sLine, 'Col05' );
+    CellPutS( vPessoa, cCuboRejeitado, cUsuario, cProcesso, sLine, 'Col06' );
+    CellPutS( vMetrica, cCuboRejeitado, cUsuario, cProcesso, sLine, 'Col07' );
+    CellPutS( NumberToString( vValor ), cCuboRejeitado, cUsuario, cProcesso, sLine, 'Col08' );
+  endIF;  
+
+  # Limpa as variaveis e pula o registro
+  # ============================
+  IF( cExisteRegistroRejeitado = 1 );
+     cTipoErro = 2;
+     cExisteRegistroRejeitado = 0;
+     cMensagemRegistro = '';
+     cMensagemProcesso = ' Processo concluido com rejeitados, verificar o cubo:    ' | cCuboRejeitado;
+     ItemSkip;
+  EndIf;
+EndIf;
+
+# ====================================================================================================
+#EndRegion
+vPessoaOri = vPessoa;
+sPessoa = vPessoa;
+sHier = 'STG.D.Pessoa';
+if(pVersao@<>'Real');
+  sPessoa = CellGetS('MAP.050.Pessoas', vPessoa, 'funcao' );
+    sHier = 'Funcao';
+  if(Dimix('STG.D.Pessoa:Funcao',sPessoa)=0);
+      ItemSkip;
+  endIF;
+endiF;
+vCusto = CellGetN( 'STG.070.CustoPessoal'
+         , sAno
+         , sMes
+         , vVersao
+         , 'ALL.D.LineItem':'Total Item com Ajuste'
+         , 'STG.D.Coligada':'Total STG.D.Coligada'
+         , 'Pacote':'Pessoal'
+         , 'STG.D.CentroCustos':'Total STG.D.CentroCustos'
+         ,sHier:sPessoa
+         ,'STG.D.Moeda':'Total STG.D.Moeda', 'saldo_final' ) ;
+
+IF(vCusto=0);
+    if(pVersao@='Real');
+        if(DIMIX('ALL.D.Pessoas','HUB_'| CellGEtS(cCuboOrigem, vAno, vMes, vVersao, vItem, vFrente, vPessoa, 'codigo_funcionario_hub' ))=0);
+            ItemSkip;
+        endIF;
+        sPessoa = DimensionElementPrincipalName( 'ALL.D.Pessoas', 'HUB_' | CellGEtS(cCuboOrigem, vAno, vMes, vVersao, vItem, vFrente, vPessoa, 'codigo_funcionario_hub' ) );
+        if(dimix('ALL.D.Pessoas',sPessoa)=0);
+            ItemSkip;
+        endIF;
+        vCusto = CellGetN( 'STG.070.CustoPessoal'
+         , sAno
+         , sMes
+         , vVersao
+         , 'ALL.D.LineItem':'Total Item com Ajuste'
+         , 'STG.D.Coligada':'Total STG.D.Coligada'
+         , 'Pacote':'Pessoal'
+         , 'STG.D.CentroCustos':'Total STG.D.CentroCustos'
+         ,sHier:sPessoa
+         ,'STG.D.Moeda':'Total STG.D.Moeda', 'saldo_final' ) ;
+        if(vCusto=0);
+           ItemSkip;
+        endIF;
+        vPessoa = sPessoa;
+    else;
+      ItemSkip;
+    endIF;
+EndIF;
+
+# ===================================================================================
+# Grava os dados no cubo
+# ===================================================================================
+
+
+s01 = vAno ;
+s02 = vMes ;
+s03 = pVersao ;
+s06 = vFrente ;
+s07 = vPessoa ;
+#s06 = vTipoFrente ;
+
+
+IF(CellGetN(cCuboDestino, s01, s02, s03, 'ALL.D.Moeda':'Total Moeda', 'ALL.D.Empresas':'Total Empresas', s06, s07,'@TipoHD', 'Custo Total' )<>0);
+  CellPutProportionalSpread( 0, cCuboDestino, s01, s02, s03, 'ALL.D.Moeda':'Total Moeda', 'ALL.D.Empresas':'Total Empresas', s06, s07,'@TipoHD', 'Custo Total' );
+EndIF;
+
+IF(SubsetExists( 'STG.D.Coligada', cProcesso| 'Empresa' | sPessoa )=0);
+  mdxEmpresa = '{FILTER({Tm1FilterByLevel({Tm1SubsetAll([STG.D.Coligada].[STG.D.Coligada])},0)},
+                             [STG.070.CustoPessoal].(
+                                [STG.D.Ano].[STG.D.Ano].['|sAno|'],
+                                [STG.D.Mes].[STG.D.Mes].['|sMes|'],
+                                [STG.D.Versao].[STG.D.Versao].[Real],
+                                [ALL.D.LineItem].[ALL.D.LineItem].[Total Item com Ajuste],
+                                [STG.D.ContaContabil].[Pacote].[Pessoal],
+                                [STG.D.CentroCustos].[STG.D.CentroCustos].[Total STG.D.CentroCustos],
+                                [STG.D.Pessoa].['|sHier|'].['|sPessoa|'],
+                                [STG.D.Moeda].[STG.D.Moeda].[Total STG.D.Moeda],
+                                [STG.070.M.CustoPessoal].[STG.070.M.CustoPessoal].[saldo_final]                              
+                              )<>0)}';
+  
+  SubsetCreatebyMDX(cProcesso| 'Empresa' | sPessoa, mdxEmpresa, 1);
+  SubsetMDXSet('STG.D.Coligada', cProcesso| 'Empresa' | sPessoa, '');
+EndIf;
+contEmpresa = 1;
+sizEmpresa = SubsetGetSize( 'STG.D.Coligada', cProcesso| 'Empresa' | sPessoa );
+while(contEmpresa<=sizEmpresa);
+  vColigada  = SubsetGetElementName( 'STG.D.Coligada', cProcesso| 'Empresa' | sPessoa, contEmpresa );
+  vEmpresa = CellGetS( 'PRE.080.ColigadaEmpresa', vColigada, 'Empresa' );
+
+  IF(SubsetExists( 'STG.D.Moeda', cProcesso| 'Moeda' | sPessoa | '_' | vColigada )=0);
+    mdxMoeda = '{FILTER({Tm1FilterByLevel({Tm1SubsetAll([STG.D.Moeda].[STG.D.Moeda])},0)},
+                               [STG.070.CustoPessoal].(
+                                  [STG.D.Ano].[STG.D.Ano].['|sAno|'],
+                                  [STG.D.Mes].[STG.D.Mes].['|sMes|'],
+                                  [STG.D.Versao].[STG.D.Versao].[Real],
+                                  [ALL.D.LineItem].[ALL.D.LineItem].[Total Item com Ajuste],
+                                  [STG.D.Coligada].[STG.D.Coligada].['| vColigada|'],
+                                  [STG.D.ContaContabil].[Pacote].[Pessoal],
+                                  [STG.D.CentroCustos].[STG.D.CentroCustos].[Total STG.D.CentroCustos],
+                                  [STG.D.Pessoa].['|sHier|'].['|sPessoa|'],
+                                  [STG.070.M.CustoPessoal].[STG.070.M.CustoPessoal].[saldo_final]                              
+                                )<>0)}';
+    
+    SubsetCreatebyMDX(cProcesso| 'Moeda' | sPessoa | '_' | vColigada, mdxMoeda, 1);
+    SubsetMDXSet('STG.D.Moeda', cProcesso| 'Moeda' | sPessoa | '_' | vColigada, '');
+  EndIf;
+  contMoeda = 1;
+  sizMoeda = SubsetGetSize( 'STG.D.Moeda', cProcesso| 'Moeda' | sPessoa | '_' | vColigada );
+  while(contMoeda<=sizMoeda);
+    vMoeda  = SubsetGetElementName( 'STG.D.Moeda', cProcesso| 'Moeda' | sPessoa | '_' | vColigada, contMoeda );
+
+    IF(SubsetExists( 'STG.D.CentroCustos', cProcesso| 'CentroCustos' | sPessoa | '_' | vColigada| '_' | vMoeda )=0);
+      mdxCC = '{FILTER({Tm1FilterByLevel({Tm1SubsetAll([STG.D.CentroCustos].[STG.D.CentroCustos])},0)},
+                                 [STG.070.CustoPessoal].(
+                                    [STG.D.Ano].[STG.D.Ano].['|sAno|'],
+                                    [STG.D.Mes].[STG.D.Mes].['|sMes|'],
+                                    [STG.D.Versao].[STG.D.Versao].[Real],
+                                    [ALL.D.LineItem].[ALL.D.LineItem].[Total Item com Ajuste],
+                                    [STG.D.Coligada].[STG.D.Coligada].['| vColigada|'],
+                                    [STG.D.ContaContabil].[Pacote].[Pessoal],
+                                    [STG.D.Pessoa].['|sHier|'].['|sPessoa|'],
+                                    [STG.D.Moeda].[STG.D.Moeda].['|vMoeda|'],
+                                    [STG.070.M.CustoPessoal].[STG.070.M.CustoPessoal].[saldo_final]                              
+                                  )<>0)}';
+      
+      SubsetCreatebyMDX(cProcesso| 'CentroCustos' | sPessoa | '_' | vColigada| '_' | vMoeda, mdxCC, 1);
+      SubsetMDXSet('STG.D.CentroCustos', cProcesso| 'CentroCustos' | sPessoa | '_' | vColigada| '_' | vMoeda, '');
+    EndIf;
+    contCC = 1;
+    sizCC = SubsetGetSize( 'STG.D.CentroCustos', cProcesso| 'CentroCustos' | sPessoa | '_' | vColigada| '_' | vMoeda );
+    
+      s04 = vMoeda;
+      s05 = vEmpresa;
+      CellPutS( vEmpresa, cCuboDestino, s01, s02, s03, s04, s05, s06, s07, '@TipoHD', 'Empresa' );
+      CellPutS( vEmpresa, cCuboDestino, s01, s02, s03, s04, s05, '@ALL.D.Frentes', s07, '@TipoHD', 'Empresa' );
+      
+      #Pais
+      vPais = CellGetS('MAP.060.Empresas', vEmpresa, 'País' );
+      CellPutS( vPais, cCuboDestino, s01, s02, s03, s04, s05, s06, s07, '@TipoHD', 'Pais' );
+      CellPutS( vPais, cCuboDestino, s01, s02, s03, s04, s05,  '@ALL.D.Frentes', s07, '@TipoHD', 'Pais' );
+      
+      #Moeda
+      #vMoeda = CellGetS('MAP.060.Empresas', vEmpresa, 'Moeda Funcional' );
+      CellPutS( vMoeda, cCuboDestino, s01, s02, s03, s04, s05, s06, s07, '@TipoHD', 'Moeda' );
+      CellPutS( vMoeda, cCuboDestino, s01, s02, s03, s04, s05,  '@ALL.D.Frentes', s07, '@TipoHD', 'Moeda' );
+      
+      #Carteira
+      vCarteira = CellGetS( 'MAP.030.Frentes', vFrente, 'Carteira' );
+      CellPutS( vCarteira, cCuboDestino, s01, s02, s03, s04, s05, s06, s07, '@TipoHD', 'Carteira' );
+      
+      #CarteiraCross
+      vCarteiraCross = CellGetS( 'MAP.030.Frentes', vFrente, 'Carteira Cross' );
+      CellPutS( vCarteiraCross, cCuboDestino, s01, s02, s03, s04, s05, s06, s07, '@TipoHD', 'Carteira_Cross' );
+      
+      #Cargo
+      vTipoAgenda = CellGetS( 'STG.080.AgendaHub', s01, s02, 'Real', vItem, vFrente, vPessoaOri, 'tipoagenda' );
+      vNomeFuncao = CellGetS( 'MAP.050.Pessoas', vPessoa, 'funcao' );
+      vTipoHd = CellGetS( 'PRE.070.TipoHD', vTipoAgenda, 'TipoHD' ) ;
+      IF(vTipoHD@='Projeto' & Dimix('MAP.D.Frentes',vFrente)<>0);
+         vTipo = CellGEtS('MAP.030.Frentes', vFrente, 'Tipo da Frente' );
+          vTipoHd = IF(vTipo@='Venda', 'Vendas', IF(vTipo@='Interno', 'Projeto Interno', 'Projeto'));
+      EndIF;
+      CellPutS( vNomeFuncao, cCuboDestino, s01, s02, s03, s04, s05, s06, s07, '@TipoHD', 'Cargo' );
+      CellPutS( vNomeFuncao, cCuboDestino, s01, s02, s03, s04, s05, '@ALL.D.Frentes', s07, '@TipoHD', 'Cargo' );
+      
+      #TipoFrente
+      vTipoFrente = CellGetS( 'MAP.030.Frentes', vFrente, 'Tipo da Frente' );
+      CellPutS( vTipoFrente, cCuboDestino, s01, s02, s03, s04, s05, s06, s07, '@TipoHD', 'Tipo de  Frente' );
+      vTipoFrente = IF(vTipoFrente@='','Projeto',vTipoFrente) ;
+      
+      #DiasUteis
+      vDiasUteis = CellGetN('ALL.010.PremissasPais', s01, s02, 'Real', vPais, 'Dias Úteis' );
+      CellPutN( vDiasUteis, cCuboDestino, s01, s02, s03, s04, s05, s06, s07, '@TipoHD', 'Dias Úteis' );
+      CellPutN( vDiasUteis, cCuboDestino, s01, s02, s03, s04, s05, '@ALL.D.Frentes', s07, '@TipoHD', 'Dias Úteis' );
+      
+      #HdsPrevistos
+      CellIncrementN( vValor, cCuboDestino, s01, s02, s03, s04, s05, s06, s07, vTipoHd, 'HdsPrevistos');
+      CellIncrementN( vValor, cCuboDestino, s01, s02, s03, s04, s05, s06, s07, vTipoHd, 'HD');
+      
+      #HdsPrevistos
+      nHdCad = CellGetN(cCuboOrigem, vAno,vMes, vVersao, vItem, vFrente, vPessoaOri, 'HdsCadastrados' ) ;
+      CellIncrementN( nHdCad, cCuboDestino, s01, s02, s03, s04, s05, s06, s07, vTipoHd, 'HdsCadastrados');
+      
+      
+    while(contCC<=sizCC);
+      vCC  = SubsetGetElementName( 'STG.D.CentroCustos', cProcesso| 'CentroCustos' | sPessoa | '_' | vColigada| '_' | vMoeda, contCC );
+      #Empresa
+      #vEmpresa = CellGetS( 'MAP.030.Frentes', vFrente, 'Empresa' );
+      vEmpresa = if(vEmpresa@='','121',vEmpresa);
+  
+      #CC
+      #vCC = CellGetS( 'MAP.030.Frentes', vFrente, 'Centro de Custo Frente' );
+      CellPutS( vCC, cCuboDestino, s01, s02, s03, s04, s05, s06, s07, '@TipoHD', 'CC' );
+      CellPutS( vCC, cCuboDestino, s01, s02, s03, s04, s05,  '@ALL.D.Frentes', s07, '@TipoHD', 'CC' );
+      
+      #CustoTotal
+      vCustoTotal = 
+        CellGetN( 'STG.070.CustoPessoal', sAno, sMes, 'Real', 'ALL.D.LineItem':'Total Item com Ajuste', vColigada, 'Pacote':'Pessoal', vCC, sHier:sPessoa, vMoeda, 'saldo_final' ) 
+        \
+        CellGetN( 'STG.070.CustoPessoal', sAno, sMes, 'Real', '@ALL.D.LineItem', '@STG.D.Coligada', '@STG.D.ContaContabil', '@STG.D.CentroCustos', sHier:sPessoa, '@STG.D.Moeda', 'qtd_pessoas' ) ;
+      if(pVersao@<>'Real');
+        nTotal = vCustoTotal;
+        nMinimo = nTotal;
+        nMaximo = nTotal;
+        nMes = StringToNumber(sMes);
+        nAno = StringToNumber(sAno);
+        i = 1;
+        j = 1;
+        while( i <= 5);
+          i = i +1;
+          niMes = MOD(12 + (nMes -i) -1  ,12) + 1;
+          niAno = nAno - IF(niMes>nMes,1,0);
+          niTotal =
+              CellGetN('STG.070.CustoPessoal', NumberToString(niAno), NumberToString( niMes ), 'Real', 'ALL.D.LineItem':'Total Item com Ajuste', vColigada, 'Pacote':'Pessoal', vCC, sHier:sPessoa, vMoeda, 'saldo_final' )
+              \
+              CellGetN( 'STG.070.CustoPessoal', NumberToString(niAno), NumberToString( niMes ), 'Real', '@ALL.D.LineItem', '@STG.D.Coligada', '@STG.D.ContaContabil', '@STG.D.CentroCustos', sHier:sPessoa, '@STG.D.Moeda', 'qtd_pessoas' ) ;
+          if(niTotal<>0);
+            j = j+1;
+            nMinimo = IF(niTotal<nMinimo,niTotal, nMinimo);
+            nMaximo = IF(niTotal>nMaximo,niTotal, nMaximo);
+            nTotal = nTotal + niTotal;
+          endIF;
+        end;
+        if(j<3);
+          vCustoTotal = nTotal / j;
+        else;
+          vCustoTotal = (nTotal - nMinimo - nMaximo)/(j-2);
+        endIF;
+      endIF;
+      CellIncrementN( vCustoTotal, cCuboDestino, s01, s02, s03, s04, s05, s06, s07,'@TipoHD', 'Custo Total' );
+      #CellIncrementN( vCustoTotal, cCuboDestino, s01, s02, s03, s04, s05, '@ALL.D.Frentes', s07,'@TipoHD', 'Custo Total' );
+      contCC = contCC + 1;
+    end;
+    contMoeda = contMoeda + 1;
+  end;
+  contEmpresa = contEmpresa + 1;
+end;
+
+
+
+
+
+
+#endregion
+#region Epilog
+
+# ===============================================================================================================
+#EPILOGCOMMENT        Descrição:  Habilita log do cubo de destino, realiza CubeSaveData e registra log de status do processo.
+# ===============================================================================================================
+
+# =================================================================================
+# Habilita o Log e salva dados no cubo
+# ================================================================================= 
+
+# =================================================================================
+# Registra o Log de Erro ou Sucesso no Cubo de Controle
+# =================================================================================
+If( cTipoErro = 0 );
+   cMensagemProcesso  = ' Processo concluído com sucesso';
+EndIf;
+
+
+s01	= TimSt( cHorarioInicio , '\Y-\m-\d \hh\im\ss' );
+s02 	= cUsuario ;
+s03 	= cMensagemProcesso ;
+s04 	= sContadorRegistro  ;
+s05 	= TimSt( Now - cHorarioInicio, ' \h:\i:\s') ;
+
+CellPutS( s01 , cCuboParametro, cProcesso, 'DataHora Fim' );
+CellPutS( s02 , cCuboParametro, cProcesso, 'Usuário' );
+CellPutS( s03 , cCuboParametro, cProcesso, 'Mensagem de Log' );
+CellPutS( s04 , cCuboParametro, cProcesso, 'Registros Processados' );
+CellPutS( s05 , cCuboParametro, cProcesso, 'Tempo de Execução' );
+
+
+If( cTipoErro = 2 );
+  ItemReject( cMensagemProcesso );
+EndIf;
+
+#endregion

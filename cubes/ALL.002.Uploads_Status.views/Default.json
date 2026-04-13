@@ -1,0 +1,27 @@
+{
+	"@type":"MDXView",
+	"Name":"Default",
+	"MDX@Code.link":"Default.mdx",
+	"Meta": {
+		"Aliases": {
+			"[ALL.D.Version].[ALL.D.Version]": "Descrição"
+		},
+		"ExpandAboves": {
+			"[ALL.M.002.Uploads_Status].[ALL.M.002.Uploads_Status]": false,
+			"[ALL.D.Region].[ALL.D.Region]": false,
+			"[ALL.D.Version].[ALL.D.Version]": false
+		},
+		"ContextSets": {
+			"[ALL.D.Version].[ALL.D.Version]": {
+				"SubsetName": "SYS_Picklist_Pro",
+				"IsPublic": true
+			}
+		}
+	},
+	"ViewExtractSkipRuleValues": false,
+	"ViewExtractSkipConsolidatedValues": true,
+	"ViewExtractSkipZeroes": true,
+	"IsSuppressComputeOnOpen": false,
+	"IsAutocalculate": true,
+	"IsDeferComputeOnLeafDataEntry": false
+}

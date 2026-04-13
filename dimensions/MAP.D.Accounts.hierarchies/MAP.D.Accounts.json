@@ -1,0 +1,28 @@
+{
+	"@type":"Hierarchy",
+	"Name":"MAP.D.Accounts",
+	"Elements":
+	[
+		{
+			"Name":"Local Market Sales Volume [kt]",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Export Market Sales Volume [kt]",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Local Market Price Premium [$/ton]",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Export Market Price Premium [$/ton]",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"TESTE",
+			"Type":"Numeric"
+		}
+	],
+	"Subsets@Code.links":[]
+}

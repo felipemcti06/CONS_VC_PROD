@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"SYS.M.250.Rejeitados",
+	"Hierarchies@Code.links":
+	[
+		"SYS.M.250.Rejeitados.hierarchies/SYS.M.250.Rejeitados.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('SYS.M.250.Rejeitados')/Hierarchies('SYS.M.250.Rejeitados')"
+	}
+}

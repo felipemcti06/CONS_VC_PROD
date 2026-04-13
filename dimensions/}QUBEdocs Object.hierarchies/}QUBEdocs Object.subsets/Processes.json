@@ -1,0 +1,5 @@
+{
+	"@type":"Subset",
+	"Name":"Processes",
+	"Expression":"{TM1DRILLDOWNMEMBER( {[}QUBEdocs Object].[All Processes]}, ALL, RECURSIVE )}"
+}

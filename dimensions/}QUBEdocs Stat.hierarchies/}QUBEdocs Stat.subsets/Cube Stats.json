@@ -1,0 +1,5 @@
+{
+	"@type":"Subset",
+	"Name":"Cube Stats",
+	"Expression":"{EXCEPT(TM1TOGGLEDRILLSTATE({[}QUBEdocs Stat].[}QUBEdocs Stat].[StatsByCube]} , {[}QUBEdocs Stat].[}QUBEdocs Stat].[StatsByCube]} , EXPAND_BELOW , RECURSIVE) , {[}QUBEdocs Stat].[}QUBEdocs Stat].[StatsByCube]})}"
+}

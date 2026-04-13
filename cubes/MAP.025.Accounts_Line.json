@@ -1,0 +1,14 @@
+{
+	"@type":"Cube",
+	"Name":"MAP.025.Accounts_Line",
+	"Dimensions":
+	[
+		{
+			"@id":"Dimensions('MAP.D.Accounts_Line')"
+		},
+		{
+			"@id":"Dimensions('MAP.M.025.Accounts_Line')"
+		}
+	],
+	"Views@Code.links":[]
+}

@@ -1,0 +1,80 @@
+{
+	"@type":"Process",
+	"Name":"zCTI.000.00.Start_Copy_Version_Scenario",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"zCTI.000.00.Start_Copy_Version_Scenario.ti",
+	"DataSource":
+	{
+		"Type":"None"
+	},
+	"Parameters":
+	[
+		{
+			"Name":"psStart",
+			"Prompt":"Are you sure you want to run the version copy?(Y/N)",
+			"Value":"S",
+			"Type":"String"
+		},
+		{
+			"Name":"psScenario",
+			"Prompt":"Cenário da Cópia?",
+			"Value":"Copia Versão (S/N)",
+			"Type":"String"
+		},
+		{
+			"Name":"psStartPeriod",
+			"Prompt":"Start Period",
+			"Value":"",
+			"Type":"String"
+		},
+		{
+			"Name":"psEndPeriod",
+			"Prompt":"End Period",
+			"Value":"",
+			"Type":"String"
+		},
+		{
+			"Name":"psPeriodTarget",
+			"Prompt":"Start Period Target",
+			"Value":"",
+			"Type":"String"
+		},
+		{
+			"Name":"psRules",
+			"Prompt":"Consider Rules",
+			"Value":"",
+			"Type":"String"
+		},
+		{
+			"Name":"pnQtyTheads",
+			"Prompt":"Qty Threads",
+			"Value":0,
+			"Type":"Numeric"
+		},
+		{
+			"Name":"psCopyType",
+			"Prompt":"Copy Type",
+			"Value":"",
+			"Type":"String"
+		},
+		{
+			"Name":"psStatus",
+			"Prompt":"Status",
+			"Value":"",
+			"Type":"String"
+		},
+		{
+			"Name":"psSource",
+			"Prompt":"Source Version",
+			"Value":"",
+			"Type":"String"
+		},
+		{
+			"Name":"psTarget",
+			"Prompt":"Target Version",
+			"Value":"",
+			"Type":"String"
+		}
+	],
+	"Variables":[]
+}

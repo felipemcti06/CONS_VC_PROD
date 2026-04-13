@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"MAP.M.010.Products",
+	"Hierarchies@Code.links":
+	[
+		"MAP.M.010.Products.hierarchies/MAP.M.010.Products.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('MAP.M.010.Products')/Hierarchies('MAP.M.010.Products')"
+	}
+}

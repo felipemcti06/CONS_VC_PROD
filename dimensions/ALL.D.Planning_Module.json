@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"ALL.D.Planning_Module",
+	"Hierarchies@Code.links":
+	[
+		"ALL.D.Planning_Module.hierarchies/ALL.D.Planning_Module.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('ALL.D.Planning_Module')/Hierarchies('ALL.D.Planning_Module')"
+	}
+}

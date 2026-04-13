@@ -1,0 +1,20 @@
+{
+	"@type":"Subset",
+	"Name":"Vol&Preco",
+	"Alias":"MEMBER_NAME",
+	"Elements":
+	[
+		{
+			"@id":"Dimensions('ALL.D.Accounts')/Hierarchies('ALL.D.Accounts')/Elements('Local Market Sales Volume [kt]')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Accounts')/Hierarchies('ALL.D.Accounts')/Elements('Export Market Sales Volume [kt]')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Accounts')/Hierarchies('ALL.D.Accounts')/Elements('Third Part Sales Volume [kt]')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Accounts')/Hierarchies('ALL.D.Accounts')/Elements('Local Market Price Premium [$/ton]')"
+		}
+	]
+}

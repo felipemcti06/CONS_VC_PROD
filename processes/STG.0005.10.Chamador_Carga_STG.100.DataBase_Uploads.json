@@ -1,0 +1,34 @@
+{
+	"@type":"Process",
+	"Name":"STG.0005.10.Chamador_Carga_STG.100.DataBase_Uploads",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"STG.0005.10.Chamador_Carga_STG.100.DataBase_Uploads.ti",
+	"DataSource":
+	{
+		"Type":"ASCII",
+		"dataSourceNameForServer":"Carga_UpLoad_Planejamento_ITACA.csv",
+		"dataSourceNameForClient":"Carga_UpLoad_Planejamento_ITACA.csv",
+		"asciiHeaderRecords":0,
+		"asciiQuoteCharacter":"\"",
+		"asciiDecimalSeparator":".",
+		"asciiThousandSeparator":",",
+		"asciiDelimiterType":"Character",
+		"asciiDelimiterChar":";"
+	},
+	"Parameters":
+	[
+		{
+			"Name":"pRegion",
+			"Prompt":"",
+			"Value":"",
+			"Type":"String"
+		},
+		{
+			"Name":"pFileName",
+			"Prompt":"",
+			"Value":"",
+			"Type":"String"
+		}
+	],
+	"Variables":[]
+}

@@ -1,0 +1,80 @@
+{
+	"@type":"Hierarchy",
+	"Name":"MAP.M.030.Region",
+	"Elements":
+	[
+		{
+			"Name":"Description",
+			"Type":"String"
+		},
+		{
+			"Name":"Include H1",
+			"Type":"String"
+		},
+		{
+			"Name":"H1 Level 1",
+			"Type":"String"
+		},
+		{
+			"Name":"Description H1 Level 1",
+			"Type":"String"
+		},
+		{
+			"Name":"H1 Level 2",
+			"Type":"String"
+		},
+		{
+			"Name":"Description H1 Level 2",
+			"Type":"String"
+		},
+		{
+			"Name":"H1 Level 3",
+			"Type":"String"
+		},
+		{
+			"Name":"Description H1 Level 3",
+			"Type":"String"
+		},
+		{
+			"Name":"H2 Level 1",
+			"Type":"String"
+		},
+		{
+			"Name":"Description H2 Level 1",
+			"Type":"String"
+		},
+		{
+			"Name":"H2 Level 2",
+			"Type":"String"
+		},
+		{
+			"Name":"Description H2 Level 2",
+			"Type":"String"
+		},
+		{
+			"Name":"H2 Level 3",
+			"Type":"String"
+		},
+		{
+			"Name":"Description H2 Level 3",
+			"Type":"String"
+		},
+		{
+			"Name":"BPC Code",
+			"Type":"String"
+		},
+		{
+			"Name":"Data Atualização",
+			"Type":"String"
+		},
+		{
+			"Name":"Participation",
+			"Type":"String"
+		},
+		{
+			"Name":"Hard Currency",
+			"Type":"String"
+		}
+	],
+	"Subsets@Code.links":[]
+}

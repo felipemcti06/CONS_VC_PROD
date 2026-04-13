@@ -1,0 +1,231 @@
+{
+	"@type":"Hierarchy",
+	"Name":"DFS.D.Accounts_Debt",
+	"Elements":
+	[
+		{
+			"Name":"Initial Gross Debt Total",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Initial Gross Debt",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Funding Total",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Funding",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Accrual of Interest Total",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Accrual of Interest",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Principal Amortization Total",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Principal Amortization",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Interest Amortization Total",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Interest Amortization",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Variation Total",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Other Variation",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Variation by buy/sale of company Total",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Variation by buy/sale of company",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Foreign Exchange Variation Total",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Foreign Exchange Variation",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Variation by buy/sale of company (CONSOLIDATION)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Monetary Variation Total",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Monetary Variation",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Closing Balance Debt Total",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Closing Balance Debt",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Initial Gross Debt Leasing",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Funding Leasing",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Accrual of Interest Leasing",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Monetary Variation Leasing",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Principal Amortization Leasing",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Interest Amortization Leasing",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Variation Leasing",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Variation by buy/sale of company Leasing",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Closing Balance Debt Leasing",
+			"Type":"Numeric"
+		}
+	],
+	"Edges":
+	[
+		{
+			"ParentName":"Initial Gross Debt Total",
+			"ComponentName":"Initial Gross Debt",
+			"Weight":1
+		},
+		{
+			"ParentName":"Initial Gross Debt Total",
+			"ComponentName":"Initial Gross Debt Leasing",
+			"Weight":1
+		},
+		{
+			"ParentName":"Funding Total",
+			"ComponentName":"Funding",
+			"Weight":1
+		},
+		{
+			"ParentName":"Funding Total",
+			"ComponentName":"Funding Leasing",
+			"Weight":1
+		},
+		{
+			"ParentName":"Accrual of Interest Total",
+			"ComponentName":"Accrual of Interest",
+			"Weight":1
+		},
+		{
+			"ParentName":"Accrual of Interest Total",
+			"ComponentName":"Accrual of Interest Leasing",
+			"Weight":1
+		},
+		{
+			"ParentName":"Principal Amortization Total",
+			"ComponentName":"Principal Amortization",
+			"Weight":1
+		},
+		{
+			"ParentName":"Principal Amortization Total",
+			"ComponentName":"Principal Amortization Leasing",
+			"Weight":1
+		},
+		{
+			"ParentName":"Interest Amortization Total",
+			"ComponentName":"Interest Amortization",
+			"Weight":1
+		},
+		{
+			"ParentName":"Interest Amortization Total",
+			"ComponentName":"Interest Amortization Leasing",
+			"Weight":1
+		},
+		{
+			"ParentName":"Other Variation Total",
+			"ComponentName":"Other Variation",
+			"Weight":1
+		},
+		{
+			"ParentName":"Other Variation Total",
+			"ComponentName":"Other Variation Leasing",
+			"Weight":1
+		},
+		{
+			"ParentName":"Variation by buy/sale of company Total",
+			"ComponentName":"Variation by buy/sale of company",
+			"Weight":1
+		},
+		{
+			"ParentName":"Variation by buy/sale of company Total",
+			"ComponentName":"Variation by buy/sale of company (CONSOLIDATION)",
+			"Weight":1
+		},
+		{
+			"ParentName":"Variation by buy/sale of company Total",
+			"ComponentName":"Variation by buy/sale of company Leasing",
+			"Weight":1
+		},
+		{
+			"ParentName":"Foreign Exchange Variation Total",
+			"ComponentName":"Foreign Exchange Variation",
+			"Weight":1
+		},
+		{
+			"ParentName":"Monetary Variation Total",
+			"ComponentName":"Monetary Variation",
+			"Weight":1
+		},
+		{
+			"ParentName":"Monetary Variation Total",
+			"ComponentName":"Monetary Variation Leasing",
+			"Weight":1
+		},
+		{
+			"ParentName":"Closing Balance Debt Total",
+			"ComponentName":"Closing Balance Debt",
+			"Weight":1
+		},
+		{
+			"ParentName":"Closing Balance Debt Total",
+			"ComponentName":"Closing Balance Debt Leasing",
+			"Weight":1
+		}
+	],
+	"Subsets@Code.links":[]
+}

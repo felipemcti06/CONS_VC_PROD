@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"DFS.D.Accounts_PnL",
+	"Hierarchies@Code.links":
+	[
+		"DFS.D.Accounts_PnL.hierarchies/DFS.D.Accounts_PnL.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('DFS.D.Accounts_PnL')/Hierarchies('DFS.D.Accounts_PnL')"
+	}
+}

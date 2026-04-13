@@ -1,0 +1,32 @@
+{
+	"@type":"Process",
+	"Name":"COS.400.00.Carrega_COS.400.CustoHD",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"COS.400.00.Carrega_COS.400.CustoHD.ti",
+	"DataSource":
+	{
+		"Type":"None"
+	},
+	"Parameters":
+	[
+		{
+			"Name":"pAno",
+			"Prompt":"",
+			"Value":"2025",
+			"Type":"String"
+		},
+		{
+			"Name":"pMes",
+			"Prompt":"",
+			"Value":"01",
+			"Type":"String"
+		},
+		{
+			"Name":"pVersao",
+			"Prompt":"",
+			"Value":"Real",
+			"Type":"String"
+		}
+	],
+	"Variables":[]
+}

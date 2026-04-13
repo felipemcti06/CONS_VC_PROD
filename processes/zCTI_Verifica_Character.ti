@@ -1,0 +1,38 @@
+#region Metadata
+   sDim = vDIM;
+    nEl = DIMSIZ(sDim);
+    j = 1;
+
+    WHILE (j <= nEl);
+        
+
+        sElm = ElementName(sDim,'' , j );
+
+
+        
+       
+
+
+  MxChar = long( sElm );
+  ixChar = 1;
+  fail = 0;
+  While ( ixChar <= mxChar   &   fail = 0 );
+   # testASCII = Code( sElm , ixChar );
+   testASCII = CODEW( sElm , ixChar );
+   # If ( testASCII = 32   ) ; 
+      If ( testASCII = 8203 ) ;
+      AsciiOutput( 'Verifica_Character.csv' , vDIM , sElm);
+        
+      fail = 1;
+    endif;
+    ixChar = ixChar + 1;
+  End;
+        
+  
+
+       
+
+        j = j + 1;
+
+    END;
+#endregion

@@ -1,0 +1,24 @@
+{
+	"@type":"Hierarchy",
+	"Name":"SYS.D.Validation_Parameter",
+	"Elements":
+	[
+		{
+			"Name":"Title",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Parameter 1",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Parameter 2",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Parameter 3",
+			"Type":"Numeric"
+		}
+	],
+	"Subsets@Code.links":[]
+}

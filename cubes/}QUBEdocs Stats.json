@@ -1,0 +1,30 @@
+{
+	"@type":"Cube",
+	"Name":"}QUBEdocs Stats",
+	"Dimensions":
+	[
+		{
+			"@id":"Dimensions('}QUBEdocs Stat Instance')"
+		},
+		{
+			"@id":"Dimensions('}QUBEdocs Time Interval')"
+		},
+		{
+			"@id":"Dimensions('}QUBEdocs Stat')"
+		},
+		{
+			"@id":"Dimensions('}QUBEdocs Client')"
+		},
+		{
+			"@id":"Dimensions('}QUBEdocs Object')"
+		},
+		{
+			"@id":"Dimensions('}QUBEdocs Stat Measure')"
+		}
+	],
+	"Rules@Code.link":"}QUBEdocs Stats.rules",
+	"Views@Code.links":
+	[
+		"}QUBEdocs Stats.views/Performance Stats.json"
+	]
+}

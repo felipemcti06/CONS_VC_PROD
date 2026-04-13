@@ -1,0 +1,16 @@
+{
+	"@type":"Hierarchy",
+	"Name":"STG.M.100.DataBaseUploads",
+	"Elements":
+	[
+		{
+			"Name":"Value",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI_Value",
+			"Type":"Numeric"
+		}
+	],
+	"Subsets@Code.links":[]
+}

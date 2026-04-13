@@ -1,0 +1,1787 @@
+#region Prolog
+# ===============================================================================================================
+#GENERALCOMMENT             Description:     Process that starts version copying
+#GENERALCOMMENT             Responsible:   	Vitor Ribeiro
+#GENERALCOMMENT             Date:   January/2024
+#
+#LASTCHANGE                 Alterações:
+#LASTCHANGE                 Responsavel Alterações:
+# ===============================================================================================================
+
+# ===============================================================================================================
+#PROLOGCOMMENT               Description:            Validates the cube information and creates the Data Source Subset ordered by priority
+# ===============================================================================================================
+
+
+# =================================================================================
+# Makes the lock for SaveData
+# =================================================================================
+#Synchronized( 'SaveDataAll' );
+
+
+# =================================================================================
+# CTI standard variables that must be changed
+# =================================================================================
+
+
+# Information from Source and Destination cube
+# ========================================
+csCubeSource 		    = 'SYS.910.Version_Copy_Cube';
+csCubeParamCopy    = 'SYS.900.Version_Copy_Parameter';
+#csCubeRecord 		    = 'SYS.915.Registro_Copia_Versao';
+csCubeRecord 		    ='SYS.915.Version_Copy_Log';
+csCubeReject            = 'SYS.999.Version_Copy_Rejects' ;
+
+# =================================================================================
+# CTI standard variables that must not be changed
+# =================================================================================
+
+# Discover the user who executed the process
+# ========================================
+csUser = IF( DimIx( '}Clients' , TM1User() ) = 0, 'Admin' , ATTRS('}Clients', TM1User(), '}TM1_DefaultDisplayValue') );
+  
+  
+# Process control variables
+# ========================================
+csCubeParameter			= 'SYS.150.Controle_Cargas';
+csCubeProperties			= '}CubeProperties';
+cnStartTime 			= Now();
+csProcess			= GetProcessName();
+sMessageRecord	 	= '';
+sMessageError 		= '';
+sMessageProcess = '' ;
+nReject 		= 0;
+nRejectHeader 		= 0;
+nRejectNumber		= 0;
+nErrorType				= 0;
+nRecordCount 		= 0;
+nRejectCount 				= 1 ;
+
+
+# Control Cube Variables
+# ========================================
+csUseDebug 		= CellGetS( csCubeParameter , csProcess , 'Debug (S/N)' );
+csWriteLog		 = CellGetS( csCubeParameter , csProcess , 'Gerar Log de Alteração (S/N)' );
+
+
+
+# Treatment for fields coming from the control cube that receive (Y/N)
+# ========================================
+csUseDebug		 	= IF( csUseDebug @= 'S' , 'S' , 'N' );
+csWriteLog		     = IF ( csWriteLog @= 'S', 'YES', 'NO' );
+
+
+
+
+# =================================================================================
+# Local File Variables
+# =================================================================================
+csDelimiter 		        	= ';';
+csThousandSeparator 	= '.';
+csDecimalSeparator		 = ',';
+csQuoteCharacter 		  = '"';
+
+DataSourceASCIIDelimiter 					= csDelimiter;
+DataSourceASCIIThousandSeparator 	= csThousandSeparator;
+DataSourceASCIIDecimalSeparator 	 = csDecimalSeparator;
+DataSourceQuoteCharacter 					= csQuoteCharacter;
+
+
+# =================================================================================
+# Set the initial load log to failure
+# Record this log at the beginning to ensure that there is some failure log recorded
+# If the process is unable to reach the next log record due to an unexpected failure
+# =================================================================================
+sMessageProcess	= 'Process failed, contact administrator to check system error logs' ;
+s01			    = TimSt( cnStartTime , '\Y-\m-\d \hh\im\ss' );
+s02 			= csUser ;
+s03 			= sMessageProcess ;
+s04 			= '0' ;
+s05 			= TimSt( cnStartTime - Now, '\Y-\m-\d \hh\im\ss' );
+
+CellPutS( s01 , csCubeParameter, csProcess, 'DataHora Inicio' );
+CellPutS( s01 , csCubeParameter, csProcess, 'DataHora Fim' );
+CellPutS( s02 , csCubeParameter, csProcess, 'Usuário' );
+CellPutS( s03 , csCubeParameter, csProcess, 'Mensagem de Log' );
+CellPutS( s04 , csCubeParameter, csProcess, 'Registros Processados' );
+CellPutS( s05 , csCubeParameter, csProcess, 'Tempo de Execução' );
+
+
+
+# =================================================================================
+# Add Element TimeStamp
+# =================================================================================
+csTimeStamp 	= TimSt( cnStartTime, '\Y-\m-\d \hh\im\ss' );
+DimensionElementInsertDirect('SYS.D.Timestamp', DIMNM('SYS.D.Timestamp', DIMIX( 'SYS.D.Timestamp', 'Current copy' ) + 1), csTimeStamp ,'N');
+
+
+# =================================================================================
+# Put "Runnig" into the log
+# =================================================================================
+sMessageP = 'Running Version Copy' ;
+
+s01 = csTimeStamp ;
+s02 = csUser ;
+s03 = sMessageProcess ;
+
+CellPutS( s01 , csCubeRecord, csCubeRecord, csTimeStamp,  'StartTime' );
+CellPutS( s02 , csCubeRecord, csCubeRecord, csTimeStamp,  'User' );
+CellPutS( s03 , csCubeRecord, csCubeRecord, csTimeStamp,  'Message' );
+CellPutS( 'Running' , csCubeRecord, csCubeRecord, csTimeStamp,  'Status' );
+
+CellPutS( s01 , csCubeRecord, csCubeRecord, 'Cópia Atual',  'StartTime' );
+CellPutS( s02 , csCubeRecord, csCubeRecord, 'Cópia Atual',  'User' );
+CellPutS( s03 , csCubeRecord, csCubeRecord, 'Cópia Atual',  'Message' );
+CellPutS( 'Running' , csCubeRecord, csCubeRecord, 'Cópia Atual',  'Status' );
+
+CellPutS( 'Running' , csCubeParamCopy, 'Valor', 'Status' );
+#CubeSaveData( csCubeParamCopy );
+
+
+
+
+#Region Cube Clean
+
+# =================================================================================
+#
+# Configuring the Record Cube cleanup view
+#
+# =================================================================================
+
+sSkipCalcs	= 'Y';
+sSkipZeroes		= 'Y'; 
+sSkipRule	= 'Y';
+sTemporaryView	 	= 'Y';
+nTemporaryView		= If( sTemporaryView @= 'Y', 1, 0);
+
+
+# Writes to the Log cube
+# ======================================================
+#CellPutS( csWriteLog, csCubeProperties, csCubeRecord , 'LOGGING' );
+
+
+
+# Defines view name and cleaning subset
+# ======================================================
+csViewRecord	= 'zProcess.' | csProcess | '.' | 'Clean' | '.' | TimSt( cnStartTime, '\Y-\m-\d \hh\im\ss' );
+csSubsetRecord 	= csViewRecord;
+
+
+
+# Creates the view that will be used for cleaning
+# ======================================================
+ViewCreate( csCubeRecord , csViewRecord , nTemporaryView );
+
+
+
+# Creates the subsets that will be used to filter the cleaning view
+# ======================================================
+
+sDimension	= 'SYS.D.Timestamp';
+sElement	= 'Cópia Atual';
+If( sDimension @<> '');
+  SubsetCreate( sDimension, csSubsetRecord , nTemporaryView );  
+  ViewSubsetAssign( csCubeRecord , csViewRecord, sDimension , csSubsetRecord );  
+  SubsetElementInsert( sDimension , csSubsetRecord , sElement	, 1 );
+EndIf;
+
+
+# Create subsets by MDX
+# ======================================================
+sDimension	= '';
+cMDX		= '';
+If( sDimension @<> '');
+  SubsetCreatebyMDX( csSubsetRecord , cMDX, nTemporaryView);
+  ViewSubsetAssign( csCubeRecord , csViewRecord, sDimension , csSubsetRecord );  
+  SubsetMDXSet(sDimension, csSubsetRecord, '');
+EndIf;
+
+
+
+# View Configuration
+# ======================================================
+ViewExtractSkipCalcsSet( csCubeRecord , csViewRecord, If( sSkipCalcs @= 'Y', 1, 0) );
+ViewExtractSkipZeroesSet( csCubeRecord , csViewRecord, If( sSkipZeroes @= 'Y', 1, 0)  );
+ViewExtractSkipRuleValuesSet( csCubeRecord , csViewRecord, If( sSkipRule @= 'Y', 1, 0) );
+
+
+
+# Clean the data from Veiw
+# ======================================================
+ViewZeroOut( csCubeRecord , csViewRecord );
+
+
+# =================================================================================
+#
+# Configuring the Reject Cube cleanup view
+#
+# =================================================================================
+
+sSkipCalcs	= 'Y';
+sSkipZeroes		= 'Y'; 
+sSkipRule	= 'Y';
+sTemporaryView	 	= 'Y';
+nTemporaryView		= If( sTemporaryView @= 'Y', 1, 0);
+
+
+
+# Writes to the Log cube
+# ======================================================
+#CellPutS( csWriteLog, csCubeProperties, csCubeReject , 'LOGGING' );
+
+
+
+# Defines view name and cleaning subset
+# ======================================================
+csViewReject	= 'zProcess.Reject.' | csProcess | '.' | 'Clean' | '.' | TimSt( cnStartTime, '\Y-\m-\d \hh\im\ss' );
+csSubsetReject 	= csViewReject;
+
+
+
+# Creates the view that will be used for cleaning
+# ======================================================
+ViewCreate( csCubeReject , csViewReject , nTemporaryView );
+
+
+
+# Creates the subsets that will be used to filter the cleaning view
+# ======================================================
+
+sDimension	= '}Processes';
+sElement	= csProcess ;
+If( sDimension @<> '');
+  SubsetCreate( sDimension, csSubsetReject , nTemporaryView );  
+  ViewSubsetAssign( csCubeReject , csViewReject, sDimension , csSubsetReject );  
+  SubsetElementInsert( sDimension , csSubsetReject , sElement	, 1 );
+EndIf;
+
+
+# View Configuration
+# ======================================================
+sDimension	= '';
+cMDX		= '';
+If( sDimension @<> '');
+  SubsetCreatebyMDX( csSubsetReject , cMDX, nTemporaryView);
+  ViewSubsetAssign( csCubeReject , csViewReject, sDimension , csSubsetReject );  
+  SubsetMDXSet(sDimension, csSubsetReject, '');
+EndIf;
+
+
+
+# Configuração da View
+# ======================================================
+ViewExtractSkipCalcsSet( csCubeReject , csViewReject, If( sSkipCalcs @= 'S', 1, 0) );
+ViewExtractSkipZeroesSet( csCubeReject , csViewReject, If( sSkipZeroes @= 'S', 1, 0)  );
+ViewExtractSkipRuleValuesSet( csCubeReject , csViewReject, If( sSkipRule @= 'S', 1, 0) );
+
+
+
+# Clean the data from Veiw
+# ======================================================
+ViewZeroOut( csCubeReject , csViewReject );
+
+#EndRegion
+
+
+
+
+# Region Parameter Validation
+
+# ===================================================================================================
+# Ajustes Copia de versao - 05/2024
+# Alterei a posição desse bloco - Ele estava acima da #Region Cube Clean
+# Alterado para os registros dos cubos(Log) não ficarem sujos caso o processo apresentem erro
+# ===================================================================================================
+# Parameter validation
+# Test 1 - If the parameter 1 is not Yes the copy does not start
+# Test 2 - The parameter psCenario must be informed
+# Test 3 - The parameter must be an element from the dimension
+# ===================================================================================================
+
+# Parameter 1
+# =========================
+sElm = psStart;
+sParam = 'Start Copy';
+
+If( sElm @<> 'S'  & sElm @<> 'Y' );
+   nErrors = 1;
+   DataSourceType = 'NULL';
+   sMessageProcess = 'Version copy not started.' ;
+   ItemReject( sMessageProcess );
+EndIf;
+
+# # Parameter 2
+# # =========================
+# sElm = psScenario ;
+# sDim = 'SYS.M.910.Version_Copy_Cube' ;
+# sParam = 'Scenario';
+
+# If( Trim( sDim ) @<> '' );
+#   If( Trim( sElm ) @= '' );
+#     nErrors = 1;
+#     DataSourceType = 'NULL';
+#     sMessageProcess = 'The Parameter    [ ' | sDim | ' ]  was not informed' ;
+#     ItemReject( sMessageProcess );
+#   ElseIf( DimIx( sDim , sElm ) = 0 );
+#     nErrors = 1;
+#     DataSourceType = 'NULL';
+#     sMessageProcess = 'The Parameter    [ ' | sElm | ' ]    does not exist in the dimension    [ ' | sDim | ' ]';
+#     ItemReject( sMessageProcess );
+#   EndIf;
+# EndIf;
+
+
+
+# =================================================================================
+# Validation of the reject file
+# Test 1 - Whether the rejected file path was populated in the control cube
+# Test 2 - If the reject/debug file directory exists
+# =================================================================================
+
+## Get the path where the files are located 
+## ========================================
+#sDirDataExport 		=  CellGetS( csCubeParamCopy , 'Valor' , 'CaminhoArqExport' );
+#
+#
+#
+## Abort the process if the path of the data export files was not provided
+## ======================================================
+#IF( sDirDataExport  @= '' );
+#   nErrors = 1;
+#   sMessageProcess = 'The path where the files for data export should be saved was not provided, enter it in the cube:   "' | csCubeParamCopy | '"' ;
+#   DataSourceType = 'NULL';
+#   ItemReject( sMessageProcess );
+#ENDIF;
+#
+#
+## Put Character "\" at the end of the path if not exists
+## =======================================================
+#sDirDataExport 	= IF( SUBST( sDirDataExport  , LONG( sDirDataExport ) , 1 ) @<> '/' , sDirDataExport  | '/' , sDirDataExport  );
+#
+#
+#
+## =================================================================================
+## Abort the process if the data export file directory does not exist
+## =================================================================================
+#IF( FileExists( sDirDataExport ) = 0 );
+#   nErrors = 1;
+#   sMessageProcess = 'The folder specified for the data export files  "' | sDirDataExport | '"   does not exists, enter it in the cube:   "' | csCubeParamCopy | '"' ;
+#   DataSourceType = 'NULL';
+#   ItemReject( sMessageProcess );
+#ENDIF;
+
+
+
+# =================================================================================
+# Validation of cube parameters
+# Test 1 - If the Parameter was not informed
+# =================================================================================
+
+# =================================================================================
+# Get Parameter to Version Copy
+# =================================================================================
+csSourceElement 		= Trim ( CellGetS( csCubeParamCopy, 'Value' , 'Source Version' ) );
+csTargetElement 		= Trim ( CellGetS( csCubeParamCopy, 'Value' , 'Target Version' ) );
+csRules 			= Trim ( CellGetS( csCubeParamCopy, 'Value' , 'Consider Rules' ) );
+
+csStartDate 		= Trim ( CellGetS( csCubeParamCopy, 'Value' , 'Start Period' ) );
+csEndDate 		= Trim ( CellGetS( csCubeParamCopy, 'Value' , 'End Period' ) );
+csDestStartDate 		= Trim ( CellGetS( csCubeParamCopy, 'Value' , 'Start Period Target' ) );
+
+csThreads 		= CellGetN( csCubeParamCopy, 'Value' , 'Qty Threads' ) ;
+csCopyType		= Trim ( CellGetS( csCubeParamCopy, 'Value' , 'Copy Type' ) );
+
+
+
+# Start Period
+# =========================
+sElm = csStartDate;
+sParam = 'Start Period';
+
+If( sElm @= '' );
+   nErrors = 1;
+   DataSourceType = 'NULL';
+   sMessageProcess = 'The parameter    [ ' | sParam | ' ] was not informed, inform correctly in the cube  [ ' | csCubeParamCopy | ' ]' ;
+   ItemReject( sMessageProcess );
+EndIf;
+
+
+# End Period
+# =========================
+sElm = csEndDate ;
+sParam = 'End Period';
+
+If( sElm @= '' );
+   nErrors = 1;
+   DataSourceType = 'NULL';
+   sMessageProcess = 'The parameter    [ ' | sParam | ' ] was not informed, inform correctly in the cube  [ ' | csCubeParamCopy | ' ]' ;
+   ItemReject( sMessageProcess );
+EndIf;
+
+
+# Copy Type
+# =========================
+sElm = csRules;
+sParam = 'Consider Rules';
+
+If( sElm @= '' );
+   nErrors = 1;
+   DataSourceType = 'NULL';
+   sMessageProcess = 'The parameter    [ ' | sParam | ' ] was not informed, inform correctly in the cube  [ ' | csCubeParamCopy | ' ]' ;
+   ItemReject( sMessageProcess );
+EndIf;
+
+
+
+# Tipo da Cópia
+# =========================
+sElm = csCopyType;
+sParam = 'Copy Type';
+
+If( sElm @= '' );
+   nErrors = 1;
+   DataSourceType = 'NULL';
+   sMessageProcess = 'The parameter    [ ' | sParam | ' ] was not informed, inform correctly in the cube  [ ' | csCubeParamCopy | ' ]' ;
+   ItemReject( sMessageProcess );
+EndIf;
+
+
+# Qty Threads
+# =========================
+sParam = 'Qty Threads';
+
+If( csThreads <= 1 );
+   nErrors = 1;
+   DataSourceType = 'NULL';
+   sMessageProcess = 'The parameter    [ ' | sParam | ' ] was not informed, inform correctly in the cube  [ ' | csCubeParamCopy | ' ]' ;
+   ItemReject( sMessageProcess );
+EndIf;
+
+
+# =========================# =========================
+# Ajustes Copia de versao - 05/2024
+# Versao Ori = Versao Dest
+# =========================# =========================
+sElm1 = csSourceElement;
+sElm2 = csTargetElement;
+
+If( sElm1  @=  sElm2  );
+   nErrors = 1;
+   DataSourceType = 'NULL';
+   sMessageProcess = 'The source version informed [ ' | csSourceElement | ' ] cannot be the same as the destination version informed [ ' | csTargetElement | ' ]' ;
+   ItemReject( sMessageProcess );
+EndIf;
+
+
+
+# # =========================# ========================= Aqui
+# # Ajustes Copia de versao - 05/2024
+# # Se nao informar cubos para copia
+# # =========================# =========================
+# sdim = 'SYS.D.Cubo';
+# vLoop =  DIMSIZ ( sdim ) ; 
+# vLoopControle = 1;
+# nFlagCubo = 0;
+
+# While ( vLoopControle <=  vLoop ) ; 
+
+#    vElemName = DIMNM( sdim ,  vLoopControle ) ; 
+#    vTipo = DTYPE( sdim , vElemName ) ; 
+    
+#    If ( vTipo @<> 'C' ) ;
+
+#        sFlagCubo = Trim ( CellGetS( 'SYS.910.Version_Copy_Cube', vElemName , psScenario ) );
+
+
+#       If( sFlagCubo @= 'S' % sFlagCubo @= 'Y');
+
+#           nFlagCubo = nFlagCubo + 1;
+        
+#       EndIf;
+#    EndIf;
+    
+#    vLoopControle = vLoopControle + 1 ;
+# End;
+    
+
+# If( nFlagCubo  =  0 );
+#    nErrors = 1;
+#    DataSourceType = 'NULL';
+#    sMessageProcess = 'No cubes selected for version copy, please select the cubes to copy' ;
+#    # sMessageProcess = 'Não foi selecionado cubos para cópia de versão, favor selecionar os cubos para cópia' ;
+#    ItemReject( sMessageProcess );
+# EndIf;
+
+#EndRegion
+
+
+
+# =================================================================================
+#
+# Data Source Subset
+#
+# =================================================================================
+
+sTemporaryView	 	= 'Y';
+nTemporaryView		= If( sTemporaryView @= 'Y', 1, 0);
+
+# Defines name of the source subset
+# ======================================================
+csSourceSubset	= 'zProcess.' | csProcess | '.' | 'Source' | '.' | TimSt( cnStartTime, '\Y-\m-\d \hh\im\ss' );
+
+# Creates the Subset Source by MDX
+# ======================================================
+sDimension	= 'SYS.D.Cube';
+sMDX		= '
+ORDER(
+  FILTER(
+  Tm1FilterByLevel(Tm1SubsetAll([' | sDimension | '].[' | sDimension | ']),0) ,
+    [SYS.910.Version_Copy_Cube].(
+      [SYS.M.910.Version_Copy_Cube].[SYS.M.910.Version_Copy_Cube].[Copy Priority]
+    ) <> 0
+  ) , 
+  [SYS.910.Version_Copy_Cube].(
+    [SYS.M.910.Version_Copy_Cube].[SYS.M.910.Version_Copy_Cube].[Copy Priority]
+  ) , 
+  ASC
+)
++ 
+FILTER(
+  Tm1FilterByLevel(Tm1SubsetAll([' | sDimension | '].[' | sDimension | ']),0) ,
+  [SYS.910.Version_Copy_Cube].(
+    [SYS.M.910.Version_Copy_Cube].[SYS.M.910.Version_Copy_Cube].[Copy Priority]
+  ) = 0
+)';
+#ASCIIOutput( '..\teste.txt', sMDX );
+
+If( sDimension @<> '');
+  SubsetCreatebyMDX(csSourceSubset, sMDX, nTemporaryView);
+  SubsetMDXSet(sDimension, csSourceSubset, '');
+EndIf;
+
+
+# Set the Subset as the Data Source
+# ==================================
+DataSourceType = 'Subset';
+DatasourceNameForServer = sDimension ;
+DatasourceNameForClient = sDimension ;
+DatasourceDimensionSubset=csSourceSubset ;
+#endregion
+#region Metadata
+# ===============================================================================================================
+#DATACOMMENT        Description: Validates the values of each cube trigger, and triggers the version copy of these cubes.
+# ===============================================================================================================
+
+# ===================================================================================
+# Generates counter for debug file or rejected records and counts the total number of records processed
+# ===================================================================================
+nRecordCount = nRecordCount + 1;
+sRecordCount = NumberToString( nRecordCount );
+
+# =================================================================================
+# Gets the definition of whether or not this cube should be copied
+# =================================================================================
+IF( Dimix('}Cubes',vsCube)=0);
+  ItemSkip;
+EndIF;
+
+# sRunCopy 	= Trim (CellGetS ( csCubeSource , vsCube, psSCenario));
+# If ( sRunCopy @<> 'S' & sRunCopy @<> 'Y' );
+#   ItemSkip;
+# EndIf;
+
+sFlag 	= Trim (CellGetS ( csCubeSource , vsCube, 'Copy Version (Y/N)'));
+If ( sFlag @<> 'S' & sFlag @<> 'Y' );
+  ItemSkip;
+EndIf;
+
+
+# ===================================================================================
+# Removes whitespace from variables
+# ===================================================================================
+sDimVersion 	= Trim ( CellGetS( csCubeSource , vsCube , 'Dimension Version' ) );
+sDimYear		= Trim ( CellGetS( csCubeSource , vsCube , 'Dimension Year' ) );
+sDimMonth		= Trim ( CellGetS( csCubeSource , vsCube , 'Dimension Month' ) );
+sDimYearMonth	= Trim ( CellGetS( csCubeSource , vsCube , 'Dimension Year and Month' ) );
+pDimDriver	= Trim ( CellGetS( csCubeSource , vsCube , 'Dimension Driver' ) );
+
+
+# ===================================================================================
+# Treats variables
+# ===================================================================================
+sStartYear    = SUBST( csStartDate, 1, 4 ) ;
+sStartMonth = SUBST( csStartDate, 5, 2 ) ;
+
+sEndYear    = SUBST( csEndDate, 1, 4 ) ;
+sEndMonth = SUBST( csEndDate, 5, 2 ) ;
+
+sDestStartYear    = SUBST( csDestStartDate, 1, 4 ) ;
+sDestStartMonth = SUBST( csDestStartDate, 5, 2 ) ;
+
+
+#Region Validation of Variables
+
+# ===================================================================================
+# Put the record to reject
+# If the dimension does not exist in the cube or is blank
+# ===================================================================================
+sDim	= '}Dimensions';
+sElm 	= sDimVersion;
+sParam	= 'Dimension Version';
+
+If( nReject = 0 );
+   If( sElm @= '' );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] was not informed, inform correctly in the cube [ ' | csCubeSource | ' ]' ;
+      nReject = 1;
+   ElseIf( DimIx( sDim , sElm ) = 0 );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] contain the value: [ ' | sElm | ' ] that does not exist in the dimension: [ ' | sDim | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+
+# ===================================================================================
+# Put the record to reject
+# If the dimension does not exist in the cube or is blank
+# ===================================================================================
+sDim	= sDimVersion ;
+sCube	= vsCube ;
+
+If( nReject = 0 );
+   nSourceDimExists = 0;
+   nTargetDimExists = 0;
+   nDimensionCount = 0;
+   sDimension = TabDim( sCube, nDimensionCount + 1);
+
+   While( sDimension @<> '' );
+     nDimensionCount = nDimensionCount + 1;
+     If( sDimension @= sDim );
+       nSourceDimExists = 1;
+     EndIf;
+     sDimension = TabDim( sCube, nDimensionCount + 1);
+   End;
+
+   If( nSourceDimExists = 0 );
+      sMessageRecord = 'The reported dimension: [ ' | sDim | ' ] does not exist in the cube: [ ' | sCube | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;		
+		
+
+
+# ===================================================================================
+# Put the record to reject 
+# If the year dimension is filled in and does not exist in SDATA
+# ===================================================================================
+sDim	= '}Dimensions';
+sElm 	= sDimYear ;
+sParam	= 'Dimension Year' ;
+
+If( nReject = 0 );
+   If( sElm @<> '' & DimIx( sDim , sElm ) = 0 );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] contain the value: [ ' | sElm | ' ] that does not exist in the dimension: [ ' | sDim | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+
+
+# ===================================================================================
+# Put the record to reject
+# If the dimension does not exist in the cube
+# ===================================================================================
+sDim	= sDimYear ;
+sCube	= vsCube ;
+
+If( nReject = 0 & sDim @<> '' );
+   nSourceDimExists = 0;
+   nTargetDimExists = 0;
+   nDimensionCount = 0;
+   sDimension = TabDim( sCube, nDimensionCount + 1);
+
+   While( sDimension @<> '' );
+     nDimensionCount = nDimensionCount + 1;
+     If( sDimension @= sDim );
+       nSourceDimExists = 1;
+     EndIf;
+     sDimension = TabDim( sCube, nDimensionCount + 1);
+   End;
+
+   If( nSourceDimExists = 0 );
+      sMessageRecord = 'The reported dimension: [ ' | sDim | ' ] does not exist in the cube: [ ' | sCube | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+
+
+
+# ===================================================================================
+# Put the record to reject
+# If the dimension does not exist in the cube
+# ===================================================================================
+sDim	= sDimMonth ;
+sCube	= vsCube ;
+
+If( nReject = 0 & sDim @<> '' );
+   nSourceDimExists = 0;
+   nTargetDimExists = 0;
+   nDimensionCount = 0;
+   sDimension = TabDim( sCube, nDimensionCount + 1);
+
+   While( sDimension @<> '' );
+     nDimensionCount = nDimensionCount + 1;
+     If( sDimension @= sDim );
+       nSourceDimExists = 1;
+     EndIf;
+     sDimension = TabDim( sCube, nDimensionCount + 1);
+   End;
+
+   If( nSourceDimExists = 0 );
+      sMessageRecord = 'The reported dimension: [ ' | sDim | ' ] does not exist in the cube: [ ' | sCube | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+
+
+# ===================================================================================
+# Put the record to reject
+# If the dimension does not exist in the cube
+# ===================================================================================
+sDim	= sDimYearMonth ;
+sCube	= vsCube ;
+
+If( nReject = 0 & sDim @<> '' );
+   nSourceDimExists = 0;
+   nTargetDimExists = 0;
+   nDimensionCount = 0;
+   sDimension = TabDim( sCube, nDimensionCount + 1);
+
+   While( sDimension @<> '' );
+     nDimensionCount = nDimensionCount + 1;
+     If( sDimension @= sDim );
+       nSourceDimExists = 1;
+     EndIf;
+     sDimension = TabDim( sCube, nDimensionCount + 1);
+   End;
+
+   If( nSourceDimExists = 0 );
+      sMessageRecord = 'The reported dimension: [ ' | sDim | ' ] does not exist in the cube: [ ' | sCube | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+
+
+# ===================================================================================
+# Put the record to reject
+# If the dimension does not exist in the cube
+# ===================================================================================
+sDim	= pDimDriver ;
+sCube	= vsCube ;
+
+If( nReject = 0 & sDim @<> '' );
+   nSourceDimExists = 0;
+   nTargetDimExists = 0;
+   nDimensionCount = 0;
+   sDimension = TabDim( sCube, nDimensionCount + 1);
+
+   While( sDimension @<> '' );
+     nDimensionCount = nDimensionCount + 1;
+     If( sDimension @= sDim );
+       nSourceDimExists = 1;
+     EndIf;
+     sDimension = TabDim( sCube, nDimensionCount + 1);
+   End;
+
+   If( nSourceDimExists = 0 );
+      sMessageRecord = 'The reported dimension: [ ' | sDim | ' ] does not exist in the cube: [ ' | sCube | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+
+# ===================================================================================
+# Put  the record to reject
+# If the element does not exist in the dimension
+# =================================================================================== 
+sDim = sDimVersion;
+sElm = csSourceElement;
+sParam = 'Source Version';
+
+If( nReject = 0 );
+   If( Trim( sElm ) @= '' );
+      nReject = 1;
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] was not informed, inform correctly in the cube [ ' | csCubeParamCopy | ' ]' ;
+      ElseIf( DimIx( sDim , sElm ) = 0 );
+      nReject = 1;
+      sMessageRecord = 'O elemento    [ ' | sElm | ' ]    não existe na dimensão    [ ' | sDim | ' ], informar corretamente no cubo  [ ' | csCubeParamCopy | ' ]' ;
+   ElseIf( DTYPE( sDim , sElm ) @= 'C' );
+      nReject = 1;
+      sMessageRecord = 'O elemento    [ ' | sElm | ' ]    é um consolidador na dimensão    [ ' | sDim | ' ], informar corretamente no cubo  [ ' | csCubeParamCopy | ' ]' ;
+   EndIf;
+EndIf;
+
+
+
+
+# ===================================================================================
+# Put the record to reject
+# If the element does not exist in the dimension
+# =================================================================================== Aqui
+sDim = sDimVersion;
+sElm = csTargetElement;
+sParam = 'Target Version';
+
+If( nReject = 0 );
+   If( Trim( sElm ) @= '' );
+      nReject = 1;
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] was not informed, inform correctly in the cube [ ' | csCubeParamCopy | ' ]' ;
+      ElseIf( DimIx( sDim , sElm ) = 0 );
+      nReject = 1;
+      sMessageRecord = 'The element [ ' | sElm | ' ] does not exist in dimension [ ' | sDim | ' ], inform correctly in the cube [ ' | csCubeParamCopy | ' ]' ;
+   ElseIf( DTYPE( sDim , sElm ) @= 'C' );
+      nReject = 1;
+      sMessageRecord = 'The element [ ' | sElm | ' ] is a consolidator in the dimension [ ' | sDim | ' ], inform correctly in the cube [ ' | csCubeParamCopy | ' ]' ;
+   EndIf;
+EndIf;
+
+
+
+# ===================================================================================
+# Put the record to reject
+# If the element does not exist in the dimension
+# ===================================================================================
+sDim = sDimYear;
+sElm = sStartYear;
+sParam = 'Start Period';
+
+If( nReject = 0 & sDim @<> '' );
+   If( sElm @= '' );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] was not informed, inform correctly in the cube [ ' | csCubeParamCopy | ' ]' ;
+      nReject = 1;
+   ElseIf( DimIx( sDim , sElm ) = 0 );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] contain the year value: [ ' | sElm | ' ] that does not exist in the dimension: [ ' | sDim | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+
+# ===================================================================================
+# Put the record to reject
+# If the element does not exist in the dimension
+# ===================================================================================
+sDim = sDimYear;
+sElm = sEndYear;
+sParam = 'End Period';
+
+If( nReject = 0 & sDim @<> '' );
+   If( sElm @= '' );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] was not informed, inform correctly in the cube [ ' | csCubeParamCopy | ' ]' ;
+      nReject = 1;
+   ElseIf( DimIx( sDim , sElm ) = 0 );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] contain the year value: [ ' | sElm | ' ] that does not exist in the dimension: [ ' | sDim | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+
+
+# ===================================================================================
+# Put the record to reject
+# If the element does not exist in the dimension
+# ===================================================================================
+sDim = sDimMonth;
+sElm = sStartMonth;
+sParam = 'Start Period';
+
+If( nReject = 0 & sElm @<> '' & sDim @<> '' );
+   If( DimIx( sDim , sElm ) = 0 );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] contain the month value: [ ' | sElm | ' ] that does not exist in the dimension: [ ' | sDim | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+
+# ===================================================================================
+# Put the record to reject
+# If the element does not exist in the dimension
+# ===================================================================================
+sDim = sDimMonth;
+sElm = sEndMonth;
+sParam = 'End Period';
+
+If( nReject = 0 & sElm @<> '' & sDim @<> '' );
+   If( DimIx( sDim , sElm ) = 0 );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] contain the month value: [ ' | sElm | ' ] that does not exist in the dimension: [ ' | sDim | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+
+
+# ===================================================================================
+# Put the record to reject
+# If the element does not exist in the dimension
+# ===================================================================================
+sDim = sDimYearMonth;
+sElm = csStartDate;
+sParam = 'Start Period';
+
+If( nReject = 0 & sElm @<> '' & sDim @<> '' );
+   If( DimIx( sDim , csStartDate ) = 0 );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] contain the value: [ ' | sElm | ' ] that does not exist in the dimension: [ ' | sDim | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+# ===================================================================================
+# Put the record to reject
+# If the element does not exist in the dimension
+# ===================================================================================
+sDim = sDimYearMonth;
+sElm = csEndDate;
+sParam = 'End Period';
+
+If( nReject = 0 & sElm @<> '' & sDim @<> '' );
+   If( DimIx( sDim , csEndDate ) = 0 );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] contain the value: [ ' | sElm | ' ] that does not exist in the dimension: [ ' | sDim | ' ]';
+      nReject = 1;
+   EndIf;
+EndIF;
+
+# ===================================================================================
+# Put the record to reject
+# If the element Period End is Greater than Period Start
+# ===================================================================================
+sElm1 = csStartDate;
+sParam1 = 'Start Period';
+sElm2 = csEndDate;
+sParam2 = 'End Period';
+If( nReject = 0 & sElm2@<sElm1 );
+   sMessageRecord = 'The parameter [ ' | sParam1 | ' ] contain the value: [ ' | sElm1 | ' ] that greater than parameter: [ ' | sParam2 | ' ] contains the value [' | sElm2 |']';
+   nReject = 1;
+EndIf;
+
+
+# ===================================================================================
+# Put the record to reject
+# If the element does not exist in the dimension
+# ===================================================================================
+sDim = sDimYearMonth;
+sElm = csDestStartDate;
+sParam = 'Start Period Target';
+
+If( nReject = 0 & sElm @<> '' & sDim @<> '' );
+   If( DimIx( sDim , csEndDate ) = 0 );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] contain the value: [ ' | sElm | ' ] that does not exist in the dimension: [ ' | sDim | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+
+# ===================================================================================
+# Put the record to reject
+# If the element does not exist in the dimension
+# ===================================================================================
+sDim = sDimYear;
+sElm = sDestStartYear;
+sParam = 'Start Period Target';
+
+
+If( nReject = 0 & sElm @<> '' & sDim @<> '' );
+   If( DimIx( sDim , sElm ) = 0 );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] contain the year value: [ ' | sElm | ' ] that does not exist in the dimension: [ ' | sDim | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+
+
+# ===================================================================================
+# Put the record to reject
+# If the element does not exist in the dimension
+# ===================================================================================
+sDim = sDimMonth;
+sElm = sDestStartMonth;
+sParam = 'Start Period Target';
+
+If( nReject = 0 & sElm @<> '' & sDim @<> '' );
+   If( DimIx( sDim , sElm ) = 0 );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] contain the month value: [ ' | sElm | ' ] that does not exist in the dimension: [ ' | sDim | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+   
+#EndRegion
+
+
+
+# =================================================================================
+# Defines cube copy start variables
+# =================================================================================
+nInitialTime 		= NOW;
+sStartTimeStamp	= TimSt( Now, '\Y-\m-\d \hh\im\ss' );
+
+# =================================================================================
+# Records the Log in the Control Cube 
+# =================================================================================
+sPeriod	=  csStartDate | ' ' | csEndDate;
+s01 		=  sStartTimeStamp ;
+s02 		=  sMessageRecord;
+s03 		=  csSourceElement;
+s04 		=  csTargetElement;
+s05 		=  sPeriod ;
+s06			=  csRules;
+s07			=  NumberToString ( csThreads);
+s08			=  csCopyType;
+s09			=  csUser;
+
+# ===================================================================================
+# REJECTION AND STATUS
+# Save records to file
+# ===================================================================================
+If( nReject = 1  %  csUseDebug @= 'S' );
+    nReject = 0 ;
+     ItemSkip;
+
+EndIf;
+
+
+# =================================================================================
+# Disable cube logging
+# =================================================================================
+#CellPutS( 'NO', csCubeProperties, vsCube, 'LOGGING' );
+#LogOutput( 'Info', csCubeProperties| ' NO ' |  vsCube| ' LOGGING' );
+
+
+
+#CubeSaveData( csCubeProperties );
+#endregion
+#region Data
+# ===============================================================================================================
+#DATACOMMENT        Description: Validates the values of each cube trigger, and triggers the version copy of these cubes.
+# ===============================================================================================================
+
+# ===================================================================================
+# Generates counter for debug file or rejected records and counts the total number of records processed
+# ===================================================================================
+nRecordCount = nRecordCount + 1;
+sRecordCount = NumberToString( nRecordCount );
+
+# =================================================================================
+# Gets the definition of whether or not this cube should be copied
+# =================================================================================
+IF( Dimix('}Cubes',vsCube)=0);
+  ItemSkip;
+EndIF;
+
+# sRunCopy 	= Trim (CellGetS ( csCubeSource , vsCube, psSCenario));
+# If ( sRunCopy @<> 'S' & sRunCopy @<> 'Y' );
+#   ItemSkip;
+# EndIf;
+
+sFlag 	= Trim (CellGetS ( csCubeSource , vsCube, 'Copy Version (Y/N)'));
+If ( sFlag @<> 'S' & sFlag @<> 'Y' );
+  ItemSkip;
+EndIf;
+# ===================================================================================
+# Removes whitespace from variables
+# ===================================================================================
+sDimVersion 	= Trim ( CellGetS( csCubeSource , vsCube , 'Dimension Version' ) );
+sDimYear		= Trim ( CellGetS( csCubeSource , vsCube , 'Dimension Year' ) );
+sDimMonth		= Trim ( CellGetS( csCubeSource , vsCube , 'Dimension Month' ) );
+sDimYearMonth	= Trim ( CellGetS( csCubeSource , vsCube , 'Dimension Year and Month' ) );
+pDimDriver	= Trim ( CellGetS( csCubeSource , vsCube , 'Dimension Driver' ) );
+
+
+# ===================================================================================
+# Treats variables
+# ===================================================================================
+sStartYear    = SUBST( csStartDate, 1, 4 ) ;
+sStartMonth = SUBST( csStartDate, 5, 2 ) ;
+
+sEndYear    = SUBST( csEndDate, 1, 4 ) ;
+sEndMonth = SUBST( csEndDate, 5, 2 ) ;
+
+sDestStartYear    = SUBST( csDestStartDate, 1, 4 ) ;
+sDestStartMonth = SUBST( csDestStartDate, 5, 2 ) ;
+
+#Region Validation of Variables
+
+## =================================================================================== Aqui
+## Ajustes Copia Versao
+## 05/2024
+## Não validava se as colunas de dimensoes de periodo estavam preenchidas
+## ===================================================================================
+## ===================================================================================
+## Put the record to reject
+## If the Year Dimension and Month Dimension OR Year and Month Dimension columns were not filled in.
+## ===================================================================================
+#If( nReject = 0 );
+#   If( (sDimYear @= '' & sDimMonth @= '') & sDimYearMonth @= '' );
+#      sMessageRecord = 'The Year Dimension, Month Dimension and Year and Month Dimension columns were not filled in. Enter the Year Dimension and Month Dimension columns OR enter the Year and Month Dimension column.';
+#      nReject = 1;
+#   EndIf;
+#EndIf;
+
+
+# ===================================================================================
+# Put the record to reject
+# If the dimension does not exist in the cube or is blank
+# ===================================================================================
+sDim	= '}Dimensions';
+sElm 	= sDimVersion;
+sParam	= 'Dimension Version';
+
+If( nReject = 0 );
+   If( sElm @= '' );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] was not informed, inform correctly in the cube [ ' | csCubeSource | ' ]' ;
+      nReject = 1;
+   ElseIf( DimIx( sDim , sElm ) = 0 );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] contain the value: [ ' | sElm | ' ] that does not exist in the dimension: [ ' | sDim | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+
+# ===================================================================================
+# Put the record to reject
+# If the dimension does not exist in the cube or is blank
+# ===================================================================================
+sDim	= sDimVersion ;
+sCube	= vsCube ;
+
+If( nReject = 0 );
+   nSourceDimExists = 0;
+   nTargetDimExists = 0;
+   nDimensionCount = 0;
+   sDimension = TabDim( sCube, nDimensionCount + 1);
+
+   While( sDimension @<> '' );
+     nDimensionCount = nDimensionCount + 1;
+     If( sDimension @= sDim );
+       nSourceDimExists = 1;
+     EndIf;
+     sDimension = TabDim( sCube, nDimensionCount + 1);
+   End;
+
+   If( nSourceDimExists = 0 );
+      sMessageRecord = 'The reported dimension: [ ' | sDim | ' ] does not exist in the cube: [ ' | sCube | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+# ===================================================================================
+# Put the record to reject 
+# If the year dimension is filled in and does not exist in SDATA
+# ===================================================================================
+sDim	= '}Dimensions';
+sElm 	= sDimYear ;
+sParam	= 'Dimension Year' ;
+
+If( nReject = 0 );
+   If( sElm @<> '' & DimIx( sDim , sElm ) = 0 );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] contain the value: [ ' | sElm | ' ] that does not exist in the dimension: [ ' | sDim | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+
+
+# ===================================================================================
+# Put the record to reject
+# If the dimension does not exist in the cube
+# ===================================================================================
+sDim	= sDimYear ;
+sCube	= vsCube ;
+
+If( nReject = 0 & sDim @<> '' );
+   nSourceDimExists = 0;
+   nTargetDimExists = 0;
+   nDimensionCount = 0;
+   sDimension = TabDim( sCube, nDimensionCount + 1);
+
+   While( sDimension @<> '' );
+     nDimensionCount = nDimensionCount + 1;
+     If( sDimension @= sDim );
+       nSourceDimExists = 1;
+     EndIf;
+     sDimension = TabDim( sCube, nDimensionCount + 1);
+   End;
+
+   If( nSourceDimExists = 0 );
+      sMessageRecord = 'The reported dimension: [ ' | sDim | ' ] does not exist in the cube: [ ' | sCube | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+
+
+
+# ===================================================================================
+# Put the record to reject
+# If the dimension does not exist in the cube
+# ===================================================================================
+sDim	= sDimMonth ;
+sCube	= vsCube ;
+
+If( nReject = 0 & sDim @<> '' );
+   nSourceDimExists = 0;
+   nTargetDimExists = 0;
+   nDimensionCount = 0;
+   sDimension = TabDim( sCube, nDimensionCount + 1);
+
+   While( sDimension @<> '' );
+     nDimensionCount = nDimensionCount + 1;
+     If( sDimension @= sDim );
+       nSourceDimExists = 1;
+     EndIf;
+     sDimension = TabDim( sCube, nDimensionCount + 1);
+   End;
+
+   If( nSourceDimExists = 0 );
+      sMessageRecord = 'The reported dimension: [ ' | sDim | ' ] does not exist in the cube: [ ' | sCube | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+
+
+# ===================================================================================
+# Put the record to reject
+# If the dimension does not exist in the cube
+# ===================================================================================
+sDim	= sDimYearMonth ;
+sCube	= vsCube ;
+
+If( nReject = 0 & sDim @<> '' );
+   nSourceDimExists = 0;
+   nTargetDimExists = 0;
+   nDimensionCount = 0;
+   sDimension = TabDim( sCube, nDimensionCount + 1);
+
+   While( sDimension @<> '' );
+     nDimensionCount = nDimensionCount + 1;
+     If( sDimension @= sDim );
+       nSourceDimExists = 1;
+     EndIf;
+     sDimension = TabDim( sCube, nDimensionCount + 1);
+   End;
+
+   If( nSourceDimExists = 0 );
+      sMessageRecord = 'The reported dimension: [ ' | sDim | ' ] does not exist in the cube: [ ' | sCube | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+
+
+# ===================================================================================
+# Put the record to reject
+# If the dimension does not exist in the cube
+# ===================================================================================
+sDim	= pDimDriver ;
+sCube	= vsCube ;
+
+If( nReject = 0 & sDim @<> '' );
+   nSourceDimExists = 0;
+   nTargetDimExists = 0;
+   nDimensionCount = 0;
+   sDimension = TabDim( sCube, nDimensionCount + 1);
+
+   While( sDimension @<> '' );
+     nDimensionCount = nDimensionCount + 1;
+     If( sDimension @= sDim );
+       nSourceDimExists = 1;
+     EndIf;
+     sDimension = TabDim( sCube, nDimensionCount + 1);
+   End;
+
+   If( nSourceDimExists = 0 );
+      sMessageRecord = 'The reported dimension: [ ' | sDim | ' ] does not exist in the cube: [ ' | sCube | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+
+# ===================================================================================
+# Put  the record to reject
+# If the element does not exist in the dimension
+# ===================================================================================
+sDim = sDimVersion;
+sElm = csSourceElement;
+sParam = 'Source Version';
+
+If( nReject = 0 );
+   If( Trim( sElm ) @= '' );
+      nReject = 1;
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] was not informed, inform correctly in the cube [ ' | csCubeParamCopy | ' ]' ;
+      ElseIf( DimIx( sDim , sElm ) = 0 );
+      nReject = 1;
+      sMessageRecord = 'O elemento    [ ' | sElm | ' ]    não existe na dimensão    [ ' | sDim | ' ], informar corretamente no cubo  [ ' | csCubeParamCopy | ' ]' ;
+   ElseIf( DTYPE( sDim , sElm ) @= 'C' );
+      nReject = 1;
+      sMessageRecord = 'O elemento    [ ' | sElm | ' ]    é um consolidador na dimensão    [ ' | sDim | ' ], informar corretamente no cubo  [ ' | csCubeParamCopy | ' ]' ;
+   EndIf;
+EndIf;
+
+
+
+
+# ===================================================================================
+# Put the record to reject
+# If the element does not exist in the dimension
+# ===================================================================================
+sDim = sDimVersion;
+sElm = csTargetElement;
+sParam = 'Target Version';
+
+If( nReject = 0 );
+   If( Trim( sElm ) @= '' );
+      nReject = 1;
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] was not informed, inform correctly in the cube [ ' | csCubeParamCopy | ' ]' ;
+      ElseIf( DimIx( sDim , sElm ) = 0 );
+      nReject = 1;
+      sMessageRecord = 'The element [ ' | sElm | ' ] does not exist in dimension [ ' | sDim | ' ], inform correctly in the cube [ ' | csCubeParamCopy | ' ]' ;
+   ElseIf( DTYPE( sDim , sElm ) @= 'C' );
+      nReject = 1;
+      sMessageRecord = 'The element [ ' | sElm | ' ] is a consolidator in the dimension [ ' | sDim | ' ], inform correctly in the cube [ ' | csCubeParamCopy | ' ]' ;
+   EndIf;
+EndIf;
+
+
+
+
+# ===================================================================================
+# Put the record to reject
+# If the element does not exist in the dimension
+# ===================================================================================
+sDim = sDimYear;
+sElm = sStartYear;
+sParam = 'Start Period';
+
+If( nReject = 0 & sDim @<> '' );
+   If( sElm @= '' );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] was not informed, inform correctly in the cube [ ' | csCubeParamCopy | ' ]' ;
+      nReject = 1;
+   ElseIf( DimIx( sDim , sElm ) = 0 );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] contain the year value: [ ' | sElm | ' ] that does not exist in the dimension: [ ' | sDim | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+
+# ===================================================================================
+# Put the record to reject
+# If the element does not exist in the dimension
+# ===================================================================================
+sDim = sDimYear;
+sElm = sEndYear;
+sParam = 'End Period';
+
+If( nReject = 0 & sDim @<> '' );
+   If( sElm @= '' );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] was not informed, inform correctly in the cube [ ' | csCubeParamCopy | ' ]' ;
+      nReject = 1;
+   ElseIf( DimIx( sDim , sElm ) = 0 );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] contain the year value: [ ' | sElm | ' ] that does not exist in the dimension: [ ' | sDim | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+
+
+# ===================================================================================
+# Put the record to reject
+# If the element does not exist in the dimension
+# ===================================================================================
+sDim = sDimMonth;
+sElm = sStartMonth;
+sParam = 'Start Period';
+
+If( nReject = 0 & sElm @<> '' & sDim @<> '' );
+   If( DimIx( sDim , sElm ) = 0 );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] contain the month value: [ ' | sElm | ' ] that does not exist in the dimension: [ ' | sDim | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+
+# ===================================================================================
+# Put the record to reject
+# If the element does not exist in the dimension
+# ===================================================================================
+sDim = sDimMonth;
+sElm = sEndMonth;
+sParam = 'End Period';
+
+If( nReject = 0 & sElm @<> '' & sDim @<> '' );
+   If( DimIx( sDim , sElm ) = 0 );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] contain the month value: [ ' | sElm | ' ] that does not exist in the dimension: [ ' | sDim | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+
+
+# ===================================================================================
+# Put the record to reject
+# If the element does not exist in the dimension
+# ===================================================================================
+sDim = sDimYearMonth;
+sElm = csStartDate;
+sParam = 'Start Period';
+
+If( nReject = 0 & sElm @<> '' & sDim @<> '' );
+   If( DimIx( sDim , csStartDate ) = 0 );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] contain the value: [ ' | sElm | ' ] that does not exist in the dimension: [ ' | sDim | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+# ===================================================================================
+# Put the record to reject
+# If the element does not exist in the dimension
+# ===================================================================================
+sDim = sDimYearMonth;
+sElm = csEndDate;
+sParam = 'End Period';
+
+If( nReject = 0 & sElm @<> '' & sDim @<> '' );
+   If( DimIx( sDim , csEndDate ) = 0 );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] contain the value: [ ' | sElm | ' ] that does not exist in the dimension: [ ' | sDim | ' ]';
+      nReject = 1;
+   EndIf;
+EndIF;
+
+# ===================================================================================
+# Put the record to reject
+# If the element Period End is Greater than Period Start
+# ===================================================================================
+sElm1 = csStartDate;
+sParam1 = 'Start Period';
+sElm2 = csEndDate;
+sParam2 = 'End Period';
+If( nReject = 0 & sElm2@<sElm1 );
+   sMessageRecord = 'The parameter [ ' | sParam1 | ' ] contain the value: [ ' | sElm1 | ' ] that greater than parameter: [ ' | sParam2 | ' ] contains the value [' | sElm2 |']';
+   nReject = 1;
+EndIf;
+
+
+# ===================================================================================
+# Put the record to reject
+# If the element does not exist in the dimension
+# ===================================================================================
+sDim = sDimYearMonth;
+sElm = csDestStartDate;
+sParam = 'Start Period Target';
+
+If( nReject = 0 & sElm @<> '' & sDim @<> '' );
+   If( DimIx( sDim , csEndDate ) = 0 );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] contain the value: [ ' | sElm | ' ] that does not exist in the dimension: [ ' | sDim | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+
+# ===================================================================================
+# Put the record to reject
+# If the element does not exist in the dimension
+# ===================================================================================
+sDim = sDimYear;
+sElm = sDestStartYear;
+sParam = 'Start Period Target';
+
+
+If( nReject = 0 & sElm @<> '' & sDim @<> '' );
+   If( DimIx( sDim , sElm ) = 0 );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] contain the year value: [ ' | sElm | ' ] that does not exist in the dimension: [ ' | sDim | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+
+
+
+# ===================================================================================
+# Put the record to reject
+# If the element does not exist in the dimension
+# ===================================================================================
+sDim = sDimMonth;
+sElm = sDestStartMonth;
+sParam = 'Start Period Target';
+
+If( nReject = 0 & sElm @<> '' & sDim @<> '' );
+   If( DimIx( sDim , sElm ) = 0 );
+      sMessageRecord = 'The parameter [ ' | sParam | ' ] contain the month value: [ ' | sElm | ' ] that does not exist in the dimension: [ ' | sDim | ' ]';
+      nReject = 1;
+   EndIf;
+EndIf;
+   
+#EndRegion
+
+
+
+# =================================================================================
+# Defines cube copy start variables
+# =================================================================================
+nInitialTime 		= NOW;
+sStartTimeStamp	= TimSt( Now, '\Y-\m-\d \hh\im\ss' );
+
+# =================================================================================
+# Records the Log in the Control Cube 
+# =================================================================================
+sPeriod	=  csStartDate | ' ' | csEndDate;
+s01 		=  sStartTimeStamp ;
+s02 		=  sMessageRecord;
+s03 		=  csSourceElement;
+s04 		=  csTargetElement;
+s05 		=  sPeriod ;
+s06			=  csRules;
+s07			=  NumberToString ( csThreads);
+s08			=  csCopyType;
+s09			=  csUser;
+
+# ===================================================================================
+# REJECTION AND STATUS
+# Save records to file
+# ===================================================================================
+If( nReject = 1  %  csUseDebug @= 'S' );
+
+
+  # Write the rejected records file header
+  # =================================================================================
+  If( nRejectHeader = 0);
+    #AsciiOutput( sRejectFolderFile , 'Cubo' , 'Dimensão Versão' , 'Dimensão Ano' , 'Dimensão Mês' , 'Dimensão Ano e Mês' , 'Período' , 'Versao Origem' , 'Versao Destino' , 'Mensagem de Erro');
+    CellPuts( 'Cube' , csCubeReject , csProcess , 'Header', 'Col_01'); 
+    CellPuts( 'Dimension Version' , csCubeReject , csProcess , 'Header', 'Col_02'); 
+    CellPuts( 'Dimension Year' , csCubeReject , csProcess , 'Header', 'Col_03'); 
+    CellPuts( 'Dimension Month' , csCubeReject , csProcess , 'Header', 'Col_04'); 
+    CellPuts( 'Dimension Year and Month' , csCubeReject , csProcess , 'Header', 'Col_05'); 
+    CellPuts( 'Period' , csCubeReject , csProcess , 'Header', 'Col_06'); 
+    CellPuts( 'Source Version' , csCubeReject , csProcess , 'Header', 'Col_07'); 
+    CellPuts( 'Target Version' , csCubeReject , csProcess , 'Header', 'Col_08'); 
+    CellPuts( 'Registration Number', csCubeReject , csProcess , 'Header', 'Registration Number'); 
+    CellPuts( 'Error Message', csCubeReject , csProcess , 'Header', 'Error Message'); 
+    nRejectHeader = 1;
+    nErrors = 2;
+    sMessageProcess = ' Process completed with rejected records, check cube:    ' | csCubeReject ;
+  EndIf;
+
+
+  # Writes the record to the reject file and skips the record
+  # =================================================================================
+  vLine = 'Line_' | FILL( '0' , 4 - Long( NumberToString( nRejectCount ) ) ) | NumberTOString( nRejectCount ) ;
+  CellPuts(vsCube , csCubeReject  , csProcess , vLine, 'Col_01'); 
+  CellPuts(sDimVersion , csCubeReject  , csProcess , vLine, 'Col_02'); 
+  CellPuts(sDimYear , csCubeReject , csProcess , vLine, 'Col_03'); 
+  CellPuts(sDimMonth , csCubeReject , csProcess , vLine, 'Col_04'); 
+  CellPuts(sDimYearMonth , csCubeReject , csProcess , vLine, 'Col_05'); 
+  CellPuts(sPeriod , csCubeReject , csProcess , vLine, 'Col_06'); 
+  CellPuts(csSourceElement , csCubeReject , csProcess , vLine, 'Col_07'); 
+  CellPuts(csTargetElement , csCubeReject , csProcess , vLine, 'Col_08'); 
+  CellPuts(sRecordCount , csCubeReject , csProcess , vLine, 'Registration Number'); 
+  CellPuts(sMessageRecord , csCubeReject , csProcess , vLine, 'Error Message'); 
+  nRejectCount = nRejectCount  + 1 ;
+
+  # =================================================================================
+  # Records "fail" log in Control Cube
+  # =================================================================================
+  CellPutS( s01 , csCubeRecord, vsCube, csTimeStamp,  'StartTime' );
+  CellPutS( s02 , csCubeRecord, vsCube, csTimeStamp,  'Message' );
+  CellPutS( s03 , csCubeRecord, vsCube, csTimeStamp,  'Source Version' );
+  CellPutS( s04 , csCubeRecord, vsCube, csTimeStamp,  'Destination Version' );
+  CellPutS( s05 , csCubeRecord, vsCube, csTimeStamp,  'Copy Period' );
+  CellPutS( s06 , csCubeRecord, vsCube, csTimeStamp,  'Copy With Rules' );
+  CellPutS( s07 , csCubeRecord, vsCube, csTimeStamp,  'Qtd Threads' );
+  CellPutS( s08 , csCubeRecord, vsCube, csTimeStamp,  'Copy Type' );
+  CellPutS( s09 , csCubeRecord, vsCube, csTimeStamp,  'User' );
+  CellPutS( 'Fail' , csCubeRecord, vsCube, csTimeStamp,  'Status' );
+  
+  CellPutS( s01 , csCubeRecord, vsCube, 'Current Copy',  'StartTime' );
+  CellPutS( s02 , csCubeRecord, vsCube, 'Current Copy',  'Message' );
+  CellPutS( s03 , csCubeRecord, vsCube, 'Current Copy',  'Source Version' );
+  CellPutS( s04 , csCubeRecord, vsCube, 'Current Copy',  'Destination Version' );
+  CellPutS( s05 , csCubeRecord, vsCube, 'Current Copy',  'Copy Period' );
+  CellPutS( s06 , csCubeRecord, vsCube, 'Current Copy',  'Copy With Rules' );
+  CellPutS( s07 , csCubeRecord, vsCube, 'Current Copy',  'Qtd Threads' );
+  CellPutS( s08 , csCubeRecord, vsCube, 'Current Copy',  'Copy Type' );
+  CellPutS( s09 , csCubeRecord, vsCube, 'Current Copy',  'User' );
+  CellPutS( 'Fail' , csCubeRecord, vsCube, 'Current Copy',  'Status' );
+  
+  #CubeSaveData( csCubeRecord );
+
+  # Clear variables and skip registration
+  # ============================
+  IF( nReject = 1 );
+     nReject = 0;
+     sMessageRecord = '';
+     nErrors = 2;
+     ItemSkip;
+  EndIf;
+
+EndIf;
+
+
+#SubsetDestroy( 'SYS.D.Parallel_Control' ,  'Dependency_' | vsCube );
+
+LogOutput( 'INFO', 'Cubo ' | vsCube );
+
+
+ExecuteProcess( 'zCTI.001.01.Trigger_Parallel' , 'psCube' , vsCube ) ;
+
+#ExecuteProcess( 'zCTI.001.04.Copy_Validation' , 'psCube' , vsCube ) ;
+
+
+# Treats Threads parameter
+# =========================
+pCores	= If ( sDimMonth @= '' & sDimYearMonth @= '', 1 , csThreads ) ;
+pCores     = If ( sDimMonth @= '' & sDimYearMonth @= '' & sDimYear @<> '', csThreads, pCores );
+
+
+# Treats Rules parameter
+# =========================
+pSuppressRules		= If ( csRules @= 'Sim', 0, 1 );
+
+# =================================================================================
+# Calculates charging time
+# =================================================================================
+nElapsedSeconds = ROUND ((NOW - nInitialTime) / 0.000011574074074074);
+cTimeStampFim	= TimSt( Now, '\Y-\m-\d \hh\im\ss' );
+
+
+# =================================================================================
+# Logs "Finished" in the Control Cube 
+# =================================================================================
+s01 	=  cTimeStampFim ;
+s02 	=  'Cube copy completed successfully' ;
+s03		=  NumberToString ( nElapsedSeconds ) | 's' ;
+s04		=  NumberToString ( pCores ) ;
+# =================================================================================
+# Ajustes Copia Versao
+# 05/2024 - Não gravava o Usuario 
+# =================================================================================
+s05		=  csUser ;
+
+CellPutS( s01 , csCubeRecord, vsCube, csTimeStamp,  'EndTime' );
+CellPutS( s02 , csCubeRecord, vsCube, csTimeStamp,  'Message' );
+CellPutS( s03 , csCubeRecord, vsCube, csTimeStamp,  'Copy Time' );
+CellPutS( s04 , csCubeRecord, vsCube, csTimeStamp,  'Qty Threads' );
+# =================================================================================
+# Ajustes Copia Versao
+# 05/2024 - Não gravava o Usuario 
+# =================================================================================
+CellPutS( s05 , csCubeRecord, vsCube, csTimeStamp,  'User' );
+CellPutS( 'Finished' , csCubeRecord, vsCube, csTimeStamp,  'Status' );
+
+CellPutS( s01 , csCubeRecord, vsCube, 'Cópia Atual',  'EndTime' );
+CellPutS( s02 , csCubeRecord, vsCube, 'Cópia Atual',  'Message' );
+CellPutS( s03 , csCubeRecord, vsCube, 'Cópia Atual',  'Copy Time' );
+CellPutS( s04 , csCubeRecord, vsCube, 'Cópia Atual',  'Qty Threads' );
+# =================================================================================
+# Ajustes Copia Versao
+# 05/2024 - Não gravava o Usuario 
+# =================================================================================
+CellPutS( s05 , csCubeRecord, vsCube, 'Current Copy',  'User' );
+CellPutS( 'Finished' , csCubeRecord, vsCube, 'Cópia Atual',  'Status' );
+
+#CubeSaveData( csCubeRecord );
+
+
+
+# =================================================================================
+# Enable cube logging
+# =================================================================================
+#CellPutS( 'YES', csCubeProperties, vsCube, 'LOGGING' );
+#LogOutput( 'Info', csCubeProperties| ' YES ' |  vsCube| ' LOGGING' );
+#endregion
+#region Epilog
+# ===============================================================================================================
+#EPILOGCOMMENT        Description: Runs SavedataAll and logs copy status
+# ===============================================================================================================
+
+
+# =================================================================================
+# Records Error or Success Log in Control Cube 
+# =================================================================================
+nElapsedSeconds = ROUND ((NOW - cnStartTime ) / 0.000011574074074074);
+If( nErrors = 0 );
+   sMessageProcess  = ' Copy completed successfully';
+EndIf;
+
+s01 = TimSt( Now, '\Y-\m-\d \hh\im\ss' ) ;
+s02 = sMessageProcess ;
+s03 = csSourceElement;
+s04 = csTargetElement;
+s05 = sPeriod;
+s06 = csRules;
+s07 = NumberToString (csThreads);
+s08 = csCopyType;
+s09 = NumberToString (nElapsedSeconds) |  's';
+# =================================================================================
+# Ajustes Copia Versao
+# 05/2024 - Não gravava o Usuario 
+# =================================================================================
+s10 = csUser;
+
+CellPutS( 'Not started' , csCubeParamCopy, 'Valor', 'Status' );
+
+CellPutS( s01 , csCubeRecord, csCubeRecord, csTimeStamp,  'EndTime' );
+CellPutS( s02 , csCubeRecord, csCubeRecord, csTimeStamp,  'Message' );
+CellPutS( s03 , csCubeRecord, csCubeRecord, csTimeStamp,  'Source Version' );
+CellPutS( s04 , csCubeRecord, csCubeRecord, csTimeStamp,  'Destination Version' );
+CellPutS( s05 , csCubeRecord, csCubeRecord, csTimeStamp,  'Copy Period' );
+CellPutS( s06 , csCubeRecord, csCubeRecord, csTimeStamp,  'Copy With Rules' );
+CellPutS( s07 , csCubeRecord, csCubeRecord, csTimeStamp,  'Qtd Threads' );
+CellPutS( s08 , csCubeRecord, csCubeRecord, csTimeStamp,  'Copy Type' );
+CellPutS( s09 , csCubeRecord, csCubeRecord, csTimeStamp,  'Copy Time' );
+# =================================================================================
+# Ajustes Copia Versao
+# 05/2024 - Não gravava o Usuario 
+# =================================================================================
+CellPutS( s10 , csCubeRecord, csCubeRecord, csTimeStamp,  'User' );
+  
+CellPutS( s01 , csCubeRecord, csCubeRecord, 'Current Copy',  'EndTime' );
+CellPutS( s02 , csCubeRecord, csCubeRecord, 'Current Copy',  'Message' );
+CellPutS( s03 , csCubeRecord, csCubeRecord, 'Current Copy',  'Source Version' );
+CellPutS( s04 , csCubeRecord, csCubeRecord, 'Current Copy',  'Destination Version' );
+CellPutS( s05 , csCubeRecord, csCubeRecord, 'Current Copy',  'Copy Period' );
+CellPutS( s06 , csCubeRecord, csCubeRecord, 'Current Copy',  'Copy With Rules' );
+CellPutS( s07 , csCubeRecord, csCubeRecord, 'Current Copy',  'Qtd Threads' );
+CellPutS( s08 , csCubeRecord, csCubeRecord, 'Current Copy',  'Copy Type' );
+CellPutS( s09 , csCubeRecord, csCubeRecord, 'Current Copy',  'Copy Time' );
+# =================================================================================
+# Ajustes Copia Versao
+# 05/2024 - Não gravava o Usuario 
+# =================================================================================
+CellPutS( s10 , csCubeRecord, csCubeRecord, 'Current Copy',  'User' );
+
+# Records partial copy status
+# ===================================
+If( nErrors = 2 );
+  CellPutS( 'Partial' , csCubeRecord, csCubeRecord, csTimeStamp,  'Status' );
+  CellPutS( 'Partial' , csCubeRecord, csCubeRecord, 'Current Copy',  'Status' );
+  ItemReject( sMessageProcess );
+EndIf;
+
+
+# Records Fail copy status
+# ===================================
+If( nErrors = 1 );
+  CellPutS( 'Fail' , csCubeRecord, csCubeRecord, csTimeStamp,  'Status' );
+  CellPutS( 'Fail' , csCubeRecord, csCubeRecord, 'Current Copy',  'Status' );
+EndIf;
+
+
+# Records Sucess copy status
+# ===================================
+If( nErrors <> 1 );
+   CellPutS( 'Success' , csCubeRecord, csCubeRecord, csTimeStamp,  'Status' );
+   CellPutS( 'Success' , csCubeRecord, csCubeRecord, 'Current Copy',  'Status' );
+EndIf;
+
+# Run SaveDataAll
+# ===================================
+#SaveDataAll;
+#endregion

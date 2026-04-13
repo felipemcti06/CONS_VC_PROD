@@ -1,0 +1,828 @@
+{
+	"@type":"Hierarchy",
+	"Name":"ALL.D.Account_Line",
+	"Elements":
+	[
+		{
+			"Name":"N/A",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Facilities",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Institutional",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Operational Expenses - IT",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Legal",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Maintenance",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Marketing",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Operating Materiais",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Operating Vehicles",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Personnel Expenses",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Professionais Services",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Shared Services center",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Travel and refunds",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Operational Expenses - Others",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Op. Results - Asset Write-off",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Slow moving",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Clinker",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Contingencies",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Non-recurring Expenses",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Gain on assets",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Tax benefits",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Op. Results - Machadinho",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"MOTZ",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Non Op. Taxes",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other products",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Non-recurring Revenues",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Power results",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Trading Margin",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Op. Results - Others",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Non Op. Results - ARO",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Non Op. Results - FC x BPC Adjustment",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Hyperinflation",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Impairment",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"M&A Gain/Loss",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"MTM Energia",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Discontinued operations",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Results from assets sales",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Trasaction costs",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Non Op. Results - Others",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Avellaneda",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Dividens Received from JVs",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Dividends received - Others",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Health Safety & Environment",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Non expansion capex - IT",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Modernization",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"P&D",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Sustaining",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Non expansion capex - Others",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other  - ARO",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other  - Asset Write-off",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DIFAL",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Legal Deposits",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Proceeds on Sales of Assets not in EBITDA",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Provision/ payments  and other variation on Long asset & Liabilities Operations",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other  - Others",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Pangea",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Project 1",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Project 2",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Project 3",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Project 4",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Project 5",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Project 6",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Project 7",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Project 8",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Project 9",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Project 10",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"VSA",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Payments of Dividens to Controlling - Others",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CDPQ",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Payments of Dividens to Minority - Machadinho",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Payments of Dividens to Minority - Others",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Expansion",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"From/To Artigas",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"From/To CEISA",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"From/To Itacamba",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"From/To Trading",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"From/To VCBR",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"From/To VCEA",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"From/To VCI",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"From/To VCNA",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Intercompany dividends - Others",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Bank/Financial fees",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Cross Guarantee",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FX/Others - FC x BPC Adjustment",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Management Fees",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Securtization",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Withholding",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other adjustments",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FX Variation",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Total Accounts Line",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Others",
+			"Type":"Numeric"
+		}
+	],
+	"Edges":
+	[
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"N/A",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Facilities",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Institutional",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Operational Expenses - IT",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Legal",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Maintenance",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Marketing",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Operating Materiais",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Operating Vehicles",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Personnel Expenses",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Professionais Services",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Shared Services center",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Travel and refunds",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Operational Expenses - Others",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Other Op. Results - Asset Write-off",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Slow moving",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Clinker",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Contingencies",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Non-recurring Expenses",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Gain on assets",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Tax benefits",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Other Op. Results - Machadinho",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"MOTZ",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Non Op. Taxes",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Other products",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Non-recurring Revenues",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Power results",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Trading Margin",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Other Op. Results - Others",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Other Non Op. Results - ARO",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Other Non Op. Results - FC x BPC Adjustment",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Hyperinflation",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Impairment",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"M&A Gain/Loss",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"MTM Energia",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Discontinued operations",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Results from assets sales",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Trasaction costs",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Other Non Op. Results - Others",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Avellaneda",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Dividens Received from JVs",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Dividends received - Others",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Health Safety & Environment",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Non expansion capex - IT",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Modernization",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"P&D",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Sustaining",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Non expansion capex - Others",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Other  - ARO",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Other  - Asset Write-off",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"DIFAL",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Legal Deposits",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Proceeds on Sales of Assets not in EBITDA",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Provision/ payments  and other variation on Long asset & Liabilities Operations",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Other  - Others",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Pangea",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Project 1",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Project 2",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Project 3",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Project 4",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Project 5",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Project 6",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Project 7",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Project 8",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Project 9",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Project 10",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"VSA",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Payments of Dividens to Controlling - Others",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"CDPQ",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Payments of Dividens to Minority - Machadinho",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Payments of Dividens to Minority - Others",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Expansion",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"From/To Artigas",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"From/To CEISA",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"From/To Itacamba",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"From/To Trading",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"From/To VCBR",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"From/To VCEA",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"From/To VCI",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"From/To VCNA",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Intercompany dividends - Others",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Bank/Financial fees",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Cross Guarantee",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"FX/Others - FC x BPC Adjustment",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Management Fees",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Securtization",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Withholding",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Other adjustments",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"FX Variation",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Accounts Line",
+			"ComponentName":"Others",
+			"Weight":1
+		}
+	],
+	"Subsets@Code.links":
+	[
+		"ALL.D.Account_Line.subsets/CAPEX.json"
+	]
+}

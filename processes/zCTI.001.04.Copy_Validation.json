@@ -1,0 +1,20 @@
+{
+	"@type":"Process",
+	"Name":"zCTI.001.04.Copy_Validation",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"zCTI.001.04.Copy_Validation.ti",
+	"DataSource":
+	{
+		"Type":"None"
+	},
+	"Parameters":
+	[
+		{
+			"Name":"psCube",
+			"Prompt":"",
+			"Value":"ACO.200.Despesas",
+			"Type":"String"
+		}
+	],
+	"Variables":[]
+}

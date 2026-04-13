@@ -1,0 +1,83 @@
+#region Prolog
+# ===============================================================================================================
+# Copyright ctiglobal.com Ver 3.0  08/2020
+# ===============================================================================================================
+# Process for loading dimension titles into the cube SYS.925.Copy_Validation
+# ===============================================================================================================
+csCubeValidation = 'SYS.925.Copy_Validation';
+csDimParameter = 'SYS.M.925.Copy_Validation' ;
+csVersion = 'V1';
+
+# =================================================================================
+# CTI standard variables that must not be changed
+# =================================================================================
+
+# Discover the user who executed the process
+# ========================================
+csUser = IF( DimIx( '}Clients' , TM1User() ) = 0, 'Admin' , ATTRS('}Clients', TM1User(), '}TM1_DefaultDisplayValue') );
+  
+  
+# Process Control Variables
+# ========================================
+csCubeParameter			= 'SYS.150.Controle_Cargas';
+csCubeProperties			= '}CubeProperties';
+csProcess			= GetProcessName();
+cnStartTime 			= Now();
+sMessageProcess = '' ;
+nRecordCount 		= 0;
+
+# =================================================================================
+# Configuring the Destination Cube cleanup view
+# =================================================================================
+sSkipCalcs	= 'Y';
+sSkipZeroes = 'Y'; 
+sSkipRule = 'Y';
+sTemporaryView	= 'Y';
+nTemporaryView	= If( sTemporaryView @= 'Y', 1, 0);
+
+# Defines view name and cleaning subset
+# ======================================================
+sTargetView	= 'zProcess.' | csProcess | '.' | 'Clean' | '.' | TimSt( cnStartTime, '\Y-\m-\d \hh\im\ss' );
+sTargetSubset	= sTargetView;
+  
+# Creates the view that will be used for cleaning
+# ======================================================
+ViewCreate( csCubeValidation , sTargetView , nTemporaryView );
+
+# Cria os subsets que serão utilizados para filtrar a view de limpeza
+# ======================================================
+sDimension	= 'SYS.D.Validation_Version';
+sElement	= csVersion;
+If( sDimension @<> '');
+  SubsetCreate( sDimension, sTargetSubset , nTemporaryView );  
+  ViewSubsetAssign( csCubeValidation , sTargetView, sDimension, sTargetSubset );  
+  SubsetElementInsert( sDimension, sTargetSubset, sElement	, 1 );
+EndIf;
+
+ViewZeroOut( csCubeValidation, sTargetView );
+
+# =================================================================================
+# Fill in the dimension titles and define Parameter 1 as a system
+# =================================================================================
+nCountDim = DIMSIZ(csDimParameter);
+nCountCube = DIMSIZ( 'SYS.D.Cube' );
+
+nCount1 = 1;
+
+While( nCount1 <= nCountCube);
+  sCube = DIMNM( 'SYS.D.Cube', nCount1 );
+  nCount2 = 1;
+  IF( SUBST( sCube, 1, 1) @<> '}');
+      While( nCount2 <= nCountDim );
+          sDimNm = TABDIM( sCube, nCount2 );
+          sMetric = 'Dim ' |  NumberToString( nCount2 );
+          IF( DIMIX(csDimParameter, sMetric ) <> 0);
+              CellPutS( sDimNm, csCubeValidation,  sCube, csVersion, 'Title', sMetric);
+          EndIF;   
+          nCount2 = nCount2 + 1;
+      End;
+  EndIF;
+  nCount1 = nCount1 + 1;
+End;
+
+#endregion

@@ -1,0 +1,5 @@
+{
+	"@type":"Subset",
+	"Name":"Dimensions",
+	"Expression":"{TM1DRILLDOWNMEMBER( {[}QUBEdocs Object].[All Dimensions]}, ALL, RECURSIVE )}"
+}

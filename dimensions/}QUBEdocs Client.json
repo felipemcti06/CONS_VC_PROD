@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"}QUBEdocs Client",
+	"Hierarchies@Code.links":
+	[
+		"}QUBEdocs Client.hierarchies/}QUBEdocs Client.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('}QUBEdocs Client')/Hierarchies('}QUBEdocs Client')"
+	}
+}

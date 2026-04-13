@@ -1,0 +1,32 @@
+{
+	"@type":"Hierarchy",
+	"Name":"SYS.D.Backup_Shadow_Copy",
+	"Elements":
+	[
+		{
+			"Name":"Disco",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Pasta_Base_de_Montagem",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Pasta_de_Destino_do_Backup",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Pasta_de_Montagem_do_SDATA",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Pasta_Raiz_de_Arquivos_Utilizados",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Nome Arquivo",
+			"Type":"Numeric"
+		}
+	],
+	"Subsets@Code.links":[]
+}

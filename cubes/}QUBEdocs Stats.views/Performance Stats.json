@@ -1,0 +1,158 @@
+{
+	"@type":"NativeView",
+	"Name":"Performance Stats",
+	"Columns":
+	[
+		{
+			"Subset":
+			{
+				"Hierarchy":
+				{
+					"@id":"Dimensions('}QUBEdocs Stat Measure')/Hierarchies('}QUBEdocs Stat Measure')"
+				},
+				"Elements":
+				[
+					{
+						"@id":"Dimensions('}QUBEdocs Stat Measure')/Hierarchies('}QUBEdocs Stat Measure')/Elements('Max')"
+					},
+					{
+						"@id":"Dimensions('}QUBEdocs Stat Measure')/Hierarchies('}QUBEdocs Stat Measure')/Elements('Avg')"
+					},
+					{
+						"@id":"Dimensions('}QUBEdocs Stat Measure')/Hierarchies('}QUBEdocs Stat Measure')/Elements('Min')"
+					}
+				]
+			}
+		}
+	],
+	"Rows":
+	[
+		{
+			"Subset":
+			{
+				"Hierarchy":
+				{
+					"@id":"Dimensions('}QUBEdocs Object')/Hierarchies('}QUBEdocs Object')"
+				},
+				"Elements":
+				[
+					{
+						"@id":"Dimensions('}QUBEdocs Object')/Hierarchies('}QUBEdocs Object')/Elements('All Objects')"
+					}
+				]
+			}
+		}
+	],
+	"Titles":
+	[
+		{
+			"Subset":
+			{
+				"Hierarchy":
+				{
+					"@id":"Dimensions('}QUBEdocs Stat Instance')/Hierarchies('}QUBEdocs Stat Instance')"
+				},
+				"Elements":
+				[
+					{
+						"@id":"Dimensions('}QUBEdocs Stat Instance')/Hierarchies('}QUBEdocs Stat Instance')/Elements('LATEST')"
+					}
+				]
+			},
+			"Selected":
+			{
+				"@id":"Dimensions('}QUBEdocs Stat Instance')/Hierarchies('}QUBEdocs Stat Instance')/Elements('LATEST')"
+			}
+		},
+		{
+			"Subset":
+			{
+				"Hierarchy":
+				{
+					"@id":"Dimensions('}QUBEdocs Time Interval')/Hierarchies('}QUBEdocs Time Interval')"
+				},
+				"Elements":
+				[
+					{
+						"@id":"Dimensions('}QUBEdocs Time Interval')/Hierarchies('}QUBEdocs Time Interval')/Elements('All Time Intervals')"
+					},
+					{
+						"@id":"Dimensions('}QUBEdocs Time Interval')/Hierarchies('}QUBEdocs Time Interval')/Elements('Current and Prior Hour')"
+					},
+					{
+						"@id":"Dimensions('}QUBEdocs Time Interval')/Hierarchies('}QUBEdocs Time Interval')/Elements('Current and Previous Day')"
+					}
+				]
+			},
+			"Selected":
+			{
+				"@id":"Dimensions('}QUBEdocs Time Interval')/Hierarchies('}QUBEdocs Time Interval')/Elements('All Time Intervals')"
+			}
+		},
+		{
+			"Subset":
+			{
+				"Hierarchy":
+				{
+					"@id":"Dimensions('}QUBEdocs Stat')/Hierarchies('}QUBEdocs Stat')"
+				},
+				"Elements":
+				[
+					{
+						"@id":"Dimensions('}QUBEdocs Stat')/Hierarchies('}QUBEdocs Stat')/Elements('All Stats')"
+					},
+					{
+						"@id":"Dimensions('}QUBEdocs Stat')/Hierarchies('}QUBEdocs Stat')/Elements('StatsForServer')"
+					},
+					{
+						"@id":"Dimensions('}QUBEdocs Stat')/Hierarchies('}QUBEdocs Stat')/Elements('StatsByChore')"
+					},
+					{
+						"@id":"Dimensions('}QUBEdocs Stat')/Hierarchies('}QUBEdocs Stat')/Elements('StatsByClient')"
+					},
+					{
+						"@id":"Dimensions('}QUBEdocs Stat')/Hierarchies('}QUBEdocs Stat')/Elements('StatsByCube')"
+					},
+					{
+						"@id":"Dimensions('}QUBEdocs Stat')/Hierarchies('}QUBEdocs Stat')/Elements('StatsByCubeByClient')"
+					},
+					{
+						"@id":"Dimensions('}QUBEdocs Stat')/Hierarchies('}QUBEdocs Stat')/Elements('StatsByProcess')"
+					},
+					{
+						"@id":"Dimensions('}QUBEdocs Stat')/Hierarchies('}QUBEdocs Stat')/Elements('StatsByDimension')"
+					}
+				]
+			},
+			"Selected":
+			{
+				"@id":"Dimensions('}QUBEdocs Stat')/Hierarchies('}QUBEdocs Stat')/Elements('All Stats')"
+			}
+		},
+		{
+			"Subset":
+			{
+				"Hierarchy":
+				{
+					"@id":"Dimensions('}QUBEdocs Client')/Hierarchies('}QUBEdocs Client')"
+				},
+				"Elements":
+				[
+					{
+						"@id":"Dimensions('}QUBEdocs Client')/Hierarchies('}QUBEdocs Client')/Elements('All Clients')"
+					},
+					{
+						"@id":"Dimensions('}QUBEdocs Client')/Hierarchies('}QUBEdocs Client')/Elements('Server')"
+					}
+				]
+			},
+			"Selected":
+			{
+				"@id":"Dimensions('}QUBEdocs Client')/Hierarchies('}QUBEdocs Client')/Elements('All Clients')"
+			}
+		}
+	],
+	"SuppressEmptyColumns":false,
+	"SuppressEmptyRows":false,
+	"FormatString":"0.#########"
+}

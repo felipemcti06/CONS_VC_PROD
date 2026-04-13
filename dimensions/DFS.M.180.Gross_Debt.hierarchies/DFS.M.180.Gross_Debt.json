@@ -1,0 +1,33 @@
+{
+	"@type":"Hierarchy",
+	"Name":"DFS.M.180.Gross_Debt",
+	"Elements":
+	[
+		{
+			"Name":"Total Value",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Value",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Adjustments",
+			"Type":"Numeric"
+		}
+	],
+	"Edges":
+	[
+		{
+			"ParentName":"Total Value",
+			"ComponentName":"Value",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Value",
+			"ComponentName":"Adjustments",
+			"Weight":1
+		}
+	],
+	"Subsets@Code.links":[]
+}

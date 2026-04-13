@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"}QUBEdocs Time Interval",
+	"Hierarchies@Code.links":
+	[
+		"}QUBEdocs Time Interval.hierarchies/}QUBEdocs Time Interval.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('}QUBEdocs Time Interval')/Hierarchies('}QUBEdocs Time Interval')"
+	}
+}

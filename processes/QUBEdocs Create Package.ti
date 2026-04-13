@@ -1,0 +1,43 @@
+#region Prolog
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+
+#LASTCHANGE Documented this process
+#GENERALCOMMENT This process packages up TM1 Metadata and adds it to a user defined folder. 
+#DATASOURCECOMMENT Not Applicable
+#PROLOGCOMMENT Runs an external file, QUBEdocs_CreatePackage.bat to package up the metadata
+#METADATACOMMENT Not Applicable
+#DATACOMMENT Not Applicable
+#EPILOGCOMMENT Not Applicable
+
+pDestFolder = if(subst(pDestFolder,long(pDestFolder),long(pDestFolder)) @<>'\',pDestFolder | '\',pDestFolder);
+
+IF(pDestFolder @= '');
+ ITEMREJECT('QUBEdocs output directory not found.  Please run the QUBEdocs Package Creator with a QUBEdocs output directory specified.');
+ PROCESSERROR;
+ELSE;
+ EXECUTEPROCESS('}QUBEdocs Update','pUpdate','Y','pGenerate','N','pServer','','pConnection','','pClearStats','N');
+ sDataDirectoryFolder = '.\';
+ sPackageCreatorPath = '.\QUBEdocsFiles\QUBEdocs_CreatePackage.bat';
+ sExecuteStr =  '' | sPackageCreatorPath | ' "' | sDataDirectoryFolder | '" "' | pDestFolder | '"';
+ENDIF;
+
+EXECUTECOMMAND(sExecuteStr,0);
+ASCIIOUTPUT('.\QUBEdocsFiles\QUBEdocsExecuteStr.txt',sExecuteStr);
+#endregion
+#region Metadata
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+#endregion
+#region Data
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+#endregion
+#region Epilog
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+#endregion

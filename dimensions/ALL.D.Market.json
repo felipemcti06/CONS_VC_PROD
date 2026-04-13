@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"ALL.D.Market",
+	"Hierarchies@Code.links":
+	[
+		"ALL.D.Market.hierarchies/ALL.D.Market.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('ALL.D.Market')/Hierarchies('ALL.D.Market')"
+	}
+}

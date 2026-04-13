@@ -1,0 +1,14 @@
+SKIPCHECK;
+
+['MAX',{'DIMENSION: Number of Elements'},'All Clients','}QUBEdocs Stat Instance':'LATEST'] = IF(ATTRS('}QUBEdocs Object',!}QUBEdocs Object,'Type')@='Dimension',
+  DIMSIZ(ATTRS('}QUBEdocs Object',!}QUBEdocs Object,'Object'))
+  ,STET);
+
+['MAX',{'DIMENSION: Number of Levels'},'All Clients','}QUBEdocs Stat Instance':'LATEST'] = IF(ATTRS('}QUBEdocs Object',!}QUBEdocs Object,'Type')@='Dimension',
+  DNLEV(ATTRS('}QUBEdocs Object',!}QUBEdocs Object,'Object')),STET);
+
+['Max',{'Current and Prior Hour','Current and Previous Day','All Time Intervals'}] = C: ConsolidatedMax(0,'}QUBEdocs Stats',!}QUBEdocs Stat Instance,!}QUBEdocs Time Interval,!}QUBEdocs Stat,!}QUBEdocs Client,!}QUBEdocs Object,'Value');
+['Min',{'Current and Prior Hour','Current and Previous Day','All Time Intervals'}] = C: ConsolidatedMin(0,'}QUBEdocs Stats',!}QUBEdocs Stat Instance,!}QUBEdocs Time Interval,!}QUBEdocs Stat,!}QUBEdocs Client,!}QUBEdocs Object,'Value');
+['Avg',{'Current and Prior Hour','Current and Previous Day','All Time Intervals'}] = C: ConsolidatedAvg(0,'}QUBEdocs Stats',!}QUBEdocs Stat Instance,!}QUBEdocs Time Interval,!}QUBEdocs Stat,!}QUBEdocs Client,!}QUBEdocs Object,'Value');
+
+FEEDERS;

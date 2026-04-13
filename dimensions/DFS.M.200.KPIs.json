@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"DFS.M.200.KPIs",
+	"Hierarchies@Code.links":
+	[
+		"DFS.M.200.KPIs.hierarchies/DFS.M.200.KPIs.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('DFS.M.200.KPIs')/Hierarchies('DFS.M.200.KPIs')"
+	}
+}

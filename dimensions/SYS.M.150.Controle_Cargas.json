@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"SYS.M.150.Controle_Cargas",
+	"Hierarchies@Code.links":
+	[
+		"SYS.M.150.Controle_Cargas.hierarchies/SYS.M.150.Controle_Cargas.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('SYS.M.150.Controle_Cargas')/Hierarchies('SYS.M.150.Controle_Cargas')"
+	}
+}

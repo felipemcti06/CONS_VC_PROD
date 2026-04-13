@@ -1,0 +1,14 @@
+#region Prolog
+
+
+ExecuteProcess('COS.400.01.From_STG.080.AgendaHub',
+	'pAno', pAno,
+	'pMes', pMes,
+	'pVersao', pVersao ) ;
+
+ExecuteProcess( 'COS.400.02.From_STG.070.CustoPessoal',
+  	'pAno', pAno,
+  	'pMes', pMes,
+  	'pVersao', pVersao );
+
+#endregion

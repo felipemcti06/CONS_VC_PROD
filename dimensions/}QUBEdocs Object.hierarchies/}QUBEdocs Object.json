@@ -1,0 +1,66 @@
+{
+	"@type":"Hierarchy",
+	"Name":"}QUBEdocs Object",
+	"Elements":
+	[
+		{
+			"Name":"All Objects",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"All Chores",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"All Cubes",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"All Dimensions",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"All Processes",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Server",
+			"Type":"Numeric"
+		}
+	],
+	"Edges":
+	[
+		{
+			"ParentName":"All Objects",
+			"ComponentName":"All Chores",
+			"Weight":1
+		},
+		{
+			"ParentName":"All Objects",
+			"ComponentName":"All Cubes",
+			"Weight":1
+		},
+		{
+			"ParentName":"All Objects",
+			"ComponentName":"All Dimensions",
+			"Weight":1
+		},
+		{
+			"ParentName":"All Objects",
+			"ComponentName":"All Processes",
+			"Weight":1
+		},
+		{
+			"ParentName":"All Objects",
+			"ComponentName":"Server",
+			"Weight":1
+		}
+	],
+	"Subsets@Code.links":
+	[
+		"}QUBEdocs Object.subsets/Chores.json",
+		"}QUBEdocs Object.subsets/Cubes.json",
+		"}QUBEdocs Object.subsets/Dimensions.json",
+		"}QUBEdocs Object.subsets/Processes.json"
+	]
+}

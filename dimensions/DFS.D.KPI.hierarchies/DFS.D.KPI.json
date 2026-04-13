@@ -1,0 +1,517 @@
+{
+	"@type":"Hierarchy",
+	"Name":"DFS.D.KPI",
+	"Elements":
+	[
+		{
+			"Name":"Production volume (kt)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Thermal Sub. (%)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Thermal C. (kcal/t kk)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Petcoke Price (LMU/t)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Fuel (LMU/t)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CO2 Gross (kg/ton)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CO2 Net (kg/ton)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Power Price (LMU/MWh)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Power Cons. (kWh/t)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Clinker Factor (%)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Power (LMU/t)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Raw Material (LMU/t)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Variable (LMU/t)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Labor (LMU/t)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Maintenance (LMU/t)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Fixed Costs (LMU/t)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Cash Cost (LMU/t)",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Cement Var. Costs (LMU/t)",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Cement Fix. Costs (LMU/t)",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"IFRS16",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Revenue",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Receita adjacências",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Receita adjacências ex RMX",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Volume",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Price",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Market Share Cement (%)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Demand of Cement",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"EBITDA LTM",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"EBITDA Adjacências",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"EBITDA Adjacências ex RMX",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Depreciação LTM",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Income Tax Theoretical",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Income Tax LTM",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Equity LTM",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Assets",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"(+) Gross Fixed Assets",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"(-) Accumulated Depreciation",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"(+) Adjustment Hyperinflation",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"(+) Inflation adjustment",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"(+) Right of Use",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"(+) Investments",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"(+) Goodwill",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"(+) Intangible",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Working Capital Balance",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"NOPAT + Equity Pick Up",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"EBIT",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Invested Capital Avg",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"% ROIC",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Package",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Aux. Materials",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Operacional Services",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Internal Freight",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Variavel maintenance",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"ZBB Total",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Personnel Expenses",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Maintenance",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Facilities",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Professionais Services",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Legal",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"IT",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Operating Materiais",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Shared Services center",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Institucional",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Marketing",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Operating Vehicles",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Travel and refunds",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"EBITDA in Hard Currency",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Margem de Contribuição por produto",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Margem por produto",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"SG&A",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Sust. Cash Flow in Hard Currency",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FC + SG&A",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"% FC + SG&A/Net Revenue",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"% FC/NetRevenue",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"% SG&/NetRevenue",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Effective Tax Rate (%)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"NOPAT",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Equity Pick Up",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Invested Capital (End of Period)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Income Tax",
+			"Type":"Numeric"
+		}
+	],
+	"Edges":
+	[
+		{
+			"ParentName":"Cash Cost (LMU/t)",
+			"ComponentName":"Cement Var. Costs (LMU/t)",
+			"Weight":1
+		},
+		{
+			"ParentName":"Cash Cost (LMU/t)",
+			"ComponentName":"Cement Fix. Costs (LMU/t)",
+			"Weight":1
+		},
+		{
+			"ParentName":"Cement Var. Costs (LMU/t)",
+			"ComponentName":"Fuel (LMU/t)",
+			"Weight":1
+		},
+		{
+			"ParentName":"Cement Var. Costs (LMU/t)",
+			"ComponentName":"Power (LMU/t)",
+			"Weight":1
+		},
+		{
+			"ParentName":"Cement Var. Costs (LMU/t)",
+			"ComponentName":"Raw Material (LMU/t)",
+			"Weight":1
+		},
+		{
+			"ParentName":"Cement Var. Costs (LMU/t)",
+			"ComponentName":"Package",
+			"Weight":1
+		},
+		{
+			"ParentName":"Cement Var. Costs (LMU/t)",
+			"ComponentName":"Aux. Materials",
+			"Weight":1
+		},
+		{
+			"ParentName":"Cement Var. Costs (LMU/t)",
+			"ComponentName":"Operacional Services",
+			"Weight":1
+		},
+		{
+			"ParentName":"Cement Var. Costs (LMU/t)",
+			"ComponentName":"Internal Freight",
+			"Weight":1
+		},
+		{
+			"ParentName":"Cement Var. Costs (LMU/t)",
+			"ComponentName":"Variavel maintenance",
+			"Weight":1
+		},
+		{
+			"ParentName":"Cement Var. Costs (LMU/t)",
+			"ComponentName":"Other Variable (LMU/t)",
+			"Weight":1
+		},
+		{
+			"ParentName":"Cement Fix. Costs (LMU/t)",
+			"ComponentName":"Labor (LMU/t)",
+			"Weight":1
+		},
+		{
+			"ParentName":"Cement Fix. Costs (LMU/t)",
+			"ComponentName":"Maintenance (LMU/t)",
+			"Weight":1
+		},
+		{
+			"ParentName":"Cement Fix. Costs (LMU/t)",
+			"ComponentName":"Other Fixed Costs (LMU/t)",
+			"Weight":1
+		},
+		{
+			"ParentName":"Assets",
+			"ComponentName":"(+) Gross Fixed Assets",
+			"Weight":1
+		},
+		{
+			"ParentName":"Assets",
+			"ComponentName":"(-) Accumulated Depreciation",
+			"Weight":1
+		},
+		{
+			"ParentName":"Assets",
+			"ComponentName":"(+) Adjustment Hyperinflation",
+			"Weight":1
+		},
+		{
+			"ParentName":"Assets",
+			"ComponentName":"(+) Inflation adjustment",
+			"Weight":1
+		},
+		{
+			"ParentName":"Assets",
+			"ComponentName":"(+) Right of Use",
+			"Weight":1
+		},
+		{
+			"ParentName":"Assets",
+			"ComponentName":"(+) Investments",
+			"Weight":1
+		},
+		{
+			"ParentName":"Assets",
+			"ComponentName":"(+) Goodwill",
+			"Weight":1
+		},
+		{
+			"ParentName":"Assets",
+			"ComponentName":"(+) Intangible",
+			"Weight":1
+		},
+		{
+			"ParentName":"ZBB Total",
+			"ComponentName":"Personnel Expenses",
+			"Weight":1
+		},
+		{
+			"ParentName":"ZBB Total",
+			"ComponentName":"Maintenance",
+			"Weight":1
+		},
+		{
+			"ParentName":"ZBB Total",
+			"ComponentName":"Facilities",
+			"Weight":1
+		},
+		{
+			"ParentName":"ZBB Total",
+			"ComponentName":"Professionais Services",
+			"Weight":1
+		},
+		{
+			"ParentName":"ZBB Total",
+			"ComponentName":"Legal",
+			"Weight":1
+		},
+		{
+			"ParentName":"ZBB Total",
+			"ComponentName":"IT",
+			"Weight":1
+		},
+		{
+			"ParentName":"ZBB Total",
+			"ComponentName":"Operating Materiais",
+			"Weight":1
+		},
+		{
+			"ParentName":"ZBB Total",
+			"ComponentName":"Shared Services center",
+			"Weight":1
+		},
+		{
+			"ParentName":"ZBB Total",
+			"ComponentName":"Institucional",
+			"Weight":1
+		},
+		{
+			"ParentName":"ZBB Total",
+			"ComponentName":"Marketing",
+			"Weight":1
+		},
+		{
+			"ParentName":"ZBB Total",
+			"ComponentName":"Operating Vehicles",
+			"Weight":1
+		},
+		{
+			"ParentName":"ZBB Total",
+			"ComponentName":"Travel and refunds",
+			"Weight":1
+		},
+		{
+			"ParentName":"FC + SG&A",
+			"ComponentName":"Cement Fix. Costs (LMU/t)",
+			"Weight":1
+		},
+		{
+			"ParentName":"FC + SG&A",
+			"ComponentName":"SG&A",
+			"Weight":1
+		}
+	],
+	"Subsets@Code.links":
+	[
+		"DFS.D.KPI.subsets/Cash Cost.json",
+		"DFS.D.KPI.subsets/OBZ.json",
+		"DFS.D.KPI.subsets/ROIC.json",
+		"DFS.D.KPI.subsets/SYS.ROIC.json"
+	]
+}

@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"SYS.D.Validation_Parameter",
+	"Hierarchies@Code.links":
+	[
+		"SYS.D.Validation_Parameter.hierarchies/SYS.D.Validation_Parameter.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('SYS.D.Validation_Parameter')/Hierarchies('SYS.D.Validation_Parameter')"
+	}
+}

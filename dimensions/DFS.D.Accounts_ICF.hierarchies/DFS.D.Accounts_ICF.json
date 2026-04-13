@@ -1,0 +1,201 @@
+{
+	"@type":"Hierarchy",
+	"Name":"DFS.D.Accounts_ICF",
+	"Elements":
+	[
+		{
+			"Name":"EBITDA",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Income tax on transactions",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Working capital",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Non expansion capex",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Dividends received",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Financial Results",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Debt Amortization",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Financial Revenue",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Financial Expenses",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Derivatives settlement",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Tax on Financial Revenue",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"SCF before dividends",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Payment of dividends to Controlling",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Payment of dividends to Minority",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Sustainable Cash Flow",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Expansion capex",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Inv/Div in Subsidiaries and Affiliates",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FX/Others",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"FX on Cash Position",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Others",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Cash generation before financing",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Intercompany dividends",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Amortization",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Funding",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Change in cash",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Initial Cash Balance",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Final Cash Position",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Final Cash Position Aux",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Final Debt Position",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"MTM",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Final Net Debt",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Adj EBITDA LTM",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Adjusts LTM",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Leverage",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FCL Econômico",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DL Econômica",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Invested Cash",
+			"Type":"Numeric"
+		}
+	],
+	"Edges":
+	[
+		{
+			"ParentName":"Financial Results",
+			"ComponentName":"Debt Amortization",
+			"Weight":1
+		},
+		{
+			"ParentName":"Financial Results",
+			"ComponentName":"Financial Revenue",
+			"Weight":1
+		},
+		{
+			"ParentName":"Financial Results",
+			"ComponentName":"Other Financial Expenses",
+			"Weight":1
+		},
+		{
+			"ParentName":"Financial Results",
+			"ComponentName":"Derivatives settlement",
+			"Weight":1
+		},
+		{
+			"ParentName":"Financial Results",
+			"ComponentName":"Tax on Financial Revenue",
+			"Weight":1
+		},
+		{
+			"ParentName":"FX/Others",
+			"ComponentName":"FX on Cash Position",
+			"Weight":1
+		},
+		{
+			"ParentName":"FX/Others",
+			"ComponentName":"Others",
+			"Weight":1
+		}
+	],
+	"Subsets@Code.links":
+	[
+		"DFS.D.Accounts_ICF.subsets/Default.json"
+	]
+}

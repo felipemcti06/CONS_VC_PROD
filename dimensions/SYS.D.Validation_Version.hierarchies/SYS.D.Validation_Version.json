@@ -1,0 +1,16 @@
+{
+	"@type":"Hierarchy",
+	"Name":"SYS.D.Validation_Version",
+	"Elements":
+	[
+		{
+			"Name":"V1",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"V2",
+			"Type":"Numeric"
+		}
+	],
+	"Subsets@Code.links":[]
+}

@@ -1,0 +1,1309 @@
+#region Prolog
+# ===============================================================================================================
+#GENERALCOMMENT             Descrição:        Load the Cube psCube in the target Version and the target Period
+#GENERALCOMMENT             Responsável:   	Vitor Ribeiro
+#GENERALCOMMENT             Data Criação:   January/2024
+#
+#LASTCHANGE                 Alterações:
+#LASTCHANGE                 Responsavel Alterações:
+# ===============================================================================================================
+
+# ===============================================================================================================
+#PROLOGCOMMENT               Descrição:            	Create the Source View and Clean the Target View.
+# ===============================================================================================================
+
+# =================================================================================
+# CTI standard variables that must be changed
+# =================================================================================
+
+NumericGlobalVariable('gnDependency');
+
+#asciiOutput('..\Control_' | psCube | '_' | psMetric | '_' | psParallel | '_End_P' , '1' ) ;
+
+# Information from Source and Destination cube
+# ========================================
+csSourceCube		= psCube ;
+csTargetCube	= psCube ;
+
+
+
+# =================================================================================
+# CTI standard variables that must not be changed
+# =================================================================================
+
+# Discover the user who executed the process
+# ========================================
+csUser = IF( DimIx( '}Clients' , TM1User() ) = 0, 'Admin' , ATTRS('}Clients', TM1User(), '}TM1_DefaultDisplayValue') );
+  
+
+  
+# Process control variables
+# ========================================
+csCubeParameter			= 'SYS.150.Controle_Cargas';
+csCubeProperties			= '}CubeProperties';
+cnStartTime 			= Now();
+csProcess			= GetProcessName();
+sMonthsageRecord	 	= '';
+sMonthsageError 		= '';
+sMonthsageProcess 		= '';
+nReject 		= 0;
+nRejectHeader 		= 0;
+nRejectCount 				= 1 ;
+nErrors				= 0;
+nRecordCount 		= 0;
+nQtyDim = CubeDimensionCountGet( csSourceCube ) ;
+
+
+# Control Cube Variables
+# ========================================
+csUseDebug 		= CellGetS( csCubeParameter , csProcess , 'Debug (S/N)' );
+csWriteLog		 = CellGetS( csCubeParameter , csProcess , 'Gerar Log de Alteração (S/N)' );
+
+
+
+# Treatment for fields coming from the control cube that receive (Y/N)
+# ========================================
+csUseDebug		 	= IF( csUseDebug @= 'S' , 'S' , 'N' );
+csWriteLog		     = IF ( csWriteLog @= 'S', 'YES', 'NO' );
+
+
+# =================================================================================
+# Local File Variables
+# =================================================================================
+csDelimiter 		        	= ';';
+csThousandSeparator 	= '.';
+csDecimalSeparator		 = ',';
+csQuoteCharacter 		  = '"';
+
+DataSourceASCIIDelimiter 					= csDelimiter;
+DataSourceASCIIThousandSeparator 	= csThousandSeparator;
+DataSourceASCIIDecimalSeparator 	 = csDecimalSeparator;
+DataSourceQuoteCharacter 					= csQuoteCharacter;
+
+
+#Region Validation Period
+sVersion = CellGetS('SYS.910.Version_Copy_Cube', csSourceCube, 'Dimension Version' ) ;
+sYear = CellGetS('SYS.910.Version_Copy_Cube', csSourceCube, 'Dimension Year' ) ;
+sMonth = CellGetS('SYS.910.Version_Copy_Cube', csSourceCube, 'Dimension Month' ) ;
+sYearMonth = CellGetS('SYS.910.Version_Copy_Cube', csSourceCube, 'Dimension Year and Month' ) ;
+sDriver = CellGetS( 'SYS.910.Version_Copy_Cube', csSourceCube, 'Dimension Driver' );
+
+sStartPeriod = CellGetS('SYS.900.Version_Copy_Parameter', 'Value', 'Start Period' );
+sEndPeriod = CellGetS('SYS.900.Version_Copy_Parameter', 'Value', 'End Period' );
+sStartTargetPeriod = CellGetS('SYS.900.Version_Copy_Parameter', 'Value', 'Start Period Target' );
+
+sStartTargetPeriod = IF( sStartTargetPeriod @= '' , sStartPeriod , sStartTargetPeriod );
+
+sEndTargetPeriod = Dimnm( 'SYS.D.Version_Copy_Year_Month', Dimix('SYS.D.Version_Copy_Year_Month', sStartTargetPeriod )+StringToNumber(CellGetS( 'SYS.900.Version_Copy_Parameter', 'Value', 'Qty Months'  ) ) -1);
+
+sSourceVersion = CellGetS('SYS.900.Version_Copy_Parameter', 'Value', 'Source Version' );
+sTargetVersion = CellGetS('SYS.900.Version_Copy_Parameter', 'Value', 'Target Version' );
+
+
+sStartYear = subst(sStartPeriod, 1,4);
+sStartMonth = subst(sStartPeriod, 5,2);
+sEndYear = subst(sEndPeriod, 1,4);
+sEndMonth = subst(sEndPeriod, 5,2);
+
+sStartTargetYear = subst(sStartTargetPeriod, 1,4);
+sStartTargetMonth = subst(sStartTargetPeriod, 5,2);
+sEndTargetYear = subst(sEndTargetPeriod, 1,4);
+sEndTargetMonth = subst(sEndTargetPeriod, 5,2);
+#EndRegion
+
+
+if( psDimension@<>'' % (psDimension@=sYear % psDimension@=sMonth) );
+  nLoops = 1;
+elseif( sYear@<>''& sMonth@<>'');
+  
+  if(sStartTargetYear@=sEndTargetYear);
+    #Only one Year
+    nLoops=1;
+  elseif(StringToNumber(sEndTargetYear)-StringToNumber( sStartTargetYear )=1);
+    #Two years
+    nLoops=2;  
+  else;
+    #More than two years
+    nLoops=3;
+  endIF;
+  
+else;
+  nLoops = 1;
+endIF;
+
+
+#asciiOutput('..\Control_' | psCube | '_' | psMetric | '_' | psParallel | '_End_P' , '2' ) ;
+
+nLoop = 1;
+while(nLoop<=nLoops);
+  # =================================================================================
+  #
+  # Configuring the Destination Cube cleanup view
+  #
+  # =================================================================================
+  
+  sSkipCalcs	= 'Y';
+  sSkipZeroes		= 'Y'; 
+  sSkipRule	= 'Y';
+  sTemporaryView	 	= 'Y';
+  nTemporaryView		= If( sTemporaryView @= 'Y', 1, 0);
+
+
+  # Writes to the Log cube
+  # ======================================================
+ #CellPutS( csWriteLog, csCubeProperties, csTargetCube , 'LOGGING' );
+  
+  
+  
+  # Defines view name and cleaning subset
+  # ======================================================
+  sTargetView	= 'zProcess.' | csProcess | '.' | 'Clean' | '.' | TimSt( cnStartTime, '\Y-\m-\d \hh\im\ss' ) | '_' | psMetric | '_' | psParallel | '_' | csTargetCube | '_' | numberToString(nLoop);
+  sTargetSubset	= sTargetView;
+  
+  
+#asciiOutput('..\Control_' | psCube | '_' | psMetric | '_' | psParallel | '_End_P' , '2.1' ) ;
+  
+  # Creates the view that will be used for cleaning
+  # ======================================================
+  ViewCreate( csTargetCube , sTargetView , nTemporaryView );
+  
+  
+  
+  # Creates the subsets that will be used to filter the cleaning view
+  # ======================================================
+  
+  #Driver Dimension
+  if(psDimension@<>'' & psDimension@<>sVersion & psDimension@<>'SYS.D.Version_Copy_Year_Month');
+    cDimensao	= psDimension;
+    if(psDimension@=sYear
+    & sStartPeriod@<>sEndPeriod);
+      vsTargetYearMonth = Dimnm( 'SYS.D.Version_Copy_Year_Month', Dimix('SYS.D.Version_Copy_Year_Month', sStartTargetPeriod )+ ( Dimix('SYS.D.Version_Copy_Year_Month', psElement | sStartTargetMonth ) - Dimix('SYS.D.Version_Copy_Year_Month', sStartPeriod ) ) );
+      cElemento = Subst( vsTargetYearMonth, 1 , 4) ;      
+    elseif(psDimension@=sMonth & sStartPeriod@<>sEndPeriod);
+      vsTargetYearMonth = Dimnm( 'SYS.D.Version_Copy_Year_Month', Dimix('SYS.D.Version_Copy_Year_Month', sStartTargetPeriod )+ ( Dimix('SYS.D.Version_Copy_Year_Month', sStartTargetYear | psElement ) - Dimix('SYS.D.Version_Copy_Year_Month', sStartPeriod ) ) );
+      cElemento = Subst( vsTargetYearMonth, 5 , 2) ;
+    elseif(psDimension@=sYearMonth & sStartPeriod@<>sEndPeriod);
+      vsTargetYearMonth = Dimnm( 'SYS.D.Version_Copy_Year_Month', Dimix('SYS.D.Version_Copy_Year_Month', sStartTargetPeriod )+ ( Dimix('SYS.D.Version_Copy_Year_Month', psElement ) - Dimix('SYS.D.Version_Copy_Year_Month', sStartPeriod ) ) );
+      cElemento = vsTargetYearMonth ;
+    else;
+      cElemento	= psElement;
+    endIF;
+    If( cDimensao @<> '');
+      SubsetCreate( cDimensao, sTargetSubset , nTemporaryView );  
+      ViewSubsetAssign( csTargetCube , sTargetView, cDimensao , sTargetSubset );  
+       IF( Dimix(cDimensao, cElemento)<>0 & ( cDimensao@<>TABDIM( csTargetCube, nQtyDim ) % (cDimensao@=TABDIM( csTargetCube, nQtyDim ) & DType(cDimensao,cElemento)@=psMetric)));
+        SubsetElementInsert( cDimensao, sTargetSubset, cElemento	, 1 );
+      endIF;
+    EndIf;
+  endIF;
+#asciiOutput('..\Control_' | psCube | '_' | psMetric | '_' | psParallel | '_End_P' , '2.2' ) ;
+  
+  #Dimensao de Ano
+  if(sYear@<>'' & psDimension@<>sYear);
+    cDimensao = sYear ;
+    if(psDimension@='SYS.D.Version_Copy_Year_Month');
+      vsTargetYearMonth = Dimnm( 'SYS.D.Version_Copy_Year_Month', Dimix('SYS.D.Version_Copy_Year_Month', sStartTargetPeriod )+ ( Dimix('SYS.D.Version_Copy_Year_Month', psElement ) - Dimix('SYS.D.Version_Copy_Year_Month', sStartPeriod ) ) );
+      cElemento = vsTargetYearMonth ;
+      cMDX = '{ ['| sYear | '].[' | sYear | '].[' | subst( cElemento, 1, 4) |'] }';
+    elseif(psDimension@=sMonth & sMonth@<>'');
+      cMDX = '{ FILTER([' | sYear | '].[' | sYear | '].MEMBERS , [' | sYear | '].[' | sYear | '].CURRENTMEMBER.NAME + "' | psElement | '" >= "' | sStartTargetPeriod | '" AND [' | sYear | '].[' | sYear | '].CURRENTMEMBER.NAME + "' | psElement | '" <= "'| sEndTargetPeriod |'") }';
+    elseif(nLoops=1 % nLoop=1);
+      cMDX = '{ [' | sYear | '].[' | sYear | '].[' | sStartTargetYear |'] }';
+    elseif(nLoop=nLoops);
+      if( Dimix(sYear, sEndTargetYear)<>0);
+        cMDX = '{ [' | sYear | '].[' | sYear | '].[' | sEndTargetYear |'] }';
+      else;      
+        cMDX = '';
+      endIF;
+    else;
+      cMDX = '{ FILTER([' | sYear | '].[' | sYear | '].MEMBERS , [' | sYear | '].[' | sYear | '].CURRENTMEMBER.NAME  > "' | sStartTargetYear | '" AND [' | sYear | '].[' | sYear | '].CURRENTMEMBER.NAME  < "'| sEndTargetYear |'") }';
+    endIF;
+    SubsetCreatebyMDX(sTargetSubset, cMDX, nTemporaryView);
+    ViewSubsetAssign( csTargetCube , sTargetView, cDimensao , sTargetSubset );  
+    SubsetMDXSet(cDimensao, sTargetSubset, '');
+  endIF;
+ 
+#asciiOutput('..\Control_' | psCube | '_' | psMetric | '_' | psParallel | '_End_P' , '2.3' ) ;
+  #Month Dimension
+  if(sMonth@<>'' & psDimension@<>sMonth);
+    cDimensao = sMonth ;
+    if(psDimension@='SYS.D.Version_Copy_Year_Month');
+      vsTargetYearMonth = Dimnm( 'SYS.D.Version_Copy_Year_Month', Dimix('SYS.D.Version_Copy_Year_Month', sStartTargetPeriod )+ ( Dimix('SYS.D.Version_Copy_Year_Month', psElement ) - Dimix('SYS.D.Version_Copy_Year_Month', sStartPeriod ) ) );
+      cElemento = vsTargetYearMonth ;
+      cMDX = '{ ['| sMonth | '].[' | sMonth | '].[' | subst( cElemento, 5, 2) |'] }';
+    elseif( nLoops=1);
+      cMDX = '{ FILTER(TM1SUBSETALL(['| sMonth | '].[' | sMonth | ']),"' | sStartTargetYear | '" + [' | sMonth | '].[' | sMonth | '].CurrentMember.Name >= "' | sStartTargetPeriod | '" AND "' | sStartTargetYear |'" + ['| sMonth|'].['| sMonth |'].CurrentMember.Name <= "' | sEndTargetPeriod|'") }';
+    elseif(nLoop=1);
+      cMDX = '{ FILTER(TM1SUBSETALL(['| sMonth | '].[' | sMonth | ']),"' | sStartTargetYear | '" + [' | sMonth | '].[' | sMonth | '].CurrentMember.Name >= "' | sStartTargetPeriod | '" ) }';
+    elseif(nLoop=nLoops);
+      cMDX = '{ FILTER(TM1SUBSETALL(['| sMonth | '].[' | sMonth | ']), "' | sEndTargetYear |'" + ['| sMonth|'].['| sMonth |'].CurrentMember.Name <= "' | sEndTargetPeriod|'") }';
+    else;
+      cMDX = '{ Tm1FilterByLevel(TM1SUBSETALL(['| sMonth | '].[' | sMonth | ']), 0) }' ;
+    endIF;    
+    SubsetCreatebyMDX(sTargetSubset, cMDX, nTemporaryView);
+    ViewSubsetAssign( csTargetCube , sTargetView, cDimensao , sTargetSubset );  
+    SubsetMDXSet(cDimensao, sTargetSubset, '');
+  endIF;
+  
+#asciiOutput('..\Control_' | psCube | '_' | psMetric | '_' | psParallel | '_End_P' , '2.4' ) ;
+  #YearMonth Dimension
+  if(sYearMonth@<>'' & ( psDimension@<>sYearMonth % (psDimension@=sYearMonth & psDimension@='SYS.D.Version_Copy_Year_Month') ));  
+    cDimensao = sYearMonth ;
+    if( psDimension@='SYS.D.Version_Copy_Year_Month');
+      IF( sStartTargetPeriod @<> sStartPeriod ) ;
+        vsTargetYearMonth = Dimnm( 'SYS.D.Version_Copy_Year_Month', Dimix('SYS.D.Version_Copy_Year_Month', sStartTargetPeriod )+ ( Dimix('SYS.D.Version_Copy_Year_Month', psElement ) - Dimix('SYS.D.Version_Copy_Year_Month', sStartPeriod ) ) );
+        if( Dimix(sYearMonth, vsTargetYearMonth)<>0);
+          cMDX = '{ ['| sYearMonth | '].[' | sYearMonth | '].[' | vsTargetYearMonth | '] }';
+        else;
+          cMDX = '';
+        endIF;
+      else;
+        cMDX = '{ ['| sYearMonth | '].[' | sYearMonth | '].[' | psElement| '] }';
+      endIF;
+    else;
+      cMDX = '{ FILTER(TM1SUBSETALL(['| sYearMonth | '].[' | sYearMonth | ']), [' | sYearMonth | '].[' | sYearMonth | '].CurrentMember.Name >= "' | sStartTargetPeriod | '" AND ['| sYearMonth|'].['| sYearMonth |'].CurrentMember.Name <= "' | sEndTargetPeriod|'") }';
+    endIF;
+    SubsetCreatebyMDX(sTargetSubset, cMDX, nTemporaryView);
+    ViewSubsetAssign( csTargetCube , sTargetView, cDimensao , sTargetSubset );  
+    SubsetMDXSet(cDimensao, sTargetSubset, '');
+  endIF;
+  
+#asciiOutput('..\Control_' | psCube | '_' | psMetric | '_' | psParallel | '_End_P' , '2.5' ) ;
+  cDimensao	= sVersion;
+  cElemento	= sTargetVersion;
+  If( cDimensao @<> '');
+    SubsetCreate( cDimensao, sTargetSubset , nTemporaryView );  
+    ViewSubsetAssign( csTargetCube , sTargetView, cDimensao , sTargetSubset );  
+    SubsetElementInsert( cDimensao, sTargetSubset, cElemento	, 1 );
+  EndIf;
+  
+#asciiOutput('..\Control_' | psCube | '_' | psMetric | '_' | psParallel | '_End_P' , '2.6' ) ;
+  #Clean Metric Elements S or N (psMetric)
+  sMetric = TABDIM( csTargetCube, nQtyDim );
+  if( psDimension@<>sMetric & sMetric@<>sYear & sMetric@<>sMonth & sMetric@<>sYearMonth);    
+    nTam = DimSiz( sMetric );
+    cDimensao = sMetric ;
+    SubsetCreate( cDimensao, sTargetSubset , nTemporaryView );  
+    ViewSubsetAssign( csTargetCube , sTargetView, cDimensao , sTargetSubset );  
+    while( nTam >= 1) ;
+      sElm = DimNm( sMetric, nTam);
+      IF( DTYPE( sMetric, sElm )@=psMetric);
+        SubsetElementInsert( cDimensao, sTargetSubset, sElm , 1 );
+      endIF;
+      nTam = nTam - 1 ;
+    end;
+  endIF;
+
+#asciiOutput('..\Control_' | psCube | '_' | psMetric | '_' | psParallel | '_End_P' , '2.7' ) ;
+
+  
+  # Create subsets by MDX
+  # ======================================================
+  cDimensao	= '';
+  cMDX		= '';
+  If( cDimensao @<> '');
+    SubsetCreatebyMDX(sTargetSubset, cMDX, nTemporaryView);
+    ViewSubsetAssign( csTargetCube , sTargetView, cDimensao , sTargetSubset );  
+    SubsetMDXSet(cDimensao, sTargetSubset, '');
+  EndIf;
+  
+  
+  
+  # View Configuration
+  # ======================================================
+  ViewExtractSkipCalcsSet( csTargetCube, sTargetView, If( sSkipCalcs @= 'Y', 1, 0) );
+  ViewExtractSkipZeroesSet( csTargetCube, sTargetView, If( sSkipZeroes @= 'Y', 1, 0)  );
+  ViewExtractSkipRuleValuesSet( csTargetCube, sTargetView, If( sSkipRule @= 'Y', 1, 0) );
+  
+  
+  
+#asciiOutput('..\Control_' | psCube | '_' | psMetric | '_' | psParallel | '_End_P' , '2.8' ) ;
+  # Clean the data from Veiw
+  # ======================================================
+  ViewZeroOut( csTargetCube , sTargetView );
+  
+#asciiOutput('..\Control_' | psCube | '_' | psMetric | '_' | psParallel | '_End_P' , '2.9' ) ;
+  nLoop = nLoop + 1 ;
+  
+end;
+
+
+#asciiOutput('..\Control_' | psCube | '_' | psMetric | '_' | psParallel | '_End_P' , '3' ) ;
+
+cTipoCopia = CellGetS('SYS.900.Version_Copy_Parameter', 'Value', 'Copy Type' );
+
+IF( cTipoCopia@= 'Cópia direta' % cTipoCopia@= 'Direct copy' % cTipoCopia@= 'Copia directa' );
+  
+  # =================================================================================
+  #
+  # Configuring the Reding Source Cube View
+  #
+  # =================================================================================
+  
+  sSkipCalcs	= 'Y';
+  sSkipZeroes		= 'Y'; 
+  sSkipRule	= Subst(CellGetS('SYS.900.Version_Copy_Parameter', 'Value', 'Consider Rules' ),1,1);
+  sSkipRule	= IF( sSkipRule@='S' % sSkipRule@='Y','N','Y');
+  sTemporaryView	 	= 'Y';
+  nTemporaryView		= If( sTemporaryView @= 'Y', 1, 0);
+
+
+  
+  # Defines view name and Source subset
+  # ======================================================
+  sSourceView	= 'zProcess.' | csProcess | '.' | 'Read' | '.' | TimSt( cnStartTime, '\Y-\m-\d \hh\im\ss' ) | '_' | psMetric | '_' | psParallel | '_' | csSourceCube ;
+  sSourceSubset	= sSourceView;
+  
+  
+  
+  # Creates the view that will be used for reading
+  # ======================================================
+  ViewCreate( csSourceCube , sSourceView , nTemporaryView );
+  
+  #Driver Dimension
+  if(psDimension@<>'' & psDimension@<>sVersion & psDimension@<>'SYS.D.Version_Copy_Year_Month');
+    cDimensao	= psDimension;
+    cElemento	= psElement;
+    If( cDimensao @<> '');
+      SubsetCreate( cDimensao, sSourceSubset, nTemporaryView );  
+      ViewSubsetAssign( csSourceCube , sSourceView, cDimensao , sSourceSubset );
+      IF( cDimensao@<>TABDIM( csSourceCube, nQtyDim ) % (cDimensao@=TABDIM( csSourceCube, nQtyDim ) & DType(cDimensao,cElemento)@=psMetric));
+        SubsetElementInsert( cDimensao, sSourceSubset, cElemento	, 1 );
+      endIF;
+    EndIf;
+  EndIF;
+  
+  #Year Dimension
+  if(sYear@<>'' & psDimension@<>sYear);    
+     cDimensao	= sYear ;
+     IF( psDimension@='SYS.D.Version_Copy_Year_Month');
+       cMDX = '{ ['| sYear | '].[' | sYear | '].[' | subst( psElement, 1, 4) |'] }';
+     else;
+       cMDX = '{ FILTER([' | sYear | '].[' | sYear | '].MEMBERS , [' | sYear | '].[' | sYear | '].CURRENTMEMBER.NAME  >= "' | sStartYear | '" AND [' | sYear | '].[' | sYear | '].CURRENTMEMBER.NAME  <= "'| sEndYear |'") }';
+     endIF;
+    SubsetCreatebyMDX(sSourceSubset, cMDX, nTemporaryView);
+    ViewSubsetAssign( csSourceCube , sSourceView, cDimensao , sSourceSubset );  
+    SubsetMDXSet(cDimensao, sSourceSubset, '');
+  endIF;
+  
+  
+  
+  #Month Dimension
+  if(sMonth@<>'' & psDimension@<>sMonth);    
+     cDimensao	= sMonth ;
+     IF( psDimension@='SYS.D.Version_Copy_Year_Month');
+       cMDX = '{ ['| sMonth | '].[' | sMonth | '].[' | subst( psElement, 5, 2) |'] }';
+     else;
+       cMDX = '{Tm1FilterByLevel( {Tm1SubsetAll(['| sMonth|'].['|sMonth|'])} ,0)}';
+     endIF;
+    SubsetCreatebyMDX(sSourceSubset, cMDX, nTemporaryView);
+    ViewSubsetAssign( csSourceCube , sSourceView, cDimensao , sSourceSubset );  
+    SubsetMDXSet(cDimensao, sSourceSubset, '');
+  endIF;
+  
+  
+  #YearMonth Dimension
+  if(sYearMonth@<>'' & ( psDimension@<>sYearMonth % (psDimension@=sYearMonth & psDimension@='SYS.D.Version_Copy_Year_Month') ) );    
+     cDimensao	= sYearMonth ;
+     IF( psDimension@='SYS.D.Version_Copy_Year_Month');
+       cMDX = '{ ['| sYearMonth | '].[' | sYearMonth | '].[' |  psElement |'] }';
+     else;
+        cMDX = '{ FILTER(TM1SUBSETALL(['| sYearMonth | '].[' | sYearMonth | ']), [' | sYearMonth | '].[' | sYearMonth | '].CurrentMember.Name >= "' | sStartPeriod | '" AND ['| sYearMonth|'].['| sYearMonth |'].CurrentMember.Name <= "' | sEndPeriod|'") }';
+     endIF;
+    SubsetCreatebyMDX(sSourceSubset, cMDX, nTemporaryView);
+    ViewSubsetAssign( csSourceCube , sSourceView, cDimensao , sSourceSubset );  
+    SubsetMDXSet(cDimensao, sSourceSubset, '');
+  endIF;
+  
+  
+  
+  #Version Dimension
+  cDimensao	= sVersion;
+  cElemento	= sSourceVersion;
+  If( cDimensao @<> '');
+    SubsetCreate( cDimensao, sSourceSubset, nTemporaryView );  
+    ViewSubsetAssign( csSourceCube , sSourceView, cDimensao , sSourceSubset );  
+    SubsetElementInsert( cDimensao, sSourceSubset, cElemento	, 1 );
+  EndIf;
+  
+  
+  #Get Metric Elements S or N (psMetric)
+  sMetric = TABDIM( csSourceCube, nQtyDim );
+    if( psDimension@<>sMetric & sMetric@<>sYear & sMetric@<>sMonth & sMetric@<>sYearMonth);    
+    nTam = DimSiz( sMetric );
+    cDimensao = sMetric ;
+    SubsetCreate( cDimensao, sSourceSubset, nTemporaryView );  
+    ViewSubsetAssign( csSourceCube , sSourceView, cDimensao , sSourceSubset );  
+    while( nTam >= 1) ;
+      sElm = DimNm( sMetric, nTam);
+      IF( DTYPE( sMetric, sElm )@=psMetric);
+        SubsetElementInsert( cDimensao, sSourceSubset, sElm , 1 );
+      endIF;
+      nTam = nTam - 1 ;
+    end;
+  endIF;
+  
+  # Create subsets by MDX
+  # ======================================================
+  cDimensao	= '';
+  cMDX		= '';
+  If( cDimensao @<> '');
+    SubsetCreatebyMDX(sSourceSubset, cMDX, nTemporaryView);
+    ViewSubsetAssign( csSourceCube , sSourceView, cDimensao , sSourceSubset );  
+    SubsetMDXSet(cDimensao, sSourceSubset, '');
+  EndIf;
+  
+  
+  
+  # View Configuration
+  # ======================================================
+  ViewExtractSkipCalcsSet( csSourceCube, sSourceView, If( sSkipCalcs @= 'Y', 1, 0) );
+  ViewExtractSkipZeroesSet( csSourceCube, sSourceView, If( sSkipZeroes @= 'Y', 1, 0)  );
+  ViewExtractSkipRuleValuesSet( csSourceCube, sSourceView, If( sSkipRule @= 'Y', 1, 0) );
+  
+  
+
+  # Put View as Data Souce
+  # ==================================
+  DataSourceType          = 'VIEW';
+  DatasourceNameForServer = csSourceCube;
+  DatasourceNameForClient = csSourceCube;
+  DatasourceCubeView      = sSourceView;
+
+
+else;
+  
+  cFolder = CellGetS('SYS.900.Version_Copy_Parameter', 'Value', 'ExportArqPath' );
+  cFile = cFolder | '\SYS_Export_' | csSourceCube | '_' | psParallel | '_' | psMetric | '.csv' ;
+  
+  ExecuteProcess('zCTI.001.03.Export_Data' , 
+                            'psCube', csSourceCube ,
+                            'psDimension', psDimension ,
+                            'psElement', psElement ,
+                            'psMetric', psMetric ,
+                            'psParallel', psParallel ,
+                            'psFile', cFile );
+  
+  
+  IF( FileExists( cFile ) = 1 );
+
+    ### Assign Datasource ###
+    DataSourceType                  = 'CHARACTERDELIMITED';
+    DatasourceNameForServer         = cFile;
+    DatasourceNameForClient         = cFile;
+    DatasourceASCIIHeaderRecords    = 0;
+    DataSourceASCIIDelimiter 		= csDelimiter;
+    DataSourceASCIIThousandSeparator 	= csThousandSeparator;
+    DataSourceASCIIDecimalSeparator 	= csDecimalSeparator;
+    DataSourceQuoteCharacter 		= csQuoteCharacter;
+
+   ELSE;
+
+    DataSourceType = 'NULL';
+
+   ENDIF;
+
+endIF;
+
+
+#asciiOutput('..\Control_' | psCube | '_' | psMetric | '_' | psParallel | '_End_P' , '1' ) ;
+#endregion
+#region Data
+vsMetric = '' ;
+vsMetric = vsMetric | IF(nQtyDim=1, v1, '');
+vsMetric = vsMetric | IF(nQtyDim=2, v2, '');
+vsMetric = vsMetric | IF(nQtyDim=3, v3, '');
+vsMetric = vsMetric | IF(nQtyDim=4, v4, '');
+vsMetric = vsMetric | IF(nQtyDim=5, v5, '');
+vsMetric = vsMetric | IF(nQtyDim=6, v6, '');
+vsMetric = vsMetric | IF(nQtyDim=7, v7, '');
+vsMetric = vsMetric | IF(nQtyDim=8, v8, '');
+vsMetric = vsMetric | IF(nQtyDim=9, v9, '');
+vsMetric = vsMetric | IF(nQtyDim=10, v10, '');
+vsMetric = vsMetric | IF(nQtyDim=11, v11, '');
+vsMetric = vsMetric | IF(nQtyDim=12, v12, '');
+vsMetric = vsMetric | IF(nQtyDim=13, v13, '');
+vsMetric = vsMetric | IF(nQtyDim=14, v14, '');
+vsMetric = vsMetric | IF(nQtyDim=15, v15, '');
+vsMetric = vsMetric | IF(nQtyDim=16, v16, '');
+vsMetric = vsMetric | IF(nQtyDim=17, v17, '');
+vsMetric = vsMetric | IF(nQtyDim=18, v18, '');
+vsMetric = vsMetric | IF(nQtyDim=19, v19, '');
+vsMetric = vsMetric | IF(nQtyDim=20, v20, '');
+vsMetric = vsMetric | IF(nQtyDim=21, v21, '');
+vsMetric = vsMetric | IF(nQtyDim=22, v22, '');
+vsMetric = vsMetric | IF(nQtyDim=23, v23, '');
+vsMetric = vsMetric | IF(nQtyDim=24, v24, '');
+vsMetric = vsMetric | IF(nQtyDim=25, v25, '');
+vsMetric = vsMetric | IF(nQtyDim=26, v26, '');
+vsMetric = vsMetric | IF(nQtyDim=27, v27, '');
+vsMetric = vsMetric | IF(nQtyDim=28, v28, '');
+vsMetric = vsMetric | IF(nQtyDim=29, v29, '');
+vsMetric = vsMetric | IF(nQtyDim=30, v30, '');
+vsMetric = vsMetric | IF(nQtyDim=31, v31, '');
+vsMetric = vsMetric | IF(nQtyDim=32, v32, '');
+vsMetric = vsMetric | IF(nQtyDim=33, v33, '');
+vsMetric = vsMetric | IF(nQtyDim=34, v34, '');
+vsMetric = vsMetric | IF(nQtyDim=35, v35, '');
+vsMetric = vsMetric | IF(nQtyDim=36, v36, '');
+vsMetric = vsMetric | IF(nQtyDim=37, v37, '');
+vsMetric = vsMetric | IF(nQtyDim=38, v38, '');
+vsMetric = vsMetric | IF(nQtyDim=39, v39, '');
+vsMetric = vsMetric | IF(nQtyDim=40, v40, '');
+
+#LogOutput('INFO', sMetric | ' ' | vsMetric |' ' | psMetric) ;
+IF(Dtype(sMetric,vsMetric)@<>psMetric);
+  ItemSkip;
+EndIF;
+
+#Change Version
+v1 = IF( TABDIM( psCube, 1)@=sVersion , sTargetVersion, Trim( v1 ) ) ;
+v2 = IF( TABDIM( psCube, 2)@=sVersion , sTargetVersion, Trim( v2 ) ) ;
+v3 = IF( TABDIM( psCube, 3)@=sVersion , sTargetVersion, Trim( v3 ) ) ;
+v4 = IF( TABDIM( psCube, 4)@=sVersion , sTargetVersion, Trim( v4 ) ) ;
+v5 = IF( TABDIM( psCube, 5)@=sVersion , sTargetVersion, Trim( v5 ) ) ;
+v6 = IF( TABDIM( psCube, 6)@=sVersion , sTargetVersion, Trim( v6 ) ) ;
+v7 = IF( TABDIM( psCube, 7)@=sVersion , sTargetVersion, Trim( v7 ) ) ;
+v8 = IF( TABDIM( psCube, 8)@=sVersion , sTargetVersion, Trim( v8 ) ) ;
+v9 = IF( TABDIM( psCube, 9)@=sVersion , sTargetVersion, Trim( v9 ) ) ;
+v10 = IF( TABDIM( psCube, 10)@=sVersion , sTargetVersion, Trim( v10 ) ) ;
+v11 = IF( TABDIM( psCube, 11)@=sVersion , sTargetVersion, Trim( v11 ) ) ;
+v12 = IF( TABDIM( psCube, 12)@=sVersion , sTargetVersion, Trim( v12 ) ) ;
+v13 = IF( TABDIM( psCube, 13)@=sVersion , sTargetVersion, Trim( v13 ) ) ;
+v14 = IF( TABDIM( psCube, 14)@=sVersion , sTargetVersion, Trim( v14 ) ) ;
+v15 = IF( TABDIM( psCube, 15)@=sVersion , sTargetVersion, Trim( v15 ) ) ;
+v16 = IF( TABDIM( psCube, 16)@=sVersion , sTargetVersion, Trim( v16 ) ) ;
+v17 = IF( TABDIM( psCube, 17)@=sVersion , sTargetVersion, Trim( v17 ) ) ;
+v18 = IF( TABDIM( psCube, 18)@=sVersion , sTargetVersion, Trim( v18 ) ) ;
+v19 = IF( TABDIM( psCube, 19)@=sVersion , sTargetVersion, Trim( v19 ) ) ;
+v20 = IF( TABDIM( psCube, 20)@=sVersion , sTargetVersion, Trim( v20 ) ) ;
+v21 = IF( TABDIM( psCube, 21)@=sVersion , sTargetVersion, Trim( v21 ) ) ;
+v22 = IF( TABDIM( psCube, 22)@=sVersion , sTargetVersion, Trim( v22 ) ) ;
+v23 = IF( TABDIM( psCube, 23)@=sVersion , sTargetVersion, Trim( v23 ) ) ;
+v24 = IF( TABDIM( psCube, 24)@=sVersion , sTargetVersion, Trim( v24 ) ) ;
+v25 = IF( TABDIM( psCube, 25)@=sVersion , sTargetVersion, Trim( v25 ) ) ;
+v26 = IF( TABDIM( psCube, 26)@=sVersion , sTargetVersion, Trim( v26 ) ) ;
+v27 = IF( TABDIM( psCube, 27)@=sVersion , sTargetVersion, Trim( v27 ) ) ;
+v28 = IF( TABDIM( psCube, 28)@=sVersion , sTargetVersion, Trim( v28 ) ) ;
+v29 = IF( TABDIM( psCube, 29)@=sVersion , sTargetVersion, Trim( v29 ) ) ;
+v30 = IF( TABDIM( psCube, 30)@=sVersion , sTargetVersion, Trim( v30 ) ) ;
+v31 = IF( TABDIM( psCube, 31)@=sVersion , sTargetVersion, Trim( v31 ) ) ;
+v32 = IF( TABDIM( psCube, 32)@=sVersion , sTargetVersion, Trim( v32 ) ) ;
+v33 = IF( TABDIM( psCube, 33)@=sVersion , sTargetVersion, Trim( v33 ) ) ;
+v34 = IF( TABDIM( psCube, 34)@=sVersion , sTargetVersion, Trim( v34 ) ) ;
+v35 = IF( TABDIM( psCube, 35)@=sVersion , sTargetVersion, Trim( v35 ) ) ;
+v36 = IF( TABDIM( psCube, 36)@=sVersion , sTargetVersion, Trim( v36 ) ) ;
+v37 = IF( TABDIM( psCube, 37)@=sVersion , sTargetVersion, Trim( v37 ) ) ;
+v38 = IF( TABDIM( psCube, 38)@=sVersion , sTargetVersion, Trim( v38 ) ) ;
+v39 = IF( TABDIM( psCube, 39)@=sVersion , sTargetVersion, Trim( v39 ) ) ;
+v40 = IF( TABDIM( psCube, 40)@=sVersion , sTargetVersion, Trim( v40 ) ) ;
+v41 = IF( TABDIM( psCube, 41)@=sVersion , sTargetVersion, Trim( v41 ) ) ;
+
+#Region Change Period
+IF(sStartTargetPeriod@<>sStartPeriod);
+IF( sYear@<>'');
+  #Get Year
+  vsYear = '' ;
+  vsYear = vsYear | IF( TABDIM( psCube , 1)@=sYear, v1, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 2)@=sYear, v2, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 3)@=sYear, v3, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 4)@=sYear, v4, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 5)@=sYear, v5, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 6)@=sYear, v6, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 7)@=sYear, v7, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 8)@=sYear, v8, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 9)@=sYear, v9, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 10)@=sYear, v10, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 11)@=sYear, v11, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 12)@=sYear, v12, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 13)@=sYear, v13, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 14)@=sYear, v14, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 15)@=sYear, v15, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 16)@=sYear, v16, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 17)@=sYear, v17, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 18)@=sYear, v18, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 19)@=sYear, v19, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 20)@=sYear, v20, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 21)@=sYear, v21, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 22)@=sYear, v22, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 23)@=sYear, v23, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 24)@=sYear, v24, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 25)@=sYear, v25, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 26)@=sYear, v26, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 27)@=sYear, v27, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 28)@=sYear, v28, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 29)@=sYear, v29, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 30)@=sYear, v30, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 31)@=sYear, v31, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 32)@=sYear, v32, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 33)@=sYear, v33, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 34)@=sYear, v34, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 35)@=sYear, v35, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 36)@=sYear, v36, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 37)@=sYear, v37, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 38)@=sYear, v38, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 39)@=sYear, v39, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 40)@=sYear, v40, '' );
+  vsYear = vsYear | IF( TABDIM( psCube , 41)@=sYear, v41, '' );
+
+  #Obtem Mes
+  IF(sMonth@<>'');
+    vsMonth = '' ;
+    vsMonth = vsMonth | IF( TABDIM( psCube , 1)@=sMonth, v1, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 2)@=sMonth, v2, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 3)@=sMonth, v3, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 4)@=sMonth, v4, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 5)@=sMonth, v5, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 6)@=sMonth, v6, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 7)@=sMonth, v7, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 8)@=sMonth, v8, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 9)@=sMonth, v9, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 10)@=sMonth, v10, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 11)@=sMonth, v11, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 12)@=sMonth, v12, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 13)@=sMonth, v13, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 14)@=sMonth, v14, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 15)@=sMonth, v15, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 16)@=sMonth, v16, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 17)@=sMonth, v17, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 18)@=sMonth, v18, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 19)@=sMonth, v19, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 20)@=sMonth, v20, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 21)@=sMonth, v21, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 22)@=sMonth, v22, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 23)@=sMonth, v23, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 24)@=sMonth, v24, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 25)@=sMonth, v25, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 26)@=sMonth, v26, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 27)@=sMonth, v27, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 28)@=sMonth, v28, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 29)@=sMonth, v29, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 30)@=sMonth, v30, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 31)@=sMonth, v31, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 32)@=sMonth, v32, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 33)@=sMonth, v33, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 34)@=sMonth, v34, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 35)@=sMonth, v35, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 36)@=sMonth, v36, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 37)@=sMonth, v37, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 38)@=sMonth, v38, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 39)@=sMonth, v39, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 40)@=sMonth, v40, '' );
+    vsMonth = vsMonth | IF( TABDIM( psCube , 41)@=sMonth, v41, '' );
+  else;
+    vsMonth= sStartMonth;
+  endIF;
+  vsYearMonth = vsYear | vsMonth;
+    
+#LogOutput('INFO', vsYearMonth | ' ' | sStartPeriod |' ' | sEndPeriod) ;
+  if( vsYearMonth@<sStartPeriod % vsYearMonth@>sEndPeriod) ;
+    ItemSkip;
+  endIF;
+  vsTargetYearMonth = Dimnm( 'SYS.D.Version_Copy_Year_Month', Dimix('SYS.D.Version_Copy_Year_Month', sStartTargetPeriod )+ ( Dimix('SYS.D.Version_Copy_Year_Month', vsYearMonth ) - Dimix('SYS.D.Version_Copy_Year_Month', sStartPeriod ) ) );
+  
+  vsTargetYear = Subst( vsTargetYearMonth , 1 , 4 ) ;
+  vsTargetMonth = Subst( vsTargetYearMonth , 5 , 2 );
+  
+  #Change Year
+  v1 = IF( TABDIM( psCube, 1)@=sYear , vsTargetYear, v1 ) ;
+  v2 = IF( TABDIM( psCube, 2)@=sYear , vsTargetYear, v2 ) ;
+  v3 = IF( TABDIM( psCube, 3)@=sYear , vsTargetYear, v3 ) ;
+  v4 = IF( TABDIM( psCube, 4)@=sYear , vsTargetYear, v4 ) ;
+  v5 = IF( TABDIM( psCube, 5)@=sYear , vsTargetYear, v5 ) ;
+  v6 = IF( TABDIM( psCube, 6)@=sYear , vsTargetYear, v6 ) ;
+  v7 = IF( TABDIM( psCube, 7)@=sYear , vsTargetYear, v7 ) ;
+  v8 = IF( TABDIM( psCube, 8)@=sYear , vsTargetYear, v8 ) ;
+  v9 = IF( TABDIM( psCube, 9)@=sYear , vsTargetYear, v9 ) ;
+  v10 = IF( TABDIM( psCube, 10)@=sYear , vsTargetYear, v10 ) ;
+  v11 = IF( TABDIM( psCube, 11)@=sYear , vsTargetYear, v11 ) ;
+  v12 = IF( TABDIM( psCube, 12)@=sYear , vsTargetYear, v12 ) ;
+  v13 = IF( TABDIM( psCube, 13)@=sYear , vsTargetYear, v13 ) ;
+  v14 = IF( TABDIM( psCube, 14)@=sYear , vsTargetYear, v14 ) ;
+  v15 = IF( TABDIM( psCube, 15)@=sYear , vsTargetYear, v15 ) ;
+  v16 = IF( TABDIM( psCube, 16)@=sYear , vsTargetYear, v16 ) ;
+  v17 = IF( TABDIM( psCube, 17)@=sYear , vsTargetYear, v17 ) ;
+  v18 = IF( TABDIM( psCube, 18)@=sYear , vsTargetYear, v18 ) ;
+  v19 = IF( TABDIM( psCube, 19)@=sYear , vsTargetYear, v19 ) ;
+  v20 = IF( TABDIM( psCube, 20)@=sYear , vsTargetYear, v20 ) ;
+  v21 = IF( TABDIM( psCube, 21)@=sYear , vsTargetYear, v21 ) ;
+  v22 = IF( TABDIM( psCube, 22)@=sYear , vsTargetYear, v22 ) ;
+  v23 = IF( TABDIM( psCube, 23)@=sYear , vsTargetYear, v23 ) ;
+  v24 = IF( TABDIM( psCube, 24)@=sYear , vsTargetYear, v24 ) ;
+  v25 = IF( TABDIM( psCube, 25)@=sYear , vsTargetYear, v25 ) ;
+  v26 = IF( TABDIM( psCube, 26)@=sYear , vsTargetYear, v26 ) ;
+  v27 = IF( TABDIM( psCube, 27)@=sYear , vsTargetYear, v27 ) ;
+  v28 = IF( TABDIM( psCube, 28)@=sYear , vsTargetYear, v28 ) ;
+  v29 = IF( TABDIM( psCube, 29)@=sYear , vsTargetYear, v29 ) ;
+  v30 = IF( TABDIM( psCube, 30)@=sYear , vsTargetYear, v30 ) ;
+  v31 = IF( TABDIM( psCube, 31)@=sYear , vsTargetYear, v31 ) ;
+  v32 = IF( TABDIM( psCube, 32)@=sYear , vsTargetYear, v32 ) ;
+  v33 = IF( TABDIM( psCube, 33)@=sYear , vsTargetYear, v33 ) ;
+  v34 = IF( TABDIM( psCube, 34)@=sYear , vsTargetYear, v34 ) ;
+  v35 = IF( TABDIM( psCube, 35)@=sYear , vsTargetYear, v35 ) ;
+  v36 = IF( TABDIM( psCube, 36)@=sYear , vsTargetYear, v36 ) ;
+  v37 = IF( TABDIM( psCube, 37)@=sYear , vsTargetYear, v37 ) ;
+  v38 = IF( TABDIM( psCube, 38)@=sYear , vsTargetYear, v38 ) ;
+  v39 = IF( TABDIM( psCube, 39)@=sYear , vsTargetYear, v39 ) ;
+  v40 = IF( TABDIM( psCube, 40)@=sYear , vsTargetYear, v40 ) ;
+  v41 = IF( TABDIM( psCube, 41)@=sYear , vsTargetYear, v41 ) ;
+
+  #change Month
+  IF(sMonth@<>'');
+    v1 = IF( TABDIM( psCube, 1)@=sMonth , vsTargetMonth, v1 ) ;
+    v2 = IF( TABDIM( psCube, 2)@=sMonth , vsTargetMonth, v2 ) ;
+    v3 = IF( TABDIM( psCube, 3)@=sMonth , vsTargetMonth, v3 ) ;
+    v4 = IF( TABDIM( psCube, 4)@=sMonth , vsTargetMonth, v4 ) ;
+    v5 = IF( TABDIM( psCube, 5)@=sMonth , vsTargetMonth, v5 ) ;
+    v6 = IF( TABDIM( psCube, 6)@=sMonth , vsTargetMonth, v6 ) ;
+    v7 = IF( TABDIM( psCube, 7)@=sMonth , vsTargetMonth, v7 ) ;
+    v8 = IF( TABDIM( psCube, 8)@=sMonth , vsTargetMonth, v8 ) ;
+    v9 = IF( TABDIM( psCube, 9)@=sMonth , vsTargetMonth, v9 ) ;
+    v10 = IF( TABDIM( psCube, 10)@=sMonth , vsTargetMonth, v10 ) ;
+    v11 = IF( TABDIM( psCube, 11)@=sMonth , vsTargetMonth, v11 ) ;
+    v12 = IF( TABDIM( psCube, 12)@=sMonth , vsTargetMonth, v12 ) ;
+    v13 = IF( TABDIM( psCube, 13)@=sMonth , vsTargetMonth, v13 ) ;
+    v14 = IF( TABDIM( psCube, 14)@=sMonth , vsTargetMonth, v14 ) ;
+    v15 = IF( TABDIM( psCube, 15)@=sMonth , vsTargetMonth, v15 ) ;
+    v16 = IF( TABDIM( psCube, 16)@=sMonth , vsTargetMonth, v16 ) ;
+    v17 = IF( TABDIM( psCube, 17)@=sMonth , vsTargetMonth, v17 ) ;
+    v18 = IF( TABDIM( psCube, 18)@=sMonth , vsTargetMonth, v18 ) ;
+    v19 = IF( TABDIM( psCube, 19)@=sMonth , vsTargetMonth, v19 ) ;
+    v20 = IF( TABDIM( psCube, 20)@=sMonth , vsTargetMonth, v20 ) ;
+    v21 = IF( TABDIM( psCube, 21)@=sMonth , vsTargetMonth, v21 ) ;
+    v22 = IF( TABDIM( psCube, 22)@=sMonth , vsTargetMonth, v22 ) ;
+    v23 = IF( TABDIM( psCube, 23)@=sMonth , vsTargetMonth, v23 ) ;
+    v24 = IF( TABDIM( psCube, 24)@=sMonth , vsTargetMonth, v24 ) ;
+    v25 = IF( TABDIM( psCube, 25)@=sMonth , vsTargetMonth, v25 ) ;
+    v26 = IF( TABDIM( psCube, 26)@=sMonth , vsTargetMonth, v26 ) ;
+    v27 = IF( TABDIM( psCube, 27)@=sMonth , vsTargetMonth, v27 ) ;
+    v28 = IF( TABDIM( psCube, 28)@=sMonth , vsTargetMonth, v28 ) ;
+    v29 = IF( TABDIM( psCube, 29)@=sMonth , vsTargetMonth, v29 ) ;
+    v30 = IF( TABDIM( psCube, 30)@=sMonth , vsTargetMonth, v30 ) ;
+    v31 = IF( TABDIM( psCube, 31)@=sMonth , vsTargetMonth, v31 ) ;
+    v32 = IF( TABDIM( psCube, 32)@=sMonth , vsTargetMonth, v32 ) ;
+    v33 = IF( TABDIM( psCube, 33)@=sMonth , vsTargetMonth, v33 ) ;
+    v34 = IF( TABDIM( psCube, 34)@=sMonth , vsTargetMonth, v34 ) ;
+    v35 = IF( TABDIM( psCube, 35)@=sMonth , vsTargetMonth, v35 ) ;
+    v36 = IF( TABDIM( psCube, 36)@=sMonth , vsTargetMonth, v36 ) ;
+    v37 = IF( TABDIM( psCube, 37)@=sMonth , vsTargetMonth, v37 ) ;
+    v38 = IF( TABDIM( psCube, 38)@=sMonth , vsTargetMonth, v38 ) ;
+    v39 = IF( TABDIM( psCube, 39)@=sMonth , vsTargetMonth, v39 ) ;
+    v40 = IF( TABDIM( psCube, 40)@=sMonth , vsTargetMonth, v40 ) ;
+    v41 = IF( TABDIM( psCube, 41)@=sMonth , vsTargetMonth, v41 ) ;
+  endIF;
+
+elseif(sYearMonth@<>'');
+
+  #Get YearMonth
+  vsYearMonth = '' ;
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 1)@=sYearMonth, v1, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 2)@=sYearMonth, v2, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 3)@=sYearMonth, v3, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 4)@=sYearMonth, v4, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 5)@=sYearMonth, v5, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 6)@=sYearMonth, v6, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 7)@=sYearMonth, v7, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 8)@=sYearMonth, v8, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 9)@=sYearMonth, v9, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 10)@=sYearMonth, v10, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 11)@=sYearMonth, v11, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 12)@=sYearMonth, v12, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 13)@=sYearMonth, v13, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 14)@=sYearMonth, v14, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 15)@=sYearMonth, v15, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 16)@=sYearMonth, v16, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 17)@=sYearMonth, v17, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 18)@=sYearMonth, v18, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 19)@=sYearMonth, v19, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 20)@=sYearMonth, v20, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 21)@=sYearMonth, v21, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 22)@=sYearMonth, v22, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 23)@=sYearMonth, v23, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 24)@=sYearMonth, v24, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 25)@=sYearMonth, v25, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 26)@=sYearMonth, v26, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 27)@=sYearMonth, v27, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 28)@=sYearMonth, v28, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 29)@=sYearMonth, v29, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 30)@=sYearMonth, v30, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 31)@=sYearMonth, v31, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 32)@=sYearMonth, v32, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 33)@=sYearMonth, v33, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 34)@=sYearMonth, v34, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 35)@=sYearMonth, v35, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 36)@=sYearMonth, v36, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 37)@=sYearMonth, v37, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 38)@=sYearMonth, v38, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 39)@=sYearMonth, v39, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 40)@=sYearMonth, v40, '' );
+  vsYearMonth = vsYearMonth | IF( TABDIM( psCube , 41)@=sYearMonth, v41, '' );
+  
+#LogOutput('INFO', vsYearMonth | ' ' | sStartPeriod |' ' | sEndPeriod) ;
+  if( vsYearMonth@<sStartPeriod % vsYearMonth@>sEndPeriod) ;
+    ItemSkip;
+  endIF;
+  vsTargetYearMonth = Dimnm( 'SYS.D.Version_Copy_Year_Month', Dimix('SYS.D.Version_Copy_Year_Month', sStartTargetPeriod )+ ( Dimix('SYS.D.Version_Copy_Year_Month', vsYearMonth ) - Dimix('SYS.D.Version_Copy_Year_Month', sStartPeriod ) ) );
+  
+  
+  #Change Period
+  v1 = IF( TABDIM( psCube, 1)@=sYearMonth , vsTargetYearMonth, v1 ) ;
+  v2 = IF( TABDIM( psCube, 2)@=sYearMonth , vsTargetYearMonth, v2 ) ;
+  v3 = IF( TABDIM( psCube, 3)@=sYearMonth , vsTargetYearMonth, v3 ) ;
+  v4 = IF( TABDIM( psCube, 4)@=sYearMonth , vsTargetYearMonth, v4 ) ;
+  v5 = IF( TABDIM( psCube, 5)@=sYearMonth , vsTargetYearMonth, v5 ) ;
+  v6 = IF( TABDIM( psCube, 6)@=sYearMonth , vsTargetYearMonth, v6 ) ;
+  v7 = IF( TABDIM( psCube, 7)@=sYearMonth , vsTargetYearMonth, v7 ) ;
+  v8 = IF( TABDIM( psCube, 8)@=sYearMonth , vsTargetYearMonth, v8 ) ;
+  v9 = IF( TABDIM( psCube, 9)@=sYearMonth , vsTargetYearMonth, v9 ) ;
+  v10 = IF( TABDIM( psCube, 10)@=sYearMonth , vsTargetYearMonth, v10 ) ;
+  v11 = IF( TABDIM( psCube, 11)@=sYearMonth , vsTargetYearMonth, v11 ) ;
+  v12 = IF( TABDIM( psCube, 12)@=sYearMonth , vsTargetYearMonth, v12 ) ;
+  v13 = IF( TABDIM( psCube, 13)@=sYearMonth , vsTargetYearMonth, v13 ) ;
+  v14 = IF( TABDIM( psCube, 14)@=sYearMonth , vsTargetYearMonth, v14 ) ;
+  v15 = IF( TABDIM( psCube, 15)@=sYearMonth , vsTargetYearMonth, v15 ) ;
+  v16 = IF( TABDIM( psCube, 16)@=sYearMonth , vsTargetYearMonth, v16 ) ;
+  v17 = IF( TABDIM( psCube, 17)@=sYearMonth , vsTargetYearMonth, v17 ) ;
+  v18 = IF( TABDIM( psCube, 18)@=sYearMonth , vsTargetYearMonth, v18 ) ;
+  v19 = IF( TABDIM( psCube, 19)@=sYearMonth , vsTargetYearMonth, v19 ) ;
+  v20 = IF( TABDIM( psCube, 20)@=sYearMonth , vsTargetYearMonth, v20 ) ;
+  v21 = IF( TABDIM( psCube, 21)@=sYearMonth , vsTargetYearMonth, v21 ) ;
+  v22 = IF( TABDIM( psCube, 22)@=sYearMonth , vsTargetYearMonth, v22 ) ;
+  v23 = IF( TABDIM( psCube, 23)@=sYearMonth , vsTargetYearMonth, v23 ) ;
+  v24 = IF( TABDIM( psCube, 24)@=sYearMonth , vsTargetYearMonth, v24 ) ;
+  v25 = IF( TABDIM( psCube, 25)@=sYearMonth , vsTargetYearMonth, v25 ) ;
+  v26 = IF( TABDIM( psCube, 26)@=sYearMonth , vsTargetYearMonth, v26 ) ;
+  v27 = IF( TABDIM( psCube, 27)@=sYearMonth , vsTargetYearMonth, v27 ) ;
+  v28 = IF( TABDIM( psCube, 28)@=sYearMonth , vsTargetYearMonth, v28 ) ;
+  v29 = IF( TABDIM( psCube, 29)@=sYearMonth , vsTargetYearMonth, v29 ) ;
+  v30 = IF( TABDIM( psCube, 30)@=sYearMonth , vsTargetYearMonth, v30 ) ;
+  v31 = IF( TABDIM( psCube, 31)@=sYearMonth , vsTargetYearMonth, v31 ) ;
+  v32 = IF( TABDIM( psCube, 32)@=sYearMonth , vsTargetYearMonth, v32 ) ;
+  v33 = IF( TABDIM( psCube, 33)@=sYearMonth , vsTargetYearMonth, v33 ) ;
+  v34 = IF( TABDIM( psCube, 34)@=sYearMonth , vsTargetYearMonth, v34 ) ;
+  v35 = IF( TABDIM( psCube, 35)@=sYearMonth , vsTargetYearMonth, v35 ) ;
+  v36 = IF( TABDIM( psCube, 36)@=sYearMonth , vsTargetYearMonth, v36 ) ;
+  v37 = IF( TABDIM( psCube, 37)@=sYearMonth , vsTargetYearMonth, v37 ) ;
+  v38 = IF( TABDIM( psCube, 38)@=sYearMonth , vsTargetYearMonth, v38 ) ;
+  v39 = IF( TABDIM( psCube, 39)@=sYearMonth , vsTargetYearMonth, v39 ) ;
+  v40 = IF( TABDIM( psCube, 40)@=sYearMonth , vsTargetYearMonth, v40 ) ;
+  v41 = IF( TABDIM( psCube, 41)@=sYearMonth , vsTargetYearMonth, v41 ) ;
+
+endIF;
+EndIf;
+#EndRegion
+
+#LogOutput('INFO', NumberToString(nQtyDim) | ' nQtyDim ') ;
+IF(nQtyDim=1);
+  IF( CellIsUpdateable( psCube , v1)=1);
+    IF( psMetric@='S');
+      CellPutS( v2 , psCube , v1 ) ;
+    else;
+      CellPutN( StringToNumber(v2) , psCube  , v1 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=2);
+  IF( CellIsUpdateable( psCube , v1 , v2)=1);
+    IF( psMetric@='S');
+      CellPutS( v3 , psCube , v1 , v2 ) ;
+    else;
+      CellPutN( StringToNumber(v3) , psCube  , v1 , v2 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=3);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3)=1);
+    IF( psMetric@='S');
+      CellPutS( v4 , psCube , v1 , v2 , v3 ) ;
+    else;
+      CellPutN( StringToNumber(v4) , psCube  , v1 , v2 , v3 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=4);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4)=1);
+    IF( psMetric@='S');
+      CellPutS( v5 , psCube , v1 , v2 , v3 , v4 ) ;
+    else;
+      CellPutN( StringToNumber(v5) , psCube  , v1 , v2 , v3 , v4 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=5);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5)=1);
+    IF( psMetric@='S');
+      CellPutS( v6 , psCube , v1 , v2 , v3 , v4 , v5 ) ;
+    else;
+      CellPutN( StringToNumber(v6) , psCube  , v1 , v2 , v3 , v4 , v5 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=6);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6)=1);
+    IF( psMetric@='S');
+      CellPutS( v7 , psCube , v1 , v2 , v3 , v4 , v5 , v6 ) ;
+        #LogOutput( 'Info', 'CellPutS( '| v7|' , '| psCube | ' , ' | v1 | ' , ' | v2 | ' , ' | v3 | ' , ' | v4 | ' , ' | v5 | ' , ' | v6 | ')' );
+    else;
+      CellPutN( StringToNumber(v7) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 );
+        #LogOutput( 'Info', 'CellPutN( '| v7 | ' , '| psCube | ' , ' | v1 | ' , ' | v2 | ' , ' | v3 | ' , ' | v4 | ' , ' | v5 | ' , ' | v6 | ')' );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=7);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7)=1);
+    IF( psMetric@='S');
+      CellPutS( v8 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 ) ;
+        #LogOutput( 'Info', 'CellPutS( '| v8 |' , '| psCube | ' , ' | v1 | ' , ' | v2 | ' , ' | v3 | ' , ' | v4 | ' , ' | v5 | ' , ' | v6 | ' , ' | v7 | ')' );
+    else;
+      CellPutN( StringToNumber(v8) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 );
+        #LogOutput( 'Info', 'CellPutS( '| v8 |' , '| psCube | ' , ' | v1 | ' , ' | v2 | ' , ' | v3 | ' , ' | v4 | ' , ' | v5 | ' , ' | v6 | ' , ' | v7 | ')' );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=8);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8)=1);
+    IF( psMetric@='S');
+      CellPutS( v9 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 ) ;
+    else;
+      CellPutN( StringToNumber(v9) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=9);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9)=1);
+    IF( psMetric@='S');
+      CellPutS( v10 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 ) ;
+    else;
+      CellPutN( StringToNumber(v10) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=10);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10)=1);
+    IF( psMetric@='S');
+      CellPutS( v11 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 ) ;
+    else;
+      CellPutN( StringToNumber(v11) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=11);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11)=1);
+    IF( psMetric@='S');
+      CellPutS( v12 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 ) ;
+    else;
+      CellPutN( StringToNumber(v12) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=12);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12)=1);
+    IF( psMetric@='S');
+      CellPutS( v13 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 ) ;
+    else;
+      CellPutN( StringToNumber(v13) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=13);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13)=1);
+    IF( psMetric@='S');
+      CellPutS( v14 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 ) ;
+    else;
+      CellPutN( StringToNumber(v14) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=14);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14)=1);
+    IF( psMetric@='S');
+      CellPutS( v15 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 ) ;
+    else;
+      CellPutN( StringToNumber(v15) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=15);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15)=1);
+    IF( psMetric@='S');
+      CellPutS( v16 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 ) ;
+    else;
+      CellPutN( StringToNumber(v16) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=16);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16)=1);
+    IF( psMetric@='S');
+      CellPutS( v17 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 ) ;
+    else;
+      CellPutN( StringToNumber(v17) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=17);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17)=1);
+    IF( psMetric@='S');
+      CellPutS( v18 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 ) ;
+    else;
+      CellPutN( StringToNumber(v18) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=18);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18)=1);
+    IF( psMetric@='S');
+      CellPutS( v19 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 ) ;
+    else;
+      CellPutN( StringToNumber(v19) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=19);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19)=1);
+    IF( psMetric@='S');
+      CellPutS( v20 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 ) ;
+    else;
+      CellPutN( StringToNumber(v20) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=20);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20)=1);
+    IF( psMetric@='S');
+      CellPutS( v21 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 ) ;
+    else;
+      CellPutN( StringToNumber(v21) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=21);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21)=1);
+    IF( psMetric@='S');
+      CellPutS( v22 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 ) ;
+    else;
+      CellPutN( StringToNumber(v22) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=22);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22)=1);
+    IF( psMetric@='S');
+      CellPutS( v23 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 ) ;
+    else;
+      CellPutN( StringToNumber(v23) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=23);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23)=1);
+    IF( psMetric@='S');
+      CellPutS( v24 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 ) ;
+    else;
+      CellPutN( StringToNumber(v24) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=24);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24)=1);
+    IF( psMetric@='S');
+      CellPutS( v25 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 ) ;
+    else;
+      CellPutN( StringToNumber(v25) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=25);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25)=1);
+    IF( psMetric@='S');
+      CellPutS( v26 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 ) ;
+    else;
+      CellPutN( StringToNumber(v26) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=26);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26)=1);
+    IF( psMetric@='S');
+      CellPutS( v27 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 ) ;
+    else;
+      CellPutN( StringToNumber(v27) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=27);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27)=1);
+    IF( psMetric@='S');
+      CellPutS( v28 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 ) ;
+    else;
+      CellPutN( StringToNumber(v28) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=28);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28)=1);
+    IF( psMetric@='S');
+      CellPutS( v29 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 ) ;
+    else;
+      CellPutN( StringToNumber(v29) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=29);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29)=1);
+    IF( psMetric@='S');
+      CellPutS( v30 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 ) ;
+    else;
+      CellPutN( StringToNumber(v30) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=30);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30)=1);
+    IF( psMetric@='S');
+      CellPutS( v31 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 ) ;
+    else;
+      CellPutN( StringToNumber(v31) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=31);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31)=1);
+    IF( psMetric@='S');
+      CellPutS( v32 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 ) ;
+    else;
+      CellPutN( StringToNumber(v32) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=32);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32)=1);
+    IF( psMetric@='S');
+      CellPutS( v33 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 ) ;
+    else;
+      CellPutN( StringToNumber(v33) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=33);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 , v33)=1);
+    IF( psMetric@='S');
+      CellPutS( v34 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 , v33 ) ;
+    else;
+      CellPutN( StringToNumber(v34) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 , v33 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=34);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 , v33 , v34)=1);
+    IF( psMetric@='S');
+      CellPutS( v35 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 , v33 , v34 ) ;
+    else;
+      CellPutN( StringToNumber(v35) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 , v33 , v34 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=35);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 , v33 , v34 , v35)=1);
+    IF( psMetric@='S');
+      CellPutS( v36 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 , v33 , v34 , v35 ) ;
+    else;
+      CellPutN( StringToNumber(v36) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 , v33 , v34 , v35 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=36);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 , v33 , v34 , v35 , v36)=1);
+    IF( psMetric@='S');
+      CellPutS( v37 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 , v33 , v34 , v35 , v36 ) ;
+    else;
+      CellPutN( StringToNumber(v37) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 , v33 , v34 , v35 , v36 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=37);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 , v33 , v34 , v35 , v36 , v37)=1);
+    IF( psMetric@='S');
+      CellPutS( v38 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 , v33 , v34 , v35 , v36 , v37 ) ;
+    else;
+      CellPutN( StringToNumber(v38) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 , v33 , v34 , v35 , v36 , v37 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=38);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 , v33 , v34 , v35 , v36 , v37 , v38)=1);
+    IF( psMetric@='S');
+      CellPutS( v39 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 , v33 , v34 , v35 , v36 , v37 , v38 ) ;
+    else;
+      CellPutN( StringToNumber(v39) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 , v33 , v34 , v35 , v36 , v37 , v38 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=39);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 , v33 , v34 , v35 , v36 , v37 , v38 , v39)=1);
+    IF( psMetric@='S');
+      CellPutS( v40 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 , v33 , v34 , v35 , v36 , v37 , v38 , v39 ) ;
+    else;
+      CellPutN( StringToNumber(v40) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 , v33 , v34 , v35 , v36 , v37 , v38 , v39 );
+    endIF;
+  endIF;
+endIF;
+
+IF(nQtyDim=40);
+  IF( CellIsUpdateable( psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 , v33 , v34 , v35 , v36 , v37 , v38 , v39 , v40)=1);
+    IF( psMetric@='S');
+      CellPutS( v41 , psCube , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 , v33 , v34 , v35 , v36 , v37 , v38 , v39 , v40 ) ;
+    else;
+      CellPutN( StringToNumber(v41) , psCube  , v1 , v2 , v3 , v4 , v5 , v6 , v7 , v8 , v9 , v10 , v11 , v12 , v13 , v14 , v15 , v16 , v17 , v18 , v19 , v20 , v21 , v22 , v23 , v24 , v25 , v26 , v27 , v28 , v29 , v30 , v31 , v32 , v33 , v34 , v35 , v36 , v37 , v38 , v39 , v40 );
+    endIF;
+  endIF;
+endIF;
+
+IF(gnDependency=1);
+#SubsetCreate( 'SYS.D.Parallel_Control' ,  'Control_' | psCube | '_' | psMetric | '_' | psParallel | '_End_Dep' ) ;
+gnDependency=0;
+endIF;
+#endregion
+#region Epilog
+#asciiOutput('..\Control_' | psCube | '_' | psMetric | '_' | psParallel | '_End' , '1' ) ;
+
+#SubsetCreate( 'SYS.D.Parallel_Control' ,  'Control_' | psCube | '_' | psMetric | '_' | psParallel | '_End' ) ;
+#endregion

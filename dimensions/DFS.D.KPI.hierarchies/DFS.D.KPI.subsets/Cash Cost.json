@@ -1,0 +1,59 @@
+{
+	"@type":"Subset",
+	"Name":"Cash Cost",
+	"Alias":"MEMBER_NAME",
+	"Elements":
+	[
+		{
+			"@id":"Dimensions('DFS.D.KPI')/Hierarchies('DFS.D.KPI')/Elements('Production volume (kt)')"
+		},
+		{
+			"@id":"Dimensions('DFS.D.KPI')/Hierarchies('DFS.D.KPI')/Elements('Labor (LMU/t)')"
+		},
+		{
+			"@id":"Dimensions('DFS.D.KPI')/Hierarchies('DFS.D.KPI')/Elements('Maintenance (LMU/t)')"
+		},
+		{
+			"@id":"Dimensions('DFS.D.KPI')/Hierarchies('DFS.D.KPI')/Elements('Other Fixed Costs (LMU/t)')"
+		},
+		{
+			"@id":"Dimensions('DFS.D.KPI')/Hierarchies('DFS.D.KPI')/Elements('Fuel (LMU/t)')"
+		},
+		{
+			"@id":"Dimensions('DFS.D.KPI')/Hierarchies('DFS.D.KPI')/Elements('Power (LMU/t)')"
+		},
+		{
+			"@id":"Dimensions('DFS.D.KPI')/Hierarchies('DFS.D.KPI')/Elements('Raw Material (LMU/t)')"
+		},
+		{
+			"@id":"Dimensions('DFS.D.KPI')/Hierarchies('DFS.D.KPI')/Elements('Other Variable (LMU/t)')"
+		},
+		{
+			"@id":"Dimensions('DFS.D.KPI')/Hierarchies('DFS.D.KPI')/Elements('Cash Cost (LMU/t)')"
+		},
+		{
+			"@id":"Dimensions('DFS.D.KPI')/Hierarchies('DFS.D.KPI')/Elements('Thermal Sub. (%25)')"
+		},
+		{
+			"@id":"Dimensions('DFS.D.KPI')/Hierarchies('DFS.D.KPI')/Elements('Thermal C. (kcal/t kk)')"
+		},
+		{
+			"@id":"Dimensions('DFS.D.KPI')/Hierarchies('DFS.D.KPI')/Elements('Petcoke Price (LMU/t)')"
+		},
+		{
+			"@id":"Dimensions('DFS.D.KPI')/Hierarchies('DFS.D.KPI')/Elements('CO2 Gross (kg/ton)')"
+		},
+		{
+			"@id":"Dimensions('DFS.D.KPI')/Hierarchies('DFS.D.KPI')/Elements('CO2 Net (kg/ton)')"
+		},
+		{
+			"@id":"Dimensions('DFS.D.KPI')/Hierarchies('DFS.D.KPI')/Elements('Power Price (LMU/MWh)')"
+		},
+		{
+			"@id":"Dimensions('DFS.D.KPI')/Hierarchies('DFS.D.KPI')/Elements('Power Cons. (kWh/t)')"
+		},
+		{
+			"@id":"Dimensions('DFS.D.KPI')/Hierarchies('DFS.D.KPI')/Elements('Clinker Factor (%25)')"
+		}
+	]
+}

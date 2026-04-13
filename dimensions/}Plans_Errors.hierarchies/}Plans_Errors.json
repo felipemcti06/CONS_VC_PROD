@@ -1,0 +1,24 @@
+{
+	"@type":"Hierarchy",
+	"Name":"}Plans_Errors",
+	"Elements":
+	[
+		{
+			"Name":"Error",
+			"Type":"String"
+		},
+		{
+			"Name":"Message",
+			"Type":"String"
+		},
+		{
+			"Name":"DateTime",
+			"Type":"String"
+		},
+		{
+			"Name":"User",
+			"Type":"String"
+		}
+	],
+	"Subsets@Code.links":[]
+}

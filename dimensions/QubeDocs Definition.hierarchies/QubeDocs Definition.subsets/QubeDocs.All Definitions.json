@@ -1,0 +1,10 @@
+{
+	"@type":"Subset",
+	"Name":"QubeDocs.All Definitions",
+	"Elements":
+	[
+		{
+			"@id":"Dimensions('QubeDocs Definition')/Hierarchies('QubeDocs Definition')/Elements('All Definitions')"
+		}
+	]
+}

@@ -1,0 +1,5 @@
+{
+	"@type":"Subset",
+	"Name":"All Periods",
+	"Expression":"{TM1SUBSETALL( [}QUBEdocs Stat Instance] )}"
+}

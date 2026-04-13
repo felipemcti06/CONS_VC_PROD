@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"DFS.D.KPI",
+	"Hierarchies@Code.links":
+	[
+		"DFS.D.KPI.hierarchies/DFS.D.KPI.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('DFS.D.KPI')/Hierarchies('DFS.D.KPI')"
+	}
+}

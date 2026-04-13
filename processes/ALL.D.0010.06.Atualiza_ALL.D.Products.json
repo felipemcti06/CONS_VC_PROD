@@ -1,0 +1,24 @@
+{
+	"@type":"Process",
+	"Name":"ALL.D.0010.06.Atualiza_ALL.D.Products",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"ALL.D.0010.06.Atualiza_ALL.D.Products.ti",
+	"DataSource":
+	{
+		"Type":"TM1DimensionSubset",
+		"dataSourceNameForServer":"MAP.D.Products:MAP.D.Products",
+		"dataSourceNameForClient":"MAP.D.Products:MAP.D.Products",
+		"subset":"All"
+	},
+	"Parameters":[],
+	"Variables":
+	[
+		{
+			"Name":"vElement",
+			"Type":"String",
+			"Position":1,
+			"StartByte":0,
+			"EndByte":0
+		}
+	]
+}

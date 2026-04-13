@@ -1,0 +1,64 @@
+#region Prolog
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+
+#LASTCHANGE Documented this process
+#GENERALCOMMENT This process clears the performance stats cubes and also the }QUBEdocs Stats cube used to the consolidate statistics. 
+#DATASOURCECOMMENT Not Applicable
+#PROLOGCOMMENT Clears out stats cubes if they exist
+#METADATACOMMENT Not Applicable
+#DATACOMMENT Not Applicable
+#EPILOGCOMMENT Not Applicable
+
+
+sCubeName = '}QUBEdocs Stats';
+IF(CubeExists(sCubeName) = 1);
+ CubeClearData(sCubeName);
+ENDIF;
+
+sCubeName = '}StatsByChore';
+IF(CubeExists(sCubeName) = 1);
+ CubeClearData(sCubeName);
+ENDIF;
+
+sCubeName = '}StatsByClient';
+IF(CubeExists(sCubeName) = 1);
+ CubeClearData(sCubeName);
+ENDIF;
+
+sCubeName = '}StatsByCube';
+IF(CubeExists(sCubeName) = 1);
+  CubeClearData('sCubeName');
+ENDIF;
+
+sCubeName = '}StatsByCubeByClient';
+IF(CubeExists(sCubeName) = 1);
+  CubeClearData('sCubeName');
+ENDIF;
+
+sCubeName = '}StatsByProcess';
+IF(CubeExists(sCubeName) = 1);
+  CubeClearData('sCubeName');
+ENDIF;
+
+sCubeName = '}StatsForServer';
+IF(CubeExists(sCubeName) = 1);
+  CubeClearData('sCubeName'); 
+ENDIF;
+#endregion
+#region Metadata
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+#endregion
+#region Data
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+#endregion
+#region Epilog
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+#endregion

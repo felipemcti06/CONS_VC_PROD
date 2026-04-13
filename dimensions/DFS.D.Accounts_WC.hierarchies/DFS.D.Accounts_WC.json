@@ -1,0 +1,334 @@
+{
+	"@type":"Hierarchy",
+	"Name":"DFS.D.Accounts_WC",
+	"Elements":
+	[
+		{
+			"Name":"Assets Accounts",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Liabilities Accounts",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"KPIs Assets Accounts",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"PROJECTED BALANCE - ASSETS",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Account Receivable - Days o/ Rev",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Finished Product Inventory - Days o/ CPS - Other",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Finished Product Inventory  Total- Days o/ CPS - Other",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Product in Process Inventory- Days o/ CPS",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Concentrate Inventory - Days o/ VC",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"MRO Inventory - Days o/ FC",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Input Inventory- Days o/ VC",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Opex Advancement - Days o/ VC",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FX",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Accounts Receivable",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Finished Product Inventory",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Product in Process Inventory",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Concentrate Inventory",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"MRO Inventory",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Inputs Inventory",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Opex Adavancement",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Accounts Receivable",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPIs Liabilities Accounts",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"PROJECTED BALANCE - LIABILITIES",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Suppliers - Days o/ VC",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Operating Taxes Payable - % o/ Rev.",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Labor Obligations - Days o/ FC",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Accounts Payable - Days o/ CPS",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Suppliers",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Operating Taxes Payable",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Labor Obligations",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Accounts Payable",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Initial Working Capital Balance",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Working Capital",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WC adjust by buy/sale of company",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"(Invest.)/Divest. Working Capital",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Accounts Receivables - Days o/ CPS",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Cash Conversion Cycle",
+			"Type":"Numeric"
+		}
+	],
+	"Edges":
+	[
+		{
+			"ParentName":"Assets Accounts",
+			"ComponentName":"KPIs Assets Accounts",
+			"Weight":1
+		},
+		{
+			"ParentName":"Assets Accounts",
+			"ComponentName":"PROJECTED BALANCE - ASSETS",
+			"Weight":1
+		},
+		{
+			"ParentName":"Liabilities Accounts",
+			"ComponentName":"KPIs Liabilities Accounts",
+			"Weight":1
+		},
+		{
+			"ParentName":"Liabilities Accounts",
+			"ComponentName":"PROJECTED BALANCE - LIABILITIES",
+			"Weight":1
+		},
+		{
+			"ParentName":"Liabilities Accounts",
+			"ComponentName":"Initial Working Capital Balance",
+			"Weight":1
+		},
+		{
+			"ParentName":"Liabilities Accounts",
+			"ComponentName":"Working Capital",
+			"Weight":1
+		},
+		{
+			"ParentName":"Liabilities Accounts",
+			"ComponentName":"WC adjust by buy/sale of company",
+			"Weight":1
+		},
+		{
+			"ParentName":"Liabilities Accounts",
+			"ComponentName":"(Invest.)/Divest. Working Capital",
+			"Weight":1
+		},
+		{
+			"ParentName":"Liabilities Accounts",
+			"ComponentName":"Cash Conversion Cycle",
+			"Weight":1
+		},
+		{
+			"ParentName":"KPIs Assets Accounts",
+			"ComponentName":"Account Receivable - Days o/ Rev",
+			"Weight":1
+		},
+		{
+			"ParentName":"KPIs Assets Accounts",
+			"ComponentName":"Finished Product Inventory - Days o/ CPS - Other",
+			"Weight":1
+		},
+		{
+			"ParentName":"KPIs Assets Accounts",
+			"ComponentName":"Finished Product Inventory  Total- Days o/ CPS - Other",
+			"Weight":1
+		},
+		{
+			"ParentName":"KPIs Assets Accounts",
+			"ComponentName":"Product in Process Inventory- Days o/ CPS",
+			"Weight":1
+		},
+		{
+			"ParentName":"KPIs Assets Accounts",
+			"ComponentName":"Concentrate Inventory - Days o/ VC",
+			"Weight":1
+		},
+		{
+			"ParentName":"KPIs Assets Accounts",
+			"ComponentName":"MRO Inventory - Days o/ FC",
+			"Weight":1
+		},
+		{
+			"ParentName":"KPIs Assets Accounts",
+			"ComponentName":"Input Inventory- Days o/ VC",
+			"Weight":1
+		},
+		{
+			"ParentName":"KPIs Assets Accounts",
+			"ComponentName":"Opex Advancement - Days o/ VC",
+			"Weight":1
+		},
+		{
+			"ParentName":"KPIs Assets Accounts",
+			"ComponentName":"Other Accounts Receivables - Days o/ CPS",
+			"Weight":1
+		},
+		{
+			"ParentName":"KPIs Assets Accounts",
+			"ComponentName":"FX",
+			"Weight":1
+		},
+		{
+			"ParentName":"PROJECTED BALANCE - ASSETS",
+			"ComponentName":"Accounts Receivable",
+			"Weight":1
+		},
+		{
+			"ParentName":"PROJECTED BALANCE - ASSETS",
+			"ComponentName":"Finished Product Inventory",
+			"Weight":1
+		},
+		{
+			"ParentName":"PROJECTED BALANCE - ASSETS",
+			"ComponentName":"Product in Process Inventory",
+			"Weight":1
+		},
+		{
+			"ParentName":"PROJECTED BALANCE - ASSETS",
+			"ComponentName":"Concentrate Inventory",
+			"Weight":1
+		},
+		{
+			"ParentName":"PROJECTED BALANCE - ASSETS",
+			"ComponentName":"MRO Inventory",
+			"Weight":1
+		},
+		{
+			"ParentName":"PROJECTED BALANCE - ASSETS",
+			"ComponentName":"Other Inputs Inventory",
+			"Weight":1
+		},
+		{
+			"ParentName":"PROJECTED BALANCE - ASSETS",
+			"ComponentName":"Opex Adavancement",
+			"Weight":1
+		},
+		{
+			"ParentName":"PROJECTED BALANCE - ASSETS",
+			"ComponentName":"Other Accounts Receivable",
+			"Weight":1
+		},
+		{
+			"ParentName":"KPIs Liabilities Accounts",
+			"ComponentName":"Suppliers - Days o/ VC",
+			"Weight":1
+		},
+		{
+			"ParentName":"KPIs Liabilities Accounts",
+			"ComponentName":"Operating Taxes Payable - % o/ Rev.",
+			"Weight":1
+		},
+		{
+			"ParentName":"KPIs Liabilities Accounts",
+			"ComponentName":"Labor Obligations - Days o/ FC",
+			"Weight":1
+		},
+		{
+			"ParentName":"KPIs Liabilities Accounts",
+			"ComponentName":"Other Accounts Payable - Days o/ CPS",
+			"Weight":1
+		},
+		{
+			"ParentName":"PROJECTED BALANCE - LIABILITIES",
+			"ComponentName":"Suppliers",
+			"Weight":1
+		},
+		{
+			"ParentName":"PROJECTED BALANCE - LIABILITIES",
+			"ComponentName":"Operating Taxes Payable",
+			"Weight":1
+		},
+		{
+			"ParentName":"PROJECTED BALANCE - LIABILITIES",
+			"ComponentName":"Labor Obligations",
+			"Weight":1
+		},
+		{
+			"ParentName":"PROJECTED BALANCE - LIABILITIES",
+			"ComponentName":"Other Accounts Payable",
+			"Weight":1
+		}
+	],
+	"Subsets@Code.links":[]
+}

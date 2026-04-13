@@ -1,0 +1,228 @@
+{
+	"@type":"Hierarchy",
+	"Name":"ALL.D.Assumptions",
+	"Elements":
+	[
+		{
+			"Name":"Initial FX US$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Average FX US$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Ending FX US$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Initial FX R$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Average FX R$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Ending FX R$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Initial FX US$/EUR",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Average FX US$/EUR",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Ending FX US$/EUR",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Initial FX ARS$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Average FX ARS$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Ending FX ARS$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Initial FX BOB$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Average FX BOB$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Ending FX BOB$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Initial FX CAD$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Average FX CAD$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Ending FX CAD$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Initial FX CLP$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Average FX CLP$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Ending FX CLP$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Initial FX CNY$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Average FX CNY$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Ending FX CNY$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Initial FX INR$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Average FX INR$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Ending FX INR$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Initial FX MAD$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Average FX MAD$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Ending FX MAD$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Initial FX TND$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Average FX TND$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Ending FX TND$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Initial FX TRY$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Average FX TRY$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Ending FX TRY$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Initial FX UYU$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Average FX UYU$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Ending FX UYU$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Brazilian CPI",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"American CPI",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Number of Days",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Average FX Rate R$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Final FX Rate R$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Begining FX Rate  US$/EUR",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Average FX Rate US$/EUR",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Final FX Rate US$/EUR",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Câmbio Inicial UYU$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Câmbio Médio UYU$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Câmbio Final UYU$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Câmbio Inicial ARS$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Câmbio Médio ARS$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Câmbio Final ARS$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Begining FX Rate R$/US$",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"EBITDA FX R$/US$",
+			"Type":"Numeric"
+		}
+	],
+	"Subsets@Code.links":[]
+}

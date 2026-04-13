@@ -1,0 +1,1684 @@
+# =============
+  SKIPCHECK;
+  FEEDSTRINGS;
+# =============
+
+
+# --------------------------------------------------------------------------------------------
+# Name Define versÃµes calculadas
+# Desc A partir dessa regra sÃ³ calcula para versÃµes dinÃ¢micas
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+[]=IF(ELISANC( 'ALL.D.Version', 'Dynamic Versions', !ALL.D.Version ) <> 0 
+  % !ALL.D.Version@='RE' 
+
+  ,CONTINUE
+  ,STET
+  ); 
+[]=IF(ELISANC( 'ALL.D.Version', 'Dynamic Versions', !ALL.D.Version ) <> 0 
+  &
+  DB( 'ALL.001.Actual_Control', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Flag' )@='ACTUAL'
+  % TRIM (DB( 'ALL.001.Actual_Control', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Flag' ) )@='Monthly Closing'
+
+        ,['ALL.D.Version':'ALL.D.Version':'RE'],
+        CONTINUE) ;
+# --------------------------------------------------------------------------------------------
+# Name: Zera metricas quantitativas nas conversÃµes 
+# Desc: Zera metricas quantitativas nas conversÃµes 
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['ALL.D.Currency':'ALL.D.Currency':{ 'BRL Conv.' , 'EUR Conv.' , 'USD Conv.'}]=
+  IF( DB( '}ElementAttributes_ALL.D.Accounts', !ALL.D.Accounts, 'QTY' )@='Y' , STET  ,CONTINUE );
+
+
+
+
+# --------------------------------------------------------------------------------------------
+#
+#                      			INICIO DO BLOCO CALCULOS CONVERSÃƒO MOEDA
+#
+# --------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------
+# Name: ConversÃ£o de Moedas
+# Desc: ConversÃ£o de moedas para os padrÃµes USD, BRL e EUR
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+
+###############################################################
+#-------------------------------------# USD CONV #-----------------------------------------
+###############################################################
+
+  ['ALL.D.Currency':'ALL.D.Currency':'USD Conv.'] = N:
+
+  #USD  
+  ['ALL.D.Currency':'ALL.D.Currency':'USD']
+     +
+  # BRL PARA USD 
+  ['ALL.D.Currency':'ALL.D.Currency':'BRL'] \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' )
+
++         
+  #   EUR PARA USD  
+ ['ALL.D.Currency':'ALL.D.Currency':'EUR'] * DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+                                              
+      +
+  # ARS PARA USD 
+  ['ALL.D.Currency':'ALL.D.Currency':'ARS'] \  DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX ARS$/US$', 'Value' )  
+      +
+  # BOB  PARA USD 
+  ['ALL.D.Currency':'ALL.D.Currency':'BOB'] \  DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX BOB$/US$', 'Value' )  
+      +
+  # CAD  PARA USD 
+  ['ALL.D.Currency':'ALL.D.Currency':'CAD'] \  DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX CAD$/US$', 'Value' )  
+
+          +
+  # TRY  PARA USD 
+  ['ALL.D.Currency':'ALL.D.Currency':'TRY'] \  DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX TRY$/US$', 'Value' )  
+
+     +
+ # UYU PARA USD  
+  ['ALL.D.Currency':'ALL.D.Currency':'UYU'] \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX UYU$/US$', 'Value' )  
+    ;
+
+###############################################################
+#-------------------------------------# BRL CONV #-----------------------------------------
+###############################################################
+
+  ['ALL.D.Currency':'ALL.D.Currency':'BRL Conv.'] = N:
+  #    #BRL  
+  ['ALL.D.Currency':'ALL.D.Currency':'BRL']
+     +
+  #  USD PARA BRL  
+  ['ALL.D.Currency':'ALL.D.Currency':'USD'] * DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' )
+
++         
+  #   EUR PARA BRL  
+ ['ALL.D.Currency':'ALL.D.Currency':'EUR'] * DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+                                              *DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' )
+
+    
+    +
+  #  ARS PARA BRL  
+  ['ALL.D.Currency':'ALL.D.Currency':'ARS'] * 
+    (DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' )   \
+     DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX ARS$/US$', 'Value' ) )
+    +
+  #  BOB PARA BRL  
+  ['ALL.D.Currency':'ALL.D.Currency':'BOB'] * 
+    (DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' )   \
+     DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX BOB$/US$', 'Value' ) )
+        +
+  #  CAD PARA BRL  
+  ['ALL.D.Currency':'ALL.D.Currency':'CAD'] *
+      (DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' )   \
+     DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX CAD$/US$', 'Value' ) )
+
+            +
+  #  TRY PARA BRL  
+  ['ALL.D.Currency':'ALL.D.Currency':'TRY'] *
+      (DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' )   \
+     DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX TRY$/US$', 'Value' ) )
+
+      +
+    # UYU PARA BRL
+  ['ALL.D.Currency':'ALL.D.Currency':'UYU'] * 
+    
+    (DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' )   \
+     DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX UYU$/US$', 'Value' ) )
+    ;
+
+
+
+
+
+
+###############################################################
+#-------------------------------------# EUR CONV #-----------------------------------------
+###############################################################
+
+  ['ALL.D.Currency':'ALL.D.Currency':'EUR Conv.'] = N:
+  #EUR     
+  ['ALL.D.Currency':'ALL.D.Currency':'EUR']
+     +
+   # USD PARA EUR  
+  ['ALL.D.Currency':'ALL.D.Currency':'USD'] \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+       +
+    # BRL PARA EUR  
+ ( 
+   ( ['ALL.D.Currency':'ALL.D.Currency':'BRL']  \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' ) )
+ \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+ )
+
+       +
+    # ARS PARA EUR  
+ ( 
+   ( ['ALL.D.Currency':'ALL.D.Currency':'ARS']  \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX ARS$/US$', 'Value' ) )
+ \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+ )
+
+           +
+    # BOB PARA EUR  
+ ( 
+   ( ['ALL.D.Currency':'ALL.D.Currency':'BOB']  \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX BOB$/US$', 'Value' ) )
+ \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+ )
+
+               +
+    # CAD PARA EUR  
+ ( 
+   ( ['ALL.D.Currency':'ALL.D.Currency':'CAD']  \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX CAD$/US$', 'Value' ) )
+ \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+ )
+               +
+    # TRY PARA EUR  
+ ( 
+   ( ['ALL.D.Currency':'ALL.D.Currency':'TRY']  \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX TRY$/US$', 'Value' ) )
+ \DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+ )
+
+                   +
+    # UYU PARA EUR  
+ ( 
+   ( ['ALL.D.Currency':'ALL.D.Currency':'UYU']  \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX UYU$/US$', 'Value' ) )
+ \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+ )
+    
+    ;
+
+
+
+
+# --------------------------------------------------------------------------------------------
+#
+#                      			INICIO DO BLOCO DE FEEDERS
+#
+# --------------------------------------------------------------------------------------------
+
+# =============
+  FEEDERS;
+# =============
+# # --------------------------------------------------------------------------------------------
+# # Name: Feedes Forecast 
+# # Desc: Feedes Forecast 
+# # Date 01/2026
+# # Author: Miranda / Helder
+# # --------------------------------------------------------------------------------------------
+ ['ALL.D.Version':'ALL.D.Version':'RE'] => ['ALL.D.Version':'ALL.D.Version':'Dynamic Versions'];
+
+# --------------------------------------------------------------------------------------------
+# Name: ConversÃ£o de Moedas
+# Desc: ConversÃ£o de moedas para os padrÃµes USD, BRL e EUR
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Currency':'ALL.D.Currency':'Total Currency','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>DB( 'STG.100.DataBase_Uploads', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'USD Conv.', !ALL.D.Region, !ALL.D.Products, !ALL.D.Accounts, !ALL.D.Account_Line, 'Value' ),
+    DB( 'STG.100.DataBase_Uploads', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'BRL Conv.', !ALL.D.Region, !ALL.D.Products, !ALL.D.Accounts, !ALL.D.Account_Line, 'Value' ),
+    DB( 'STG.100.DataBase_Uploads', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'EUR Conv.', !ALL.D.Region, !ALL.D.Products, !ALL.D.Accounts, !ALL.D.Account_Line, 'Value' );
+
+
+    
+# --------------------------------------------------------------------------------------------
+#                      			BLOCO DE FEEDERS EXTERNOS
+# --------------------------------------------------------------------------------------------
+
+###############################################################
+#-------------------------------------# REV.100#-----------------------------------------
+###############################################################
+# --------------------------------------------------------------------------------------------
+# Name: Reference Price [$/ton]
+# Desc:Reference Price [$/ton]
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'REV.010.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'N/A','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'REV.100.Revenue_Consolidated', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Domestic', 'REV.010.001' );
+
+    
+# --------------------------------------------------------------------------------------------
+# Name: Sales Volume [kt]
+# Desc:Sales Volume [kt]
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'REV.020.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'N/A','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'REV.100.Revenue_Consolidated', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Domestic', 'Sales Volume [kt]' );
+    
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'REV.020.002' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'N/A','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'REV.100.Revenue_Consolidated', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Export', 'Sales Volume [kt]' );
+
+# --------------------------------------------------------------------------------------------
+# Name: Third Part Sales Volume [kt]
+# Desc:Third Part Sales Volume [kt]
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'REV.020.003' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'N/A','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'REV.100.Revenue_Consolidated', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Domestic', 'REV.020.003' );
+
+
+# --------------------------------------------------------------------------------------------
+# Name: Price Premium [$/ton]
+# Desc:Price Premium [$/ton]
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'REV.010.002' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'N/A','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'REV.100.Revenue_Consolidated', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Domestic', 'Price Premium [$/ton]' );
+    
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'REV.010.003' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'N/A','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'REV.100.Revenue_Consolidated', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Export',  'Price Premium [$/ton]' );
+# --------------------------------------------------------------------------------------------
+# Name: % Operational Tax
+# Desc: % Operational Tax
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'REV.030.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'N/A','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'REV.100.Revenue_Consolidated', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'ALL.D.Market':'Total Market', 'REV.030.001' );
+
+###############################################################
+#-------------------------------------# DFS.100#-----------------------------------------
+###############################################################
+
+
+# --------------------------------------------------------------------------------------------
+# Name: Final Variable Sales Expenses
+# Desc:Final Variable Sales Expenses
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'EXP.010.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Variable Selling Expenses', 'Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name: Variable Costs
+# Desc:Variable Costs
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'CST.010.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Variable Costs', 'Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name: Fixed Costs'
+# Desc:Fixed Costs'
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'CST.020.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'CST.020.001', 'Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name: Depreciation / amortization / depletion - Corporate'
+# Desc:FDepreciation / amortization / depletion - Corporate
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'DEP.010.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Depreciation', 'Value' );
+
+
+# --------------------------------------------------------------------------------------------
+# Name: Operating Expenses
+# Desc:Operating Expenses
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'EXP.020.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Operational Expenses', 'Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name:Other
+# Desc:Other
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'OOR.010.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Other Op. Results', 'Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name:  Equity Pick-Up Results
+# Desc:   Equity Pick-Up Results
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'NOP.010.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Equity Pickup', 'Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name:  Other Non Operating Results
+# Desc:  Other Non Operating Results
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'NOR.010.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Other Non Op. Results', 'Value' );
+
+
+
+###############################################################
+#-------------------------------------# DFS.120#-----------------------------------------
+###############################################################
+# --------------------------------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------------------------------
+# Name:Accrual of Interest (LC)
+# Desc:Accrual of Interest (LC)
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.010.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' },
+ 'ALL.D.Products':'ALL.D.Products':'Total Products'
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.010.001', 'Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name:Interest Expenses
+# Desc:Interest Expenses
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.010.002' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.010.002', 'Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name:Foreign Exchange Cash Flow Impact'
+# Desc:Foreign Exchange Cash Flow Impact'
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.020.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Foreign Exchange Variation Over Cash', 'Value' );
+
+
+
+# --------------------------------------------------------------------------------------------
+# Name:Monetary Variation (LC)
+# Desc:Monetary Variation (LC)
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.020.002' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.020.002', 'Value' );
+
+ 
+# --------------------------------------------------------------------------------------------
+# Name:Hedge Accounting International Investments'
+# Desc:Hedge Accounting International Investments'
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.020.003' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Hedge Accounting International investments', 'Value' );
+   
+ 
+# --------------------------------------------------------------------------------------------
+# NameForeign Exchange Variation'
+# Desc:Foreign Exchange Variation'
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.020.004' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.020.004', 'Value' );
+   
+ 
+# --------------------------------------------------------------------------------------------
+# Name : IOF - Cash'
+# Desc:IOF - Cash'
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.030.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.030.001', 'Value' );
+   
+
+# --------------------------------------------------------------------------------------------
+# Name : CPMF - Cash
+# Desc:CPMF - Cash
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.030.002' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.030.002', 'Value' );   
+
+    
+# --------------------------------------------------------------------------------------------
+# Name : Other Taxes (Except Income Tax) - Cash
+# Desc: Other Taxes (Except Income Tax) - Cash
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.030.003' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.030.003', 'Value' );
+
+    
+# --------------------------------------------------------------------------------------------
+# Name : Bank Expenses - Cash
+# Desc: Bank Expenses - Cash
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.030.004' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.030.004', 'Value' );
+    
+    
+# --------------------------------------------------------------------------------------------
+# Name : Other Financial Expenses- Cash
+# Desc: Other Financial Expenses- Cash
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.030.005' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.030.005', 'Value' );
+
+    
+# --------------------------------------------------------------------------------------------
+# Name : Other Financial Revenues
+# Desc: Other Financial Revenues
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.040.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.040.001', 'Value' );
+
+
+  
+# --------------------------------------------------------------------------------------------
+# Name : Financial Revenues Adjustments
+# Desc: Financial Revenues Adjustments
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.040.002' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Financial Revenues Adjustment', 'Value' );    
+
+
+
+# --------------------------------------------------------------------------------------------
+# Name : Mutual Net Results
+# Desc:Mutual Net Results
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.040.004' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.040.004', 'Value' );    
+    
+
+# --------------------------------------------------------------------------------------------
+# Name : Balance Variation
+# Desc:Balance Variation
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.050.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.050.001', 'Value' );    
+
+
+# --------------------------------------------------------------------------------------------
+# Name : Liquidation
+# Desc:Liquidation
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.050.002' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.050.002', 'Value' );    
+
+
+# --------------------------------------------------------------------------------------------
+# Name : Hedge Accounting - Derivatives
+# Desc: Hedge Accounting - Derivatives
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.050.003' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.050.003', 'Value' );     
+
+
+# --------------------------------------------------------------------------------------------
+# Name : Hedge Results
+# Desc: Hedge Results
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.050.004' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.050.004', 'Value' );    
+
+
+# --------------------------------------------------------------------------------------------
+# Name : Other Financial Results - (Non Cash Effect)
+# Desc: Other Financial Results - (Non Cash Effect)
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.060.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Other Financial Revenues - (Non Cash)', 'Value' );   
+
+# --------------------------------------------------------------------------------------------
+# Name : Financial Expenses - Non Cash
+# Desc: Financial Expenses - Non Cash
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.030.006' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.030.006', 'Value' );   
+
+###############################################################
+#-------------------------------------# DFS.140#-----------------------------------------
+###############################################################
+# --------------------------------------------------------------------------------------------
+# Name : Income Tax Payments - Cash
+# Desc: Income Tax Payments - Cash
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'Income Tax Payments - Cash' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products'
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Income tax on transactions', 'Value' );
+
+
+ # --------------------------------------------------------------------------------------------
+# Name : Non Expansion Capex
+# Desc: Non Expansion Capex
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
+ 'ALL.D.Accounts':'ALL.D.Accounts':'Non Expansion Capex' ,
+ 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products'
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Non expansion capex', 'Value' );      
+
+ # --------------------------------------------------------------------------------------------
+# Name : Dividens Received
+# Desc: Dividens Received
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
+ 'ALL.D.Accounts':'ALL.D.Accounts':'Dividends Received (Paid) - Cash Flow' ,
+ 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products'
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Dividends received', 'Value' );
+
+
+# --------------------------------------------------------------------------------------------
+# Name :  INITIAL CASH BALANCE
+# Desc:     INITIAL CASH BALANCE
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+# ['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
+#  'ALL.D.Accounts':'ALL.D.Accounts':'INITIAL CASH BALANCE' ,
+#  'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+#  'ALL.D.Products':'ALL.D.Products':'Total Products'
+# ]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Financial Revenue', 'Value' );
+    
+ ['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
+ 'ALL.D.Accounts':'ALL.D.Accounts':'INITIAL CASH BALANCE' ,
+ 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products'
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Initial Cash Balance', 'Value' );
+    
+ 
+# --------------------------------------------------------------------------------------------
+# Name : Other Financial income
+# Desc:    Other Financial income
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
+ 'ALL.D.Accounts':'ALL.D.Accounts':'Other Financial income' ,
+ 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products'
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Financial Revenue', 'Value' );     
+
+# --------------------------------------------------------------------------------------------
+# Name : Additions/Low in Cash Investments
+# Desc:    Additions/Low in Cash Investments
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
+ 'ALL.D.Accounts':'ALL.D.Accounts':'Additions/Low in Cash Investments' ,
+ 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products'
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Tax on Financial Revenue', 'Value' );    
+
+     
+# --------------------------------------------------------------------------------------------
+# Name : Non Operating - Cash (Before Inc Tax)
+# Desc:Non Operating - Cash (Before Inc Tax)
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
+ 'ALL.D.Accounts':'ALL.D.Accounts':'Non Operating - Cash (Before Inc Tax)' ,
+ 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products'
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'OOR.010.001', 'Value' );
+
+ # --------------------------------------------------------------------------------------------
+# Name : Other Change in Assets / Current Liabilities
+# Desc:Other Change in Assets / Current Liabilities
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
+ 'ALL.D.Accounts':'ALL.D.Accounts':'Other Change in Assets / Current Liabilities' ,
+ 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products'
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'OOR.010.001', 'Value' );   
+
+ # --------------------------------------------------------------------------------------------
+# Name : Payments of Dividens to Controlling
+# Desc:  Payments of Dividens to Controlling
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
+ 'ALL.D.Accounts':'ALL.D.Accounts':'Payments of Dividens to Controlling' ,
+ 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products'
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Payment of dividends to Controlling', 'Value' );  
+
+
+ # --------------------------------------------------------------------------------------------
+# Name : Payments of Dividens to Minority
+# Desc:  Payments of Dividens to Minority
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
+ 'ALL.D.Accounts':'ALL.D.Accounts':'Payments of Dividens to Minority' ,
+ 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products'
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Payment of dividends to Minority', 'Value' );      
+
+
+ # --------------------------------------------------------------------------------------------
+# Name : Expansion Capex
+# Desc: Expansion Capex
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
+ 'ALL.D.Accounts':'ALL.D.Accounts':'Expansion Capex' ,
+ 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products'
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Expansion capex', 'Value' );       
+
+
+ # --------------------------------------------------------------------------------------------
+# Name : Investments in Associates and Subsidiaries
+# Desc: Investments in Associates and Subsidiaries
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
+ 'ALL.D.Accounts':'ALL.D.Accounts':'Investments in Associates and Subsidiaries' ,
+ 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products'
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Inv/Div in Subsidiaries and Affiliates', 'Value' );  
+
+ # --------------------------------------------------------------------------------------------
+# Name : Divestments of subsidiaries and affiliates
+# Desc: Divestments of subsidiaries and affiliates
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
+ 'ALL.D.Accounts':'ALL.D.Accounts':'Divestments of subsidiaries and affiliates' ,
+ 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products'
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Inv/Div in Subsidiaries and Affiliates', 'Value' ); 
+
+
+ # --------------------------------------------------------------------------------------------
+# Name : Intercompany Dividends
+# Desc: Intercompany Dividends
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
+ 'ALL.D.Accounts':'ALL.D.Accounts':'Intercompany Dividends' ,
+ 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products'
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Intercompany dividends', 'Value' ); 
+  
+ # --------------------------------------------------------------------------------------------
+# Name : HEDGE/MTM
+# Desc: HEDGE/MTM
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
+ 'ALL.D.Accounts':'ALL.D.Accounts':'HEDGE/MTM' ,
+ 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products'
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'MTM', 'Value' ); 
+  
+ # --------------------------------------------------------------------------------------------
+# Name : Non Operating (Other - Cash Flow)
+# Desc: Non Operating (Other - Cash Flow)
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
+ 'ALL.D.Accounts':'ALL.D.Accounts':'Non Operating (Other - Cash Flow)' ,
+ 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products'
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Others', 'Value' ); 
+  
+ # --------------------------------------------------------------------------------------------
+# Name : Other - Cash Flow
+# Desc: Other - Cash Flow
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
+ 'ALL.D.Accounts':'ALL.D.Accounts':'Other - Cash Flow' ,
+ 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products'
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Others', 'Value' ); 
+    
+###############################################################    
+###############################################################
+#-------------------------------------# DFS.180#-----------------------------------------
+###############################################################
+# --------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------
+# Name:INITIAL GROSS DEBT (LC)
+# Desc:INITIAL GROSS DEBT (LC)
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'DEB.010.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.180.Gross_Debt', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Initial Gross Debt', 'Value' );
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'DEB.020.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.180.Gross_Debt', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Accounts, 'Value' );
+    
+# --------------------------------------------------------------------------------------------
+# Name:Funding (LC)
+# Desc:Funding (LC)
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'DEB.010.002' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.180.Gross_Debt', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Funding', 'Value' );
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'DEB.020.002' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.180.Gross_Debt', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Accounts, 'Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name:Accrual of Interest (LC)'
+# Desc:Accrual of Interest (LC)'
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.010.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.180.Gross_Debt', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Accrual of Interest', 'Value' );
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'DEB.020.003' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.180.Gross_Debt', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Accounts, 'Value' );
+    
+# --------------------------------------------------------------------------------------------
+# Name:Monetary Variation (LC)'
+# Desc:Monetary Variation (LC)'
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.020.002' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.180.Gross_Debt', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Monetary Variation', 'Value' );
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'DEB.020.004' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.180.Gross_Debt', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Accounts, 'Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name:Principal Amortization (LC)
+# Desc:Principal Amortization (LC)
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'DEB.010.005' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.180.Gross_Debt', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Principal Amortization', 'Value' );
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'DEB.020.005' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.180.Gross_Debt', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Accounts, 'Value' ); 
+
+# --------------------------------------------------------------------------------------------
+# Name:Interest Amortization (LC)
+# Desc:Interest Amortization (LC)
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'DEB.010.006' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.180.Gross_Debt', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Interest Amortization', 'Value' );
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'DEB.020.006' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.180.Gross_Debt', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Accounts, 'Value' ); 
+# --------------------------------------------------------------------------------------------
+# Name:Other Variation (LC)
+# Desc:Other Variation (LC)
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'DEB.010.007' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.180.Gross_Debt', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Other Variation', 'Value' );
+
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'DEB.020.007' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.180.Gross_Debt', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Accounts, 'Value' ); 
+
+# --------------------------------------------------------------------------------------------
+# Name: Variation by buy/sale of company (LC)
+# Desc: Variation by buy/sale of company (LC)
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'DEB.010.008' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.180.Gross_Debt', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Variation by buy/sale of company', 'Value' ); 
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'DEB.020.008' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.180.Gross_Debt', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Accounts, 'Value' );     
+
+###############################################################
+#-------------------------------------# DFS.160#-----------------------------------------
+###############################################################
+# --------------------------------------------------------------------------------------------
+# Name: Account Receivable - Days o/ Rev
+# Desc: Account Receivable - Days o/ Rev
+# Date 02/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------  
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'Account Receivable - Days o/ Rev','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+=> DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Accounts Receivable', 'Value' );
+    
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'Account Receivable - Days o/ Rev','ALL.D.Products':'ALL.D.Products':'Total Products'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+=> DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Account Receivable - Days o/ Rev', 'Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name: Input Inventory- Days o/ VC
+# Desc: Input Inventory- Days o/ VC
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'WKC.010.007','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+=> DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Other Inputs Inventory', 'Value' );
+    
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'WKC.010.007','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+=> DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'WKC.010.007', 'Value' );
+    
+# --------------------------------------------------------------------------------------------
+# Name: Other Accounts Receivables - Days o/ CPS
+# Desc: Other Accounts Receivables - Days o/ CPS
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value',
+ 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Accounts':'ALL.D.Accounts':'Other Accounts Receivables - Days o/ DSO',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products',
+'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+=> DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'WKC.010.006', 'Value' );
+   # --------------------------------------------------------------------------------------------
+# Name: Other Accounts Receivables - Days o/ DSO
+# Desc:Other Accounts Receivables - Days o/ DSO
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value',
+ 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Accounts':'ALL.D.Accounts':'Other Accounts Receivables - Days o/ DSO',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products',
+'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+=> DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Other Accounts Receivable', 'Value' ); 
+# --------------------------------------------------------------------------------------------
+# Name: Suppliers - Days o/ VC (DPO)
+# Desc: Suppliers - Days o/ VC (DPO)
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value',
+ 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Accounts':'ALL.D.Accounts':'WKC.020.001',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products',
+'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+=> DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Suppliers - Days o/ VC', 'Value' );
+    
+# --------------------------------------------------------------------------------------------
+# Name: Initial Working Capital Balance
+# Desc: Initial Working Capital Balance
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value',
+ 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Accounts':'ALL.D.Accounts':'WKC.030.001',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products',
+'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+=> DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'WKC.030.001', 'Value' );
+    
+  # --------------------------------------------------------------------------------------------
+# Name: WC adjust by buy/sale of company
+# Desc:WC adjust by buy/sale of company
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value',
+ 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+ 'ALL.D.Accounts':'ALL.D.Accounts':'WC adjust by buy/sale of company',
+ 'ALL.D.Products':'ALL.D.Products':'Total Products',
+'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+=> DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'WC adjust by buy/sale of company', 'Value' );
+  
+# --------------------------------------------------------------------------------------------
+# Name:
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'WKC.010.006','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+=> DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Other Accounts Receivable', 'Value' );
+# --------------------------------------------------------------------------------------------
+# Name:
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'WKC.010.006','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+=> DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'WKC.010.006', 'Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name:
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'WKC.020.001','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+=> DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Suppliers', 'Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name:
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'WKC.020.003','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Operating Taxes Payable', 'Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name:
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'WKC.020.003','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'WKC.020.003', 'Value' );    
+# --------------------------------------------------------------------------------------------
+# Name:
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'Labor Obligations - Days o/ FC','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Labor Obligations - Days o/ FC', 'Value' );
+# --------------------------------------------------------------------------------------------
+# Name:
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'Labor Obligations - Days o/ FC','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Labor Obligations', 'Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name:
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'Other Accounts Payable - Days o/ CPS','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Other Accounts Payable', 'Value' );
+# --------------------------------------------------------------------------------------------
+# Name:
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'Other Accounts Payable - Days o/ CPS','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Other Accounts Payable - Days o/ CPS', 'Value' );
+# --------------------------------------------------------------------------------------------
+# Name:
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'Finished Product Inventory - Days o/ CPS - Other','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'WKC.010.002', 'Value' );
+# --------------------------------------------------------------------------------------------
+# Name:Finished Product Inventory - Days o/ CPS - Other
+# Desc:Finished Product Inventory - Days o/ CPS - Other
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'Finished Product Inventory - Days o/ CPS - Other','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Finished Product Inventory - Days o/ CPS - Other', 'Value' );
+# --------------------------------------------------------------------------------------------
+# Name:
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'Product in Process Inventory- Days o/ CPS','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'WKC.010.003', 'Value' );
+# --------------------------------------------------------------------------------------------
+# Name:
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'Product in Process Inventory- Days o/ CPS','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Product in Process Inventory- Days o/ CPS', 'Value' );
+# --------------------------------------------------------------------------------------------
+# Name:
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'Concentrate Inventory - Days o/ VC','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'WKC.010.004', 'Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name:
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'Concentrate Inventory - Days o/ VC','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Concentrate Inventory - Days o/ VC', 'Value' );
+    
+# --------------------------------------------------------------------------------------------
+# Name:
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'MRO Inventory - Days o/ FC','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'MRO Inventory', 'Value' );
+# --------------------------------------------------------------------------------------------
+# Name:
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'MRO Inventory - Days o/ FC','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'MRO Inventory - Days o/ FC', 'Value' );
+# --------------------------------------------------------------------------------------------
+# Name:
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'Opex Advancement - Days o/ VC','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'WKC.010.005','Value' );
+# --------------------------------------------------------------------------------------------
+# Name:
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'Opex Advancement - Days o/ VC','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Opex Advancement - Days o/ VC','Value' );
+###############################################################
+#-------------------------------------# DFS.200#-----------------------------------------
+###############################################################
+
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'Production volume (kt)','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Production volume (kt)','Value');     
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'Thermal Sub. (%)','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Thermal Sub. (%)','Value'); 
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'Thermal C. (kcal/t kk)','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Thermal C. (kcal/t kk)','Value'); 
+    
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'Petcoke Price (LMU/t)','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Petcoke Price (LMU/t)','Value'); 
+    
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'Fuel (LMU/t)','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Fuel (LMU/t)','Value');    
+
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'Package','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Package','Value');  
+
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'Aux. Materials','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Aux. Materials','Value');      
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'Operacional Services','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Operacional Services','Value');
+
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'Internal Freight','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Internal Freight','Value');
+
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'Variavel maintenance','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Variavel maintenance','Value');     
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'CO2 Gross (kg/ton)','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'CO2 Gross (kg/ton)','Value');      
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'CO2 Net (kg/ton)','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'CO2 Net (kg/ton)','Value');  
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'Power Price (LMU/MWh)','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Power Price (LMU/MWh)','Value');  
+    
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'Power Cons. (kWh/t)','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Power Cons. (kWh/t)','Value');  
+    
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'Clinker Factor (%)','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Clinker Factor (%)','Value');  
+    
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'Power (LMU/t)','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Power (LMU/t)','Value');  
+    
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'Raw Material (LMU/t)','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Raw Material (LMU/t)','Value');  
+    
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'Other Variable (LMU/t)','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Other Variable (LMU/t)','Value');  
+
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'Labor (LMU/t)','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Labor (LMU/t)','Value');  
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'Maintenance (LMU/t)','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Maintenance (LMU/t)','Value');
+    
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'Other Fixed Costs (LMU/t)','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Other Fixed Costs (LMU/t)','Value');
+    
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'Market Share Cement (%)','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Market Share Cement (%)','Value');
+    
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'Demand of Cement','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Demand of Cement','Value');
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'NOP.020.001','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Income Tax Theoretical','Value');
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'(+) Gross Fixed Assets','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, '(+) Gross Fixed Assets','Value');
+
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'(-) Accumulated Depreciation','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, '(-) Accumulated Depreciation','Value');
+
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'(+) Adjustment Hyperinflation','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, '(+) Adjustment Hyperinflation','Value');
+
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'(+) Inflation adjustment','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, '(+) Inflation adjustment','Value');
+
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'(+) Right of Use','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, '(+) Right of Use','Value');
+
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'(+) Investments','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, '(+) Investments','Value');
+
+
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'(+) Goodwill','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, '(+) Goodwill','Value');
+
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'(+) Intangible','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, '(+) Intangible','Value');
+# --------------------------------------------------------------------------------------------
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'OBZ.010.001','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'OBZ.010.001','Value');
+
+# --------------------------------------------------------------------------------------------    
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'OBZ.010.002','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'OBZ.010.002','Value');
+
+# --------------------------------------------------------------------------------------------    
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'OBZ.010.003','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'OBZ.010.003','Value');
+
+# --------------------------------------------------------------------------------------------    
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'OBZ.010.004','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'OBZ.010.004','Value');
+
+# --------------------------------------------------------------------------------------------    
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'OBZ.010.005','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'OBZ.010.005','Value');
+
+# --------------------------------------------------------------------------------------------    
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'OBZ.010.006','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'OBZ.010.006','Value');
+
+
+# --------------------------------------------------------------------------------------------    
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'OBZ.010.007','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'OBZ.010.007','Value');
+
+# --------------------------------------------------------------------------------------------    
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'OBZ.010.008','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'OBZ.010.008','Value');
+
+# --------------------------------------------------------------------------------------------    
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'OBZ.010.009','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'OBZ.010.009','Value');
+
+# --------------------------------------------------------------------------------------------    
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'OBZ.010.010','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'OBZ.010.010','Value');
+
+# --------------------------------------------------------------------------------------------    
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'OBZ.010.011','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'OBZ.010.011','Value');
+
+# --------------------------------------------------------------------------------------------    
+# Name: Bloco do KPI
+# Desc:
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'OBZ.010.012','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'OBZ.010.012','Value');
+

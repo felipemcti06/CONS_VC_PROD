@@ -1,0 +1,24 @@
+{
+	"@type":"Hierarchy",
+	"Name":"}Plans_ErrorLines",
+	"Elements":
+	[
+		{
+			"Name":"1",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"2",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"3",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"4",
+			"Type":"Numeric"
+		}
+	],
+	"Subsets@Code.links":[]
+}

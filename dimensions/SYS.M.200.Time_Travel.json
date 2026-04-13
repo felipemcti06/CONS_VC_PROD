@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"SYS.M.200.Time_Travel",
+	"Hierarchies@Code.links":
+	[
+		"SYS.M.200.Time_Travel.hierarchies/SYS.M.200.Time_Travel.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('SYS.M.200.Time_Travel')/Hierarchies('SYS.M.200.Time_Travel')"
+	}
+}

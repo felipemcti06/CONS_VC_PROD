@@ -1,0 +1,24 @@
+{
+	"@type":"Process",
+	"Name":"zCTI_Verifica_Character",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"zCTI_Verifica_Character.ti",
+	"DataSource":
+	{
+		"Type":"TM1DimensionSubset",
+		"dataSourceNameForServer":"}Dimensions:}Dimensions",
+		"dataSourceNameForClient":"}Dimensions:}Dimensions",
+		"subset":"All"
+	},
+	"Parameters":[],
+	"Variables":
+	[
+		{
+			"Name":"vDim",
+			"Type":"String",
+			"Position":1,
+			"StartByte":0,
+			"EndByte":0
+		}
+	]
+}

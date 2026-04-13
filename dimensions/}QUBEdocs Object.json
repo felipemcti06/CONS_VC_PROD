@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"}QUBEdocs Object",
+	"Hierarchies@Code.links":
+	[
+		"}QUBEdocs Object.hierarchies/}QUBEdocs Object.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('}QUBEdocs Object')/Hierarchies('}QUBEdocs Object')"
+	}
+}

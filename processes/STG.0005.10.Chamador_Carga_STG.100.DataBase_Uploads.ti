@@ -1,0 +1,13 @@
+#region Prolog
+
+
+ExecuteProcess( 'STG.0010.10.Carga_Realizado_STG.100.DataBase_Uploads',
+	'pFileName',pFileName,
+	'pRegion', pRegion );
+
+ExecuteProcess( 'STG.0010.20.Carga_Planejamento_STG.100.DataBase_Uploads',
+	'pFileName',pFileName,
+	'pRegion', pRegion );
+
+
+#endregion

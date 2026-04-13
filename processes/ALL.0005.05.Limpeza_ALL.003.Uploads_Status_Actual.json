@@ -1,0 +1,32 @@
+{
+	"@type":"Process",
+	"Name":"ALL.0005.05.Limpeza_ALL.003.Uploads_Status_Actual",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"ALL.0005.05.Limpeza_ALL.003.Uploads_Status_Actual.ti",
+	"DataSource":
+	{
+		"Type":"None"
+	},
+	"Parameters":
+	[
+		{
+			"Name":"pAno",
+			"Prompt":"",
+			"Value":"",
+			"Type":"String"
+		},
+		{
+			"Name":"pMes",
+			"Prompt":"",
+			"Value":"",
+			"Type":"String"
+		},
+		{
+			"Name":"pVersao",
+			"Prompt":"",
+			"Value":"",
+			"Type":"String"
+		}
+	],
+	"Variables":[]
+}

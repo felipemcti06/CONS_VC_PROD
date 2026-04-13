@@ -1,0 +1,294 @@
+#region Prolog
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+
+# Processo desenvolvido por João Paulo Moraes Gomes - CTI Global
+
+#▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄#
+#===== Inicializamos variável de controle de erros =====#
+
+nErrors = 0;
+
+vDisco_da_Shadow = CellGetS( 'SYS.777.Backup_Shadow_Copy', 'Disco', 'String') ;
+
+vPasta_Raiz_de_Arquivos_Utilizados = CellGetS( 'SYS.777.Backup_Shadow_Copy', 'Pasta_Raiz_de_Arquivos_Utilizados', 'String') ;
+
+vPasta_de_Montagem_do_SDATA = CellGetS( 'SYS.777.Backup_Shadow_Copy', 'Pasta_de_Montagem_do_SDATA', 'String') ;
+
+vPasta_de_Destino_do_Backup = CellGetS( 'SYS.777.Backup_Shadow_Copy', 'Pasta_de_Destino_do_Backup', 'String') ;
+
+vPasta_Base_de_Montagem = CellGetS( 'SYS.777.Backup_Shadow_Copy', 'Pasta_Base_de_Montagem', 'String') ;
+
+vNome_Arquivo = CellGetS( 'SYS.777.Backup_Shadow_Copy', 'Nome Arquivo', 'String') ;
+
+#===== Pegamos o momento em que o processo é executado para criarmos um ID unico de Backup ======#
+
+vTime  = TimSt( Now, '\Y-\m-\d-\hh\i' );
+
+
+#▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄#
+
+#===== Caminho Base onde está as Batches e os arquivos de texto utilizados no processo ======#
+vBasePath = vPasta_Raiz_de_Arquivos_Utilizados;
+
+#======= Aborta o processo se o caminho do arquivo fonte não foi informado ======#
+IF( vBasePath @= '' );
+   nErrors = 1;
+   sMessage  = 'O caminho onde esta o arquivo fonte não foi informado, informe no processo de backup';
+   DataSourceType = 'NULL';
+   ItemReject( sMessage  );
+ENDIF;
+
+# ====== Insere o caractere "\" no final do caminho caso ainda não tenha =======#
+cFolder = vBasePath;
+cFolder  = IF( SUBST( cFolder  , LONG( cFolder  ) , 1 ) @<> '\' , cFolder  | '\' , cFolder  ); 
+
+#====== Aborta o processo se o diretorio do arquivo fonte não existir ========#
+IF( FileExists( cFolder ) = 0 );
+   nErrors = 1;
+   sMessage = 'O diretório especificado para o arquivo fonte  "' | cFolder | '"   não existe, informe no processo de backup' ;
+   DataSourceType = 'NULL';
+   ItemReject( sMessage );
+ENDIF;
+
+#▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄#
+
+#===== Pasta/Link que será montada a Shadow  =====#
+vMountPath = vPasta_Base_de_Montagem;
+
+#======= Aborta o processo se o caminho do arquivo fonte não foi informado ======#
+IF( vMountPath @= '' );
+   nErrors = 1;
+   sMessage  = 'O caminho onde esta o arquivo fonte não foi informado, informe no processo' ;
+   DataSourceType = 'NULL';
+   ItemReject( sMessage  );
+ENDIF;
+
+#▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄#
+
+#===== Pasta que iremos copiar da Pasta/Link ======#
+vCopyPath = vMountPath | vPasta_de_Montagem_do_SDATA;
+
+#▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄#
+
+#===== Pasta onde enviaremos o Backup da Pasta/Link ======#
+vBackupPath = vPasta_de_Destino_do_Backup | vNome_Arquivo | '_' | vTime;
+
+#▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄#
+
+#===== Disco que iremos criar a Shadow ======#
+vDisk = vDisco_da_Shadow;
+
+#======= Aborta o processo se o caminho do arquivo fonte não foi informado ======#
+
+IF( vDisk @= '' );
+   nErrors = 1;
+   sMessage  = 'O caminho onde esta o arquivo fonte não foi informado, informe no processo' ;
+   DataSourceType = 'NULL';
+   ItemReject( sMessage  );
+ENDIF;
+
+#====== Aborta o processo se o diretorio do arquivo fonte não existir ========#
+IF( FileExists( cFolder ) = 0 );
+   nErrors = 1;
+   sMessage = 'O diretório especificado para o arquivo fonte  "' | cFolder | '"   não existe, informe no processo' ;
+   DataSourceType = 'NULL';
+   ItemReject( sMessage );
+ENDIF;
+
+#▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄#
+
+#===== Arquivo de despejo que utilizamos para buscar o ID e o nome da Shadow ======#
+vDump = 'Dump.txt';
+
+# ====== Insere o caractere "\" no final do caminho caso ainda não tenha =======#
+cFolder = vBasePath;
+cFolder  = IF( SUBST( cFolder  , LONG( cFolder  ) , 1 ) @<> '\' , cFolder  | '\' , cFolder  ); 
+
+#====== Aborta o processo se o arquivo fonte não existe na pasta de origem =====#
+If( FileExists( cFolder | vDump ) = 0 );
+      nErrors = 2;
+      DataSourceType = 'NULL';
+      sMessage = 'O arquivo "' | cFolder | vDump | '" não existe no caminho: "' |  cFolder   |'"';
+      ItemReject(sMessage);
+EndIf;
+
+#▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄#
+
+#===== Arquivo onde escrevemos o ID e o nome da Shadow ======#
+vShadowVolume = 'ShadowVolumeInformation.txt';
+
+# ====== Insere o caractere "\" no final do caminho caso ainda não tenha =======#
+cFolder = vBasePath;
+cFolder  = IF( SUBST( cFolder  , LONG( cFolder  ) , 1 ) @<> '\' , cFolder  | '\' , cFolder  ); 
+
+#====== Aborta o processo se o arquivo fonte não existe na pasta de origem =====#
+If( FileExists( cFolder | vShadowVolume ) = 0 );
+      nErrors = 2;
+      DataSourceType = 'NULL';
+      sMessage = 'O arquivo "' | cFolder | vShadowVolume | '" não existe no caminho: "' |  cFolder   |'"';
+      ItemReject(sMessage);
+EndIf;
+
+#▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄#
+
+#===== Bat que cria a Shadow, Dump.txt e ShadowVolumeInformation.txt a partir do Dump.txt  ======#
+vBatShadow = 'ShadowCreate.bat';
+
+# ====== Insere o caractere "\" no final do caminho caso ainda não tenha =======#
+cFolder = vBasePath;
+cFolder  = IF( SUBST( cFolder  , LONG( cFolder  ) , 1 ) @<> '\' , cFolder  | '\' , cFolder  ); 
+
+#====== Aborta o processo se o arquivo fonte não existe na pasta de origem =====#
+If( FileExists( cFolder | vBatShadow ) = 0 );
+      nErrors = 2;
+      DataSourceType = 'NULL';
+      sMessage = 'O arquivo "' | cFolder | vBatShadow | '" não existe no caminho: "' |  cFolder   |'"';
+      ItemReject(sMessage);
+EndIf;
+
+#▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄#
+
+#===== Bat que cria uma pasta/link da Shadow, cria uma pasta de backup e realiza a copia ======#
+vBatMount = 'ShadowMount.bat';
+
+# ====== Insere o caractere "\" no final do caminho caso ainda não tenha =======#
+cFolder = vBasePath;
+cFolder  = IF( SUBST( cFolder  , LONG( cFolder  ) , 1 ) @<> '\' , cFolder  | '\' , cFolder  ); 
+
+#====== Aborta o processo se o arquivo fonte não existe na pasta de origem =====#
+If( FileExists( cFolder | vBatMount ) = 0 );
+      nErrors = 2;
+      DataSourceType = 'NULL';
+      sMessage = 'O arquivo "' | cFolder | vBatMount | '" não existe no caminho: "' |  cFolder   |'"';
+      ItemReject(sMessage);
+EndIf;
+
+#▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄#
+
+#===== Bat que deleta a Shadow, deleta a pasta/link e deleta o ShadowVolumeInformation.txt  =====#
+vBatClean = 'ShadowClean.bat';
+
+# ====== Insere o caractere "\" no final do caminho caso ainda não tenha =======#
+cFolder = vBasePath;
+cFolder  = IF( SUBST( cFolder  , LONG( cFolder  ) , 1 ) @<> '\' , cFolder  | '\' , cFolder  ); 
+
+#====== Aborta o processo se o arquivo fonte não existe na pasta de origem =====#
+If( FileExists( cFolder | vBatClean ) = 0 );
+      nErrors = 2;
+      DataSourceType = 'NULL';
+      sMessage = 'O arquivo "' | cFolder | vBatClean | '" não existe no caminho: "' |  cFolder   |'"';
+      ItemReject(sMessage);
+EndIf;
+
+#▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄#
+
+#===== Variavel de texto que contem o comando que será executado, neste caso a BatShadow ======#
+vCallBatShadow = 
+                           vBasePath | vBatShadow
+                   | ' ' | vDisk
+                   | ' ' | vBasePath
+                   | ' ' | vBasePath | vDump
+                   | ' ' | vBasePath | vShadowVolume;
+
+#===== Executamos a Bat passando os parametros necessários ======#
+ExecuteCommand( vCallBatShadow  , 1);
+#AsciiOutPut('F:\Cognos\AMX_RECEITA\BKP_RECEITA\LogOut1.txt',  vCallBatShadow);
+
+#===== Definimos o DataSource para buscarmos o ID e o Name da Shadow ======#
+DatasourceNameForClient = vBasePath | vShadowVolume ;
+DatasourceNameForServer =  vBasePath | vShadowVolume ;
+
+#===== Variavel de controle para pegarmos o ID e o Name da Shadow corretamente ======#
+vCount = 0;
+
+#===== Exibição de LOG (Opicional) ======#
+#AsciiOutPut('E:\Cognos\AMX_REAL_DEV\Backup\LogOut.txt',  vCallBatShadow);
+#endregion
+#region Metadata
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+
+
+IF( nErrors <> 0);
+    LogOutPut('Error', sMessage);
+    ProcessError;
+EndIf;
+
+#===== Incrementamos a variavel de controle ======#
+vCount = vCount + 1;
+
+#===== Verificamos se é o primeiro registro ======#
+IF(vCount = 1);
+
+  #===== Pegamos então o Name da Shadow e retiramos espaços ======#
+  vShadowPath = Trim(vShadowInformation);
+
+  #===== Variavel de texto que contem o comando que será executado, neste caso a BatMount ======#
+  vCallBatMount = vBasePath | vBatMount
+             | ' ' | vMountPath
+             | ' ' | vShadowPath | '\'
+             | ' ' | vCopyPath
+             | ' ' | vBackupPath;
+
+  #===== Executamos a Bat passando os parametros necessários ======#
+ExecuteCommand( vCallBatMount  , 1);
+
+#AsciiOutPut('F:\Cognos\AMX_RECEITA\BKP_RECEITA\LogOut2.txt',  vCallBatMount);
+
+#===== Se entramos no Else é por que é o segundo registro  ======#
+Else;
+
+#===== Pegamos então o ID da Shadow e retiramos espaçõs ======#
+  vShadowID = Trim(vShadowInformation);
+
+#===== Fim da verificação dos registros ======#
+EndIf;
+
+#===== Exibição de LOG (Opicional) ======#
+#AsciiOutPut('E:\Cognos\AMX_REAL_DEV\Backup\LogOut.txt',  vCallBatMount);
+#endregion
+#region Data
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+#endregion
+#region Epilog
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+
+#▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄#
+#===== Variavel de texto que contem o comando que será executado, neste caso a BatClean======#
+vCallBatMount = vBasePath | vBatClean
+            | ' ' | vShadowID
+            | ' ' | vMountPath
+            | ' ' | vBasePath | vShadowVolume
+            | ' ' | pIdade_Bakcup
+            | ' ' | vPasta_Raiz_de_Arquivos_Utilizados | 'BKP\';
+
+#AsciiOutPut('F:\Cognos\AMX_RECEITA\BKP_RECEITA\LogOut3.txt',  vCallBatMount);
+
+#▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄#
+#===== Executamos a Bat passando os parametros necessários ======#
+ExecuteCommand( vCallBatMount  , 1);
+
+
+#▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄#
+#=====Executa o comando que deleta as pastas de Backup======#
+
+vPastaBackup = CellGetS( 'SYS.777.Backup_Shadow_Copy', 'Pasta_de_Destino_do_Backup', 'String') ;
+
+#AsciiOutPut ('E:\BACKUP_AMX_RECEITA\LogOut5.txt',  vPastaBackup);
+
+ExecuteCommand( 'cmd /c forfiles /p ' | vPasta_Raiz_de_Arquivos_Utilizados  | vPastaBackup  | ' /d "'  | '-'  | pIdade_Bakcup | '" /c "CMD /c if @ISDIR==TRUE echo RD /Q @FILE &RD /Q /S @FILE" '  , 0 );
+
+#ExecuteCommand( 'cmd /c forfiles /p ' | vPasta_Raiz_de_Arquivos_Utilizados  | 'BKP'  | ' /d "'  | '-'  | pIdade_Bakcup | '" /c "CMD /c if @ISDIR==TRUE echo RD /Q @FILE &RD /Q /S @FILE" '  , 0 );
+
+
+#▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄#
+#===== Exibição de LOG (Opicional) ======#
+#AsciiOutPut('E:\Cognos\AMX_REAL_DEV\Backup\LogOut.txt',  vCallBatMount);
+#endregion

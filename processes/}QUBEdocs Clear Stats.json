@@ -1,0 +1,12 @@
+{
+	"@type":"Process",
+	"Name":"}QUBEdocs Clear Stats",
+	"HasSecurityAccess":true,
+	"Code@Code.link":"}QUBEdocs Clear Stats.ti",
+	"DataSource":
+	{
+		"Type":"None"
+	},
+	"Parameters":[],
+	"Variables":[]
+}

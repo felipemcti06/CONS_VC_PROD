@@ -1,0 +1,1979 @@
+#region Prolog
+# ===============================================================================================================
+#GENERALCOMMENT             Description:     Process That Creates the cubes dimensions and elements from Version Copy
+#GENERALCOMMENT             Responsible:   	Vitor Ribeiro
+#GENERALCOMMENT             Date:   January/2024
+#
+#LASTCHANGE                 Alterações:
+#LASTCHANGE                 Responsavel Alterações:
+# ===============================================================================================================
+
+# ===============================================================================================================
+#PROLOGCOMMENT               Description:            Create the cubes dimenions and elements
+# ===============================================================================================================
+
+nExists = 0 ;
+
+#=========================================================================
+#Region SYS.900.Version_Copy_Parameter
+#DESCRIPTION 
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+cCube = 'SYS.900.Version_Copy_Parameter';
+cCubept = 'SYS.900.Parametro_Copia_Versao';
+cCubees = 'SYS.900.Parametro_Copia_Version';
+if((pDel@='S' % pDel@='Y') & cubeExists(cCube)=1);
+  CubeDestroy(cCube) ;
+endIF;
+if((pDel@='S' % pDel@='Y') & cubeExists(cCubept)=1);
+  CubeDestroy(cCubept) ;
+endIF;
+if((pDel@='S' % pDel@='Y') & cubeExists(cCubees)=1);
+  CubeDestroy(cCubees) ;
+endIF;
+
+cDimension = 'SYS.D.Value' ;
+cDimensionpt = 'SYS.D.Valor' ;
+cDimensiones = 'SYS.D.Valor' ;
+cElements = 'Value' ;
+cTypes = 'N' ;
+
+IF( DimensionExists( cDimension)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimension) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimension | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensionpt)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensionpt) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensionpt | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensiones)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensiones) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensiones | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF(nExists=0);
+  DimensionCreate( cDimension );
+  nIterations = 1;
+  while(cElements@<>'') ;
+    cSep = Scan('|', cElements);
+    cElement = subst( cElements , 1 , if( cSep=0, long(cElements), cSep-1));
+    cElements = subst( cElements, IF(cSep=0, Long(cElements), cSep)+1, Long(cElements) );
+    IF( DimensionElementExists( cDimension, cElement )=0);
+      DimensionElementInsert( cDimension, '', cElement, Subst(cTypes, nIterations, 1) );
+    endIF;
+    nIterations = nIterations + 1;
+  end;
+
+else;
+endIF;
+
+cDimension = 'SYS.M.900.Version_Copy_Parameter' ;
+cDimensionpt = 'SYS.M.900.Parametro_Copia_Versao' ;
+cDimensiones = 'SYS.M.900.Parametro_Copia_Version' ;
+cElements = 'Start Period|End Period|Start Period Target|Qty Months|Consider Rules|Qty Threads|Copy Type|Status|Source Version|Target Version|ExportArqPath' ;
+cTypes = 'SSSSSNSSSSS' ;
+
+IF( DimensionExists( cDimension)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimension) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimension | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensionpt)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensionpt) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensionpt | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensiones)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensiones) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensiones | ' already exists in the system' ) ;
+  endIF;
+endIF;
+IF(nExists=0);
+  DimensionCreate( cDimension );
+
+  nIterations = 1;
+  while(cElements@<>'') ;
+    cSep = Scan('|', cElements);
+    cElement = subst( cElements , 1 , if( cSep=0, long(cElements), cSep-1));
+    cElements = subst( cElements, IF(cSep=0, Long(cElements), cSep)+1, Long(cElements) );
+    IF( DimensionElementExists( cDimension, cElement )=0);
+      DimensionElementInsert( cDimension, '', cElement, Subst(cTypes, nIterations, 1) );
+    endIF;
+    nIterations = nIterations + 1;
+  end;
+
+else;
+  nExists = nExists + 1;
+  LogOutput( 'Info', 'The Dimension ' | cDimension | ' already exists in the system' ) ;
+endIF;
+
+IF( CubeExists(cCube)=1);
+  IF(
+  CubeDimensionCountGet( cCube )<>2
+  %
+  TABDIM(cCube, 1)@<>'SYS.D.Value'
+  %
+  TABDIM(cCube, 2)@<>'SYS.M.900.Version_Copy_Parameter'
+  ) ;
+  CubeDestroy( cCube );
+  endIF;
+endIF;
+IF( CubeExists( cCube )=0);
+  CubeCreate( cCube, 'SYS.D.Value', 'SYS.M.900.Version_Copy_Parameter' );
+else;
+  nExists = nExists + 1;
+  LogOutput( 'Info', 'The Cube ' | cCube | ' already exists in the system' ) ;
+endIF;
+
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region SYS.910.Version_Copy_Cube
+#DESCRIPTION 
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+cCube = 'SYS.910.Version_Copy_Cube';
+cCubept = 'SYS.910.Cubo_Copia_Versao';
+cCubees = 'SYS.910.Cubo_Copia_Version';
+if((pDel@='S' % pDel@='Y') & cubeExists(cCube)=1);
+  CubeDestroy(cCube) ;
+endIF;
+if((pDel@='S' % pDel@='Y') & cubeExists(cCubept)=1);
+  CubeDestroy(cCubept) ;
+endIF;
+if((pDel@='S' % pDel@='Y') & cubeExists(cCubees)=1);
+  CubeDestroy(cCubees) ;
+endIF;
+
+#=========================================================================
+#Region Tambien se tiene que eliminar el cubo SYS.925.Copy_Validation
+#DESCRIPTION 
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+cCubeAux = 'SYS.925.Copy_Validation';
+cCubeptAux = 'SYS.925.Validacao_Copia';
+cCubeesAux = 'SYS.925.Validacion_Copia';
+if((pDel@='S' % pDel@='Y') & cubeExists(cCubeAux)=1);
+  CubeDestroy(cCubeAux) ;
+endIF;
+if((pDel@='S' % pDel@='Y') & cubeExists(cCubeptAux)=1);
+  CubeDestroy(cCubeptAux) ;
+endIF;
+if((pDel@='S' % pDel@='Y') & cubeExists(cCubeesAux)=1);
+  CubeDestroy(cCubeesAux) ;
+endIF;
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+
+cDimension = 'SYS.D.Cube' ;
+cDimensionpt = 'SYS.D.Cubo' ;
+cDimensiones = 'SYS.D.Cube' ;
+#cElements = 'Valor' ;
+#cTypes = 'N' ;
+
+IF( DimensionExists( cDimension)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimension) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimension | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensionpt)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensionpt) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensionpt | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensiones)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensiones) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensiones | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF(nExists=0);
+  DimensionCreate( cDimension );
+  nLen = Dimsiz('}Cubes');
+  nIterations = 1;
+  while(nIterations<=nLen) ;
+    cElement = DimNm('}Cubes',nIterations);
+    IF( DimensionElementExists( cDimension, cElement )=0);
+      DimensionElementInsert( cDimension, '', cElement, 'N' );
+    endIF;
+    nIterations = nIterations + 1;
+  end;
+ENDIF;
+
+cDimension = 'SYS.M.910.Version_Copy_Cube' ;
+cDimensionpt = 'SYS.M.910.Cubo_Copia_Versao' ;
+cDimensiones = 'SYS.M.910.Cubo_Copia_Version' ;
+cElements = 'Copy Version (Y/N)|Copy Version(Y/N) Scenario 1|Copy Version(Y/N) Scenario 2|Copy Version(Y/N) Scenario 3|Dimension Version|Dimension Year|Dimension Month|Dimension Year and Month|Dimension Driver|Copy Priority' ;
+cTypes = 'SSSSSSSSSN' ;
+
+IF( DimensionExists( cDimension)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimension) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimension | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensionpt)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensionpt) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensionpt | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensiones)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensiones) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensiones | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF(nExists=0);
+  DimensionCreate( cDimension );
+
+   nIterations = 1;
+  while(cElements@<>'') ;
+    cSep = Scan('|', cElements);
+    cElement = subst( cElements , 1 , if( cSep=0, long(cElements), cSep-1));
+    cElements = subst( cElements, IF(cSep=0, Long(cElements), cSep)+1, Long(cElements) );
+    IF( DimensionElementExists( cDimension, cElement )=0);
+      DimensionElementInsert( cDimension, '', cElement, Subst(cTypes, nIterations, 1) );
+    endIF;
+    nIterations = nIterations + 1;
+  end;
+endIF;
+
+
+IF( CubeExists(cCube)=1);
+  IF(
+  CubeDimensionCountGet( cCube )<>2
+  %
+  TABDIM(cCube, 1)@<>'SYS.D.Cube'
+  %
+  TABDIM(cCube, 2)@<>'SYS.M.910.Version_Copy_Cube'
+  ) ;
+  CubeDestroy( cCube );
+  endIF;
+endIF;
+IF( CubeExists( cCube )=0);
+  CubeCreate( cCube, 'SYS.D.Cube', 'SYS.M.910.Version_Copy_Cube' );
+else;
+  nExists = nExists + 1;
+  LogOutput( 'Info', 'The Cube ' | cCube | ' already exists in the system' ) ;
+endIF;
+
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region SYS.915.Version_Copy_Log
+#DESCRIPTION 
+#AUTHOR Birolo
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+cCube = 'SYS.915.Version_Copy_Log';
+cCubept = 'SYS.915.Registro_Copia_Versao';
+cCubees = 'SYS.915.Registro_Copia_Version';
+if((pDel@='S' % pDel@='Y') & cubeExists(cCube)=1);
+  CubeDestroy(cCube) ;
+endIF;
+if((pDel@='S' % pDel@='Y') & cubeExists(cCubept)=1);
+  CubeDestroy(cCubept) ;
+endIF;
+if((pDel@='S' % pDel@='Y') & cubeExists(cCubees)=1);
+  CubeDestroy(cCubees) ;
+endIF;
+
+cDimension = 'SYS.D.Timestamp' ;
+cElements = 'Current copy' ;
+cTypes = 'N' ;
+
+IF( DimensionExists( cDimension)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimension) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimension | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF(nExists=0);
+  DimensionCreate( cDimension );
+
+  nIterations = 1;
+  while(cElements@<>'') ;
+    cSep = Scan('|', cElements);
+    cElement = subst( cElements , 1 , if( cSep=0, long(cElements), cSep-1));
+    cElements = subst( cElements, IF(cSep=0, Long(cElements), cSep)+1, Long(cElements) );
+    IF( DimensionElementExists( cDimension, cElement )=0);
+      DimensionElementInsert( cDimension, '', cElement, Subst(cTypes, nIterations, 1) );
+    endIF;
+    nIterations = nIterations + 1;
+  end;
+endIF;
+
+cDimension = 'SYS.M.915.Version_Copy_Log' ;
+cDimensionpt = 'SYS.M.915.Registro_Copia_Versao' ;
+cDimensiones = 'SYS.M.915.Registro_Copia_Version' ;
+cElements = 'Status|StartTime|EndTime|Copy Time|Qty Threads|Message|Source Version|Destination Version|Copy Period|Copy With Rules|Copy Type|User|Validation Status' ;
+cTypes = 'SSSSSSSSSSSSS' ;
+
+
+IF( DimensionExists( cDimension)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimension) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimension | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensionpt)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensionpt) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensionpt | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensiones)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensiones) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensiones | ' already exists in the system' ) ;
+  endIF;
+endIF;
+IF(nExists=0);
+  DimensionCreate( cDimension );
+
+  nIterations = 1;
+  while(cElements@<>'') ;
+    cSep = Scan('|', cElements);
+    cElement = subst( cElements , 1 , if( cSep=0, long(cElements), cSep-1));
+    cElements = subst( cElements, IF(cSep=0, Long(cElements), cSep)+1, Long(cElements) );
+    IF( DimensionElementExists( cDimension, cElement )=0);
+      DimensionElementInsert( cDimension, '', cElement, Subst(cTypes, nIterations, 1) );
+    endIF;
+    nIterations = nIterations + 1;
+  end;
+endIF;
+
+IF( CubeExists(cCube)=1);
+  IF(
+  CubeDimensionCountGet( cCube )<>3
+  %
+  TABDIM(cCube, 1)@<>'}Cubes'
+  %
+  TABDIM(cCube, 2)@<>'SYS.D.Timestamp'
+  %
+  TABDIM(cCube, 3)@<>'SYS.M.915.Version_Copy_Log'
+  ) ;
+  CubeDestroy( cCube );
+  endIF;
+endIF;
+IF( CubeExists( cCube )=0);
+  CubeCreate( cCube, '}Cubes', 'SYS.D.Timestamp','SYS.M.915.Version_Copy_Log' );
+else;
+  nExists = nExists + 1;
+  LogOutput( 'Info', 'The Cube ' | cCube | ' already exists in the system' ) ;
+endIF;
+
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region SYS.920.Cube_Grouping
+#DESCRIPTION 
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+cCube = 'SYS.920.Cube_Grouping';
+cCubept = 'SYS.920.Agrupamento_Cubo';
+cCubees = 'SYS.920.Agrupacion_Cubo';
+if((pDel@='S' % pDel@='Y') & cubeExists(cCube)=1);
+  CubeDestroy(cCube) ;
+endIF;
+if((pDel@='S' % pDel@='Y') & cubeExists(cCubept)=1);
+  CubeDestroy(cCubept) ;
+endIF;
+if((pDel@='S' % pDel@='Y') & cubeExists(cCubees)=1);
+  CubeDestroy(cCubees) ;
+endIF;
+
+cDimension = 'SYS.M.920.Cube_Grouping' ;
+cDimensionpt = 'SYS.M.920.Agrupamento_Cubo' ;
+cDimensiones = 'SYS.M.920.Agrupamento_Cubo' ;
+cElements = 'Grouping' ;
+cTypes = 'S' ;
+
+IF( DimensionExists( cDimension)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimension) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimension | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensionpt)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensionpt) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensionpt | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensiones)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensiones) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensiones | ' already exists in the system' ) ;
+  endIF;
+endIF;
+IF(nExists=0);
+  DimensionCreate( cDimension );
+
+  nIterations = 1;
+  while(cElements@<>'') ;
+    cSep = Scan('|', cElements);
+    cElement = subst( cElements , 1 , if( cSep=0, long(cElements), cSep-1));
+    cElements = subst( cElements, IF(cSep=0, Long(cElements), cSep)+1, Long(cElements) );
+    IF( DimensionElementExists( cDimension, cElement )=0);
+      DimensionElementInsert( cDimension, '', cElement, Subst(cTypes, nIterations, 1) );
+    endIF;
+    nIterations = nIterations + 1;
+  end;
+endIF;
+
+
+IF( CubeExists(cCube)=1);
+  IF(
+  CubeDimensionCountGet( cCube )<>2
+  %
+  TABDIM(cCube, 1)@<>'}Cubes'
+  %
+  TABDIM(cCube, 2)@<>'SYS.M.920.Cube_Grouping'
+  ) ;
+  CubeDestroy( cCube );
+  endIF;
+endIF;
+IF( CubeExists( cCube )=0);
+  CubeCreate( cCube, '}Cubes', 'SYS.M.920.Cube_Grouping' );
+else;
+  nExists = nExists + 1;
+  LogOutput( 'Info', 'The Cube ' | cCube | ' already exists in the system' ) ;
+endIF;
+
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region SYS.925.Copy_Version_Validation
+#DESCRIPTION 
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+cCube = 'SYS.925.Copy_Validation';
+cCubept = 'SYS.925.Validacao_Copia';
+cCubees = 'SYS.925.Validacion_Copia';
+if((pDel@='S' % pDel@='Y') & cubeExists(cCube)=1);
+  CubeDestroy(cCube) ;
+endIF;
+if((pDel@='S' % pDel@='Y') & cubeExists(cCubept)=1);
+  CubeDestroy(cCubept) ;
+endIF;
+if((pDel@='S' % pDel@='Y') & cubeExists(cCubees)=1);
+  CubeDestroy(cCubees) ;
+endIF;
+
+cDimension = 'SYS.D.Validation_Parameter' ;
+cDimensionpt = 'SYS.D.Parametro_Validacao' ;
+cDimensiones = 'SYS.D.Parametro_Validacion' ;
+cElements = 'Title|Parameter 1|Parameter 2|Parameter 3' ;
+cTypes = 'NNNN' ;
+
+IF( DimensionExists( cDimension)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimension) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimension | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensionpt)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensionpt) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensionpt | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensiones)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensiones) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensiones | ' already exists in the system' ) ;
+  endIF;
+endIF;
+IF(nExists=0);
+ DimensionCreate( cDimension );
+
+  nIterations = 1;
+  while(cElements@<>'') ;
+   cSep = Scan('|', cElements);
+   cElement = subst( cElements , 1 , if( cSep=0, long(cElements), cSep-1));
+   cElements = subst( cElements, IF(cSep=0, Long(cElements), cSep)+1, Long(cElements) );
+   IF( DimensionElementExists( cDimension, cElement )=0);
+     DimensionElementInsert( cDimension, '', cElement, Subst(cTypes, nIterations, 1) );
+   endIF;
+   nIterations = nIterations + 1;
+  end;
+endIF;
+
+
+cDimension = 'SYS.D.Validation_Version' ;
+cDimensionpt = 'SYS.D.Versao_Validacao' ;
+cDimensiones = 'SYS.D.Version_Validacion' ;
+cElements = 'V1|V2' ;
+cTypes = 'NN' ;
+
+IF( DimensionExists( cDimension)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimension) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimension | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensionpt)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensionpt) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensionpt | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensiones)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensiones) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensiones | ' already exists in the system' ) ;
+  endIF;
+endIF;
+IF(nExists=0);
+ DimensionCreate( cDimension );
+
+  nIterations = 1;
+  while(cElements@<>'') ;
+   cSep = Scan('|', cElements);
+   cElement = subst( cElements , 1 , if( cSep=0, long(cElements), cSep-1));
+   cElements = subst( cElements, IF(cSep=0, Long(cElements), cSep)+1, Long(cElements) );
+   IF( DimensionElementExists( cDimension, cElement )=0);
+     DimensionElementInsert( cDimension, '', cElement, Subst(cTypes, nIterations, 1) );
+   endIF;
+   nIterations = nIterations + 1;
+  end;
+endIF;
+
+
+cDimension = 'SYS.M.925.Copy_Validation' ;
+cDimensionpt = 'SYS.M.925.Validacao_Copia' ;
+cDimensiones = 'SYS.M.925.Validacion_Copia' ;
+cElements = 'Type|Dim 1|Dim 2|Dim 3|Dim 4|Dim 5|Dim 6|Dim 7|Dim 8|Dim 9|Dim 10|Dim 11|Dim 12|Dim 13|Dim 14|Dim 15|Dim 16|Dim 17|Dim 18|Dim 19|Dim 20|Dim 21|Dim 22|Dim 23|Dim 24|Dim 25|Dim 26|Dim 27|Dim 28|Dim 29|Dim 30|Dim 31|Dim 32|Dim 33|Dim 34|Dim 35|Dim 36|Dim 37|Dim 38|Dim 39|Dim 40|Dim 41|Result|Message ' ;
+cTypes = 'SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSNS' ;
+
+IF( DimensionExists( cDimension)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimension) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimension | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensionpt)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensionpt) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensionpt | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensiones)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensiones) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensiones | ' already exists in the system' ) ;
+  endIF;
+endIF;
+IF(nExists=0);
+ DimensionCreate( cDimension );
+
+  nIterations = 1;
+  while(cElements@<>'') ;
+   cSep = Scan('|', cElements);
+   cSep = if( cSep=0, long(cElements), cSep);
+   cElement = subst( cElements , 1 , if( cSep=0, long(cElements), cSep-1));
+   cElements = subst( cElements, IF(cSep=0, Long(cElements), cSep)+1, Long(cElements) );
+   IF( DimensionElementExists( cDimension, cElement )=0);
+     DimensionElementInsert( cDimension, '', cElement, Subst(cTypes, nIterations, 1) );
+   endIF;
+   nIterations = nIterations + 1;
+  end;
+endIF;
+
+IF( CubeExists(cCube)=1);
+ IF(
+ CubeDimensionCountGet( cCube )<>4
+ %
+ TABDIM(cCube, 1)@<>'SYS.D.Cube'
+ %
+ TABDIM(cCube, 2)@<>'SYS.D.Validation_Version'
+ %
+ TABDIM(cCube, 3)@<>'SYS.D.Validation_Parameter'
+ %
+ TABDIM(cCube, 4)@<>'SYS.M.925.Copy_Validation'
+ ) ;
+ CubeDestroy( cCube );
+ endIF;
+endIF;
+IF( CubeExists( cCube )=0);
+ CubeCreate( cCube, 'SYS.D.Cube','SYS.D.Validation_Version', 'SYS.D.Validation_Parameter', 'SYS.M.925.Copy_Validation' );
+else;
+  nExists = nExists + 1;
+  LogOutput( 'Info', 'The Cube ' | cCube | ' already exists in the system' ) ;
+endIF;
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region SYS.999.Version_Copy_Rejects
+#DESCRIPTION 
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+cCube = 'SYS.999.Version_Copy_Rejects';
+cCubept = 'SYS.999.Rejeitado_Copia_Versao';
+cCubees = 'SYS.999.Rechazado_Copia_Version';
+if((pDel@='S' % pDel@='Y') & cubeExists(cCube)=1);
+  CubeDestroy(cCube) ;
+endIF;
+if((pDel@='S' % pDel@='Y') & cubeExists(cCubept)=1);
+  CubeDestroy(cCubept) ;
+endIF;
+if((pDel@='S' % pDel@='Y') & cubeExists(cCubees)=1);
+  CubeDestroy(cCubees) ;
+endIF;
+
+cDimension = 'SYS.D.Version_Copy_Rejects' ;
+cDimensionpt = 'SYS.D.Rejeitado_Copia_Versao' ;
+cDimensiones = 'SYS.D.Rechazado_Copia_Version' ;
+cElements = 'Header' ;
+cTypes = 'N' ;
+
+IF( DimensionExists( cDimension)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimension) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimension | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensionpt)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensionpt) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensionpt | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensiones)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensiones) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensiones | ' already exists in the system' ) ;
+  endIF;
+endIF;
+IF(nExists=0);
+  DimensionCreate( cDimension );
+
+  nIterations = 1;
+  while(cElements@<>'') ;
+    cSep = Scan('|', cElements);
+    cElement = subst( cElements , 1 , if( cSep=0, long(cElements), cSep-1));
+    cElements = subst( cElements, IF(cSep=0, Long(cElements), cSep)+1, Long(cElements) );
+    IF( DimensionElementExists( cDimension, cElement )=0);
+      DimensionElementInsert( cDimension, '', cElement, Subst(cTypes, nIterations, 1) );
+    endIF;
+    nIterations = nIterations + 1;
+  end;
+
+  nLen = 200;
+  nIterations = 1;
+  while(nIterations<=nLen) ;
+    cElement = 'Line_' | Fill('0', 4-Long(numberToString(nIterations))) | numberToString(nIterations);
+    IF( DimensionElementExists( cDimension, cElement )=0);
+      DimensionElementInsert( cDimension, '', cElement, 'N' );
+    endIF;
+    nIterations = nIterations + 1;
+  end;
+endIF;
+
+
+cDimension = 'SYS.M.999.Version_Copy_Rejects' ;
+cDimensionpt = 'SYS.M.999.Rejeitado_Copia_Versao' ;
+cDimensiones = 'SYS.M.999.Rechazado_Copia_Version' ;
+cElements = 'Registration Number|Error Message' ;
+cTypes = 'SS' ;
+
+IF( DimensionExists( cDimension)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimension) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimension | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensionpt)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensionpt) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensionpt | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensiones)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensiones) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensiones | ' already exists in the system' ) ;
+  endIF;
+endIF;
+IF(nExists=0);
+  DimensionCreate( cDimension );
+
+  nIterations = 1;
+  while(cElements@<>'') ;
+    cSep = Scan('|', cElements);
+    cElement = subst( cElements , 1 , if( cSep=0, long(cElements), cSep-1));
+    cElements = subst( cElements, IF(cSep=0, Long(cElements), cSep)+1, Long(cElements) );
+    IF( DimensionElementExists( cDimension, cElement )=0);
+      DimensionElementInsert( cDimension, '', cElement, Subst(cTypes, nIterations, 1) );
+    endIF;
+    nIterations = nIterations + 1;
+  end;
+
+  nLen = 41;
+  nIterations = 1;
+  while(nIterations<=nLen) ;
+    cElement = 'Col_' | Fill('0', 2-Long(numberToString(nIterations))) | numberToString(nIterations);
+    IF( DimensionElementExists( cDimension, cElement )=0);
+      DimensionElementInsert( cDimension, '', cElement, 'S' );
+    endIF;
+    nIterations = nIterations + 1;
+  end;
+endIF;
+
+IF(nExists=0);
+  IF( CubeExists(cCube)=1);
+    IF(
+    CubeDimensionCountGet( cCube )<>3
+    %
+    TABDIM(cCube, 1)@<>'}Processes'
+    %
+    TABDIM(cCube, 2)@<>'SYS.D.Version_Copy_Rejects'
+    %
+    TABDIM(cCube, 3)@<>'SYS.M.999.Version_Copy_Rejects'
+    ) ;
+    CubeDestroy( cCube );
+    endIF;
+  endIF;
+  IF( CubeExists( cCube )=0 & CubeExists( cCubept )=0 & CubeExists( cCubees )=0);
+    CubeCreate( cCube, '}Processes', 'SYS.D.Version_Copy_Rejects', 'SYS.M.999.Version_Copy_Rejects' );
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Cube ' | cCube | ' or ' | cCubept | ' or ' | cCubees | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region Control Dimension
+#DESCRIPTION 
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+cDimension = 'SYS.D.Version_Copy_Year_Month' ;
+cDimensionpt = 'SYS.D.Copia_Versao_Ano_Mes' ;
+cDimensiones = 'SYS.D.Copiar_Version_Ano_Mes' ;
+
+IF( DimensionExists( cDimension)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimension) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimension | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensionpt)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensionpt) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensionpt | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensiones)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensiones) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensiones | ' already exists in the system' ) ;
+  endIF;
+endIF;
+IF(nExists=0);
+  DimensionCreate( cDimension );
+
+  nAno = 2010;
+  nAnoF = 2050;
+  nMes = 1;
+  while(nAno<=nAnoF) ;
+    while(nMes<=12);
+      cElement = numberToString(nAno) | if(nMes<10,'0','') | NumberToString(nMes);
+      IF( DimensionElementExists( cDimension, cElement )=0);
+        DimensionElementInsert( cDimension, '', cElement, 'N' );
+      endIF;
+      nMes = nMes +1;
+    end;
+    nAno = nAno + 1;
+    nMes = 1;
+  end;
+endIF;
+
+cDimension = 'SYS.D.Parallel_Control' ;
+cDimensionpt = 'SYS.D.Controle_Paralelo' ;
+cDimensiones = 'SYS.D.Control_Paralelo' ;
+
+IF( DimensionExists( cDimension)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimension) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimension | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensionpt)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensionpt) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensionpt | ' already exists in the system' ) ;
+  endIF;
+endIF;
+
+IF( DimensionExists( cDimensiones)=1);
+  if(pDel@='S' % pDel@='Y');
+    DimensionDestroy(cDimensiones) ;
+  else;
+    nExists = nExists + 1;
+    LogOutput( 'Info', 'The Dimension ' | cDimensiones | ' already exists in the system' ) ;
+  endIF;
+endIF;
+IF(nExists=0);
+  DimensionCreate( cDimension );
+
+  nMes = 1;
+  while(nMes<=12);
+    cElement = numberToString(nAno) | if(nMes<10,'0','') | NumberToString(nMes);
+    IF( DimensionElementExists( cDimension, cElement )=0);
+      DimensionElementInsert( cDimension, '', cElement, 'N' );
+    endIF;
+    nMes = nMes +1;
+  end;
+endIF;
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region ItemReject
+#DESCRIPTION 
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+if( nExists>0);
+  ItemReject( 'Process not completed, see the sytem log') ;
+  ProcessBreak;
+endIF;
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region Attributes Insert
+#DESCRIPTION 
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+CubeAttrInsert( '', 'Caption', 'A');
+DimensionAttrInsert( '', 'Caption', 'A');
+
+AttrInsert( 'SYS.D.Value', '', 'Caption', 'A');
+AttrInsert( 'SYS.M.900.Version_Copy_Parameter', '', 'Caption', 'A');
+AttrInsert( 'SYS.M.900.Version_Copy_Parameter', '', 'Picklist', 'S');
+AttrInsert( 'SYS.M.900.Version_Copy_Parameter', '', 'Description', 'A');
+AttrInsert( 'SYS.M.910.Version_Copy_Cube', '', 'Caption', 'A');
+AttrInsert( 'SYS.M.910.Version_Copy_Cube', '', 'Picklist', 'S');
+AttrInsert( 'SYS.M.910.Version_Copy_Cube', '', 'Description', 'A');
+AttrInsert( 'SYS.D.Timestamp', '', 'Caption', 'A');
+AttrInsert( 'SYS.M.915.Version_Copy_Log', '', 'Caption', 'A');
+AttrInsert( 'SYS.M.920.Cube_Grouping', '', 'Caption', 'A');
+AttrInsert( 'SYS.D.Validation_Parameter', '', 'Caption', 'A');
+AttrInsert( 'SYS.M.925.Copy_Validation', '', 'Picklist', 'S');
+AttrInsert( 'SYS.M.925.Copy_Validation', '', 'Caption', 'A');
+AttrInsert( 'SYS.D.Version_Copy_Rejects', '', 'Caption', 'A');
+AttrInsert( 'SYS.M.999.Version_Copy_Rejects', '', 'Caption', 'A');
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+#endregion
+#region Epilog
+#=========================================================================
+#Region RuleLoadFromFile
+#DESCRIPTION 
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+#RuleLoadFromFile('SYS.900.Version_Copy_Parameter', 'zCTI_Rule_SYS.900.Version_Copy_Parameter.txt');
+#RuleLoadFromFile('SYS.910.Version_Copy_Cube', 'zCTI_Rule_SYS.910.Version_Copy_Cube.txt');
+#RuleLoadFromFile('SYS.925.Copy_Validation', 'zCTI_Rule_SYS.925.Copy_Validation.txt');
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region SYS.900.Version_Copy_Parameter - Attributes
+#DESCRIPTION 
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+#=========================================================================
+#Region Cube Attributes 
+#DESCRIPTION Cube: SYS.900.Version_Copy_Parameter
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+IF(CubeExists('}LocalizedCubeAttributes')=1);
+
+     CellPutS('SYS.900.Parametro_Copia_Versao','}LocalizedCubeAttributes', 'SYS.900.Version_Copy_Parameter', 'pt', 'Caption' );
+     CellPutS('SYS.900.Parametro_Copia_Version','}LocalizedCubeAttributes', 'SYS.900.Version_Copy_Parameter', 'es', 'Caption' );
+    
+ELSE;
+
+    CubeAttrPutS( 'SYS.900.Parametro_Copia_Versao', 'SYS.900.Version_Copy_Parameter', 'Caption', 'pt' );
+    CubeAttrPutS( 'SYS.900.Parametro_Copia_Version', 'SYS.900.Version_Copy_Parameter', 'Caption', 'es' );
+    
+ENDIF;
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region Dimension Attributes 
+#DESCRIPTION Dimensions: SYS.D.Value - SYS.M.900.Version_Copy_Parameter
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+IF(CubeExists('}LocalizedDimensionAttributes')=1);
+
+    CellPutS('SYS.D.Valor','}LocalizedDimensionAttributes', 'SYS.D.Value', 'pt', 'Caption' );
+    CellPutS('SYS.D.Valor','}LocalizedDimensionAttributes', 'SYS.D.Value', 'es', 'Caption' );
+    
+    CellPutS('SYS.M.900.Parametro_Copia_Versao','}LocalizedDimensionAttributes', 'SYS.M.900.Version_Copy_Parameter', 'pt', 'Caption' );
+    CellPutS('SYS.M.900.Parametro_Copia_Version','}LocalizedDimensionAttributes', 'SYS.M.900.Version_Copy_Parameter', 'es', 'Caption' );
+    
+ELSE;    
+
+    DimensionAttrPutS( 'SYS.D.Valor', 'SYS.D.Value', 'Caption', 'pt' ); 
+    DimensionAttrPutS( 'SYS.D.Valor', 'SYS.D.Value', 'Caption', 'es' ); 
+    
+    DimensionAttrPutS( 'SYS.M.900.Parametro_Copia_Versao', 'SYS.M.900.Version_Copy_Parameter', 'Caption', 'pt' ); 
+    DimensionAttrPutS( 'SYS.M.900.Parametro_Copia_Version', 'SYS.M.900.Version_Copy_Parameter', 'Caption', 'es' ); 
+    
+ENDIF;  
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+  
+#=========================================================================
+#Region Element Attributes
+#DESCRIPTION Dimension: SYS.D.Value
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+IF(CubeExists( '}LocalizedElementAttributes_SYS.D.Value' ) = 1);
+
+    CellPutS( 'Valor', '}LocalizedElementAttributes_SYS.D.Value', 'Value', 'pt', 'Caption' );
+    CellPutS( 'Valor', '}LocalizedElementAttributes_SYS.D.Value', 'Value', 'es', 'Caption' );
+ 
+ELSE;
+
+        AttrPutS('Valor', 'SYS.D.Value', 'Value', 'Caption', 'pt');
+        AttrPutS('Valor', 'SYS.D.Value', 'Value', 'Caption', 'es');
+      
+ENDIF;
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region Metric Element Attributes 
+#DESCRIPTION Dimension: SYS.M.900.Version_Copy_Parameter
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+sDimension = 'SYS.M.900.Version_Copy_Parameter' ;
+cElements = 'Start Period|End Period|Start Period Target|Qty Months|Consider Rules|Qty Threads|Copy Type|Status|Source Version|Target Version|ExportArqPath' ;
+cElementsPt = 'Período Início|Período Fim|Início Período Destino|Qtd Meses|Considerar Regras|Qtd Threads|Tipo Cópia|Status|Versão Origem|Versão Destino|CaminhoArqExport' ;
+cElementsEs='Período de inicio|Período de finalización|Período de inicio de destino|Cantidad de meses|Reglas de consideración|Cantidad de subprocesos|Tipo de copia|Status|Versión de origen|Versión de destino|RutaArcExportación';
+
+
+
+nIterations = 1;
+while(cElements@<>'') ;
+  cSep = Scan('|', cElements);
+  cElement = subst( cElements , 1 , if( cSep=0, long(cElements), cSep-1));
+  cElements = subst( cElements, IF(cSep=0, Long(cElements), cSep)+1, Long(cElements) );
+
+  cSep = Scan('|', cElementsPt);
+  cElementPt = subst( cElementsPt , 1 , if( cSep=0, long(cElementsPt), cSep-1));
+  cElementsPt = subst( cElementsPt, IF(cSep=0, Long(cElementsPt), cSep)+1, Long(cElementsPt) );
+
+  cSep = Scan('|', cElementsEs);
+  cElementEs = subst( cElementsEs , 1 , if( cSep=0, long(cElementsEs), cSep-1));
+  cElementsEs = subst( cElementsEs, IF(cSep=0, Long(cElementsEs), cSep)+1, Long(cElementsEs) );
+  
+  AttrPutS(cElementPt, sDimension, cElement, 'Caption', 'pt');
+  AttrPutS(cElementEs, sDimension, cElement, 'Caption', 'es');
+  nIterations = nIterations + 1;
+end;
+
+AttrPutS('dimension:SYS.D.Copia_Versao_Ano_Mes', 'SYS.M.900.Version_Copy_Parameter', 'Start Period', 'Picklist');
+AttrPutS('dimension:SYS.D.Copia_Versao_Ano_Mes', 'SYS.M.900.Version_Copy_Parameter', 'End Period', 'Picklist');
+AttrPutS('dimension:SYS.D.Copia_Versao_Ano_Mes', 'SYS.M.900.Version_Copy_Parameter', 'Start Period Target', 'Picklist');
+
+IF(DimensionExists('ALL.D.Versao')=1);
+  AttrPutS('dimension:ALL.D.Versao', 'SYS.M.900.Version_Copy_Parameter', 'Source Version', 'Picklist');
+  AttrPutS('dimension:ALL.D.Versao', 'SYS.M.900.Version_Copy_Parameter', 'Target Version', 'Picklist');
+ElseIf(DimensionExists( 'ALL.D.Version' )=1);
+  AttrPutS('dimension:ALL.D.Version', 'SYS.M.900.Version_Copy_Parameter', 'Source Version', 'Picklist');
+  AttrPutS('dimension:ALL.D.Version', 'SYS.M.900.Version_Copy_Parameter', 'Target Version', 'Picklist');
+EndIF;
+
+ AttrPutS('static:Yes:No:', 'SYS.M.900.Version_Copy_Parameter', 'Consider Rules', 'Picklist');
+ AttrPutS('static:Sim:Não:', 'SYS.M.900.Version_Copy_Parameter', 'Consider Rules', 'Picklist','pt');
+ AttrPutS('static:Si:No:', 'SYS.M.900.Version_Copy_Parameter', 'Consider Rules', 'Picklist','es');
+
+
+ AttrPutS('static:2:3:4:5:6:7:8:9:10:11:12:13:14:15:16:17:18:19:20:', 'SYS.M.900.Version_Copy_Parameter', 'Qty Threads', 'Picklist');
+
+ AttrPutS('static:Direct copy:Export/Import and delete files:Export/Import and keep files:', 'SYS.M.900.Version_Copy_Parameter', 'Copy Type', 'Picklist');
+ AttrPutS('static:Cópia direta:Export/Import e apagar arquivos:Export/Import e manter arquivos:', 'SYS.M.900.Version_Copy_Parameter', 'Copy Type', 'Picklist','pt');
+ AttrPutS('static:Copia directa:Exportar/Importar y eliminar archivos:Exportar/Importar y conservar archivos:', 'SYS.M.900.Version_Copy_Parameter', 'Copy Type', 'Picklist','es');
+
+
+ AttrPutS('Start Period (Required)', 'SYS.M.900.Version_Copy_Parameter', 'Start Period', 'Description');
+ AttrPutS('End Period (Required)', 'SYS.M.900.Version_Copy_Parameter', 'End Period', 'Description');
+ AttrPutS('Start Period Target (Optional)', 'SYS.M.900.Version_Copy_Parameter', 'Start Period Target', 'Description');
+ AttrPutS('Consider Rules (Required)', 'SYS.M.900.Version_Copy_Parameter', 'Consider Rules', 'Description');
+ AttrPutS('Qty Threads (Required)', 'SYS.M.900.Version_Copy_Parameter', 'Qty Threads', 'Description');
+ AttrPutS('Copy Type (Required)', 'SYS.M.900.Version_Copy_Parameter', 'Copy Type', 'Description');
+ AttrPutS('Source Version (Required)', 'SYS.M.900.Version_Copy_Parameter', 'Source Version', 'Description');
+ AttrPutS('Target Version (Required)', 'SYS.M.900.Version_Copy_Parameter', 'Target Version', 'Description');
+ AttrPutS('ExportArqPath (Required)', 'SYS.M.900.Version_Copy_Parameter', 'ExportArqPath', 'Description');
+
+ AttrPutS('Período Início (Obrigatorio)', 'SYS.M.900.Version_Copy_Parameter', 'Start Period', 'Description', 'pt');
+ AttrPutS('Período Fim (Obrigatorio)', 'SYS.M.900.Version_Copy_Parameter', 'End Period', 'Description', 'pt');
+ AttrPutS('Início Período Destino (Opcional)', 'SYS.M.900.Version_Copy_Parameter', 'Start Period Target', 'Description', 'pt');
+ AttrPutS('Considerar Regras (Obrigatorio)', 'SYS.M.900.Version_Copy_Parameter', 'Consider Rules', 'Description', 'pt');
+ AttrPutS('Qtd Threads (Obrigatorio)', 'SYS.M.900.Version_Copy_Parameter', 'Qty Threads', 'Description', 'pt');
+ AttrPutS('Tipo Cópia (Obrigatorio)', 'SYS.M.900.Version_Copy_Parameter', 'Copy Type', 'Description', 'pt');
+ AttrPutS('Versão Origem (Obrigatorio)', 'SYS.M.900.Version_Copy_Parameter', 'Source Version', 'Description', 'pt');
+ AttrPutS('Versão Destino (Obrigatorio)', 'SYS.M.900.Version_Copy_Parameter', 'Target Version', 'Description', 'pt');
+ AttrPutS('CaminhoArqExport (Obrigatorio)', 'SYS.M.900.Version_Copy_Parameter', 'ExportArqPath', 'Description', 'pt');
+
+
+ AttrPutS('Período de inicio (Obligatorio)', 'SYS.M.900.Version_Copy_Parameter', 'Start Period', 'Description', 'es');
+ AttrPutS('Período de finalización (Obligatorio)', 'SYS.M.900.Version_Copy_Parameter', 'End Period', 'Description', 'es');
+ AttrPutS('Período de inicio de destino (Opcional)', 'SYS.M.900.Version_Copy_Parameter', 'Start Period Target', 'Description', 'es');
+ AttrPutS('Reglas de consideración (Obligatorio)', 'SYS.M.900.Version_Copy_Parameter', 'Consider Rules', 'Description', 'es');
+ AttrPutS('Cantidad de subprocesos (Obligatorio)', 'SYS.M.900.Version_Copy_Parameter', 'Qty Threads', 'Description', 'es');
+ AttrPutS('Tipo de copia (Obligatorio)', 'SYS.M.900.Version_Copy_Parameter', 'Copy Type', 'Description', 'es');
+ AttrPutS('Versión de origen (Obligatorio)', 'SYS.M.900.Version_Copy_Parameter', 'Source Version', 'Description', 'es');
+ AttrPutS('Versión de destino (Obligatorio)', 'SYS.M.900.Version_Copy_Parameter', 'Target Version', 'Description', 'es');
+ AttrPutS('ExportArqPath (Obligatorio)', 'SYS.M.900.Version_Copy_Parameter', 'ExportArqPath', 'Description', 'es');
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region SYS.910.Version_Copy_Cube - Attributes
+#DESCRIPTION 
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+#=========================================================================
+#Region Cube Attributes
+#DESCRIPTION Cube: SYS.910.Version_Copy_Cube
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+IF(CubeExists('}LocalizedCubeAttributes')=1);
+
+    CellPutS('SYS.910.Cubo_Copia_Versao','}LocalizedCubeAttributes', 'SYS.910.Version_Copy_Cube', 'pt', 'Caption' );
+    CellPutS('SYS.910.Cubo_Copia_Version','}LocalizedCubeAttributes', 'SYS.910.Version_Copy_Cube', 'es', 'Caption' );
+    
+ELSE;
+
+    CubeAttrPutS( 'SYS.910.Cubo_Copia_Versao', 'SYS.910.Version_Copy_Cube', 'Caption', 'pt' );
+    CubeAttrPutS( 'SYS.910.Cubo_Copia_Version', 'SYS.910.Version_Copy_Cube', 'Caption', 'es' );
+    
+ENDIF;
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region Dimension Attributes 
+#DESCRIPTION Dimensions: SYS.D.Cube - SYS.M.910.Version_Copy_Cube
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+IF(CubeExists('}LocalizedDimensionAttributes')=1);
+
+    CellPutS('SYS.M.910.Cubo_Copia_Versao','}LocalizedDimensionAttributes', 'SYS.M.910.Version_Copy_Cube', 'pt', 'Caption' );
+    CellPutS('SYS.M.910.Cubo_Copia_Version','}LocalizedDimensionAttributes', 'SYS.M.910.Version_Copy_Cube', 'es', 'Caption' );
+    
+    CellPutS('SYS.D.Cubo','}LocalizedDimensionAttributes', 'SYS.D.Cube', 'pt', 'Caption' );
+    CellPutS('SYS.D.Cubo','}LocalizedDimensionAttributes', 'SYS.D.Cube', 'es', 'Caption' );
+    
+ELSE;
+
+    DimensionAttrPutS( 'SYS.M.910.Cubo_Copia_Versao', 'SYS.M.910.Version_Copy_Cube', 'Caption', 'pt' ); 
+    DimensionAttrPutS( 'SYS.M.910.Cubo_Copia_Version', 'SYS.M.910.Version_Copy_Cube', 'Caption', 'es' ); 
+    
+    DimensionAttrPutS( 'SYS.D.Cubo', 'SYS.D.Cube', 'Caption', 'pt' ); 
+    DimensionAttrPutS( 'SYS.D.Cube', 'SYS.D.Cube', 'Caption', 'es' ); 
+    
+ENDIF;
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+  
+#=========================================================================
+#Region Metric Element Attributes 
+#DESCRIPTION Dimension:  SYS.M.910.Version_Copy_Cube
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+sDimension = 'SYS.M.910.Version_Copy_Cube' ;
+cElements = 'Copy Version (Y/N)|Copy Version(Y/N) Scenario 1|Copy Version(Y/N) Scenario 2|Copy Version(Y/N) Scenario 3|Dimension Version|Dimension Year|Dimension Month|Dimension Year and Month|Dimension Driver|Copy Priority' ;
+cElementsPt = 'Copia Versão (S/N)|Copia Versão(S/N) Cenário 1|Copia Versão(S/N) Cenário 2|Copia Versão(S/N) Cenário 3|Dimensão Versão|Dimensão Ano|Dimensão Mês|Dimensão Ano e Mês|Dimensão de Driver|Prioridade na Cópia' ;
+cElementsEs = 'Copiar versión (S/N)|Copiar versión (S/N) Escenario 1|Copiar versión (S/N) Escenario 2|Copiar versión (S/N) Escenario 3|Versión de dimensión|Año de dimensión|Mes de dimensión|Año y Mes de dimensión|Driver dimensión|Prioridad de copia' ;
+
+
+
+nIterations = 1;
+while(cElements@<>'') ;
+  cSep = Scan('|', cElements);
+  cElement = subst( cElements , 1 , if( cSep=0, long(cElements), cSep-1));
+  cElements = subst( cElements, IF(cSep=0, Long(cElements), cSep)+1, Long(cElements) );
+  
+  cSep = Scan('|', cElementsPt);
+  cElementPt = subst( cElementsPt , 1 , if( cSep=0, long(cElementsPt), cSep-1));
+  cElementsPt = subst( cElementsPt, IF(cSep=0, Long(cElementsPt), cSep)+1, Long(cElementsPt) );
+  
+  cSep = Scan('|', cElementsEs);
+  cElementEs = subst( cElementsEs , 1 , if( cSep=0, long(cElementsEs), cSep-1));
+  cElementsEs = subst( cElementsEs, IF(cSep=0, Long(cElementsEs), cSep)+1, Long(cElementsEs) );
+  
+  AttrPutS(cElementPt, sDimension, cElement, 'Caption', 'pt');
+  AttrPutS(cElementEs, sDimension, cElement, 'Caption', 'es');
+  nIterations = nIterations + 1;
+end;
+
+
+AttrPutS('static:Y:N:', 'SYS.M.910.Version_Copy_Cube', 'Copy Version (Y/N)', 'Picklist');
+AttrPutS('static:S:N:', 'SYS.M.910.Version_Copy_Cube', 'Copy Version (Y/N)', 'Picklist', 'pt');
+AttrPutS('static:S:N:', 'SYS.M.910.Version_Copy_Cube', 'Copy Version (Y/N)', 'Picklist', 'es');
+
+AttrPutS('static:Y:N:', 'SYS.M.910.Version_Copy_Cube', 'Copy Version(Y/N) Scenario 1', 'Picklist');
+AttrPutS('static:S:N:', 'SYS.M.910.Version_Copy_Cube', 'Copy Version(Y/N) Scenario 1', 'Picklist', 'pt');
+AttrPutS('static:S:N:', 'SYS.M.910.Version_Copy_Cube', 'Copy Version(Y/N) Scenario 1', 'Picklist', 'es');
+
+AttrPutS('static:Y:N:', 'SYS.M.910.Version_Copy_Cube', 'Copy Version(Y/N) Scenario 2', 'Picklist');
+AttrPutS('static:S:N:', 'SYS.M.910.Version_Copy_Cube', 'Copy Version(Y/N) Scenario 2', 'Picklist', 'pt');
+AttrPutS('static:S:N:', 'SYS.M.910.Version_Copy_Cube', 'Copy Version(Y/N) Scenario 2', 'Picklist', 'es');
+
+AttrPutS('static:Y:N:', 'SYS.M.910.Version_Copy_Cube', 'Copy Version(Y/N) Scenario 3', 'Picklist');
+AttrPutS('static:S:N:', 'SYS.M.910.Version_Copy_Cube', 'Copy Version(Y/N) Scenario 3', 'Picklist', 'pt');
+AttrPutS('static:S:N:', 'SYS.M.910.Version_Copy_Cube', 'Copy Version(Y/N) Scenario 3', 'Picklist', 'es');
+
+AttrPutS('(Required) Dimension Version', 'SYS.M.910.Version_Copy_Cube', 'Dimension Version', 'Description');
+AttrPutS('(Required) Dimension Year', 'SYS.M.910.Version_Copy_Cube', 'Dimension Year', 'Description');
+AttrPutS('(Required) Dimension Month', 'SYS.M.910.Version_Copy_Cube', 'Dimension Month', 'Description');
+AttrPutS('(Optional) Dimension Year and Month', 'SYS.M.910.Version_Copy_Cube', 'Dimension Year and Month', 'Description');
+AttrPutS('(Optional) Dimension Driver', 'SYS.M.910.Version_Copy_Cube', 'Dimension Driver', 'Description');
+AttrPutS('(Optional) Copy Priority', 'SYS.M.910.Version_Copy_Cube', 'Copy Priority', 'Description');
+
+AttrPutS('(Obrigatorio) Dimensão Versão', 'SYS.M.910.Version_Copy_Cube', 'Dimension Version', 'Description', 'pt');
+AttrPutS('(Obrigatorio) Dimensão Ano', 'SYS.M.910.Version_Copy_Cube', 'Dimension Year', 'Description', 'pt');
+AttrPutS('(Obrigatorio) Dimensão Mês', 'SYS.M.910.Version_Copy_Cube', 'Dimension Month', 'Description', 'pt');
+AttrPutS('(Opcional) Dimensão Ano e Mês', 'SYS.M.910.Version_Copy_Cube', 'Dimension Year and Month', 'Description', 'pt');
+AttrPutS('(Opcional) Dimensão de Driver', 'SYS.M.910.Version_Copy_Cube', 'Dimension Driver', 'Description', 'pt');
+AttrPutS('(Opcional) Prioridade na Cópia', 'SYS.M.910.Version_Copy_Cube', 'Copy Priority', 'Description', 'pt');
+
+AttrPutS('(Obligatorio) Versión de dimensión', 'SYS.M.910.Version_Copy_Cube', 'Dimension Version', 'Description', 'es');
+AttrPutS('(Obligatorio) Año de dimensión', 'SYS.M.910.Version_Copy_Cube', 'Dimension Year', 'Description', 'es');
+AttrPutS('(Obligatorio) Mes de dimensión', 'SYS.M.910.Version_Copy_Cube', 'Dimension Month', 'Description', 'es');
+AttrPutS('(Opcional) Año y Mes de dimensión', 'SYS.M.910.Version_Copy_Cube', 'Dimension Year and Month', 'Description', 'es');
+AttrPutS('(Opcional) Dimension Driver', 'SYS.M.910.Version_Copy_Cube', 'Dimension Driver', 'Description', 'es');
+AttrPutS('(Opcional) Prioridad de copia', 'SYS.M.910.Version_Copy_Cube', 'Copy Priority', 'Description', 'es');
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region SYS.915.Version_Copy_Log - Attributes
+#DESCRIPTION 
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+#=========================================================================
+#Region Cube Attributes
+#DESCRIPTION Cube: SYS.915.Version_Copy_Log
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+IF(CubeExists('}LocalizedCubeAttributes')=1);
+
+   CellPutS('SYS.915.Registro_Copia_Versao','}LocalizedCubeAttributes', 'SYS.915.Version_Copy_Log', 'pt', 'Caption' );
+   CellPutS('SYS.915.Registro_Copia_Version','}LocalizedCubeAttributes', 'SYS.915.Version_Copy_Log', 'es', 'Caption' );
+    
+ELSE;
+
+  CubeAttrPutS( 'SYS.915.Registro_Copia_Versao', 'SYS.915.Version_Copy_Log', 'Caption', 'pt' );
+  CubeAttrPutS( 'SYS.915.Registro_Copia_Version', 'SYS.915.Version_Copy_Log', 'Caption', 'es' );
+    
+ENDIF;
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region Dimension Attributes 
+#DESCRIPTION Dimensions: SYS.D.Cube - SYS.M.915.Version_Copy_Log
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+IF(CubeExists('}LocalizedDimensionAttributes')=1);
+
+    CellPutS('SYS.M.915.Registro_Copia_Versao','}LocalizedDimensionAttributes', 'SYS.M.915.Version_Copy_Log', 'pt', 'Caption' );
+    CellPutS('SYS.M.915.Registro_Copia_Version','}LocalizedDimensionAttributes', 'SYS.M.915.Version_Copy_Log', 'es', 'Caption' );
+    
+ELSE;
+
+    DimensionAttrPutS( 'SYS.M.915.Registro_Copia_Versao', 'SYS.M.915.Version_Copy_Log', 'Caption', 'pt' ); 
+    DimensionAttrPutS( 'SYS.M.915.Registro_Copia_Version', 'SYS.M.915.Version_Copy_Log', 'Caption', 'es' ); 
+        
+ENDIF;
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region Element Attributes
+#DESCRIPTION Dimension: SYS.D.Timestamp
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+IF(CubeExists( '}LocalizedElementAttributes_SYS.D.Timestamp' ) = 1);
+
+    CellPutS( 'Cópia Atual', '}LocalizedElementAttributes_SYS.D.Timestamp', 'Current copy', 'pt', 'Caption' );
+    CellPutS( 'Copia Actual', '}LocalizedElementAttributes_SYS.D.Timestamp', 'Current copy', 'es', 'Caption' );
+ 
+ELSE;
+    
+        AttrPutS('Cópia Atual', 'SYS.D.Timestamp', 'Current copy', 'Caption', 'pt');
+        AttrPutS('Copia Actual', 'SYS.D.Timestamp', 'Current copy', 'Caption', 'es');
+
+  
+ENDIF;
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region Metric Element Attributes 
+#DESCRIPTION Dimension: SYS.M.915.Version_Copy_Log
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+sDimension = 'SYS.M.915.Version_Copy_Log' ;
+cElements = 'Status|StartTime|EndTime|Copy Time|Qty Threads|Message|Source Version|Destination Version|Copy Period|Copy With Rules|Copy Type|User|Validation Status' ;
+cElementsPt = 'Status|DataHoraInicio|DataHoraFim|Tempo Cópia|Qtd Threads|Mensagem|Versão Origem|Versão Destino|Período Cópia|Cópia Com Regras|Tipo Cópia|Usuário|Status Validação' ;
+cElementsEs = 'Status|Hora de inicio|Hora de finalización|Hora de copia|Cantidad de subprocesos|Mensaje|Versión de origen|Versión de destino|Período de copia|Copia con reglas|Tipo de copia|Usuario|Status de validación' ;
+
+
+
+nIterations = 1;
+while(cElements@<>'') ;
+  cSep = Scan('|', cElements);
+  cElement = subst( cElements , 1 , if( cSep=0, long(cElements), cSep-1));
+  cElements = subst( cElements, IF(cSep=0, Long(cElements), cSep)+1, Long(cElements) );
+  
+  cSep = Scan('|', cElementsPt);
+  cElementPt = subst( cElementsPt , 1 , if( cSep=0, long(cElementsPt), cSep-1));
+  cElementsPt = subst( cElementsPt, IF(cSep=0, Long(cElementsPt), cSep)+1, Long(cElementsPt) );
+  
+  cSep = Scan('|', cElementsEs);
+  cElementEs = subst( cElementsEs , 1 , if( cSep=0, long(cElementsEs), cSep-1));
+  cElementsEs = subst( cElementsEs, IF(cSep=0, Long(cElementsEs), cSep)+1, Long(cElementsEs) );
+  
+  AttrPutS(cElementPt, sDimension, cElement, 'Caption', 'pt');
+  AttrPutS(cElementEs, sDimension, cElement, 'Caption', 'es');
+  nIterations = nIterations + 1;
+end;
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region SYS.920.Cube_Grouping
+#DESCRIPTION 
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+#=========================================================================
+#Region Cube Attributes
+#DESCRIPTION Cube: SYS.920.Cube_Grouping
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+IF(CubeExists('}LocalizedCubeAttributes')=1);
+
+  CellPutS('SYS.920.Agrupamento_Cubo','}LocalizedCubeAttributes', 'SYS.920.Cube_Grouping', 'pt', 'Caption' );
+  CellPutS('SYS.920.Agrupacion_Cubo','}LocalizedCubeAttributes', 'SYS.920.Cube_Grouping', 'es', 'Caption' );
+    
+ELSE;
+
+ CubeAttrPutS( 'SYS.920.Agrupamento_Cubo', 'SYS.920.Cube_Grouping', 'Caption', 'pt' );
+CubeAttrPutS( 'SYS.920.Agrupacion_Cubo', 'SYS.920.Cube_Grouping', 'Caption', 'es' );
+    
+ENDIF;
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region Dimension Attributes 
+#DESCRIPTION Dimensions: SYS.M.920.Cube_Grouping
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+IF(CubeExists('}LocalizedDimensionAttributes')=1);
+
+    CellPutS('SYS.M.920.Agrupamento_Cubo','}LocalizedDimensionAttributes', 'SYS.M.920.Cube_Grouping', 'pt', 'Caption' );
+    CellPutS('SYS.M.920.Agrupacion_Cubo','}LocalizedDimensionAttributes', 'SYS.M.920.Cube_Grouping', 'es', 'Caption' );
+
+ELSE;
+
+  DimensionAttrPutS( 'SYS.M.920.Agrupamento_Cubo', 'SYS.M.920.Cube_Grouping', 'Caption', 'pt' ); 
+  DimensionAttrPutS( 'SYS.M.920.Agrupacion_Cubo', 'SYS.M.920.Cube_Grouping', 'Caption', 'es' ); 
+        
+ENDIF;
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region Metric Element Attributes
+#DESCRIPTION Dimension: SYS.M.920.Cube_Grouping
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+IF(CubeExists( '}LocalizedElementAttributes_SYS.M.920.Cube_Grouping' ) = 1);
+
+    CellPutS( 'Agrupamento', '}LocalizedElementAttributes_SYS.M.920.Cube_Grouping', 'Grouping', 'pt', 'Caption' );
+    CellPutS( 'Agrupacion', '}LocalizedElementAttributes_SYS.M.920.Cube_Grouping', 'Grouping', 'es', 'Caption' );
+ 
+ELSE;
+    
+
+        AttrPutS('Agrupamento', 'SYS.M.920.Cube_Grouping', 'Grouping', 'Caption', 'pt');
+        AttrPutS('Agrupacion', 'SYS.M.920.Cube_Grouping', 'Grouping', 'Caption', 'es');
+      
+
+ENDIF;
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region SYS.925.Copy_Validation
+#DESCRIPTION 
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+#=========================================================================
+#Region Cube Attributes
+#DESCRIPTION Cube: SYS.925.Copy_Validation
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+IF(CubeExists('}LocalizedCubeAttributes')=1);
+
+CellPutS('SYS.925.Validacao_Copia','}LocalizedCubeAttributes', 'SYS.925.Copy_Validation', 'pt', 'Caption' );
+CellPutS('SYS.925.Validacion_Copia','}LocalizedCubeAttributes', 'SYS.925.Copy_Validation', 'es', 'Caption' );
+    
+ELSE;
+
+CubeAttrPutS( 'SYS.925.Validacao_Copia', 'SYS.925.Copy_Validation', 'Caption', 'pt' );
+CubeAttrPutS( 'SYS.925.Validacion_Copia', 'SYS.925.Copy_Validation', 'Caption', 'es' );
+    
+ENDIF;
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region Dimension Attributes 
+#DESCRIPTION Dimensions: SYS.D.Validation_Parameter - SYS.D.Validation_Version
+#DESCRIPTION Dimensions: SYS.D.Cube - SYS.M.925.Copy_Validation
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+IF(CubeExists('}LocalizedDimensionAttributes')=1);
+
+# CellPutS('SYS.D.Cubo','}LocalizedDimensionAttributes', 'SYS.D.Cube', 'pt', 'Caption' );
+# CellPutS('SYS.D.Cubo','}LocalizedDimensionAttributes', 'SYS.D.Cube', 'es', 'Caption' );
+
+CellPutS('SYS.D.Parametro_Validacao','}LocalizedDimensionAttributes', 'SYS.D.Validation_Parameter', 'pt', 'Caption' );
+CellPutS('SYS.D.Parametro_Validacion','}LocalizedDimensionAttributes', 'SYS.D.Validation_Parameter', 'es', 'Caption' );
+
+CellPutS('SYS.D.Versao_Validacao','}LocalizedDimensionAttributes', 'SYS.D.Validation_Version', 'pt', 'Caption' );
+CellPutS('SYS.D.Version_Validacion','}LocalizedDimensionAttributes', 'SYS.D.Validation_Version', 'es', 'Caption' );
+
+CellPutS('SYS.M.925.Validacao_Copia','}LocalizedDimensionAttributes', 'SYS.M.925.Copy_Validation', 'pt', 'Caption' );
+CellPutS('SYS.M.925.Validacion_Copia','}LocalizedDimensionAttributes', 'SYS.M.925.Copy_Validation', 'es', 'Caption' );
+
+ELSE;
+
+# DimensionAttrPutS( 'SYS.D.Cubo', 'SYS.D.Cube', 'Caption', 'pt' ); 
+# DimensionAttrPutS( 'SYS.D.Cube', 'SYS.D.Cube', 'Caption', 'es' ); 
+
+DimensionAttrPutS( 'SYS.D.Parametro_Validacao', 'SYS.D.Validation_Parameter', 'Caption', 'pt' ); 
+DimensionAttrPutS( 'SYS.D.Parametro_Validacion', 'SYS.D.Validation_Parameter', 'Caption', 'es' ); 
+
+DimensionAttrPutS( 'SYS.D.Versao_Validacao', 'SYS.D.Validation_Version', 'Caption', 'pt' ); 
+DimensionAttrPutS( 'SYS.D.Version_Validacion', 'SYS.D.Validation_Version', 'Caption', 'es' );
+
+DimensionAttrPutS( 'SYS.M.925.Validacao_Copia', 'SYS.M.925.Copy_Validation', 'Caption', 'pt' ); 
+DimensionAttrPutS( 'SYS.M.925.Validacion_Copia', 'SYS.M.925.Copy_Validation', 'Caption', 'es' );
+
+ENDIF;
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region Element Attributes
+#DESCRIPTION Dimension: SYS.D.Validation_Parameter
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+IF(CubeExists( '}LocalizedElementAttributes_SYS.D.Validation_Parameter' ) = 1);
+
+    CellPutS( 'Titulo', '}LocalizedElementAttributes_SYS.D.Validation_Parameter', 'Title', 'pt', 'Caption' );
+    CellPutS( 'Titulo', '}LocalizedElementAttributes_SYS.D.Validation_Parameter', 'Title', 'es', 'Caption' );
+    
+    CellPutS( 'Parametro 1', '}LocalizedElementAttributes_SYS.D.Validation_Parameter', 'Parameter 1', 'pt', 'Caption' );
+    CellPutS( 'Parametro 1', '}LocalizedElementAttributes_SYS.D.Validation_Parameter', 'Parameter 1', 'es', 'Caption' );
+    
+    CellPutS( 'Parametro 2', '}LocalizedElementAttributes_SYS.D.Validation_Parameter', 'Parameter 2', 'pt', 'Caption' );
+    CellPutS( 'Parametro 2', '}LocalizedElementAttributes_SYS.D.Validation_Parameter', 'Parameter 2', 'es', 'Caption' );
+    
+    CellPutS( 'Parametro 3', '}LocalizedElementAttributes_SYS.D.Validation_Parameter', 'Parameter 3', 'pt' , 'Caption');
+    CellPutS( 'Parametro 3', '}LocalizedElementAttributes_SYS.D.Validation_Parameter', 'Parameter 3', 'es' , 'Caption');
+ 
+ELSE;
+    
+
+        
+        AttrPutS('Titulo', 'SYS.D.Validation_Parameter', 'Title', 'Caption', 'pt');
+        AttrPutS('Titulo', 'SYS.D.Validation_Parameter', 'Title', 'Caption', 'es');
+        
+        AttrPutS('Parametro 1', 'SYS.D.Validation_Parameter', 'Parameter 1', 'Caption', 'pt');
+        AttrPutS('Parametro 1', 'SYS.D.Validation_Parameter', 'Parameter 1', 'Caption', 'es');
+        
+        AttrPutS('Parametro 2', 'SYS.D.Validation_Parameter', 'Parameter 2', 'Caption', 'pt');
+        AttrPutS('Parametro 2', 'SYS.D.Validation_Parameter', 'Parameter 2', 'Caption', 'es');
+        
+        AttrPutS('Parametro 3', 'SYS.D.Validation_Parameter', 'Parameter 3', 'Caption', 'pt');
+        AttrPutS('Parametro 3', 'SYS.D.Validation_Parameter', 'Parameter 3', 'Caption', 'es');
+        
+
+  
+ENDIF;
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region Metric Element Attributes
+#DESCRIPTION Dimension: SYS.M.925.Copy_Validation
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+IF(CubeExists( '}LocalizedElementAttributes_SYS.M.925.Copy_Validation' ) = 1);
+    
+     CellPutS( 'Static:Auto:Manual', '}LocalizedElementAttributes_SYS.M.925.Copy_Validation', 'Type', 'pt', 'Picklist' );
+     CellPutS( 'Static:Auto:Manual', '}LocalizedElementAttributes_SYS.M.925.Copy_Validation', 'Type', 'es', 'Picklist' );
+    
+    CellPutS( 'Tipo', '}LocalizedElementAttributes_SYS.M.925.Copy_Validation', 'Type', 'pt', 'Caption' );
+    CellPutS( 'Tipo', '}LocalizedElementAttributes_SYS.M.925.Copy_Validation', 'Type', 'es' , 'Caption');
+    
+    CellPutS( 'Resultado', '}LocalizedElementAttributes_SYS.M.925.Copy_Validation', 'Result', 'pt', 'Caption' );
+    CellPutS( 'Resultado', '}LocalizedElementAttributes_SYS.M.925.Copy_Validation', 'Result', 'es', 'Caption' );
+    
+    CellPutS( 'Mensagem', '}LocalizedElementAttributes_SYS.M.925.Copy_Validation', 'Message', 'pt', 'Caption' );
+    CellPutS( 'Mensaje', '}LocalizedElementAttributes_SYS.M.925.Copy_Validation', 'Message', 'es', 'Caption' );
+ 
+ELSE;
+    
+
+        AttrPutS('Static:Auto:Manual', 'SYS.M.925.Copy_Validation', 'Type', 'Picklist', 'pt');
+        AttrPutS('Static:Auto:Manual', 'SYS.M.925.Copy_Validation', 'Type', 'Picklist', 'es');
+        
+
+        
+        AttrPutS('Tipo', 'SYS.M.925.Copy_Validation', 'Type', 'Caption', 'pt');
+        AttrPutS('Tipo', 'SYS.M.925.Copy_Validation', 'Type', 'Caption', 'es');
+        
+        AttrPutS('Resultado', 'SYS.M.925.Copy_Validation', 'Result', 'Caption', 'pt');
+        AttrPutS('Resultado', 'SYS.M.925.Copy_Validation', 'Result', 'Caption', 'es');
+        
+        AttrPutS('Mensagem', 'SYS.M.925.Copy_Validation', 'Message', 'Caption', 'pt');
+        AttrPutS('Mensaje', 'SYS.M.925.Copy_Validation', 'Message', 'Caption', 'es');
+        
+
+  
+ENDIF;
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region SYS.999.Version_Copy_Rejects
+#DESCRIPTION 
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+#=========================================================================
+#Region Cube Attributes
+#DESCRIPTION Cube: SYS.999.Version_Copy_Rejects
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+IF(CubeExists('}LocalizedCubeAttributes')=1);
+
+    CellPutS('SYS.999.Rejeitados_Copia_Versao','}LocalizedCubeAttributes', 'SYS.999.Version_Copy_Rejects', 'pt', 'Caption' );
+    CellPutS('SYS.999.Rechazados_Copia_Version','}LocalizedCubeAttributes', 'SYS.999.Version_Copy_Rejects', 'es', 'Caption' );
+
+    
+ELSE;
+
+    CubeAttrPutS( 'SYS.999.Rejeitado_Copia_Versao', 'SYS.999.Version_Copy_Rejects', 'Caption', 'pt' );
+    CubeAttrPutS( 'SYS.999.Rechazado_Copia_Version', 'SYS.999.Version_Copy_Rejects', 'Caption', 'es' );
+    
+ENDIF;
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region Dimension Attributes 
+#DESCRIPTION Dimensions: SYS.D.Version_Copy_Rejects - SYS.M.999.Version_Copy_Rejects
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+IF(CubeExists('}LocalizedDimensionAttributes')=1);
+
+  CellPutS('SYS.D.Rejeitado_Copia_Versao','}LocalizedDimensionAttributes', 'SYS.D.Version_Copy_Rejects', 'pt', 'Caption' );
+  CellPutS('SYS.D.Rechazado_Copia_Version','}LocalizedDimensionAttributes', 'SYS.D.Version_Copy_Rejects', 'es', 'Caption' );
+
+  CellPutS('SYS.M.999.Rejeitado_Copia_Versao','}LocalizedDimensionAttributes', 'SYS.M.999.Version_Copy_Rejects', 'pt', 'Caption' );
+  CellPutS('SYS.M.999.Rechazado_Copia_Version','}LocalizedDimensionAttributes', 'SYS.M.999.Version_Copy_Rejects', 'es', 'Caption' );
+
+ELSE;
+
+    DimensionAttrPutS( 'SYS.D.Rejeitado_Copia_Versao', 'SYS.D.Version_Copy_Rejects', 'Caption', 'pt' ); 
+    DimensionAttrPutS( 'SYS.D.Rechazado_Copia_Version', 'SYS.D.Version_Copy_Rejects', 'Caption', 'es' ); 
+
+    DimensionAttrPutS( 'SYS.M.999.Rejeitado_Copia_Versao', 'SYS.M.999.Version_Copy_Rejects', 'Caption', 'pt' ); 
+    DimensionAttrPutS( 'SYS.M.999.Rechazado_Copia_Version', 'SYS.M.999.Version_Copy_Rejects', 'Caption', 'es' ); 
+
+ENDIF;
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region Element Attributes
+#DESCRIPTION Dimension: SYS.D.Version_Copy_Rejects
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+IF(CubeExists( '}LocalizedElementAttributes_SYS.D.Version_Copy_Rejects' ) = 1);
+
+  CellPutS( 'Cabeçalho', '}LocalizedElementAttributes_SYS.D.Version_Copy_Rejects', 'Header', 'pt', 'Caption' );
+  CellPutS( 'Encabezado', '}LocalizedElementAttributes_SYS.D.Version_Copy_Rejects', 'Header', 'es' , 'Caption');
+  
+  nLen = 200;
+  nIterations = 1;
+  WHILE(nIterations<=nLen) ;
+    cElement = 'Line_' | Fill('0', 4-Long(numberToString(nIterations))) | numberToString(nIterations);
+    cElementPt = 'Linha_' | Fill('0', 4-Long(numberToString(nIterations))) | numberToString(nIterations);
+    cElementEs = 'Línea_' | Fill('0', 4-Long(numberToString(nIterations))) | numberToString(nIterations);
+    
+    CellPutS( cElementPt, '}LocalizedElementAttributes_SYS.D.Version_Copy_Rejects', cElement, 'pt', 'Caption' );
+    CellPutS( cElementEs, '}LocalizedElementAttributes_SYS.D.Version_Copy_Rejects', cElement, 'es', 'Caption' );
+    
+    nIterations = nIterations + 1;
+  END;
+
+ELSE;
+    
+ AttrPutS('Cabeçalho', 'SYS.D.Version_Copy_Rejects', 'Header', 'Caption', 'pt');
+ AttrPutS('Encabezado', 'SYS.D.Version_Copy_Rejects', 'Header', 'Caption', 'es');
+ 
+  nLen = 200;
+  nIterations = 1;
+  WHILE(nIterations<=nLen) ;
+    cElement = 'Line_' | Fill('0', 4-Long(numberToString(nIterations))) | numberToString(nIterations);
+    cElementPt = 'Linha_' | Fill('0', 4-Long(numberToString(nIterations))) | numberToString(nIterations);
+    cElementEs = 'Línea_' | Fill('0', 4-Long(numberToString(nIterations))) | numberToString(nIterations);
+    
+    AttrPutS(cElementPt, 'SYS.D.Version_Copy_Rejects', cElement, 'Caption', 'pt');
+    AttrPutS(cElementEs, 'SYS.D.Version_Copy_Rejects', cElement, 'Caption', 'es');
+    
+    nIterations = nIterations + 1;
+  END;
+ 
+ENDIF;
+
+ 
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region Metric Element Attributes
+#DESCRIPTION Dimension: SYS.M.999.Version_Copy_Rejects
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+sDimension = 'SYS.M.999.Version_Copy_Rejects' ;
+cElements = 'Registration Number|Error Message' ;
+
+IF(CubeExists( '}LocalizedElementAttributes_SYS.M.999.Version_Copy_Rejects' ) = 1);
+    
+  CellPutS( 'Num. Registro', '}LocalizedElementAttributes_SYS.M.999.Version_Copy_Rejects', 'Registration Number', 'pt' , 'Caption');
+  CellPutS( 'Número de registro', '}LocalizedElementAttributes_SYS.M.999.Version_Copy_Rejects', 'Registration Number', 'es' , 'Caption');
+  
+  CellPutS( 'Mensagem de Erro', '}LocalizedElementAttributes_SYS.M.999.Version_Copy_Rejects', 'Error Message', 'pt', 'Caption' );
+  CellPutS( 'Mensaje de error', '}LocalizedElementAttributes_SYS.M.999.Version_Copy_Rejects', 'Error Message', 'es', 'Caption' );
+ 
+ELSE;
+    
+    AttrPutS('Num. Registro', 'SYS.M.999.Version_Copy_Rejects', 'Registration Number', 'Caption', 'pt');
+    AttrPutS('Número de registro', 'SYS.M.999.Version_Copy_Rejects', 'Registration Number', 'Caption', 'es');
+
+    AttrPutS('Mensagem de Erro', 'SYS.M.999.Version_Copy_Rejects', 'Error Message', 'Caption', 'pt');
+    AttrPutS('Mensaje de error', 'SYS.M.999.Version_Copy_Rejects', 'Error Message', 'Caption', 'es');
+        
+
+  
+ENDIF;
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region Control Dimension
+#DESCRIPTION 
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+#=========================================================================
+#Region Dimension Attributes 
+#DESCRIPTION Dimensions: SYS.D.Version_Copy_Year_Month - SYS.D.Parallel_Control
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+IF(CubeExists('}LocalizedDimensionAttributes')=1);
+
+    CellPutS('SYS.D.Copia_Versao_Ano_Mes','}LocalizedDimensionAttributes', 'SYS.D.Version_Copy_Year_Month', 'pt', 'Caption' );
+    CellPutS('SYS.D.Copiar_Version_Año_Mes','}LocalizedDimensionAttributes', 'SYS.D.Version_Copy_Year_Month', 'es', 'Caption' );
+
+    CellPutS('SYS.D.Controle_Paralelo','}LocalizedDimensionAttributes', 'SYS.D.Parallel_Control', 'pt', 'Caption' );
+    CellPutS('SYS.D.Control_Paralelo','}LocalizedDimensionAttributes', 'SYS.D.Parallel_Control', 'es', 'Caption' );
+
+ELSE;
+
+    DimensionAttrPutS( 'SYS.D.Copia_Versao_Ano_Mes', 'SYS.D.Version_Copy_Year_Month', 'Caption', 'pt' );
+    DimensionAttrPutS( 'SYS.D.Copiar_Version_Año_Mes', 'SYS.D.Version_Copy_Year_Month', 'Caption', 'es' );
+
+    DimensionAttrPutS( 'SYS.D.Controle_Paralelo', 'SYS.D.Parallel_Control', 'Caption', 'pt' );
+    DimensionAttrPutS( 'SYS.D.Control_Paralelo', 'SYS.D.Parallel_Control', 'Caption', 'es' );
+
+ENDIF;
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+
+#=========================================================================
+#Region Process Execute
+#DESCRIPTION Filling in dimension titles in the validation cube
+#AUTHOR 
+#=========================================================================
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+ExecuteProcess( 'zCTI.010.02.UPD_SYS.925.Copy_Validation' );
+
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+#=========================================================================
+#EndRegion 
+#=========================================================================
+#endregion

@@ -1,0 +1,423 @@
+{
+	"@type":"Hierarchy",
+	"Name":"}QUBEdocs Stat",
+	"Elements":
+	[
+		{
+			"Name":"All Stats",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"StatsForServer",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"SERVER:Number of Connected Clients",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"SERVER:Number of Active Threads",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"SERVER:Memory Used",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"SERVER:Memory In Garbage",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"StatsByChore",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"CHORE:Run",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"StatsByClient",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"CLIENT:LoggedIn",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CLIENT:Message Count",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CLIENT:Message Bytes",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CLIENT:Request Count",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CLIENT:Elapse Time (ms)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CLIENT:Bytes/Message",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"StatsByCube",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"CUBE:Total Memory Used",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CUBE:Memory Used for Feeders",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CUBE:Memory Used for Input Data",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CUBE:Memory Used for Calculations",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CUBE:Memory Used for Views",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CUBE:Number of Stored Views",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CUBE:Number of Stored Calculated Cells",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CUBE:Number of Populated String Cells",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CUBE:Number of Populated Numeric Cells",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CUBE:Number of Fed Cells",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CUBE:Steps of Average Calculation",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CUBE:Rule calculation cache miss rate",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CUBE:Accessed By User",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"StatsByCubeByClient",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"CUBE-CLIENT:Cell Update Count",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CUBE-CLIENT:Cell Update Elapse Time (ms)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CUBE-CLIENT:Cell Retrieval Count",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CUBE-CLIENT:Cell Retrieval Elapse Time (ms)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CUBE-CLIENT:View Calculation Count",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CUBE-CLIENT:View Calculation Elapse Time (ms)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CUBE-CLIENT:View Retrieval Count",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CUBE-CLIENT:View Retrieval Elapse Time (ms)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"StatsByProcess",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"PROCESS:Run",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"PROCESS:Last Start Time",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"PROCESS:Last End Time",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"PROCESS:Last Duration",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"StatsByDimension",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"DIMENSION: Number of Elements",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DIMENSION: Number of Levels",
+			"Type":"Numeric"
+		}
+	],
+	"Edges":
+	[
+		{
+			"ParentName":"All Stats",
+			"ComponentName":"StatsForServer",
+			"Weight":1
+		},
+		{
+			"ParentName":"All Stats",
+			"ComponentName":"StatsByChore",
+			"Weight":1
+		},
+		{
+			"ParentName":"All Stats",
+			"ComponentName":"StatsByClient",
+			"Weight":1
+		},
+		{
+			"ParentName":"All Stats",
+			"ComponentName":"StatsByCube",
+			"Weight":1
+		},
+		{
+			"ParentName":"All Stats",
+			"ComponentName":"StatsByCubeByClient",
+			"Weight":1
+		},
+		{
+			"ParentName":"All Stats",
+			"ComponentName":"StatsByProcess",
+			"Weight":1
+		},
+		{
+			"ParentName":"All Stats",
+			"ComponentName":"StatsByDimension",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsForServer",
+			"ComponentName":"SERVER:Number of Connected Clients",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsForServer",
+			"ComponentName":"SERVER:Number of Active Threads",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsForServer",
+			"ComponentName":"SERVER:Memory Used",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsForServer",
+			"ComponentName":"SERVER:Memory In Garbage",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByChore",
+			"ComponentName":"CHORE:Run",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByClient",
+			"ComponentName":"CLIENT:LoggedIn",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByClient",
+			"ComponentName":"CLIENT:Message Count",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByClient",
+			"ComponentName":"CLIENT:Message Bytes",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByClient",
+			"ComponentName":"CLIENT:Request Count",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByClient",
+			"ComponentName":"CLIENT:Elapse Time (ms)",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByClient",
+			"ComponentName":"CLIENT:Bytes/Message",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByCube",
+			"ComponentName":"CUBE:Total Memory Used",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByCube",
+			"ComponentName":"CUBE:Memory Used for Feeders",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByCube",
+			"ComponentName":"CUBE:Memory Used for Input Data",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByCube",
+			"ComponentName":"CUBE:Memory Used for Calculations",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByCube",
+			"ComponentName":"CUBE:Memory Used for Views",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByCube",
+			"ComponentName":"CUBE:Number of Stored Views",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByCube",
+			"ComponentName":"CUBE:Number of Stored Calculated Cells",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByCube",
+			"ComponentName":"CUBE:Number of Populated String Cells",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByCube",
+			"ComponentName":"CUBE:Number of Populated Numeric Cells",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByCube",
+			"ComponentName":"CUBE:Number of Fed Cells",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByCube",
+			"ComponentName":"CUBE:Steps of Average Calculation",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByCube",
+			"ComponentName":"CUBE:Rule calculation cache miss rate",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByCube",
+			"ComponentName":"CUBE:Accessed By User",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByCubeByClient",
+			"ComponentName":"CUBE-CLIENT:Cell Update Count",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByCubeByClient",
+			"ComponentName":"CUBE-CLIENT:Cell Update Elapse Time (ms)",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByCubeByClient",
+			"ComponentName":"CUBE-CLIENT:Cell Retrieval Count",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByCubeByClient",
+			"ComponentName":"CUBE-CLIENT:Cell Retrieval Elapse Time (ms)",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByCubeByClient",
+			"ComponentName":"CUBE-CLIENT:View Calculation Count",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByCubeByClient",
+			"ComponentName":"CUBE-CLIENT:View Calculation Elapse Time (ms)",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByCubeByClient",
+			"ComponentName":"CUBE-CLIENT:View Retrieval Count",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByCubeByClient",
+			"ComponentName":"CUBE-CLIENT:View Retrieval Elapse Time (ms)",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByProcess",
+			"ComponentName":"PROCESS:Run",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByProcess",
+			"ComponentName":"PROCESS:Last Start Time",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByProcess",
+			"ComponentName":"PROCESS:Last End Time",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByProcess",
+			"ComponentName":"PROCESS:Last Duration",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByDimension",
+			"ComponentName":"DIMENSION: Number of Elements",
+			"Weight":1
+		},
+		{
+			"ParentName":"StatsByDimension",
+			"ComponentName":"DIMENSION: Number of Levels",
+			"Weight":1
+		}
+	],
+	"Subsets@Code.links":
+	[
+		"}QUBEdocs Stat.subsets/Cube Stats.json"
+	]
+}

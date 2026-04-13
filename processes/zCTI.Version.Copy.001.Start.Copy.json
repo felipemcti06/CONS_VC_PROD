@@ -1,0 +1,46 @@
+{
+	"@type":"Process",
+	"Name":"zCTI.Version.Copy.001.Start.Copy",
+	"HasSecurityAccess":true,
+	"Code@Code.link":"zCTI.Version.Copy.001.Start.Copy.ti",
+	"DataSource":
+	{
+		"Type":"TM1CubeView",
+		"dataSourceNameForServer":"SYS.910.Cubos_Copia_Versao",
+		"dataSourceNameForClient":"SYS.910.Cubos_Copia_Versao",
+		"view":"zViewAll"
+	},
+	"Parameters":
+	[
+		{
+			"Name":"pStart",
+			"Prompt":"Tem certeza que deseja iniciar a cópia de versão?",
+			"Value":"S",
+			"Type":"String"
+		}
+	],
+	"Variables":
+	[
+		{
+			"Name":"vCube",
+			"Type":"String",
+			"Position":1,
+			"StartByte":0,
+			"EndByte":0
+		},
+		{
+			"Name":"vMetrica",
+			"Type":"String",
+			"Position":2,
+			"StartByte":0,
+			"EndByte":0
+		},
+		{
+			"Name":"vValor",
+			"Type":"String",
+			"Position":3,
+			"StartByte":0,
+			"EndByte":0
+		}
+	]
+}

@@ -1,0 +1,30 @@
+#region Prolog
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+
+#LASTCHANGE Documented this process
+#GENERALCOMMENT This process runs the QUBEdocs Update process silently with the required parameters
+#DATASOURCECOMMENT Not Applicable
+#PROLOGCOMMENT Reads from Stats cubes (if they exist)
+#METADATACOMMENT Not Applicable
+#DATACOMMENT Not Applicable
+#EPILOGCOMMENT Not Applicable
+
+EXECUTEPROCESS('}QUBEdocs Update','pUpdate','Y','pGenerate','N','pServer','','pConnection','','pClearStats','N');
+#endregion
+#region Metadata
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+#endregion
+#region Data
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+#endregion
+#region Epilog
+
+#****Begin: Generated Statements***
+#****End: Generated Statements****
+#endregion

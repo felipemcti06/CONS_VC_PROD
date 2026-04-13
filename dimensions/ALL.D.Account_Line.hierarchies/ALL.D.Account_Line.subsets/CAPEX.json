@@ -1,0 +1,26 @@
+{
+	"@type":"Subset",
+	"Name":"CAPEX",
+	"Alias":"MEMBER_NAME",
+	"Elements":
+	[
+		{
+			"@id":"Dimensions('ALL.D.Account_Line')/Hierarchies('ALL.D.Account_Line')/Elements('Health Safety & Environment')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Account_Line')/Hierarchies('ALL.D.Account_Line')/Elements('Non expansion capex - IT')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Account_Line')/Hierarchies('ALL.D.Account_Line')/Elements('Modernization')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Account_Line')/Hierarchies('ALL.D.Account_Line')/Elements('P&D')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Account_Line')/Hierarchies('ALL.D.Account_Line')/Elements('Sustaining')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Account_Line')/Hierarchies('ALL.D.Account_Line')/Elements('Expansion')"
+		}
+	]
+}

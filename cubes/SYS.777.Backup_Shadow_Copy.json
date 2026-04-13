@@ -1,0 +1,14 @@
+{
+	"@type":"Cube",
+	"Name":"SYS.777.Backup_Shadow_Copy",
+	"Dimensions":
+	[
+		{
+			"@id":"Dimensions('SYS.D.Backup_Shadow_Copy')"
+		},
+		{
+			"@id":"Dimensions('SYS.M.Backup_Shadow_Copy')"
+		}
+	],
+	"Views@Code.links":[]
+}

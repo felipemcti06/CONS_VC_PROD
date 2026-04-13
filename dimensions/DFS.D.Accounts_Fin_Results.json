@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"DFS.D.Accounts_Fin_Results",
+	"Hierarchies@Code.links":
+	[
+		"DFS.D.Accounts_Fin_Results.hierarchies/DFS.D.Accounts_Fin_Results.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('DFS.D.Accounts_Fin_Results')/Hierarchies('DFS.D.Accounts_Fin_Results')"
+	}
+}

@@ -1,0 +1,12 @@
+{
+	"@type":"Process",
+	"Name":"QUBEdocs Refresh",
+	"HasSecurityAccess":true,
+	"Code@Code.link":"QUBEdocs Refresh.ti",
+	"DataSource":
+	{
+		"Type":"None"
+	},
+	"Parameters":[],
+	"Variables":[]
+}

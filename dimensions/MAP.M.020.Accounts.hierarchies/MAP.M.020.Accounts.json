@@ -1,0 +1,20 @@
+{
+	"@type":"Hierarchy",
+	"Name":"MAP.M.020.Accounts",
+	"Elements":
+	[
+		{
+			"Name":"Code",
+			"Type":"String"
+		},
+		{
+			"Name":"BPC Code",
+			"Type":"String"
+		},
+		{
+			"Name":"QTY",
+			"Type":"String"
+		}
+	],
+	"Subsets@Code.links":[]
+}

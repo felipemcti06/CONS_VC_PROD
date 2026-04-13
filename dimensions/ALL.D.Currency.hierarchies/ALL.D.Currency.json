@@ -1,0 +1,105 @@
+{
+	"@type":"Hierarchy",
+	"Name":"ALL.D.Currency",
+	"Elements":
+	[
+		{
+			"Name":"USD",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"BRL",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"EUR",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"UYU",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"USD Conv.",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"BRL Conv.",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"EUR Conv.",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Total Currency",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"ARS",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"BOB",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CAD",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"TRY",
+			"Type":"Numeric"
+		}
+	],
+	"Edges":
+	[
+		{
+			"ParentName":"Total Currency",
+			"ComponentName":"USD",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Currency",
+			"ComponentName":"BRL",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Currency",
+			"ComponentName":"EUR",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Currency",
+			"ComponentName":"UYU",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Currency",
+			"ComponentName":"ARS",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Currency",
+			"ComponentName":"BOB",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Currency",
+			"ComponentName":"CAD",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Currency",
+			"ComponentName":"TRY",
+			"Weight":1
+		}
+	],
+	"Subsets@Code.links":
+	[
+		"ALL.D.Currency.subsets/Default.json",
+		"ALL.D.Currency.subsets/Local.json",
+		"ALL.D.Currency.subsets/PAX.json",
+		"ALL.D.Currency.subsets/SYS.Conv.json"
+	]
+}

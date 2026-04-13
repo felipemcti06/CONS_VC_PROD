@@ -1,0 +1,5 @@
+{
+	"@type":"Subset",
+	"Name":"QUBEDocs Definition",
+	"Expression":"{ HIERARCHIZE( {TM1SUBSETALL( [QUBEDocs Definition] )} ) }"
+}

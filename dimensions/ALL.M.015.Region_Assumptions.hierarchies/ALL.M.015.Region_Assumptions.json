@@ -1,0 +1,12 @@
+{
+	"@type":"Hierarchy",
+	"Name":"ALL.M.015.Region_Assumptions",
+	"Elements":
+	[
+		{
+			"Name":"Value",
+			"Type":"Numeric"
+		}
+	],
+	"Subsets@Code.links":[]
+}

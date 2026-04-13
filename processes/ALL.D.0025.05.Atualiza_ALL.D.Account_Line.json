@@ -1,0 +1,24 @@
+{
+	"@type":"Process",
+	"Name":"ALL.D.0025.05.Atualiza_ALL.D.Account_Line",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"ALL.D.0025.05.Atualiza_ALL.D.Account_Line.ti",
+	"DataSource":
+	{
+		"Type":"TM1DimensionSubset",
+		"dataSourceNameForServer":"MAP.D.Accounts_Line:MAP.D.Accounts_Line",
+		"dataSourceNameForClient":"MAP.D.Accounts_Line:MAP.D.Accounts_Line",
+		"subset":"All"
+	},
+	"Parameters":[],
+	"Variables":
+	[
+		{
+			"Name":"vElement",
+			"Type":"String",
+			"Position":1,
+			"StartByte":0,
+			"EndByte":0
+		}
+	]
+}

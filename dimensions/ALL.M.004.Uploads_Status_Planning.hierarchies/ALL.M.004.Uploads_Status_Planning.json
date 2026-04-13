@@ -1,0 +1,52 @@
+{
+	"@type":"Hierarchy",
+	"Name":"ALL.M.004.Uploads_Status_Planning",
+	"Elements":
+	[
+		{
+			"Name":"Reopen Count",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Status",
+			"Type":"String"
+		},
+		{
+			"Name":"Latest Submission",
+			"Type":"String"
+		},
+		{
+			"Name":"Date Closed",
+			"Type":"String"
+		},
+		{
+			"Name":"Day Closed",
+			"Type":"String"
+		},
+		{
+			"Name":"Hour Closed",
+			"Type":"String"
+		},
+		{
+			"Name":"Aux_Date_Closed",
+			"Type":"String"
+		},
+		{
+			"Name":"Aux_Date_System",
+			"Type":"String"
+		},
+		{
+			"Name":"Aux_Count",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Aux_Count_Close",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Submission Count",
+			"Type":"Numeric"
+		}
+	],
+	"Subsets@Code.links":[]
+}

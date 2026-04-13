@@ -1,0 +1,299 @@
+#region Prolog
+
+# ===============================================================================================================
+#GENERALCOMMENT             Description:        Trigger and control the Version Copy Parallel process by Subsets
+#GENERALCOMMENT             Responsible:   	Vitor Ribeiro
+#GENERALCOMMENT             Date:   January/2024
+#
+#LASTCHANGE                 Alterações:
+#LASTCHANGE                 Responsavel Alterações:
+# ===============================================================================================================
+
+# ===============================================================================================================
+#PROLOGCOMMENT               Description:         triggers the cube loading process in parallel first string metrics and then numeric metrics 
+# ===============================================================================================================
+
+# =================================================================================
+# CTI standard variables that must be changed
+# =================================================================================
+
+NumericGlobalVariable('gnDependency');
+gnDependency = 1 ;
+
+# Information from Source and Destination cube
+# ========================================
+csSourceCube		= psCube;
+
+
+# =================================================================================
+# CTI standard variables that must not be changed
+# =================================================================================
+
+# Discover the user who executed the process
+# ========================================
+csUser = IF( DimIx( '}Clients' , TM1User() ) = 0, 'Admin' , ATTRS('}Clients', TM1User(), '}TM1_DefaultDisplayValue') );
+
+
+# Valida dimensões
+# ========================================
+sVersion = CellGetS('SYS.910.Version_Copy_Cube', csSourceCube, 'Dimension Version' ) ;
+sYear = CellGetS('SYS.910.Version_Copy_Cube', csSourceCube, 'Dimension Year' ) ;
+sMonth = CellGetS('SYS.910.Version_Copy_Cube', csSourceCube, 'Dimension Month' ) ;
+sYearMonth = CellGetS('SYS.910.Version_Copy_Cube', csSourceCube, 'Dimension Year and Month' ) ;
+sDriver = CellGetS( 'SYS.910.Version_Copy_Cube', csSourceCube, 'Dimension Driver' );
+
+
+sStartPeriod = CellGetS('SYS.900.Version_Copy_Parameter', 'Value', 'Start Period' );
+sEndPeriod = CellGetS('SYS.900.Version_Copy_Parameter', 'Value', 'End Period' );
+
+# Faz o Subset de Driver para os cubos com Driver criados
+# Faz o Subset de AnoMes para cubos com dimensões de tempo
+# Deixa a dimensão vazia para cubos sem paralelo
+# ========================================
+IF( sDriver@= '' & (sYear@='' % sMonth@='' ) & sYearMonth@='');
+  cDimension = '';
+  nTriggers = 1;
+  cMDX = '';
+  cSubset = '' ;
+Else;
+  cDimension = IF( sDriver@='', 'SYS.D.Version_Copy_Year_Month' , sDriver ) ;
+  IF( cDimension@='SYS.D.Version_Copy_Year_Month');
+    cMDX = '{FILTER(
+                      {[SYS.D.Version_Copy_Year_Month].[SYS.D.Version_Copy_Year_Month].MEMBERS }, 
+                      ([SYS.D.Version_Copy_Year_Month].[SYS.D.Version_Copy_Year_Month].CURRENTMEMBER.NAME >= "' | sStartPeriod | '") 
+                      AND
+                      ([SYS.D.Version_Copy_Year_Month].[SYS.D.Version_Copy_Year_Month].CURRENTMEMBER.NAME <= "' | sEndPeriod | '")
+                   )}';
+  ElseIF( cDimension@=sYearMonth );
+    cMDX = '{FILTER(
+                      {[' | cDimension |'].[' | cDimension |'].MEMBERS }, 
+                      ([' | cDimension | '].[' | cDimension |'].CURRENTMEMBER.NAME >= "' | sStartPeriod | '") 
+                      AND
+                      ([' | cDimension | '].[' | cDimension |'].CURRENTMEMBER.NAME <= "' | sEndPeriod | '")
+                   )}';
+  Else;
+    cMDX = '{ Tm1FilterByLevel( { Tm1SubsetAll( ['| cDimension |'].[' | cDimension| '] ) },0 ) }' ;
+  endIF;
+  cSubset = 'SYS.Copy_' | csSourceCube ;
+  SubsetCreatebyMDX( cSubset, cMDX, 1 );
+  SubsetMDXSet( cDimension, cSubset, '' );
+  nTriggers = SubsetGetSize( cDimension, cSubset );
+EndIF;
+
+
+nDependency = 1 ;
+
+# Faz o Loop de disparo em Paralelo para métricas String
+# ========================================
+nParallel = 1 ;
+nParallelD = 1 ;
+nTreads = CellGetN('SYS.900.Version_Copy_Parameter', 'Value', 'Qty Threads' );
+loop = 0;
+nEnd = 0 ;
+nDispDepend = 0;
+sElement = '';
+nPipe = 1;
+sId = '';
+sIdST = '|';
+sIdit = '';
+
+while ( nParallel <= nTriggers ) ;
+  IF( cDimension @<> '');
+    sElement = SubsetGetElementName( cDimension, cSubset, nParallel );
+  EndIF;
+  while( loop=0);
+    #LogOutput('INFO',  'End ' | numberToString(nEnd) | ' nParallel ' | NumberToString( nParallel ) | ' nTreads ' | NumberToString( nTreads ) );
+    if( nParallel - nEnd <=nTreads );
+      loop = 1;
+    else;
+      nEnd = nDispDepend ;
+      nPipe = 1;
+      nParallelD = 1 ;
+      sleep(10) ;
+      while( nParallelD  <= nTriggers );
+        sIdit = SUBST( sIdST, nPipe+1, SCAN( '|', subst(sIdST,nPipe+1,LONG( sIdST )) )-1 );
+        #LogOutput('INFO', sIdST | ' || ' | sId | ' || ' | sIdit | ' || Novo sIDST || ' | subst(sIdST,nPipe+1,LONG( sIdST )) | ' || PIPE ' | NumberToString( nPipe ) | ' Pipe2 ' | NumberToString( SCAN( '|', subst(sIdST,nPipe+1,LONG( sIdST )) ) ) | ' nParallelD ' | NumberToString( nParallelD ) | ' nEnd ' | NumberToString( nEnd ));
+        if(sIdit@='' % sIdit@='|');            
+          break;
+        endIF;
+        #LogOutput('INFO',  ' Status ' |  NumberToString(GetJobStatus( sIdit ) ));
+        nPipe = SCAN( '|', subst(sIdST,nPipe+1,LONG( sIdST )) ) + nPipe;
+        IF( GetJobStatus( sIdit )<>10) ;
+          nEnd = nEnd + 1;
+        endIF;
+        nParallelD  = nParallelD   + 1;
+      end;
+    endif;
+   end;
+  
+  if( gnDependency=1);
+    ExecuteProcess( 'zCTI.001.02.Data_Copy' , 'psCube' , csSourceCube , 'psDimension' , cDimension, 'psElement' , sElement , 'psMetric' , 'S' , 'psParallel' , numberToString( nParallel) , 'pnDependency', gnDependency ) ;
+    nDispDepend = nDispDepend + 1;
+    #LogOutput('Info' ,'zCTI.001.02.Data_Copy' | 'psCube' | csSourceCube | 'psDimension' | cDimension| 'psElement' | sElement | 'psMetric' | 'N' | 'psParallel' | numberToString( nParallel) | 'pnDependency'| numberToString(gnDependency) | ' nDispDepend' | numberToString(nDispDepend) ) ;
+   # nFinished = 0 ;
+   # while(nFinished=0);
+   #  if( SubsetExists( 'SYS.D.Parallel_Control' , 'Control_' | csSourceCube | '_S_' | numberToString( nParallelD ) | '_End' )=0) ;
+   #    sleep(10);
+   #  else;
+   #     nFinished=1;
+   #      #LogOutput('Info' ,'zCTI.001.02.Data_Copy' | 'psCube' | csSourceCube | 'psDimension' | cDimension| 'psElement' | sElement | 'psMetric' | 'N' | 'psParallel' | numberToString( nParallel) | 'Finished' ) ;
+   #  endif;
+   #end;
+   #if( SubsetExists( 'SYS.D.Parallel_Control' , 'Control_' | csSourceCube | '_S_' | numberToString( nParallelD ) | '_End_Dep' )=1) ;
+   #  #LogOutput( 'INFO', 'Dependencia Disparada ' | csSourceCube | '_S_' | numberToString( nParallelD ) );
+   #  nDependency = 0;
+   #endIF;
+  else;
+    sId = RunProcess( 'zCTI.001.02.Data_Copy_EP' , 'psCube' , csSourceCube , 'psDimension' , cDimension, 'psElement' , sElement , 'psMetric' , 'S' , 'psParallel' , numberToString( nParallel), 'pnDependency', nDependency ) ;
+    sIDSt = sIDSt | sId | '|';
+    #LogOutput('Info' ,'zCTI.001.02.Data_Copy_EP' | 'psCube' | csSourceCube | 'psDimension' | cDimension| 'psElement' | sElement | 'psMetric' | 'N' | 'psParallel' | numberToString( nParallel) | ' 2 pnDependency'| numberToString(gnDependency) ) ;
+   #asciioutput( '..\tetset.txt' , 'zCTI.001.02.Data_Copy' , 'psCube' , csSourceCube , 'psDimension' , cDimension, 'psElement' , sElement , 'psMetric' , 'S' , 'psParallel' , numberToString( nParallel) ) ;    
+  endIF;
+  nParallel = nParallel + 1;
+  loop = 0;
+end;
+
+
+# Faz o Loop de disparo de espera para métricas String
+# ========================================
+while( nEnd < nTriggers );
+      nEnd = nDispDepend ;
+      nPipe = 1;
+      nParallelD = 1 ;
+      sleep(10) ;
+      while( nParallelD  <= nTriggers );
+        sIdit = SUBST( sIdST, nPipe+1, SCAN( '|', subst(sIdST,nPipe+1,LONG( sIdST )) )-1 );
+        #LogOutput('INFO', sIdST | ' || ' | sId | ' || ' | sIdit | ' || Novo sIDST || ' | subst(sIdST,nPipe+1,LONG( sIdST )) | ' || PIPE ' | NumberToString( nPipe ) | ' Pipe2 ' | NumberToString( SCAN( '|', subst(sIdST,nPipe+1,LONG( sIdST )) ) ) | ' nParallelD ' | NumberToString( nParallelD ) | ' nEnd ' | NumberToString( nEnd ));
+        if(sIdit@='' % sIdit@='|');            
+          break;
+        endIF;
+        #LogOutput('INFO',  ' Status ' |  NumberToString(GetJobStatus( sIdit ) ));
+        nPipe = SCAN( '|', subst(sIdST,nPipe+1,LONG( sIdST )) ) + nPipe;
+        IF( GetJobStatus( sIdit )<>10) ;
+          nEnd = nEnd + 1;
+        endIF;
+        nParallelD  = nParallelD   + 1;
+      end;
+end;
+
+
+
+nParallel = 1 ;
+nParallelD = 1 ;
+nTreads = CellGetN('SYS.900.Version_Copy_Parameter', 'Value', 'Qty Threads' );
+loop = 0;
+nEnd = 0 ;
+nDispDepend = 0;
+sElement = '';
+nPipe = 1;
+sId = '';
+sIdST = '|';
+sIdit = '';
+
+while ( nParallel <= nTriggers ) ;
+  IF( cDimension @<> '');
+    sElement = SubsetGetElementName( cDimension, cSubset, nParallel );
+  EndIF;
+  while( loop=0);
+    #LogOutput('INFO',  'End ' | numberToString(nEnd) | ' nParallel ' | NumberToString( nParallel ) | ' nTreads ' | NumberToString( nTreads ) );
+    if( nParallel - nEnd <=nTreads );
+      loop = 1;
+    else;
+      nEnd = nDispDepend ;
+      nPipe = 1;
+      nParallelD = 1 ;
+      sleep(10) ;
+      while( nParallelD  <= nTriggers );
+        sIdit = SUBST( sIdST, nPipe+1, SCAN( '|', subst(sIdST,nPipe+1,LONG( sIdST )) )-1 );
+        #LogOutput('INFO', sIdST | ' || ' | sId | ' || ' | sIdit | ' || Novo sIDST || ' | subst(sIdST,nPipe+1,LONG( sIdST )) | ' || PIPE ' | NumberToString( nPipe ) | ' Pipe2 ' | NumberToString( SCAN( '|', subst(sIdST,nPipe+1,LONG( sIdST )) ) ) | ' nParallelD ' | NumberToString( nParallelD ) | ' nEnd ' | NumberToString( nEnd ));
+        if(sIdit@='' % sIdit@='|');            
+          break;
+        endIF;
+        #LogOutput('INFO',  ' Status ' |  NumberToString(GetJobStatus( sIdit ) ));
+        nPipe = SCAN( '|', subst(sIdST,nPipe+1,LONG( sIdST )) ) + nPipe;
+        IF( GetJobStatus( sIdit )<>10) ;
+          nEnd = nEnd + 1;
+        endIF;
+        nParallelD  = nParallelD   + 1;
+      end;
+    endif;
+   end;
+  
+  if( gnDependency=1);
+    ExecuteProcess( 'zCTI.001.02.Data_Copy' , 'psCube' , csSourceCube , 'psDimension' , cDimension, 'psElement' , sElement , 'psMetric' , 'N' , 'psParallel' , numberToString( nParallel) , 'pnDependency', gnDependency ) ;
+    nDispDepend = nDispDepend + 1;
+    #LogOutput('Info' ,'zCTI.001.02.Data_Copy' | 'psCube' | csSourceCube | 'psDimension' | cDimension| 'psElement' | sElement | 'psMetric' | 'N' | 'psParallel' | numberToString( nParallel) | 'pnDependency'| numberToString(gnDependency) | ' nDispDepend' | numberToString(nDispDepend) ) ;
+   # nFinished = 0 ;
+   # while(nFinished=0);
+   #  if( SubsetExists( 'SYS.D.Parallel_Control' , 'Control_' | csSourceCube | '_S_' | numberToString( nParallelD ) | '_End' )=0) ;
+   #    sleep(10);
+   #  else;
+   #     nFinished=1;
+   #      #LogOutput('Info' ,'zCTI.001.02.Data_Copy' | 'psCube' | csSourceCube | 'psDimension' | cDimension| 'psElement' | sElement | 'psMetric' | 'N' | 'psParallel' | numberToString( nParallel) | 'Finished' ) ;
+   #  endif;
+   #end;
+   #if( SubsetExists( 'SYS.D.Parallel_Control' , 'Control_' | csSourceCube | '_S_' | numberToString( nParallelD ) | '_End_Dep' )=1) ;
+   #  #LogOutput( 'INFO', 'Dependencia Disparada ' | csSourceCube | '_S_' | numberToString( nParallelD ) );
+   #  nDependency = 0;
+   #endIF;
+  else;
+    sId = RunProcess( 'zCTI.001.02.Data_Copy_EP' , 'psCube' , csSourceCube , 'psDimension' , cDimension, 'psElement' , sElement , 'psMetric' , 'N' , 'psParallel' , numberToString( nParallel), 'pnDependency', nDependency ) ;
+    sIDSt = sIDSt | sId | '|';
+    #LogOutput('Info' ,'zCTI.001.02.Data_Copy_EP' | 'psCube' | csSourceCube | 'psDimension' | cDimension| 'psElement' | sElement | 'psMetric' | 'N' | 'psParallel' | numberToString( nParallel) | ' 2 pnDependency'| numberToString(gnDependency) ) ;
+   #asciioutput( '..\tetset.txt' , 'zCTI.001.02.Data_Copy' , 'psCube' , csSourceCube , 'psDimension' , cDimension, 'psElement' , sElement , 'psMetric' , 'S' , 'psParallel' , numberToString( nParallel) ) ;    
+  endIF;
+  nParallel = nParallel + 1;
+  loop = 0;
+end;
+
+#endregion
+#region Epilog
+
+# ===============================================================================================================
+#EPILOGCOMMENT        Description: Clean the files and Subsets used by the process
+# ===============================================================================================================
+         #LogOutput('Info' ,'Epilogo' ) ;
+
+# Faz o Loop de disparo de espera para métricas Numéricas
+# ========================================
+while( nEnd < nTriggers );
+      nEnd = nDispDepend ;
+      nPipe = 1;
+      nParallelD = 1 ;
+      sleep(10) ;
+      while( nParallelD  <= nTriggers );
+        sIdit = SUBST( sIdST, nPipe+1, SCAN( '|', subst(sIdST,nPipe+1,LONG( sIdST )) )-1 );
+        #LogOutput('INFO', sIdST | ' || ' | sId | ' || ' | sIdit | ' || Novo sIDST || ' | subst(sIdST,nPipe+1,LONG( sIdST )) | ' || PIPE ' | NumberToString( nPipe ) | ' Pipe2 ' | NumberToString( SCAN( '|', subst(sIdST,nPipe+1,LONG( sIdST )) ) ) | ' nParallelD ' | NumberToString( nParallelD ) | ' nEnd ' | NumberToString( nEnd ));
+        if(sIdit@='' % sIdit@='|');            
+          break;
+        endIF;
+        #LogOutput('INFO',  ' Status ' |  NumberToString(GetJobStatus( sIdit ) ));
+        nPipe = SCAN( '|', subst(sIdST,nPipe+1,LONG( sIdST )) ) + nPipe;
+        IF( GetJobStatus( sIdit )<>10) ;
+          nEnd = nEnd + 1;
+        endIF;
+        nParallelD  = nParallelD   + 1;
+      end;
+end;
+
+
+
+# Apaga os arquivos caso seja selecionado essa opção
+# ========================================
+sTypeCopy = CellGetS( 'SYS.900.Version_Copy_Parameter', 'Value', 'Copy Type' );
+IF( sTypeCopy@='Export/Import e apagar arquivos' % sTypeCopy@='Export/Import and delete files' % sTypeCopy@='Exportar/Importar y eliminar archivos' );
+  nParallelD  = 1 ;
+  cFolder = CellGetS('SYS.900.Version_Copy_Parameter', 'Value', 'ExportArqPath' );
+  while( nParallelD  <= nTriggers );      
+    cFileN = cFolder | '\SYS_Export_' | csSourceCube | '_' | numberToString(nParallelD) | '_N.csv' ;
+    cFileS = cFolder | '\SYS_Export_' | csSourceCube | '_' | numberToString(nParallelD) | '_S.csv' ;
+    IF( FileExists( cFileN )=1);
+      ASCIIDelete( cFileN );
+    endIF;
+    IF( FileExists( cFileS )=1);
+      ASCIIDelete( cFileS );
+    endIF;
+    nParallelD = nParallelD + 1;
+  end;
+endIF;
+#endregion

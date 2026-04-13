@@ -1,0 +1,155 @@
+#region Prolog
+# ===============================================================================================================
+#GENERALCOMMENT             Description:     Process that starts version copy with a diferent Scenary, take thei Copy information  from parameters
+#GENERALCOMMENT             Responsible:   	Vitor Ribeiro
+#GENERALCOMMENT             Date:   July/2024
+#
+#LASTCHANGE                 Alterações:
+#LASTCHANGE                 Responsavel Alterações:
+# ===============================================================================================================
+
+# ===============================================================================================================
+#PROLOGCOMMENT               Description:            Validates the cube information and creates the Data Source Subset ordered by priority
+# ===============================================================================================================
+
+
+# =================================================================================
+# CTI standard variables that must be changed
+# =================================================================================
+
+
+# Information from Source and Destination cube
+# ========================================
+csCubeParamCopy    = 'SYS.900.Version_Copy_Parameter';
+
+# =================================================================================
+# CTI standard variables that must not be changed
+# =================================================================================
+
+# Discover the user who executed the process
+# ========================================
+csUser = IF( DimIx( '}Clients' , TM1User() ) = 0, 'Admin' , ATTRS('}Clients', TM1User(), '}TM1_DefaultDisplayValue') );
+  
+  
+# Process control variables
+# ========================================
+csCubeParameter			= 'SYS.150.Controle_Cargas';
+csCubeProperties			= '}CubeProperties';
+cnStartTime 			= Now();
+csProcess			= GetProcessName();
+sMessageRecord	 	= '';
+sMessageError 		= '';
+sMessageProcess = '' ;
+nReject 		= 0;
+nRejectHeader 		= 0;
+nRejectNumber		= 0;
+nErrorType				= 0;
+nRecordCount 		= 0;
+nRejectCount 				= 1 ;
+
+
+# Start Period
+sStartPeriod = CellGetS( csCubeParamCopy , 'Value' , 'Start Period' ) ;
+IF( psStartPeriod @<> '' );
+  CellPutS( psStartPeriod , csCubeParamCopy , 'Value' , 'Start Period' ) ;
+EndIF;
+
+
+# End Period
+sEndPeriod = CellGetS( csCubeParamCopy , 'Value' , 'End Period' ) ;
+IF( psEndPeriod @<> '' );
+  CellPutS( psEndPeriod , csCubeParamCopy , 'Value' , 'End Period' ) ;
+EndIF;
+
+
+# Start Period Target
+sPeriodTarget = CellGetS( csCubeParamCopy , 'Value' , 'Start Period Target' ) ;
+IF( psPeriodTarget @<> '' );
+  CellPutS( psPeriodTarget , csCubeParamCopy , 'Value' , 'Start Period Target' ) ;
+EndIF;
+
+
+# Consider Rules
+sRules = CellGetS( csCubeParamCopy , 'Value' , 'Consider Rules' ) ;
+IF( psRules @<> '' );
+  CellPutS( psRules , csCubeParamCopy , 'Value' , 'Consider Rules' ) ;
+EndIF;
+
+
+# Qty Threads
+nQtyTheads = CellGetN( csCubeParamCopy , 'Value' , 'Qty Threads' ) ;
+IF( pnQtyTheads <> 0 );
+  CellPutN( pnQtyTheads , csCubeParamCopy , 'Value' , 'Qty Threads' ) ;
+EndIF;
+
+
+# Copy Type
+sCopyType = CellGetS( csCubeParamCopy , 'Value' , 'Copy Type' ) ;
+IF( psCopyType @<> '' );
+  CellPutS( psCopyType , csCubeParamCopy , 'Value' , 'Copy Type' ) ;
+EndIF;
+
+
+# Status
+sStatus = CellGetS( csCubeParamCopy , 'Value' , 'Status' ) ;
+IF( psStatus @<> '' );
+  CellPutS( psStatus , csCubeParamCopy , 'Value' , 'Status' ) ;
+EndIF;
+
+
+# Source Version
+sSource = CellGetS( csCubeParamCopy , 'Value' , 'Source Version' ) ;
+IF( psSource @<> '' );
+  CellPutS( psSource , csCubeParamCopy , 'Value' , 'Source Version' ) ;
+EndIF;
+
+
+# Target Version
+sTarget = CellGetS( csCubeParamCopy , 'Value' , 'Target Version' ) ;
+IF( psTarget @<> '' );
+  CellPutS( psTarget , csCubeParamCopy , 'Value' , 'Target Version' ) ;
+EndIF;
+#endregion
+#region Epilog
+# ===============================================================================================================
+#EPILOGCOMMENT        Start The Copy, and re-insert the previus values at the parameter cube
+# ===============================================================================================================
+
+ExecuteProcess('zCTI.001.00.Start_Copy_Version','psStart',psStart,'psScenario',psScenario);
+
+
+# Start Period
+CellPutS( sStartPeriod , csCubeParamCopy , 'Value' , 'Start Period' ) ;
+
+
+# End Period
+CellPutS( sEndPeriod , csCubeParamCopy , 'Value' , 'End Period' ) ;
+
+
+# Start Period Target
+CellPutS( sPeriodTarget , csCubeParamCopy , 'Value' , 'Start Period Target' ) ;
+
+
+# Consider Rules
+CellPutS( sRules , csCubeParamCopy , 'Value' , 'Consider Rules' ) ;
+
+
+# Qty Threads
+CellPutN( nQtyTheads , csCubeParamCopy , 'Value' , 'Qty Threads' ) ;
+
+
+# Copy Type
+CellPutS( sCopyType , csCubeParamCopy , 'Value' , 'Copy Type' ) ;
+
+
+# Status
+CellPutS( sStatus , csCubeParamCopy , 'Value' , 'Status' ) ;
+
+
+# Source Version
+CellPutS( sSource , csCubeParamCopy , 'Value' , 'Source Version' ) ;
+
+
+# Target Version
+CellPutS( sTarget , csCubeParamCopy , 'Value' , 'Target Version' ) ;
+#endregion

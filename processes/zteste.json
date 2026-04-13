@@ -1,0 +1,11 @@
+{
+	"@type":"Process",
+	"Name":"zteste",
+	"HasSecurityAccess":false,
+	"DataSource":
+	{
+		"Type":"None"
+	},
+	"Parameters":[],
+	"Variables":[]
+}

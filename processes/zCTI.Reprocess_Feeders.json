@@ -1,0 +1,20 @@
+{
+	"@type":"Process",
+	"Name":"zCTI.Reprocess_Feeders",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"zCTI.Reprocess_Feeders.ti",
+	"DataSource":
+	{
+		"Type":"None"
+	},
+	"Parameters":
+	[
+		{
+			"Name":"pCube",
+			"Prompt":"",
+			"Value":"",
+			"Type":"String"
+		}
+	],
+	"Variables":[]
+}

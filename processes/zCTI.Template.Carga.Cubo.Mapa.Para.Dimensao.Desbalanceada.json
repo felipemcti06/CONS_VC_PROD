@@ -1,0 +1,24 @@
+{
+	"@type":"Process",
+	"Name":"zCTI.Template.Carga.Cubo.Mapa.Para.Dimensao.Desbalanceada",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"zCTI.Template.Carga.Cubo.Mapa.Para.Dimensao.Desbalanceada.ti",
+	"DataSource":
+	{
+		"Type":"TM1DimensionSubset",
+		"dataSourceNameForServer":"MAP.D.020.Conta_Contabil",
+		"dataSourceNameForClient":"MAP.D.020.Conta_Contabil",
+		"subset":"All"
+	},
+	"Parameters":[],
+	"Variables":
+	[
+		{
+			"Name":"vElement",
+			"Type":"String",
+			"Position":1,
+			"StartByte":0,
+			"EndByte":0
+		}
+	]
+}
