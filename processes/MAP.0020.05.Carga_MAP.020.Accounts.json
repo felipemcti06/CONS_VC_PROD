@@ -19,25 +19,46 @@
 	"Variables":
 	[
 		{
-			"Name":"vNome",
+			"Name":"vCOD",
 			"Type":"String",
 			"Position":1,
 			"StartByte":0,
 			"EndByte":0
 		},
 		{
-			"Name":"vCod",
+			"Name":"vNomeSTG",
 			"Type":"String",
 			"Position":2,
 			"StartByte":0,
 			"EndByte":0
 		},
 		{
-			"Name":"vCod_BPC",
+			"Name":"vNomeDFS",
 			"Type":"String",
 			"Position":3,
 			"StartByte":0,
 			"EndByte":0
+		},
+		{
+			"Name":"vDFS",
+			"Type":"String",
+			"Position":4,
+			"StartByte":0,
+			"EndByte":0
+		},
+		{
+			"Name":"vCOD_bpc",
+			"Type":"String",
+			"Position":5,
+			"StartByte":0,
+			"EndByte":0
 		}
+	],
+	"VariablesUIData": [
+		"VarType=32\fColType=827\f",
+		"VarType=32\fColType=827\f",
+		"VarType=32\fColType=827\f",
+		"VarType=32\fColType=827\f",
+		"VarType=32\fColType=827\f"
 	]
 }

@@ -234,7 +234,7 @@
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
 ['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'REV.010.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'N/A','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=> DB( 'REV.100.Revenue_Consolidated', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Domestic', 'REV.010.001' );
+]=> DB( 'REV.100.Revenue_Consolidated', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Domestic', 'Reference Price [$/ton]' );
 
     
 # --------------------------------------------------------------------------------------------
@@ -257,7 +257,7 @@
 # --------------------------------------------------------------------------------------------    
 
 ['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'REV.020.003' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'N/A','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=> DB( 'REV.100.Revenue_Consolidated', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Domestic', 'REV.020.003' );
+]=> DB( 'REV.100.Revenue_Consolidated', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Domestic', 'Third Part Sales Volume [kt]' );
 
 
 # --------------------------------------------------------------------------------------------
@@ -279,7 +279,7 @@
 # --------------------------------------------------------------------------------------------    
 
 ['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'REV.030.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'N/A','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=> DB( 'REV.100.Revenue_Consolidated', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'ALL.D.Market':'Total Market', 'REV.030.001' );
+]=> DB( 'REV.100.Revenue_Consolidated', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'ALL.D.Market':'Total Market', '% Operational Tax' );
 
 ###############################################################
 #-------------------------------------# DFS.100#-----------------------------------------
