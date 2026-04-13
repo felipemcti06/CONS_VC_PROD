@@ -44,7 +44,7 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"WKC.010.007",
+			"Name":"Input Inventory- Days o/ VC",
 			"Type":"Numeric"
 		},
 		{
@@ -60,15 +60,15 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"WKC.010.002",
+			"Name":"Finished Product Inventory",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"WKC.010.003",
+			"Name":"Product in Process Inventory",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"WKC.010.004",
+			"Name":"Concentrate Inventory",
 			"Type":"Numeric"
 		},
 		{
@@ -80,7 +80,7 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"WKC.010.005",
+			"Name":"Opex Adavancement",
 			"Type":"Numeric"
 		},
 		{
@@ -100,7 +100,7 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"WKC.020.003",
+			"Name":"Operating Taxes Payable - % o/ Rev.",
 			"Type":"Numeric"
 		},
 		{
@@ -128,7 +128,7 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"WKC.030.001",
+			"Name":"Initial Working Capital Balance",
 			"Type":"Numeric"
 		},
 		{
@@ -144,7 +144,7 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"WKC.010.006",
+			"Name":"Other Accounts Receivables - Days o/ CPS",
 			"Type":"Numeric"
 		},
 		{
@@ -176,7 +176,7 @@
 		},
 		{
 			"ParentName":"Liabilities Accounts",
-			"ComponentName":"WKC.030.001",
+			"ComponentName":"Initial Working Capital Balance",
 			"Weight":1
 		},
 		{
@@ -231,7 +231,7 @@
 		},
 		{
 			"ParentName":"KPIs Assets Accounts",
-			"ComponentName":"WKC.010.007",
+			"ComponentName":"Input Inventory- Days o/ VC",
 			"Weight":1
 		},
 		{
@@ -241,7 +241,7 @@
 		},
 		{
 			"ParentName":"KPIs Assets Accounts",
-			"ComponentName":"WKC.010.006",
+			"ComponentName":"Other Accounts Receivables - Days o/ CPS",
 			"Weight":1
 		},
 		{
@@ -256,17 +256,17 @@
 		},
 		{
 			"ParentName":"PROJECTED BALANCE - ASSETS",
-			"ComponentName":"WKC.010.002",
+			"ComponentName":"Finished Product Inventory",
 			"Weight":1
 		},
 		{
 			"ParentName":"PROJECTED BALANCE - ASSETS",
-			"ComponentName":"WKC.010.003",
+			"ComponentName":"Product in Process Inventory",
 			"Weight":1
 		},
 		{
 			"ParentName":"PROJECTED BALANCE - ASSETS",
-			"ComponentName":"WKC.010.004",
+			"ComponentName":"Concentrate Inventory",
 			"Weight":1
 		},
 		{
@@ -281,7 +281,7 @@
 		},
 		{
 			"ParentName":"PROJECTED BALANCE - ASSETS",
-			"ComponentName":"WKC.010.005",
+			"ComponentName":"Opex Adavancement",
 			"Weight":1
 		},
 		{
@@ -296,7 +296,7 @@
 		},
 		{
 			"ParentName":"KPIs Liabilities Accounts",
-			"ComponentName":"WKC.020.003",
+			"ComponentName":"Operating Taxes Payable - % o/ Rev.",
 			"Weight":1
 		},
 		{

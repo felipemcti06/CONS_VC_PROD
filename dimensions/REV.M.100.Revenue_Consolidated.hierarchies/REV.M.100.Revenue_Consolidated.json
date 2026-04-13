@@ -4,7 +4,7 @@
 	"Elements":
 	[
 		{
-			"Name":"REV.010.001",
+			"Name":"Reference Price [$/ton]",
 			"Type":"Numeric"
 		},
 		{
@@ -12,7 +12,7 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"REV.020.003",
+			"Name":"Third Part Sales Volume [kt]",
 			"Type":"Numeric"
 		},
 		{
@@ -28,7 +28,7 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"REV.030.001",
+			"Name":"% Operational Tax",
 			"Type":"Numeric"
 		}
 	],

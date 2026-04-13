@@ -8,7 +8,7 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"OBZ.010.003",
+			"Name":"Facilities",
 			"Type":"Numeric"
 		},
 		{
@@ -20,39 +20,39 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"OBZ.010.005",
+			"Name":"Legal",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"OBZ.010.002",
+			"Name":"Maintenance",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"OBZ.010.010",
+			"Name":"Marketing",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"OBZ.010.007",
+			"Name":"Operating Materiais",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"OBZ.010.011",
+			"Name":"Operating Vehicles",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"OBZ.010.001",
+			"Name":"Personnel Expenses",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"OBZ.010.004",
+			"Name":"Professionais Services",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"OBZ.010.008",
+			"Name":"Shared Services center",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"OBZ.010.012",
+			"Name":"Travel and refunds",
 			"Type":"Numeric"
 		},
 		{
@@ -377,7 +377,7 @@
 		},
 		{
 			"ParentName":"Total Accounts Line",
-			"ComponentName":"OBZ.010.003",
+			"ComponentName":"Facilities",
 			"Weight":1
 		},
 		{
@@ -392,47 +392,47 @@
 		},
 		{
 			"ParentName":"Total Accounts Line",
-			"ComponentName":"OBZ.010.005",
+			"ComponentName":"Legal",
 			"Weight":1
 		},
 		{
 			"ParentName":"Total Accounts Line",
-			"ComponentName":"OBZ.010.002",
+			"ComponentName":"Maintenance",
 			"Weight":1
 		},
 		{
 			"ParentName":"Total Accounts Line",
-			"ComponentName":"OBZ.010.010",
+			"ComponentName":"Marketing",
 			"Weight":1
 		},
 		{
 			"ParentName":"Total Accounts Line",
-			"ComponentName":"OBZ.010.007",
+			"ComponentName":"Operating Materiais",
 			"Weight":1
 		},
 		{
 			"ParentName":"Total Accounts Line",
-			"ComponentName":"OBZ.010.011",
+			"ComponentName":"Operating Vehicles",
 			"Weight":1
 		},
 		{
 			"ParentName":"Total Accounts Line",
-			"ComponentName":"OBZ.010.001",
+			"ComponentName":"Personnel Expenses",
 			"Weight":1
 		},
 		{
 			"ParentName":"Total Accounts Line",
-			"ComponentName":"OBZ.010.004",
+			"ComponentName":"Professionais Services",
 			"Weight":1
 		},
 		{
 			"ParentName":"Total Accounts Line",
-			"ComponentName":"OBZ.010.008",
+			"ComponentName":"Shared Services center",
 			"Weight":1
 		},
 		{
 			"ParentName":"Total Accounts Line",
-			"ComponentName":"OBZ.010.012",
+			"ComponentName":"Travel and refunds",
 			"Weight":1
 		},
 		{

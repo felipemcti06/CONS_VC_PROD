@@ -40,7 +40,7 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"WKC.020.003",
+			"Name":"Operating Taxes Payable - % o/ Rev.",
 			"Type":"Numeric"
 		},
 		{
@@ -110,7 +110,7 @@
 		},
 		{
 			"ParentName":"Working Capital Assumptions",
-			"ComponentName":"WKC.020.003",
+			"ComponentName":"Operating Taxes Payable - % o/ Rev.",
 			"Weight":1
 		}
 	],
