@@ -44,7 +44,7 @@
 			"Type":"Consolidated"
 		},
 		{
-			"Name":"Foreign Exchange Variation Over Cash",
+			"Name":"FIN.020.001",
 			"Type":"Numeric"
 		},
 		{
