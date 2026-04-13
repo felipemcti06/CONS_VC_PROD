@@ -1,4 +1,4 @@
-# =============
+﻿# =============
   SKIPCHECK;
   FEEDSTRINGS;
 # =============
@@ -228,8 +228,8 @@
 #-------------------------------------# REV.100#-----------------------------------------
 ###############################################################
 # --------------------------------------------------------------------------------------------
-# Name: Reference Price [$/ton]
-# Desc:Reference Price [$/ton]
+# Name: REV.010.001
+# Desc:REV.010.001
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -250,8 +250,8 @@
 ]=> DB( 'REV.100.Revenue_Consolidated', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Export', 'Sales Volume [kt]' );
 
 # --------------------------------------------------------------------------------------------
-# Name: Third Part Sales Volume [kt]
-# Desc:Third Part Sales Volume [kt]
+# Name: REV.020.003
+# Desc:REV.020.003
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -272,8 +272,8 @@
 ['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'REV.010.003' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'N/A','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
 ]=> DB( 'REV.100.Revenue_Consolidated', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Export',  'Price Premium [$/ton]' );
 # --------------------------------------------------------------------------------------------
-# Name: % Operational Tax
-# Desc: % Operational Tax
+# Name: REV.030.001
+# Desc: REV.030.001
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -287,8 +287,8 @@
 
 
 # --------------------------------------------------------------------------------------------
-# Name: Final Variable Sales Expenses
-# Desc:Final Variable Sales Expenses
+# Name: EXP.010.001
+# Desc:EXP.010.001
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -307,8 +307,8 @@
 ]=> DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Variable Costs', 'Value' );
 
 # --------------------------------------------------------------------------------------------
-# Name: Fixed Costs'
-# Desc:Fixed Costs'
+# Name: CST.020.001'
+# Desc:CST.020.001'
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -317,8 +317,8 @@
 ]=> DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'CST.020.001', 'Value' );
 
 # --------------------------------------------------------------------------------------------
-# Name: Depreciation / amortization / depletion - Corporate'
-# Desc:FDepreciation / amortization / depletion - Corporate
+# Name: DEP.010.001'
+# Desc:FDEP.010.001
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -328,8 +328,8 @@
 
 
 # --------------------------------------------------------------------------------------------
-# Name: Operating Expenses
-# Desc:Operating Expenses
+# Name: EXP.020.001
+# Desc:EXP.020.001
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -348,8 +348,8 @@
 ]=> DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Other Op. Results', 'Value' );
 
 # --------------------------------------------------------------------------------------------
-# Name:  Equity Pick-Up Results
-# Desc:   Equity Pick-Up Results
+# Name:  NOP.010.001
+# Desc:   NOP.010.001
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -358,8 +358,8 @@
 ]=> DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Equity Pickup', 'Value' );
 
 # --------------------------------------------------------------------------------------------
-# Name:  Other Non Operating Results
-# Desc:  Other Non Operating Results
+# Name:  NOR.010.001
+# Desc:  NOR.010.001
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -387,8 +387,8 @@
 ]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.010.001', 'Value' );
 
 # --------------------------------------------------------------------------------------------
-# Name:Interest Expenses
-# Desc:Interest Expenses
+# Name:FIN.010.002
+# Desc:FIN.010.002
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -398,15 +398,15 @@
 ]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.010.002', 'Value' );
 
 # --------------------------------------------------------------------------------------------
-# Name:Foreign Exchange Cash Flow Impact'
-# Desc:Foreign Exchange Cash Flow Impact'
+# Name:FIN.020.001'
+# Desc:FIN.020.001'
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
 
 ['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.020.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
  'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Foreign Exchange Variation Over Cash', 'Value' );
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.020.004 Over Cash', 'Value' );
 
 
 
@@ -423,20 +423,20 @@
 
  
 # --------------------------------------------------------------------------------------------
-# Name:Hedge Accounting International Investments'
-# Desc:Hedge Accounting International Investments'
+# Name:FIN.020.003'
+# Desc:FIN.020.003'
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
 
 ['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.020.003' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
  'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Hedge Accounting International investments', 'Value' );
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.020.003', 'Value' );
    
  
 # --------------------------------------------------------------------------------------------
-# NameForeign Exchange Variation'
-# Desc:Foreign Exchange Variation'
+# NameFIN.020.004'
+# Desc:FIN.020.004'
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -447,8 +447,8 @@
    
  
 # --------------------------------------------------------------------------------------------
-# Name : IOF - Cash'
-# Desc:IOF - Cash'
+# Name : FIN.030.001'
+# Desc:FIN.030.001'
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -459,8 +459,8 @@
    
 
 # --------------------------------------------------------------------------------------------
-# Name : CPMF - Cash
-# Desc:CPMF - Cash
+# Name : FIN.030.002
+# Desc:FIN.030.002
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -471,8 +471,8 @@
 
     
 # --------------------------------------------------------------------------------------------
-# Name : Other Taxes (Except Income Tax) - Cash
-# Desc: Other Taxes (Except Income Tax) - Cash
+# Name : FIN.030.003
+# Desc: FIN.030.003
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -483,8 +483,8 @@
 
     
 # --------------------------------------------------------------------------------------------
-# Name : Bank Expenses - Cash
-# Desc: Bank Expenses - Cash
+# Name : FIN.030.004
+# Desc: FIN.030.004
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -495,8 +495,8 @@
     
     
 # --------------------------------------------------------------------------------------------
-# Name : Other Financial Expenses- Cash
-# Desc: Other Financial Expenses- Cash
+# Name : FIN.030.005
+# Desc: FIN.030.005
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -507,8 +507,8 @@
 
     
 # --------------------------------------------------------------------------------------------
-# Name : Other Financial Revenues
-# Desc: Other Financial Revenues
+# Name : FIN.040.001
+# Desc: FIN.040.001
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -520,21 +520,21 @@
 
   
 # --------------------------------------------------------------------------------------------
-# Name : Financial Revenues Adjustments
-# Desc: Financial Revenues Adjustments
+# Name : FIN.040.002
+# Desc: FIN.040.002
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
 
 ['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.040.002' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
  'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Financial Revenues Adjustment', 'Value' );    
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.099.006 Adjustment', 'Value' );    
 
 
 
 # --------------------------------------------------------------------------------------------
-# Name : Mutual Net Results
-# Desc:Mutual Net Results
+# Name : FIN.040.004
+# Desc:FIN.040.004
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -545,8 +545,8 @@
     
 
 # --------------------------------------------------------------------------------------------
-# Name : Balance Variation
-# Desc:Balance Variation
+# Name : FIN.050.001
+# Desc:FIN.050.001
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -557,8 +557,8 @@
 
 
 # --------------------------------------------------------------------------------------------
-# Name : Liquidation
-# Desc:Liquidation
+# Name : FIN.050.002
+# Desc:FIN.050.002
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -569,8 +569,8 @@
 
 
 # --------------------------------------------------------------------------------------------
-# Name : Hedge Accounting - Derivatives
-# Desc: Hedge Accounting - Derivatives
+# Name : FIN.050.003
+# Desc: FIN.050.003
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -581,8 +581,8 @@
 
 
 # --------------------------------------------------------------------------------------------
-# Name : Hedge Results
-# Desc: Hedge Results
+# Name : FIN.050.004
+# Desc: FIN.050.004
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -593,19 +593,19 @@
 
 
 # --------------------------------------------------------------------------------------------
-# Name : Other Financial Results - (Non Cash Effect)
-# Desc: Other Financial Results - (Non Cash Effect)
+# Name : FIN.060.001
+# Desc: FIN.060.001
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
 
 ['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.060.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
  'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Other Financial Revenues - (Non Cash)', 'Value' );   
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.040.001 - (Non Cash)', 'Value' );   
 
 # --------------------------------------------------------------------------------------------
-# Name : Financial Expenses - Non Cash
-# Desc: Financial Expenses - Non Cash
+# Name : FIN.030.006
+# Desc: FIN.030.006
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -618,29 +618,29 @@
 #-------------------------------------# DFS.140#-----------------------------------------
 ###############################################################
 # --------------------------------------------------------------------------------------------
-# Name : Income Tax Payments - Cash
-# Desc: Income Tax Payments - Cash
+# Name : DRE.099.010 Payments - Cash
+# Desc: DRE.099.010 Payments - Cash
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
 
-['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'Income Tax Payments - Cash' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'DRE.099.010 Payments - Cash' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
  'ALL.D.Products':'ALL.D.Products':'Total Products'
-]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Income tax on transactions', 'Value' );
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FCF.020.001', 'Value' );
 
 
  # --------------------------------------------------------------------------------------------
-# Name : Non Expansion Capex
-# Desc: Non Expansion Capex
+# Name : FCF.030.001
+# Desc: FCF.030.001
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
 
 ['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
- 'ALL.D.Accounts':'ALL.D.Accounts':'Non Expansion Capex' ,
+ 'ALL.D.Accounts':'ALL.D.Accounts':'FCF.030.001' ,
  'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
  'ALL.D.Products':'ALL.D.Products':'Total Products'
-]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Non expansion capex', 'Value' );      
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FCF.030.001', 'Value' );      
 
  # --------------------------------------------------------------------------------------------
 # Name : Dividens Received
@@ -650,30 +650,30 @@
 # --------------------------------------------------------------------------------------------    
 
 ['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
- 'ALL.D.Accounts':'ALL.D.Accounts':'Dividends Received (Paid) - Cash Flow' ,
+ 'ALL.D.Accounts':'ALL.D.Accounts':'FCF.040.001 (Paid) - Cash Flow' ,
  'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
  'ALL.D.Products':'ALL.D.Products':'Total Products'
-]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Dividends received', 'Value' );
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FCF.040.001', 'Value' );
 
 
 # --------------------------------------------------------------------------------------------
-# Name :  INITIAL CASH BALANCE
-# Desc:     INITIAL CASH BALANCE
+# Name :  FCF.010.001
+# Desc:     FCF.010.001
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
 
 # ['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
-#  'ALL.D.Accounts':'ALL.D.Accounts':'INITIAL CASH BALANCE' ,
+#  'ALL.D.Accounts':'ALL.D.Accounts':'FCF.010.001' ,
 #  'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
 #  'ALL.D.Products':'ALL.D.Products':'Total Products'
 # ]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Financial Revenue', 'Value' );
     
  ['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
- 'ALL.D.Accounts':'ALL.D.Accounts':'INITIAL CASH BALANCE' ,
+ 'ALL.D.Accounts':'ALL.D.Accounts':'FCF.010.001' ,
  'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
  'ALL.D.Products':'ALL.D.Products':'Total Products'
-]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Initial Cash Balance', 'Value' );
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FCF.010.001', 'Value' );
     
  
 # --------------------------------------------------------------------------------------------
@@ -740,7 +740,7 @@
  'ALL.D.Accounts':'ALL.D.Accounts':'Payments of Dividens to Controlling' ,
  'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
  'ALL.D.Products':'ALL.D.Products':'Total Products'
-]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Payment of dividends to Controlling', 'Value' );  
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FCF.040.002', 'Value' );  
 
 
  # --------------------------------------------------------------------------------------------
@@ -754,21 +754,21 @@
  'ALL.D.Accounts':'ALL.D.Accounts':'Payments of Dividens to Minority' ,
  'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
  'ALL.D.Products':'ALL.D.Products':'Total Products'
-]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Payment of dividends to Minority', 'Value' );      
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FCF.040.003', 'Value' );      
 
 
  # --------------------------------------------------------------------------------------------
-# Name : Expansion Capex
-# Desc: Expansion Capex
+# Name : FCF.030.002
+# Desc: FCF.030.002
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
 
 ['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
- 'ALL.D.Accounts':'ALL.D.Accounts':'Expansion Capex' ,
+ 'ALL.D.Accounts':'ALL.D.Accounts':'FCF.030.002' ,
  'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
  'ALL.D.Products':'ALL.D.Products':'Total Products'
-]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Expansion capex', 'Value' );       
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FCF.030.002', 'Value' );       
 
 
  # --------------------------------------------------------------------------------------------
@@ -799,30 +799,30 @@
 
 
  # --------------------------------------------------------------------------------------------
-# Name : Intercompany Dividends
-# Desc: Intercompany Dividends
+# Name : FCF.080.001
+# Desc: FCF.080.001
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
 
 ['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
- 'ALL.D.Accounts':'ALL.D.Accounts':'Intercompany Dividends' ,
+ 'ALL.D.Accounts':'ALL.D.Accounts':'FCF.080.001' ,
  'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
  'ALL.D.Products':'ALL.D.Products':'Total Products'
-]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Intercompany dividends', 'Value' ); 
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FCF.080.001', 'Value' ); 
   
  # --------------------------------------------------------------------------------------------
-# Name : HEDGE/MTM
-# Desc: HEDGE/MTM
+# Name : HEDGE/FCF.090.001
+# Desc: HEDGE/FCF.090.001
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
 
 ['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
- 'ALL.D.Accounts':'ALL.D.Accounts':'HEDGE/MTM' ,
+ 'ALL.D.Accounts':'ALL.D.Accounts':'HEDGE/FCF.090.001' ,
  'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
  'ALL.D.Products':'ALL.D.Products':'Total Products'
-]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'MTM', 'Value' ); 
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FCF.090.001', 'Value' ); 
   
  # --------------------------------------------------------------------------------------------
 # Name : Non Operating (Other - Cash Flow)
@@ -856,8 +856,8 @@
 ###############################################################
 # --------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------
-# Name:INITIAL GROSS DEBT (LC)
-# Desc:INITIAL GROSS DEBT (LC)
+# Name:DEB.010.001
+# Desc:DEB.010.001
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -871,8 +871,8 @@
 ]=> DB( 'DFS.180.Gross_Debt', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Accounts, 'Value' );
     
 # --------------------------------------------------------------------------------------------
-# Name:Funding (LC)
-# Desc:Funding (LC)
+# Name:DEB.010.002
+# Desc:DEB.010.002
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -916,8 +916,8 @@
 ]=> DB( 'DFS.180.Gross_Debt', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Accounts, 'Value' );
 
 # --------------------------------------------------------------------------------------------
-# Name:Principal Amortization (LC)
-# Desc:Principal Amortization (LC)
+# Name:DEB.010.005
+# Desc:DEB.010.005
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -931,8 +931,8 @@
 ]=> DB( 'DFS.180.Gross_Debt', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Accounts, 'Value' ); 
 
 # --------------------------------------------------------------------------------------------
-# Name:Interest Amortization (LC)
-# Desc:Interest Amortization (LC)
+# Name:DEB.010.006
+# Desc:DEB.010.006
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -945,8 +945,8 @@
  'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
 ]=> DB( 'DFS.180.Gross_Debt', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Accounts, 'Value' ); 
 # --------------------------------------------------------------------------------------------
-# Name:Other Variation (LC)
-# Desc:Other Variation (LC)
+# Name:DEB.010.007
+# Desc:DEB.010.007
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -961,8 +961,8 @@
 ]=> DB( 'DFS.180.Gross_Debt', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Accounts, 'Value' ); 
 
 # --------------------------------------------------------------------------------------------
-# Name: Variation by buy/sale of company (LC)
-# Desc: Variation by buy/sale of company (LC)
+# Name: DEB.010.008
+# Desc: DEB.010.008
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
@@ -993,8 +993,8 @@
 => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Account Receivable - Days o/ Rev', 'Value' );
 
 # --------------------------------------------------------------------------------------------
-# Name: Input Inventory- Days o/ VC
-# Desc: Input Inventory- Days o/ VC
+# Name: WKC.010.007
+# Desc: WKC.010.007
 # Date 02/2026
 # Author: Miranda / Helder
 #-------------------------------------------------------------------------------------------- 
@@ -1031,8 +1031,8 @@
 'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
 => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Other Accounts Receivable', 'Value' ); 
 # --------------------------------------------------------------------------------------------
-# Name: Suppliers - Days o/ VC (DPO)
-# Desc: Suppliers - Days o/ VC (DPO)
+# Name: WKC.020.001
+# Desc: WKC.020.001
 # Date 02/2026
 # Author: Miranda / Helder
 #-------------------------------------------------------------------------------------------- 
@@ -1044,8 +1044,8 @@
 => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Suppliers - Days o/ VC', 'Value' );
     
 # --------------------------------------------------------------------------------------------
-# Name: Initial Working Capital Balance
-# Desc: Initial Working Capital Balance
+# Name: WKC.030.001
+# Desc: WKC.030.001
 # Date 02/2026
 # Author: Miranda / Helder
 #-------------------------------------------------------------------------------------------- 
@@ -1160,25 +1160,25 @@
 # Date 02/2026
 # Author: Miranda / Helder
 #-------------------------------------------------------------------------------------------- 
-['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'Finished Product Inventory - Days o/ CPS - Other','ALL.D.Products':'ALL.D.Products':'Total Products'
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'WKC.010.002 - Days o/ CPS - Other','ALL.D.Products':'ALL.D.Products':'Total Products'
 ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
   => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'WKC.010.002', 'Value' );
 # --------------------------------------------------------------------------------------------
-# Name:Finished Product Inventory - Days o/ CPS - Other
-# Desc:Finished Product Inventory - Days o/ CPS - Other
+# Name:WKC.010.002 - Days o/ CPS - Other
+# Desc:WKC.010.002 - Days o/ CPS - Other
 # Date 02/2026
 # Author: Miranda / Helder
 #-------------------------------------------------------------------------------------------- 
-['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'Finished Product Inventory - Days o/ CPS - Other','ALL.D.Products':'ALL.D.Products':'Total Products'
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'WKC.010.002 - Days o/ CPS - Other','ALL.D.Products':'ALL.D.Products':'Total Products'
 ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
-  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Finished Product Inventory - Days o/ CPS - Other', 'Value' );
+  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'WKC.010.002 - Days o/ CPS - Other', 'Value' );
 # --------------------------------------------------------------------------------------------
 # Name:
 # Desc:
 # Date 02/2026
 # Author: Miranda / Helder
 #-------------------------------------------------------------------------------------------- 
-['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'Product in Process Inventory- Days o/ CPS','ALL.D.Products':'ALL.D.Products':'Total Products'
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'WKC.010.003- Days o/ CPS','ALL.D.Products':'ALL.D.Products':'Total Products'
 ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
   => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'WKC.010.003', 'Value' );
 # --------------------------------------------------------------------------------------------
@@ -1187,16 +1187,16 @@
 # Date 02/2026
 # Author: Miranda / Helder
 #-------------------------------------------------------------------------------------------- 
-['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'Product in Process Inventory- Days o/ CPS','ALL.D.Products':'ALL.D.Products':'Total Products'
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'WKC.010.003- Days o/ CPS','ALL.D.Products':'ALL.D.Products':'Total Products'
 ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
-  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Product in Process Inventory- Days o/ CPS', 'Value' );
+  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'WKC.010.003- Days o/ CPS', 'Value' );
 # --------------------------------------------------------------------------------------------
 # Name:
 # Desc:
 # Date 02/2026
 # Author: Miranda / Helder
 #-------------------------------------------------------------------------------------------- 
-['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'Concentrate Inventory - Days o/ VC','ALL.D.Products':'ALL.D.Products':'Total Products'
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'WKC.010.004 - Days o/ VC','ALL.D.Products':'ALL.D.Products':'Total Products'
 ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
   => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'WKC.010.004', 'Value' );
 
@@ -1206,9 +1206,9 @@
 # Date 02/2026
 # Author: Miranda / Helder
 #-------------------------------------------------------------------------------------------- 
-['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'Concentrate Inventory - Days o/ VC','ALL.D.Products':'ALL.D.Products':'Total Products'
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'WKC.010.004 - Days o/ VC','ALL.D.Products':'ALL.D.Products':'Total Products'
 ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
-  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Concentrate Inventory - Days o/ VC', 'Value' );
+  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'WKC.010.004 - Days o/ VC', 'Value' );
     
 # --------------------------------------------------------------------------------------------
 # Name:
@@ -1449,9 +1449,9 @@
 # Date 02/2026
 # Author: Miranda / Helder
 #-------------------------------------------------------------------------------------------- 
-['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'Other Fixed Costs (LMU/t)','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'Other CST.020.001 (LMU/t)','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
-  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Other Fixed Costs (LMU/t)','Value');
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Other CST.020.001 (LMU/t)','Value');
     
 # --------------------------------------------------------------------------------------------
 # Name: Bloco do KPI
@@ -1480,7 +1480,7 @@
 #-------------------------------------------------------------------------------------------- 
 ['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Accounts':'ALL.D.Accounts':'NOP.020.001','ALL.D.Account_Line':'ALL.D.Account_Line':'N/A'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
-  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Income Tax Theoretical','Value');
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'DRE.099.010 Theoretical','Value');
 # --------------------------------------------------------------------------------------------
 # Name: Bloco do KPI
 # Desc:
