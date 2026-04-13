@@ -1,0 +1,11 @@
+{
+	"@type":"Process",
+	"Name":"zCTI.dim.clone",
+	"HasSecurityAccess":false,
+	"DataSource":
+	{
+		"Type":"None"
+	},
+	"Parameters":[],
+	"Variables":[]
+}

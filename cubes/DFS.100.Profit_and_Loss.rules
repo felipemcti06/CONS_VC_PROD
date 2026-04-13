@@ -569,7 +569,7 @@
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'% Income Tax' , 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Value'] =
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.014' , 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Value'] =
     ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.010']
     \
     ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.009'];
@@ -649,7 +649,7 @@
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'EBITDA Econômico', 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':{'Value', 'Adjustments'}] = N:
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.015', 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':{'Value', 'Adjustments'}] = N:
   ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004']
     *
   DB( 'ALL.015.Region_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Region, '% Participation', 'Value' )
@@ -669,7 +669,7 @@
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'FIN.010.001' ,'ALL.D.Products':'ALL.D.Products':'PROD099'] = N:
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'FIN.010.002' ,'ALL.D.Products':'ALL.D.Products':'PROD099'] = N:
     DB( 'DFS.120.Financial_Results',
         !ALL.D.Year,
         !ALL.D.Month,
@@ -776,7 +776,7 @@
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'EBITDA FX' , 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Value' , 'ALL.D.Currency':'ALL.D.Currency':'BRL Conv.']=N:
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.016' , 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Value' , 'ALL.D.Currency':'ALL.D.Currency':'BRL Conv.']=N:
   ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004' , 'ALL.D.Currency':'ALL.D.Currency':'USD Conv.']
   *
   DB( 'ALL.010.Economic_Assumptions', 
@@ -888,8 +888,8 @@
 # --------------------------------------------------------------------------------------------
  
 ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'EBITDA Econômico'],
-    ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'EBITDA FX']
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.015'],
+    ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.016']
     ;
     
 # --------------------------------------------------------------------------------------------
@@ -960,7 +960,7 @@
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
     ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.009','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'% Income Tax'];
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.014'];
 
 # --------------------------------------------------------------------------------------------
 # Name: Net Profit Before Minority Int.
@@ -1000,7 +1000,11 @@
 
 ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004', 'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }] =>
 
-  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004', 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'EBITDA Econômico'];
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.015'];
+    
+    ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004', 'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }] =>
+
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.016'];
 
 
     
