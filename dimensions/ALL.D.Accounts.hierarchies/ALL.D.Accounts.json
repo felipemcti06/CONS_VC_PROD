@@ -470,6 +470,42 @@
 		{
 			"Name":"DRE.099.016",
 			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.010.010",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.010.011",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.010.012",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.010.013",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.010.014",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.010.015",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.010.016",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.020.006",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.010.017",
+			"Type":"Numeric"
 		}
 	],
 	"Subsets@Code.links":

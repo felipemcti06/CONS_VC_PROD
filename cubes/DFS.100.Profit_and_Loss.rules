@@ -559,7 +559,7 @@
      !ALL.D.Currency,
      !ALL.D.Region,
      !ALL.D.Products,
-     'Income Tax',
+     'DRE.099.010',
       'ALL.D.Account_Line':'Total Accounts Line', 
      'Value'
 );
@@ -627,7 +627,7 @@
        !ALL.D.Month,
        !ALL.D.Version, 
        !ALL.D.Region,
-       '% MinoritÃ¡rios', 'Value' )
+       '% Minoritários', 'Value' )
 ;
 
 

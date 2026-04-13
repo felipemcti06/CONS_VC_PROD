@@ -40,6 +40,10 @@
 			"Type":"Numeric"
 		},
 		{
+			"Name":"FIN.010.001",
+			"Type":"Numeric"
+		},
+		{
 			"Name":"FIN.010.002",
 			"Type":"Numeric"
 		},
@@ -77,7 +81,7 @@
 		},
 		{
 			"Name":"DRE.099.007",
-			"Type":"Numeric"
+			"Type":"Consolidated"
 		},
 		{
 			"Name":"FIN.099.004",
@@ -126,6 +130,34 @@
 		{
 			"Name":"DRE.099.016",
 			"Type":"Numeric"
+		}
+	],
+	"Edges":
+	[
+		{
+			"ParentName":"DRE.099.007",
+			"ComponentName":"FIN.010.001",
+			"Weight":1
+		},
+		{
+			"ParentName":"DRE.099.007",
+			"ComponentName":"FIN.099.004",
+			"Weight":1
+		},
+		{
+			"ParentName":"DRE.099.007",
+			"ComponentName":"FIN.099.006",
+			"Weight":1
+		},
+		{
+			"ParentName":"DRE.099.007",
+			"ComponentName":"FIN.099.003",
+			"Weight":1
+		},
+		{
+			"ParentName":"DRE.099.007",
+			"ComponentName":"DRE.099.008",
+			"Weight":1
 		}
 	],
 	"Subsets@Code.links":

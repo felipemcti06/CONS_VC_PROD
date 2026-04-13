@@ -430,7 +430,7 @@ C:
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
 ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Gross Revenue [$MM]','ALL.D.Market':'ALL.D.Market':'Total Market','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Gross Revenue', 'Value' );
+]=>DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'REV.099.002', 'Value' );
 
 # --------------------------------------------------------------------------------------------
 # Name: Net Revenue [$MM]'
@@ -439,7 +439,7 @@ C:
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
 ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Net Revenue [$MM]','ALL.D.Market':'ALL.D.Market':'Total Market','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Net Revenue', 'Value' );
+]=>DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'REV.099.001', 'Value' );
 
 # --------------------------------------------------------------------------------------------
 #                      			DFS.200.KPIs

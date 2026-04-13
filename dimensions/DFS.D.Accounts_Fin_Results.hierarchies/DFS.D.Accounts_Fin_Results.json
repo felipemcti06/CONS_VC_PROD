@@ -1,6 +1,9 @@
 {
 	"@type":"Hierarchy",
 	"Name":"DFS.D.Accounts_Fin_Results",
+	"ElementsSortType":"ByHierarchy",
+	"ComponentsSortType":"ByName",
+	"ComponentsSortSense":"Ascending",
 	"Elements":
 	[
 		{
@@ -8,56 +11,16 @@
 			"Type":"Consolidated"
 		},
 		{
-			"Name":"FIN.020.004",
-			"Type":"Numeric"
-		},
-		{
 			"Name":"Financial Expenses",
 			"Type":"Consolidated"
 		},
 		{
+			"Name":"FIN.030.006",
+			"Type":"Numeric"
+		},
+		{
 			"Name":"Financial Expenses - Cash",
 			"Type":"Consolidated"
-		},
-		{
-			"Name":"Total Financial Revenues",
-			"Type":"Consolidated"
-		},
-		{
-			"Name":"FIN.050.004",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"FIN.010.001",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Total Interest Expenses",
-			"Type":"Consolidated"
-		},
-		{
-			"Name":"FIN.010.002",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Total Foreign Exchange Variation",
-			"Type":"Consolidated"
-		},
-		{
-			"Name":"Foreign Exchange Variation Over Cash",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"FIN.020.002",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Foreign Exchange Variation (LC)",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Hedge Accounting International investments",
-			"Type":"Numeric"
 		},
 		{
 			"Name":"FIN.030.001",
@@ -80,7 +43,15 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"FIN.030.006",
+			"Name":"Total Financial Revenues",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"FIN.040.001",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FIN.040.004",
 			"Type":"Numeric"
 		},
 		{
@@ -92,8 +63,32 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"FIN.040.004",
+			"Name":"Total Foreign Exchange Variation",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"FIN.020.002",
 			"Type":"Numeric"
+		},
+		{
+			"Name":"FIN.020.004",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Foreign Exchange Variation (LC)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Foreign Exchange Variation Over Cash",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Hedge Accounting International investments",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Total Hedge Results",
+			"Type":"Consolidated"
 		},
 		{
 			"Name":"FIN.050.001",
@@ -108,11 +103,19 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Total Hedge Results",
+			"Name":"FIN.050.004",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Total Interest Expenses",
 			"Type":"Consolidated"
 		},
 		{
-			"Name":"Other Financial Revenues - (Non Cash)",
+			"Name":"FIN.010.001",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FIN.010.002",
 			"Type":"Numeric"
 		},
 		{
@@ -120,22 +123,16 @@
 			"Type":"Consolidated"
 		},
 		{
-			"Name":"FIN.040.001",
+			"Name":"Other Financial Revenues - (Non Cash)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FIN.020.003",
 			"Type":"Numeric"
 		}
 	],
 	"Edges":
 	[
-		{
-			"ParentName":"FINANCIAL RESULTS",
-			"ComponentName":"Total Interest Expenses",
-			"Weight":1
-		},
-		{
-			"ParentName":"FINANCIAL RESULTS",
-			"ComponentName":"Total Foreign Exchange Variation",
-			"Weight":1
-		},
 		{
 			"ParentName":"FINANCIAL RESULTS",
 			"ComponentName":"Financial Expenses",
@@ -148,7 +145,17 @@
 		},
 		{
 			"ParentName":"FINANCIAL RESULTS",
+			"ComponentName":"Total Foreign Exchange Variation",
+			"Weight":1
+		},
+		{
+			"ParentName":"FINANCIAL RESULTS",
 			"ComponentName":"Total Hedge Results",
+			"Weight":1
+		},
+		{
+			"ParentName":"FINANCIAL RESULTS",
+			"ComponentName":"Total Interest Expenses",
 			"Weight":1
 		},
 		{
@@ -158,12 +165,12 @@
 		},
 		{
 			"ParentName":"Financial Expenses",
-			"ComponentName":"Financial Expenses - Cash",
+			"ComponentName":"FIN.030.006",
 			"Weight":1
 		},
 		{
 			"ParentName":"Financial Expenses",
-			"ComponentName":"FIN.030.006",
+			"ComponentName":"Financial Expenses - Cash",
 			"Weight":1
 		},
 		{
@@ -193,17 +200,7 @@
 		},
 		{
 			"ParentName":"Total Financial Revenues",
-			"ComponentName":"Financial Revenues",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Financial Revenues",
 			"ComponentName":"FIN.040.001",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Financial Revenues",
-			"ComponentName":"Financial Revenues Adjustment",
 			"Weight":1
 		},
 		{
@@ -212,18 +209,13 @@
 			"Weight":1
 		},
 		{
-			"ParentName":"Total Interest Expenses",
-			"ComponentName":"FIN.010.001",
+			"ParentName":"Total Financial Revenues",
+			"ComponentName":"Financial Revenues",
 			"Weight":1
 		},
 		{
-			"ParentName":"Total Interest Expenses",
-			"ComponentName":"FIN.010.002",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Foreign Exchange Variation",
-			"ComponentName":"Foreign Exchange Variation Over Cash",
+			"ParentName":"Total Financial Revenues",
+			"ComponentName":"Financial Revenues Adjustment",
 			"Weight":1
 		},
 		{
@@ -233,17 +225,22 @@
 		},
 		{
 			"ParentName":"Total Foreign Exchange Variation",
+			"ComponentName":"FIN.020.004",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Foreign Exchange Variation",
 			"ComponentName":"Foreign Exchange Variation (LC)",
 			"Weight":1
 		},
 		{
 			"ParentName":"Total Foreign Exchange Variation",
-			"ComponentName":"Hedge Accounting International investments",
+			"ComponentName":"Foreign Exchange Variation Over Cash",
 			"Weight":1
 		},
 		{
 			"ParentName":"Total Foreign Exchange Variation",
-			"ComponentName":"FIN.020.004",
+			"ComponentName":"Hedge Accounting International investments",
 			"Weight":1
 		},
 		{
@@ -264,6 +261,16 @@
 		{
 			"ParentName":"Total Hedge Results",
 			"ComponentName":"FIN.050.004",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Interest Expenses",
+			"ComponentName":"FIN.010.001",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Interest Expenses",
+			"ComponentName":"FIN.010.002",
 			"Weight":1
 		},
 		{

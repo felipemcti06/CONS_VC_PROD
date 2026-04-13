@@ -3,7 +3,9 @@
 	"Name":"Default",
 	"MDX@Code.link":"Default.mdx",
 	"Meta": {
-		"Aliases": {},
+		"Aliases": {
+			"[DFS.D.Accounts_PnL].[DFS.D.Accounts_PnL]": "Description"
+		},
 		"ExpandAboves": {
 			"[DFS.D.Accounts_PnL].[DFS.D.Accounts_PnL]": false,
 			"[ALL.D.Month].[ALL.D.Month]": false,

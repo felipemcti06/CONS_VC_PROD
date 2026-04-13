@@ -115,7 +115,7 @@ CellPutS( s05 , cCuboParametro, cProcesso, 'Tempo de Execução' );
 # =================================================================================
 #DimensionElementInsert ( cDimensao, '', cTotalizador, 'C' );
 
-DimensionDeleteAllElements( cDimensao );
+#DimensionDeleteAllElements( cDimensao );
 
 
 
@@ -149,7 +149,7 @@ sFlagDFS = CellGetS( cCuboMapa, vElement, 'DFs' );
 if( SCAN('DRE' , sFlagDFS ) <> 0);
 
     if (DIMIX( cDimensao, vElement )=0); 
-        DimensionElementInsert( cDimensao, '', vElement, 'N' );
+        DimensionElementInsert( cDimensao, '' , vElement, 'N' );
     endif;
 
 
@@ -202,6 +202,7 @@ sDesc = sDescElement;
 
 If  (  sCod @<>'' & sDesc @<> '' );
     AttrPutS( sCod | ' - ' | sDesc, cDimensao, sCod, sAlias );
+        AttrPutS(  sDesc, cDimensao, sCod, 'Description' );
 EndIf;
 
 

@@ -145,7 +145,7 @@ sFlagDFS = CellGetS( cCuboMapa, vElement, 'DFs' );
 
 # Adiciona elemento
 # ==========================
-if( sFlagDFS@='Fin_Results' );
+if( SCAN('Fin_Results' , sFlagDFS ) <> 0);
 
     if (DIMIX( cDimensao, vElement )=0); 
         DimensionElementInsert( cDimensao, '', vElement, 'N' );
@@ -179,7 +179,7 @@ sFlagDFS = CellGetS( cCuboMapa, vElement, 'DFs' );
 
 # Adiciona elemento
 # ==========================
-if( sFlagDFS@='Fin_Results' );
+if( SCAN('Fin_Results' , sFlagDFS ) <> 0);
 
 
 
