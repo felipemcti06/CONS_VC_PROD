@@ -303,7 +303,7 @@
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-  ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'Fixed Costs'] = N:
+  ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'CST.020.001'] = N:
   -DB('STG.100.DataBase_Uploads', 
      !ALL.D.Year, 
      !ALL.D.Month,
@@ -424,7 +424,7 @@
   ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'EBITDA', 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':{'Value', 'Adjustments'}] = N:
   ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'Contribution Margin']
    +
-  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'Fixed Costs']
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'CST.020.001']
      +
   ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'Operational Expenses']  
        +
@@ -872,7 +872,7 @@
 ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'Contribution Margin','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
 ]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'EBITDA'];
 
-['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'Fixed Costs','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE'}
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'CST.020.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE'}
 ]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'EBITDA'];
 
 ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'Operational Expenses','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
@@ -1073,7 +1073,7 @@
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':{'Contribution Margin','Fixed Costs','Depreciation','Operational Expenses','Other Op. Results'},'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':{'Contribution Margin','CST.020.001','Depreciation','Operational Expenses','Other Op. Results'},'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
   => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'EBIT','Value' );
 
 

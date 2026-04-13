@@ -197,7 +197,7 @@
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':{'Price Premium [$/ton]' , 'Reference Price [$/ton]' , 'Sales Volume [kt]'} , 'ALL.D.Products':'ALL.D.Products':'Total Products']=C:
+['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':{'Price Premium [$/ton]' , 'REV.010.001' , 'Sales Volume [kt]'} , 'ALL.D.Products':'ALL.D.Products':'Total Products']=C:
   0;
 
 # --------------------------------------------------------------------------------------------
@@ -206,7 +206,7 @@
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-  ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'% Operational Tax' ] = N:
+  ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'REV.030.001' ] = N:
   DB( 'STG.100.DataBase_Uploads',
       !ALL.D.Year,
       !ALL.D.Month,
@@ -237,7 +237,7 @@ C:
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-  ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Reference Price [$/ton]' , 'ALL.D.Market':'ALL.D.Market':'Domestic'] = N:
+  ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'REV.010.001' , 'ALL.D.Market':'ALL.D.Market':'Domestic'] = N:
   DB( 'STG.100.DataBase_Uploads',
       !ALL.D.Year,
       !ALL.D.Month,
@@ -290,7 +290,7 @@ C:
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-  ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Third Part Sales Volume [kt]' , 'ALL.D.Market':'ALL.D.Market':'Domestic'] = N:
+  ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'REV.020.003' , 'ALL.D.Market':'ALL.D.Market':'Domestic'] = N:
   DB( 'STG.100.DataBase_Uploads',
       !ALL.D.Year,
       !ALL.D.Month,
@@ -356,7 +356,7 @@ C:
   ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Net Revenue [$MM]' ] = N:
 (['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Sales Volume [kt]'] 
     *
-(  ['REV.M.100.Revenue_Consolidated': 'REV.M.100.Revenue_Consolidated':'Reference Price [$/ton]']
+(  ['REV.M.100.Revenue_Consolidated': 'REV.M.100.Revenue_Consolidated':'REV.010.001']
     +
   ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Price Premium [$/ton]'])
    \1000 );
@@ -370,7 +370,7 @@ C:
 # --------------------------------------------------------------------------------------------
   ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Gross Revenue [$MM]' ] = N:
  ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Net Revenue [$MM]' ]
-    *(1+[ 'REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'% Operational Tax']
+    *(1+[ 'REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'REV.030.001']
   # DB( 'ALL.015.Region_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Region, 'REV.030.001', 'Value' )
                                                                                             
                                                                                             );
@@ -403,7 +403,7 @@ C:
 ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Sales Volume [kt]','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
 ]=> ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Net Revenue [$MM]' ] ; 
 
-['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Reference Price [$/ton]','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'REV.010.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
 ]=> ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Net Revenue [$MM]' ] ; 
 
 ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Price Premium [$/ton]','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }

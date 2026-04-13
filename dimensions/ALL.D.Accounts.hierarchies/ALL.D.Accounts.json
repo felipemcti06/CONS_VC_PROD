@@ -4,15 +4,15 @@
 	"Elements":
 	[
 		{
-			"Name":"Reference Price [$/ton]",
+			"Name":"REV.010.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Local Market Sales Volume [kt]",
+			"Name":"REV.020.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Export Market Sales Volume [kt]",
+			"Name":"REV.020.002",
 			"Type":"Numeric"
 		},
 		{
@@ -20,7 +20,7 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Third Part Sales Volume [kt]",
+			"Name":"REV.020.003",
 			"Type":"Numeric"
 		},
 		{
@@ -32,23 +32,23 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Local Market Price Premium [$/ton]",
+			"Name":"REV.010.002",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Export Market Price Premium [$/ton]",
+			"Name":"REV.010.003",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Fixed Costs",
+			"Name":"CST.020.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Operating Expenses",
+			"Name":"EXP.020.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other",
+			"Name":"OOR.010.001",
 			"Type":"Numeric"
 		},
 		{
@@ -56,43 +56,43 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"% Operational Tax",
+			"Name":"REV.030.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Final Variable Sales Expenses",
+			"Name":"EXP.010.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other Variable Costs",
+			"Name":"CST.010.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Depreciation / amortization / depletion - Corporate",
+			"Name":"DEP.010.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Accrual of Interest (LC)",
+			"Name":"FIN.010.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"IOF - Cash",
+			"Name":"FIN.030.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"CPMF - Cash",
+			"Name":"FIN.030.002",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other Taxes (Except Income Tax) - Cash",
+			"Name":"FIN.030.003",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Bank Expenses - Cash",
+			"Name":"FIN.030.004",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other Financial Expenses- Cash",
+			"Name":"FIN.030.005",
 			"Type":"Numeric"
 		},
 		{
@@ -100,7 +100,7 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Monetary Variation (LC)",
+			"Name":"FIN.020.002",
 			"Type":"Numeric"
 		},
 		{
@@ -136,7 +136,7 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Additions/Low IT Income Statement",
+			"Name":"NOP.020.001",
 			"Type":"Numeric"
 		},
 		{
@@ -144,31 +144,31 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Interest Expenses",
+			"Name":"FIN.010.002",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Foreign Exchange Cash Flow Impact",
+			"Name":"FIN.020.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Funding (LC)",
+			"Name":"DEB.010.002",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Principal Amortization (LC)",
+			"Name":"DEB.010.005",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Interest Amortization (LC)",
+			"Name":"DEB.010.006",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other Variation (LC)",
+			"Name":"DEB.010.007",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Variation by buy/sale of company (LC)",
+			"Name":"DEB.010.008",
 			"Type":"Numeric"
 		},
 		{
@@ -176,95 +176,95 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"INITIAL GROSS DEBT (LC)",
+			"Name":"DEB.010.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Initial Gross Debt Leasing",
+			"Name":"DEB.020.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Funding Leasing",
+			"Name":"DEB.020.002",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Accrual of Interest Leasing",
+			"Name":"DEB.020.003",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Monetary Variation Leasing",
+			"Name":"DEB.020.004",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Principal Amortization Leasing",
+			"Name":"DEB.020.005",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Interest Amortization Leasing",
+			"Name":"DEB.020.006",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other Variation Leasing",
+			"Name":"DEB.020.007",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Variation by buy/sale of company Leasing",
+			"Name":"DEB.020.008",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Hedge Accounting International Investments",
+			"Name":"FIN.020.003",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Foreign Exchange Variation",
+			"Name":"FIN.020.004",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other Financial Revenues",
+			"Name":"FIN.040.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Financial Revenues Adjustments",
+			"Name":"FIN.040.002",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Mutual Net Results",
+			"Name":"FIN.040.004",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Balance Variation",
+			"Name":"FIN.050.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Liquidation",
+			"Name":"FIN.050.002",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Hedge Accounting - Derivatives",
+			"Name":"FIN.050.003",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Hedge Results",
+			"Name":"FIN.050.004",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other Financial Results - (Non Cash Effect)",
+			"Name":"FIN.060.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Account Receivable - Days o/ Rev - (DSO)",
+			"Name":"WKC.010.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Input Inventory- Days o/ VC",
+			"Name":"WKC.010.007",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other Accounts Receivables - Days o/ CPS",
+			"Name":"WKC.010.006",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Suppliers - Days o/ VC (DPO)",
+			"Name":"WKC.020.001",
 			"Type":"Numeric"
 		},
 		{
@@ -296,7 +296,7 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Operating Taxes Payable - % o/ Rev.",
+			"Name":"WKC.020.003",
 			"Type":"Numeric"
 		},
 		{
@@ -308,23 +308,23 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Equity Pick-Up Results",
+			"Name":"NOP.010.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other Non Operating Results",
+			"Name":"NOR.010.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Finished Product Inventory",
+			"Name":"WKC.010.002",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Product in Process Inventory",
+			"Name":"WKC.010.003",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Concentrate Inventory",
+			"Name":"WKC.010.004",
 			"Type":"Numeric"
 		},
 		{
@@ -332,11 +332,11 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Opex Adavancement",
+			"Name":"WKC.010.005",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Financial Expenses - Non Cash",
+			"Name":"FIN.030.006",
 			"Type":"Numeric"
 		},
 		{
@@ -344,7 +344,7 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Initial Working Capital Balance",
+			"Name":"WKC.030.001",
 			"Type":"Numeric"
 		},
 		{
@@ -560,67 +560,67 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Input Inventory Days + Other Variable Costs",
+			"Name":"WKC.010.008",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Suppliers - Days o/ VC (DPO) + Other Variable Costs",
+			"Name":"WKC.020.002",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Labor Obligations - Days o/ FC +Other Variable Costs",
+			"Name":"WKC.020.004",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other Accounts Payable - Days o/ CPS + Other Variable Costs + Fixed Costs",
+			"Name":"WKC.020.005",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Personnel Expenses",
+			"Name":"OBZ.010.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Maintenance",
+			"Name":"OBZ.010.002",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Facilities",
+			"Name":"OBZ.010.003",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Professionais Services",
+			"Name":"OBZ.010.004",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Legal",
+			"Name":"OBZ.010.005",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"IT",
+			"Name":"OBZ.010.006",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Operating Materiais",
+			"Name":"OBZ.010.007",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Shared Services center",
+			"Name":"OBZ.010.008",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Institucional",
+			"Name":"OBZ.010.009",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Marketing",
+			"Name":"OBZ.010.010",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Operating Vehicles",
+			"Name":"OBZ.010.011",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Travel and refunds",
+			"Name":"OBZ.010.012",
 			"Type":"Numeric"
 		}
 	],

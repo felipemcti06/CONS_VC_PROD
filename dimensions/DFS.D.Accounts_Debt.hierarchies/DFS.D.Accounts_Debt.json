@@ -64,7 +64,7 @@
 			"Type":"Consolidated"
 		},
 		{
-			"Name":"Foreign Exchange Variation",
+			"Name":"FIN.020.004",
 			"Type":"Numeric"
 		},
 		{
@@ -88,35 +88,35 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Initial Gross Debt Leasing",
+			"Name":"DEB.020.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Funding Leasing",
+			"Name":"DEB.020.002",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Accrual of Interest Leasing",
+			"Name":"DEB.020.003",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Monetary Variation Leasing",
+			"Name":"DEB.020.004",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Principal Amortization Leasing",
+			"Name":"DEB.020.005",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Interest Amortization Leasing",
+			"Name":"DEB.020.006",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other Variation Leasing",
+			"Name":"DEB.020.007",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Variation by buy/sale of company Leasing",
+			"Name":"DEB.020.008",
 			"Type":"Numeric"
 		},
 		{
@@ -133,7 +133,7 @@
 		},
 		{
 			"ParentName":"Initial Gross Debt Total",
-			"ComponentName":"Initial Gross Debt Leasing",
+			"ComponentName":"DEB.020.001",
 			"Weight":1
 		},
 		{
@@ -143,7 +143,7 @@
 		},
 		{
 			"ParentName":"Funding Total",
-			"ComponentName":"Funding Leasing",
+			"ComponentName":"DEB.020.002",
 			"Weight":1
 		},
 		{
@@ -153,7 +153,7 @@
 		},
 		{
 			"ParentName":"Accrual of Interest Total",
-			"ComponentName":"Accrual of Interest Leasing",
+			"ComponentName":"DEB.020.003",
 			"Weight":1
 		},
 		{
@@ -163,7 +163,7 @@
 		},
 		{
 			"ParentName":"Principal Amortization Total",
-			"ComponentName":"Principal Amortization Leasing",
+			"ComponentName":"DEB.020.005",
 			"Weight":1
 		},
 		{
@@ -173,7 +173,7 @@
 		},
 		{
 			"ParentName":"Interest Amortization Total",
-			"ComponentName":"Interest Amortization Leasing",
+			"ComponentName":"DEB.020.006",
 			"Weight":1
 		},
 		{
@@ -183,7 +183,7 @@
 		},
 		{
 			"ParentName":"Other Variation Total",
-			"ComponentName":"Other Variation Leasing",
+			"ComponentName":"DEB.020.007",
 			"Weight":1
 		},
 		{
@@ -198,12 +198,12 @@
 		},
 		{
 			"ParentName":"Variation by buy/sale of company Total",
-			"ComponentName":"Variation by buy/sale of company Leasing",
+			"ComponentName":"DEB.020.008",
 			"Weight":1
 		},
 		{
 			"ParentName":"Foreign Exchange Variation Total",
-			"ComponentName":"Foreign Exchange Variation",
+			"ComponentName":"FIN.020.004",
 			"Weight":1
 		},
 		{
@@ -213,7 +213,7 @@
 		},
 		{
 			"ParentName":"Monetary Variation Total",
-			"ComponentName":"Monetary Variation Leasing",
+			"ComponentName":"DEB.020.004",
 			"Weight":1
 		},
 		{

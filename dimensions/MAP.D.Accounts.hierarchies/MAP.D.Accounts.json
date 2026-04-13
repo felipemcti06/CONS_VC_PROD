@@ -4,19 +4,19 @@
 	"Elements":
 	[
 		{
-			"Name":"Local Market Sales Volume [kt]",
+			"Name":"REV.020.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Export Market Sales Volume [kt]",
+			"Name":"REV.020.002",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Local Market Price Premium [$/ton]",
+			"Name":"REV.010.002",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Export Market Price Premium [$/ton]",
+			"Name":"REV.010.003",
 			"Type":"Numeric"
 		},
 		{

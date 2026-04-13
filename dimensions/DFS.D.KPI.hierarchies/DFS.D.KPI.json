@@ -220,51 +220,51 @@
 			"Type":"Consolidated"
 		},
 		{
-			"Name":"Personnel Expenses",
+			"Name":"OBZ.010.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Maintenance",
+			"Name":"OBZ.010.002",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Facilities",
+			"Name":"OBZ.010.003",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Professionais Services",
+			"Name":"OBZ.010.004",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Legal",
+			"Name":"OBZ.010.005",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"IT",
+			"Name":"OBZ.010.006",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Operating Materiais",
+			"Name":"OBZ.010.007",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Shared Services center",
+			"Name":"OBZ.010.008",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Institucional",
+			"Name":"OBZ.010.009",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Marketing",
+			"Name":"OBZ.010.010",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Operating Vehicles",
+			"Name":"OBZ.010.011",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Travel and refunds",
+			"Name":"OBZ.010.012",
 			"Type":"Numeric"
 		},
 		{
@@ -438,62 +438,62 @@
 		},
 		{
 			"ParentName":"ZBB Total",
-			"ComponentName":"Personnel Expenses",
+			"ComponentName":"OBZ.010.001",
 			"Weight":1
 		},
 		{
 			"ParentName":"ZBB Total",
-			"ComponentName":"Maintenance",
+			"ComponentName":"OBZ.010.002",
 			"Weight":1
 		},
 		{
 			"ParentName":"ZBB Total",
-			"ComponentName":"Facilities",
+			"ComponentName":"OBZ.010.003",
 			"Weight":1
 		},
 		{
 			"ParentName":"ZBB Total",
-			"ComponentName":"Professionais Services",
+			"ComponentName":"OBZ.010.004",
 			"Weight":1
 		},
 		{
 			"ParentName":"ZBB Total",
-			"ComponentName":"Legal",
+			"ComponentName":"OBZ.010.005",
 			"Weight":1
 		},
 		{
 			"ParentName":"ZBB Total",
-			"ComponentName":"IT",
+			"ComponentName":"OBZ.010.006",
 			"Weight":1
 		},
 		{
 			"ParentName":"ZBB Total",
-			"ComponentName":"Operating Materiais",
+			"ComponentName":"OBZ.010.007",
 			"Weight":1
 		},
 		{
 			"ParentName":"ZBB Total",
-			"ComponentName":"Shared Services center",
+			"ComponentName":"OBZ.010.008",
 			"Weight":1
 		},
 		{
 			"ParentName":"ZBB Total",
-			"ComponentName":"Institucional",
+			"ComponentName":"OBZ.010.009",
 			"Weight":1
 		},
 		{
 			"ParentName":"ZBB Total",
-			"ComponentName":"Marketing",
+			"ComponentName":"OBZ.010.010",
 			"Weight":1
 		},
 		{
 			"ParentName":"ZBB Total",
-			"ComponentName":"Operating Vehicles",
+			"ComponentName":"OBZ.010.011",
 			"Weight":1
 		},
 		{
 			"ParentName":"ZBB Total",
-			"ComponentName":"Travel and refunds",
+			"ComponentName":"OBZ.010.012",
 			"Weight":1
 		},
 		{
