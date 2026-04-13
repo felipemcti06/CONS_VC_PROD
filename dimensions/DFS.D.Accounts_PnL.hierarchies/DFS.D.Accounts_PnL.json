@@ -4,151 +4,155 @@
 	"Elements":
 	[
 		{
-			"Name":"Gross Revenue",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Tax on Sales",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Net Revenue",
-			"Type":"Numeric"
-		},
-		{
 			"Name":"EXP.010.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Variable Costs",
+			"Name":"CST.010.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Contribution Margin",
+			"Name":"CST.020.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Contribution Margin (%)",
+			"Name":"DEP.010.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Fixed Costs",
+			"Name":"EXP.020.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Depreciation",
+			"Name":"OOR.010.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Operational Expenses",
+			"Name":"NOP.010.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other Op. Results",
+			"Name":"NOR.010.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"EBITDA",
+			"Name":"NOP.020.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"EBITDA/Net Revenue (%)",
+			"Name":"FIN.010.002",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Operating Profit",
+			"Name":"REV.099.002",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Financial Results",
+			"Name":"DRE.099.001",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"REV.099.001",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DRE.099.002",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DRE.099.003",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DRE.099.004",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DRE.099.005",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DRE.099.006",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DRE.099.007",
 			"Type":"Consolidated"
 		},
 		{
-			"Name":"Interest Accrual",
+			"Name":"FIN.099.004",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Financial Expenses",
+			"Name":"FIN.099.006",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Financial Revenues",
+			"Name":"FIN.099.003",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"FX Variation",
+			"Name":"DRE.099.008",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Others",
+			"Name":"DRE.099.009",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Equity Pickup",
+			"Name":"DRE.099.010",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other Non Op. Results",
+			"Name":"DRE.099.011",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Profit Before Income Tax",
+			"Name":"DRE.099.012",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Income Tax",
+			"Name":"DRE.099.013",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"% Income Tax",
+			"Name":"DRE.099.014",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Net Profit Before Minority Int.",
+			"Name":"DRE.099.015",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Minority Interests",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Net Profit",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"EBITDA Econômico",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"EBITDA FX",
+			"Name":"DRE.099.016",
 			"Type":"Numeric"
 		}
 	],
 	"Edges":
 	[
 		{
-			"ParentName":"Financial Results",
-			"ComponentName":"Interest Accrual",
+			"ParentName":"DRE.099.007",
+			"ComponentName":"FIN.010.002",
 			"Weight":1
 		},
 		{
-			"ParentName":"Financial Results",
-			"ComponentName":"Financial Expenses",
+			"ParentName":"DRE.099.007",
+			"ComponentName":"FIN.099.004",
 			"Weight":1
 		},
 		{
-			"ParentName":"Financial Results",
-			"ComponentName":"Financial Revenues",
+			"ParentName":"DRE.099.007",
+			"ComponentName":"FIN.099.006",
 			"Weight":1
 		},
 		{
-			"ParentName":"Financial Results",
-			"ComponentName":"FX Variation",
+			"ParentName":"DRE.099.007",
+			"ComponentName":"FIN.099.003",
 			"Weight":1
 		},
 		{
-			"ParentName":"Financial Results",
-			"ComponentName":"Others",
+			"ParentName":"DRE.099.007",
+			"ComponentName":"DRE.099.008",
 			"Weight":1
 		}
 	],

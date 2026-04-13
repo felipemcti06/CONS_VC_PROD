@@ -346,7 +346,7 @@ ViewZeroOut(cCuboDestino, cViewDestino);
 # =================================================================================
 # Atualiza dimensão do Mapa
 # =================================================================================
-sElm = vNome;
+sElm = vCod;
 sDim = 'MAP.D.Accounts';
 
 If( sElm @<> '' & DimIx( sDim, sElm ) = 0 );
@@ -368,18 +368,18 @@ sContadorRegistro = NumberToString( cContadorRegistro );
 # ===================================================================================
 # Retira os espaços em branco
 # ===================================================================================
-vNome		= Trim( vNome );
+vNomeSTG		= Trim( vNomeSTG );
 vCod	= Trim( vCod );
-vCod_BPC		= Trim( vCod_BPC );
-
+vNomeDFS		= Trim( vNomeDFS );
+vDFS		= Trim( vDFS );
 
 
 # ===================================================================================
 # Pula o Registro se todas as colunas estiverem vazias
 # ===================================================================================
-IF( '' @= vNome	 
+IF( '' @= vNomeSTG	 
   & '' @= vCod 
-  & '' @= vCod_BPC   
+  & '' @= vNomeDFS   
   );
   ItemSkip;
 EndIf;
@@ -407,8 +407,8 @@ EndIf;
 # Marca o registro para rejeitar 
 # Caso a variável for obrigatória e estiver em branco
 # ===================================================================================
-sElm	= vNome ;
-sCol	= 'Nome';
+sElm	= vNomeSTG ;
+sCol	= 'Nome STG';
 
 If( cExisteRegistroRejeitado = 0 );
    If( sElm @= '' );
@@ -423,8 +423,8 @@ EndIf;
 # Marca o registro para rejeitar 
 # Caso a variável for obrigatória e estiver em branco
 # ===================================================================================
-sElm	= vCod_BPC ;
-sCol	= 'Cod BPC';
+sElm	= vNomeDFS ;
+sCol	= 'Nome DFS';
 
 If( cExisteRegistroRejeitado = 0 );
    If( sElm @= '' );
@@ -447,10 +447,10 @@ If( cExisteRegistroRejeitado = 1  %  cUtilizarDebug @= 'S' );
    #--------------------------------------------------------------------------------------------
    If( cExisteCabecalhoRejeitado  = 0 );
       
-      sT01 = 'Nome';      
+      sT01 = 'Nome STG';      
       sT02 = 'Code';       
        
-      sT03 = 'Cod BPC';  
+      sT03 = 'Nome DFS';  
 
       
       sTMsg = 'Descrição do erro';
@@ -468,10 +468,10 @@ If( cExisteRegistroRejeitado = 1  %  cUtilizarDebug @= 'S' );
     #----------------------------------------------------------------------------------------------
    # Escreve o registro no arquivo de rejeitados e pula o registro
    #---------------------------------------------------------------------------------------------- 
-sReg01 = vNome ; 
+sReg01 = vNomeSTG ; 
 sReg02 = vCod;
     
-sReg03 =  vCod_BPC;
+sReg03 =  vNomeDFS;
 
 
 #    #----------------------------------------------------------------------------------------------
@@ -514,13 +514,13 @@ EndIf;
 # ===================================================================================
 # Grava os dados no cubo
 # ===================================================================================
-s01 = vCod;
-s02 = vCod_BPC;
 
 
-CellPutS ( s01, cCuboDestino, vNome, 'Code' );
-CellPutS ( s02, cCuboDestino, vNome, 'BPC Code' );
 
+CellPutS ( vCod, cCuboDestino, vCod, 'Code' );
+CellPutS ( vNomeSTG, cCuboDestino, vCod, 'Nome STG' );
+CellPutS ( vNomeDFS, cCuboDestino, vCod, 'Nome DFs' );
+CellPutS ( vDFS, cCuboDestino, vCod, 'DFs' );
 
 #endregion
 #region Epilog
