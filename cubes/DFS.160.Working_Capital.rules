@@ -388,6 +388,26 @@
            'ALL.D.Account_Line':'Total Accounts Line', 
            !DFS.M.160.Working_Capital 
       ); 
+
+# --------------------------------------------------------------------------------------------
+# Name WKC.010.012 - Product in Process Inventory- Days o/ CPS
+# Desc WKC.010.012 - Product in Process Inventory- Days o/ CPS
+# Date 02/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+ ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.010.012','DFS.M.160.Working_Capital':'Value'] = N:
+    DB('STG.100.DataBase_Uploads', 
+          !ALL.D.Year, 
+          !ALL.D.Month, 
+          !ALL.D.Version, 
+          !ALL.D.Currency, 
+          !ALL.D.Region, 
+           'ALL.D.Products':'Total Products', 
+           !DFS.D.Accounts_WC,
+           'ALL.D.Account_Line':'Total Accounts Line', 
+           !DFS.M.160.Working_Capital 
+      ); 
+
 # --------------------------------------------------------------------------------------------
 # Name Accounts Receivable
 # Desc Accounts Receivable

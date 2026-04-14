@@ -594,23 +594,23 @@
 # --------------------------------------------------------------------------------------------
 [ 'DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.002' ,
  'ALL.D.Currency':'ALL.D.Currency':{'BRL Conv.','EUR Conv.','USD Conv.'}]=N:
-['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.003']
+['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.014']
   -
-(['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.010.001' ]
+(['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.005' ]
 +
-['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.010.002']
+['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.006']
 +
-['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.010.003']
+['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.007']
   +
-['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.010.004']
+['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.013']
   +
-['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.010.005']
+['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.008']
   +
-['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.010.006']
+['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.009']
   +
-['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.010.007']
+['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.010']
   +
-['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.010.008'])
+['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.011'])
 ;
 
 
