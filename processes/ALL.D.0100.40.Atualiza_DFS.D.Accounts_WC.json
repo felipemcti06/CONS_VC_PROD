@@ -1,0 +1,27 @@
+{
+	"@type":"Process",
+	"Name":"ALL.D.0100.40.Atualiza_DFS.D.Accounts_WC",
+	"HasSecurityAccess":false,
+	"Code@Code.link":"ALL.D.0100.40.Atualiza_DFS.D.Accounts_WC.ti",
+	"DataSource":
+	{
+		"Type":"TM1DimensionSubset",
+		"dataSourceNameForServer":"MAP.D.Accounts:MAP.D.Accounts",
+		"dataSourceNameForClient":"MAP.D.Accounts:MAP.D.Accounts",
+		"subset":"All"
+	},
+	"Parameters":[],
+	"Variables":
+	[
+		{
+			"Name":"vElement",
+			"Type":"String",
+			"Position":1,
+			"StartByte":0,
+			"EndByte":0
+		}
+	],
+	"VariablesUIData": [
+		"VarType=32\fColType=827\f"
+	]
+}

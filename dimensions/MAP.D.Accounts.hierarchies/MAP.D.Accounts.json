@@ -570,6 +570,54 @@
 		{
 			"Name":"DEB.099.015",
 			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.099.001",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.099.002",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.099.003",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.099.004",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.099.005",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.099.006",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.099.007",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.099.008",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.099.009",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.020.007",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.020.008",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.030.003",
+			"Type":"Numeric"
 		}
 	],
 	"Subsets@Code.links":[]

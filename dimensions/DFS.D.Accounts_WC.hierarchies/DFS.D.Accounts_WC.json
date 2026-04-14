@@ -4,329 +4,306 @@
 	"Elements":
 	[
 		{
-			"Name":"Assets Accounts",
+			"Name":"WKC.030.002",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.099.001",
 			"Type":"Consolidated"
 		},
 		{
-			"Name":"Liabilities Accounts",
+			"Name":"WKC.099.002",
 			"Type":"Consolidated"
 		},
 		{
-			"Name":"KPIs Assets Accounts",
+			"Name":"WKC.010.007",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.010.009",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.020.001",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.099.004",
 			"Type":"Consolidated"
 		},
 		{
-			"Name":"PROJECTED BALANCE - ASSETS",
+			"Name":"WKC.099.003",
 			"Type":"Consolidated"
 		},
 		{
-			"Name":"Account Receivable - Days o/ Rev",
+			"Name":"WKC.010.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Finished Product Inventory - Days o/ CPS - Other",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Finished Product Inventory  Total- Days o/ CPS - Other",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Product in Process Inventory- Days o/ CPS",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Concentrate Inventory - Days o/ VC",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"MRO Inventory - Days o/ FC",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Input Inventory- Days o/ VC",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Opex Advancement - Days o/ VC",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"FX",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Accounts Receivable",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Finished Product Inventory",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Product in Process Inventory",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Concentrate Inventory",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"MRO Inventory",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Other Inputs Inventory",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Opex Adavancement",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Other Accounts Receivable",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"KPIs Liabilities Accounts",
+			"Name":"WKC.099.005",
 			"Type":"Consolidated"
 		},
 		{
-			"Name":"PROJECTED BALANCE - LIABILITIES",
+			"Name":"WKC.010.008",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.010.006",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.020.002",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.099.009",
 			"Type":"Consolidated"
 		},
 		{
-			"Name":"Suppliers - Days o/ VC",
+			"Name":"WKC.020.003",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Operating Taxes Payable - % o/ Rev.",
+			"Name":"WKC.020.004",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Labor Obligations - Days o/ FC",
+			"Name":"WKC.020.005",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other Accounts Payable - Days o/ CPS",
+			"Name":"WKC.010.002",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Suppliers",
+			"Name":"WKC.010.003",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Operating Taxes Payable",
+			"Name":"WKC.010.004",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Labor Obligations",
+			"Name":"WKC.010.005",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other Accounts Payable",
+			"Name":"WKC.030.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Initial Working Capital Balance",
+			"Name":"WKC.010.011",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Working Capital",
+			"Name":"WKC.010.012",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"WC adjust by buy/sale of company",
+			"Name":"WKC.010.013",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"(Invest.)/Divest. Working Capital",
+			"Name":"WKC.010.014",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other Accounts Receivables - Days o/ CPS",
+			"Name":"WKC.010.015",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Cash Conversion Cycle",
+			"Name":"WKC.020.006",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.010.017",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.099.006",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.099.007",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.099.008",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.020.007",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.020.008",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.030.003",
 			"Type":"Numeric"
 		}
 	],
 	"Edges":
 	[
 		{
-			"ParentName":"Assets Accounts",
-			"ComponentName":"KPIs Assets Accounts",
+			"ParentName":"WKC.099.001",
+			"ComponentName":"WKC.099.002",
 			"Weight":1
 		},
 		{
-			"ParentName":"Assets Accounts",
-			"ComponentName":"PROJECTED BALANCE - ASSETS",
+			"ParentName":"WKC.099.002",
+			"ComponentName":"WKC.030.002",
 			"Weight":1
 		},
 		{
-			"ParentName":"Liabilities Accounts",
-			"ComponentName":"KPIs Liabilities Accounts",
+			"ParentName":"WKC.099.002",
+			"ComponentName":"WKC.010.007",
 			"Weight":1
 		},
 		{
-			"ParentName":"Liabilities Accounts",
-			"ComponentName":"PROJECTED BALANCE - LIABILITIES",
+			"ParentName":"WKC.099.002",
+			"ComponentName":"WKC.010.009",
 			"Weight":1
 		},
 		{
-			"ParentName":"Liabilities Accounts",
-			"ComponentName":"Initial Working Capital Balance",
+			"ParentName":"WKC.099.002",
+			"ComponentName":"WKC.010.001",
 			"Weight":1
 		},
 		{
-			"ParentName":"Liabilities Accounts",
-			"ComponentName":"Working Capital",
+			"ParentName":"WKC.099.002",
+			"ComponentName":"WKC.010.008",
 			"Weight":1
 		},
 		{
-			"ParentName":"Liabilities Accounts",
-			"ComponentName":"WC adjust by buy/sale of company",
+			"ParentName":"WKC.099.002",
+			"ComponentName":"WKC.010.006",
 			"Weight":1
 		},
 		{
-			"ParentName":"Liabilities Accounts",
-			"ComponentName":"(Invest.)/Divest. Working Capital",
+			"ParentName":"WKC.099.002",
+			"ComponentName":"WKC.010.002",
 			"Weight":1
 		},
 		{
-			"ParentName":"Liabilities Accounts",
-			"ComponentName":"Cash Conversion Cycle",
+			"ParentName":"WKC.099.002",
+			"ComponentName":"WKC.010.003",
 			"Weight":1
 		},
 		{
-			"ParentName":"KPIs Assets Accounts",
-			"ComponentName":"Account Receivable - Days o/ Rev",
+			"ParentName":"WKC.099.002",
+			"ComponentName":"WKC.010.004",
 			"Weight":1
 		},
 		{
-			"ParentName":"KPIs Assets Accounts",
-			"ComponentName":"Finished Product Inventory - Days o/ CPS - Other",
+			"ParentName":"WKC.099.002",
+			"ComponentName":"WKC.010.005",
 			"Weight":1
 		},
 		{
-			"ParentName":"KPIs Assets Accounts",
-			"ComponentName":"Finished Product Inventory  Total- Days o/ CPS - Other",
+			"ParentName":"WKC.099.002",
+			"ComponentName":"WKC.010.011",
 			"Weight":1
 		},
 		{
-			"ParentName":"KPIs Assets Accounts",
-			"ComponentName":"Product in Process Inventory- Days o/ CPS",
+			"ParentName":"WKC.099.002",
+			"ComponentName":"WKC.010.012",
 			"Weight":1
 		},
 		{
-			"ParentName":"KPIs Assets Accounts",
-			"ComponentName":"Concentrate Inventory - Days o/ VC",
+			"ParentName":"WKC.099.002",
+			"ComponentName":"WKC.010.013",
 			"Weight":1
 		},
 		{
-			"ParentName":"KPIs Assets Accounts",
-			"ComponentName":"MRO Inventory - Days o/ FC",
+			"ParentName":"WKC.099.002",
+			"ComponentName":"WKC.010.014",
 			"Weight":1
 		},
 		{
-			"ParentName":"KPIs Assets Accounts",
-			"ComponentName":"Input Inventory- Days o/ VC",
+			"ParentName":"WKC.099.002",
+			"ComponentName":"WKC.010.015",
 			"Weight":1
 		},
 		{
-			"ParentName":"KPIs Assets Accounts",
-			"ComponentName":"Opex Advancement - Days o/ VC",
+			"ParentName":"WKC.099.002",
+			"ComponentName":"WKC.010.017",
 			"Weight":1
 		},
 		{
-			"ParentName":"KPIs Assets Accounts",
-			"ComponentName":"Other Accounts Receivables - Days o/ CPS",
+			"ParentName":"WKC.099.004",
+			"ComponentName":"WKC.099.003",
 			"Weight":1
 		},
 		{
-			"ParentName":"KPIs Assets Accounts",
-			"ComponentName":"FX",
+			"ParentName":"WKC.099.003",
+			"ComponentName":"WKC.020.001",
 			"Weight":1
 		},
 		{
-			"ParentName":"PROJECTED BALANCE - ASSETS",
-			"ComponentName":"Accounts Receivable",
+			"ParentName":"WKC.099.003",
+			"ComponentName":"WKC.020.002",
 			"Weight":1
 		},
 		{
-			"ParentName":"PROJECTED BALANCE - ASSETS",
-			"ComponentName":"Finished Product Inventory",
+			"ParentName":"WKC.099.003",
+			"ComponentName":"WKC.020.003",
 			"Weight":1
 		},
 		{
-			"ParentName":"PROJECTED BALANCE - ASSETS",
-			"ComponentName":"Product in Process Inventory",
+			"ParentName":"WKC.099.003",
+			"ComponentName":"WKC.020.004",
 			"Weight":1
 		},
 		{
-			"ParentName":"PROJECTED BALANCE - ASSETS",
-			"ComponentName":"Concentrate Inventory",
+			"ParentName":"WKC.099.003",
+			"ComponentName":"WKC.020.005",
 			"Weight":1
 		},
 		{
-			"ParentName":"PROJECTED BALANCE - ASSETS",
-			"ComponentName":"MRO Inventory",
+			"ParentName":"WKC.099.003",
+			"ComponentName":"WKC.030.001",
 			"Weight":1
 		},
 		{
-			"ParentName":"PROJECTED BALANCE - ASSETS",
-			"ComponentName":"Other Inputs Inventory",
+			"ParentName":"WKC.099.003",
+			"ComponentName":"WKC.020.006",
 			"Weight":1
 		},
 		{
-			"ParentName":"PROJECTED BALANCE - ASSETS",
-			"ComponentName":"Opex Adavancement",
+			"ParentName":"WKC.099.003",
+			"ComponentName":"WKC.099.006",
 			"Weight":1
 		},
 		{
-			"ParentName":"PROJECTED BALANCE - ASSETS",
-			"ComponentName":"Other Accounts Receivable",
+			"ParentName":"WKC.099.003",
+			"ComponentName":"WKC.099.007",
 			"Weight":1
 		},
 		{
-			"ParentName":"KPIs Liabilities Accounts",
-			"ComponentName":"Suppliers - Days o/ VC",
+			"ParentName":"WKC.099.003",
+			"ComponentName":"WKC.099.008",
 			"Weight":1
 		},
 		{
-			"ParentName":"KPIs Liabilities Accounts",
-			"ComponentName":"Operating Taxes Payable - % o/ Rev.",
+			"ParentName":"WKC.099.003",
+			"ComponentName":"WKC.020.007",
 			"Weight":1
 		},
 		{
-			"ParentName":"KPIs Liabilities Accounts",
-			"ComponentName":"Labor Obligations - Days o/ FC",
+			"ParentName":"WKC.099.003",
+			"ComponentName":"WKC.020.008",
 			"Weight":1
 		},
 		{
-			"ParentName":"KPIs Liabilities Accounts",
-			"ComponentName":"Other Accounts Payable - Days o/ CPS",
+			"ParentName":"WKC.099.005",
+			"ComponentName":"WKC.099.002",
 			"Weight":1
 		},
 		{
-			"ParentName":"PROJECTED BALANCE - LIABILITIES",
-			"ComponentName":"Suppliers",
-			"Weight":1
-		},
-		{
-			"ParentName":"PROJECTED BALANCE - LIABILITIES",
-			"ComponentName":"Operating Taxes Payable",
-			"Weight":1
-		},
-		{
-			"ParentName":"PROJECTED BALANCE - LIABILITIES",
-			"ComponentName":"Labor Obligations",
-			"Weight":1
-		},
-		{
-			"ParentName":"PROJECTED BALANCE - LIABILITIES",
-			"ComponentName":"Other Accounts Payable",
+			"ParentName":"WKC.099.009",
+			"ComponentName":"WKC.099.003",
 			"Weight":1
 		}
 	],

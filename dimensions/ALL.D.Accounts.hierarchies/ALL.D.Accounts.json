@@ -516,11 +516,107 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"DEB.99.003",
+			"Name":"DEB.099.003",
 			"Type":"Numeric"
 		},
 		{
 			"Name":"DEB.099.004",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DEB.099.005",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DEB.099.006",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DEB.099.007",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DEB.099.008",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DEB.099.009",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DEB.099.010",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DEB.099.011",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DEB.099.012",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DEB.099.013",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DEB.099.014",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DEB.099.002",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DEB.099.015",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.099.001",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.099.002",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.099.003",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.099.004",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.099.005",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.099.006",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.099.007",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.099.008",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.099.009",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.020.007",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.020.008",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WKC.030.003",
 			"Type":"Numeric"
 		}
 	],

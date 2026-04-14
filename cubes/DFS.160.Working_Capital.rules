@@ -21,6 +21,8 @@
         CONTINUE) ;
 
 
+
+
 # --------------------------------------------------------------------------------------------
 #
 #                      			INICIO DO BLOCO CALCULOS CONVERSÃƒO MOEDA
@@ -184,7 +186,7 @@
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'Finished Product Inventory - Days o/ CPS - Other'] = N:
+['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.010.011'] = N:
     DB('STG.100.DataBase_Uploads', 
           !ALL.D.Year, 
           !ALL.D.Month, 
@@ -192,35 +194,18 @@
           !ALL.D.Currency, 
           !ALL.D.Region, 
            'ALL.D.Products':'Total Products', 
-           'Finished Product Inventory - Days o/ CPS - Other',
+           !DFS.D.Accounts_WC,
            'ALL.D.Account_Line':'Total Accounts Line', 
            !DFS.M.160.Working_Capital
       ); 
-# --------------------------------------------------------------------------------------------
-# Name  Product in Process Inventory- Days o/ CPS
-# Desc   Product in Process Inventory- Days o/ CPS
-# Date 02/2026
-# Author: Miranda / Helder
-# --------------------------------------------------------------------------------------------
-['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'Product in Process Inventory- Days o/ CPS'] = N:
-    DB('STG.100.DataBase_Uploads', 
-          !ALL.D.Year, 
-          !ALL.D.Month, 
-          !ALL.D.Version, 
-          !ALL.D.Currency, 
-          !ALL.D.Region, 
-           'ALL.D.Products':'Total Products', 
-           'Product in Process Inventory- Days o/ CPS',
-           'ALL.D.Account_Line':'Total Accounts Line', 
-           !DFS.M.160.Working_Capital
-      ); 
+
 # --------------------------------------------------------------------------------------------
 # Name  Concentrate Inventory - Days o/ VC
 # Desc   Concentrate Inventory - Days o/ VC
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'Concentrate Inventory - Days o/ VC'] = N:
+['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.010.013'] = N:
     DB('STG.100.DataBase_Uploads', 
           !ALL.D.Year, 
           !ALL.D.Month, 
@@ -228,7 +213,7 @@
           !ALL.D.Currency, 
           !ALL.D.Region, 
            'ALL.D.Products':'Total Products', 
-           'Concentrate Inventory - Days o/ VC',
+           !DFS.D.Accounts_WC,
            'ALL.D.Account_Line':'Total Accounts Line', 
            !DFS.M.160.Working_Capital
       );
@@ -239,7 +224,7 @@
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'MRO Inventory - Days o/ FC'] = N:
+['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.010.014'] = N:
     DB('STG.100.DataBase_Uploads', 
           !ALL.D.Year, 
           !ALL.D.Month, 
@@ -247,7 +232,7 @@
           !ALL.D.Currency, 
           !ALL.D.Region, 
            'ALL.D.Products':'Total Products', 
-           'MRO Inventory - Days o/ FC',
+           !DFS.D.Accounts_WC,
            'ALL.D.Account_Line':'Total Accounts Line', 
            !DFS.M.160.Working_Capital
       );
@@ -259,7 +244,7 @@
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'Opex Advancement - Days o/ VC'] = N:
+['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.010.015'] = N:
     DB('STG.100.DataBase_Uploads', 
           !ALL.D.Year, 
           !ALL.D.Month, 
@@ -267,7 +252,7 @@
           !ALL.D.Currency, 
           !ALL.D.Region, 
            'ALL.D.Products':'Total Products', 
-           'Opex Advancement - Days o/ VC',
+           !DFS.D.Accounts_WC,
            'ALL.D.Account_Line':'Total Accounts Line', 
            !DFS.M.160.Working_Capital
       );
@@ -277,7 +262,7 @@
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'Account Receivable - Days o/ Rev'] = N:
+['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.030.002'] = N:
     DB('STG.100.DataBase_Uploads', 
           !ALL.D.Year, 
           !ALL.D.Month, 
@@ -285,7 +270,7 @@
           !ALL.D.Currency, 
           !ALL.D.Region, 
            'ALL.D.Products':'Total Products', 
-           'Account Receivable - Days o/ Rev',
+           !DFS.D.Accounts_WC,
            'ALL.D.Account_Line':'Total Accounts Line', 
            !DFS.M.160.Working_Capital
       ); 
@@ -316,7 +301,7 @@
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.010.006'] = N:
+['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.010.009'] = N:
     DB('STG.100.DataBase_Uploads', 
           !ALL.D.Year, 
           !ALL.D.Month, 
@@ -324,7 +309,7 @@
           !ALL.D.Currency, 
           !ALL.D.Region, 
            'ALL.D.Products':'Total Products', 
-           'Other Accounts Receivables - Days o/ DSO',
+           !DFS.D.Accounts_WC,
            'ALL.D.Account_Line':'Total Accounts Line', 
           !DFS.M.160.Working_Capital 
       ); 
@@ -335,7 +320,7 @@
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'Suppliers - Days o/ VC'] = N:
+['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.020.001'] = N:
     DB('STG.100.DataBase_Uploads', 
           !ALL.D.Year, 
           !ALL.D.Month, 
@@ -373,7 +358,7 @@
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'Labor Obligations - Days o/ FC'] = N:
+['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.020.007'] = N:
     DB('STG.100.DataBase_Uploads', 
           !ALL.D.Year, 
           !ALL.D.Month, 
@@ -381,7 +366,7 @@
           !ALL.D.Currency, 
           !ALL.D.Region, 
            'ALL.D.Products':'Total Products', 
-           'Labor Obligations - Days o/ FC',
+           !DFS.D.Accounts_WC,
            'ALL.D.Account_Line':'Total Accounts Line', 
            !DFS.M.160.Working_Capital 
       ); 
@@ -391,7 +376,7 @@
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'Other Accounts Payable - Days o/ CPS'] = N:
+['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.020.006'] = N:
     DB('STG.100.DataBase_Uploads', 
           !ALL.D.Year, 
           !ALL.D.Month, 
@@ -399,7 +384,7 @@
           !ALL.D.Currency, 
           !ALL.D.Region, 
            'ALL.D.Products':'Total Products', 
-           'Other Accounts Payable - Days o/ CPS',
+           !DFS.D.Accounts_WC,
            'ALL.D.Account_Line':'Total Accounts Line', 
            !DFS.M.160.Working_Capital 
       ); 
@@ -409,7 +394,7 @@
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.D.Accounts_WC':'Accounts Receivable','DFS.M.160.Working_Capital':'DFS.M.160.Working_Capital':'Value'] = N:
+['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.010.001','DFS.M.160.Working_Capital':'DFS.M.160.Working_Capital':'Value'] = N:
   DB('STG.100.DataBase_Uploads', 
           !ALL.D.Year, 
           !ALL.D.Month, 
@@ -417,7 +402,7 @@
           !ALL.D.Currency, 
           !ALL.D.Region, 
            'ALL.D.Products':'Total Products', 
-           'Account Receivable - Days o/ Rev',
+           'WKC.030.002',
            'ALL.D.Account_Line':'Total Accounts Line', 
            'Value' ) 
     \
@@ -445,7 +430,7 @@
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.D.Accounts_WC':'Other Inputs Inventory','DFS.M.160.Working_Capital':'Value'] = N:
+['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.010.008','DFS.M.160.Working_Capital':'Value'] = N:
   
   DB('STG.100.DataBase_Uploads', 
           !ALL.D.Year, 
@@ -485,7 +470,7 @@
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.D.Accounts_WC':'Other Accounts Receivable','DFS.M.160.Working_Capital':'Value'] = N:
+['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.010.006','DFS.M.160.Working_Capital':'Value'] = N:
 
   DB('STG.100.DataBase_Uploads', 
           !ALL.D.Year, 
@@ -494,7 +479,7 @@
           !ALL.D.Currency, 
           !ALL.D.Region, 
            'ALL.D.Products':'Total Products', 
-           'Other Accounts Receivables - Days o/ DSO',
+           'WKC.010.009',
            'ALL.D.Account_Line':'Total Accounts Line', 
            'Value' ) 
     \
@@ -521,7 +506,7 @@
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_WC':'Suppliers','DFS.M.160.Working_Capital':'Value'] = N:
+  ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.020.002','DFS.M.160.Working_Capital':'Value'] = N:
 
       DB('STG.100.DataBase_Uploads', 
           !ALL.D.Year, 
@@ -558,7 +543,7 @@
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_WC':'Operating Taxes Payable','DFS.M.160.Working_Capital':'Value'] = N:
+  ['DFS.D.Accounts_WC':'WKC.020.008','DFS.M.160.Working_Capital':'Value'] = N:
 
       DB('STG.100.DataBase_Uploads', 
           !ALL.D.Year, 
@@ -586,7 +571,7 @@
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
- ['DFS.D.Accounts_WC':'Labor Obligations','DFS.M.160.Working_Capital':'Value'] = N:
+ ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.020.004','DFS.M.160.Working_Capital':'Value'] = N:
       DB('STG.100.DataBase_Uploads', 
           !ALL.D.Year, 
           !ALL.D.Month, 
@@ -594,7 +579,7 @@
           !ALL.D.Currency, 
           !ALL.D.Region, 
            'ALL.D.Products':'Total Products', 
-           'Labor Obligations - Days o/ FC',
+           'WKC.020.007',
            'ALL.D.Account_Line':'Total Accounts Line', 
            'Value' ) 
     \
@@ -622,7 +607,7 @@
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
- ['DFS.D.Accounts_WC':'Other Accounts Payable','DFS.M.160.Working_Capital':'Value'] = N:
+ ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.020.005','DFS.M.160.Working_Capital':'Value'] = N:
       DB('STG.100.DataBase_Uploads', 
           !ALL.D.Year, 
           !ALL.D.Month, 
@@ -630,7 +615,7 @@
           !ALL.D.Currency, 
           !ALL.D.Region, 
            'ALL.D.Products':'Total Products', 
-           'Other Accounts Payable - Days o/ CPS',
+           'WKC.020.006',
            'ALL.D.Account_Line':'Total Accounts Line', 
            'Value' ) 
 
@@ -680,7 +665,7 @@
           !ALL.D.Currency, 
           !ALL.D.Region, 
            'ALL.D.Products':'Total Products', 
-           'Finished Product Inventory - Days o/ CPS - Other',
+           'WKC.010.011',
            'ALL.D.Account_Line':'Total Accounts Line', 
            'Value' ) 
     \
@@ -729,7 +714,7 @@
           !ALL.D.Currency, 
           !ALL.D.Region, 
            'ALL.D.Products':'Total Products', 
-           'Product in Process Inventory- Days o/ CPS',
+           'WKC.010.012',
            'ALL.D.Account_Line':'Total Accounts Line', 
            'Value' ) 
    
@@ -772,7 +757,7 @@
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
- ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'MRO Inventory','DFS.M.160.Working_Capital':'Value'] = N:
+ ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.010.004','DFS.M.160.Working_Capital':'Value'] = N:
 
          DB('STG.100.DataBase_Uploads', 
           !ALL.D.Year, 
@@ -781,7 +766,7 @@
           !ALL.D.Currency, 
           !ALL.D.Region, 
            'ALL.D.Products':'Total Products', 
-           'MRO Inventory - Days o/ FC',
+           'WKC.010.014',
            'ALL.D.Account_Line':'Total Accounts Line', 
            'Value' ) 
   \
@@ -821,7 +806,7 @@
           !ALL.D.Currency, 
           !ALL.D.Region, 
            'ALL.D.Products':'Total Products', 
-           'Concentrate Inventory - Days o/ VC',
+           'WKC.010.013',
            'ALL.D.Account_Line':'Total Accounts Line', 
            'Value' ) 
   \
@@ -860,7 +845,7 @@
           !ALL.D.Currency, 
           !ALL.D.Region, 
            'ALL.D.Products':'Total Products', 
-           'Opex Advancement - Days o/ VC',
+           'WKC.010.015',
            'ALL.D.Account_Line':'Total Accounts Line', 
            'Value' ) 
  \
@@ -885,12 +870,12 @@
      )
      ;   
 # --------------------------------------------------------------------------------------------
-# Name WC adjust by buy/sale of company
-# Desc WC adjust by buy/sale of company
+# Name WKC.099.007
+# Desc WKC.099.007
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
- ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WC adjust by buy/sale of company','DFS.M.160.Working_Capital':'Value'] = N:
+ ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.099.007','DFS.M.160.Working_Capital':'Value'] = N:
 
          DB('STG.100.DataBase_Uploads', 
           !ALL.D.Year, 
@@ -899,7 +884,7 @@
           !ALL.D.Currency, 
           !ALL.D.Region, 
            'ALL.D.Products':'Total Products', 
-           'WC adjust by buy/sale of company',
+           'WKC.099.007',
            'ALL.D.Account_Line':'Total Accounts Line', 
            'Value' 
            ) ;
@@ -931,7 +916,7 @@
        !ALL.D.Version,
        !ALL.D.Currency,
        !ALL.D.Region,
-       'Working Capital',
+       'WKC.099.006',
        'DFS.M.160.Working_Capital':'Total Value'
      )
 ;
@@ -942,7 +927,7 @@
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
- ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'Working Capital'] = N:
+ ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.099.006'] = N:
 
 DB( 'DFS.160.Working_Capital', 
     !ALL.D.Year,
@@ -950,7 +935,7 @@ DB( 'DFS.160.Working_Capital',
     !ALL.D.Version,
     !ALL.D.Currency,
     !ALL.D.Region,
-    'DFS.D.Accounts_WC':'PROJECTED BALANCE - ASSETS',
+    'DFS.D.Accounts_WC':'WKC.099.005',
     !DFS.M.160.Working_Capital 
   )
    -
@@ -960,26 +945,26 @@ DB( 'DFS.160.Working_Capital',
     !ALL.D.Version,
     !ALL.D.Currency,
     !ALL.D.Region,
-    'DFS.D.Accounts_WC':'PROJECTED BALANCE - LIABILITIES',
+    'DFS.D.Accounts_WC':'WKC.099.009',
     !DFS.M.160.Working_Capital 
   )  
    ;
 
 
 # --------------------------------------------------------------------------------------------
-# Name (Invest.)/Divest. Working Capital
-# Desc (Invest.)/Divest. Working Capital
+# Name WKC.099.008
+# Desc WKC.099.008
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
- ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'(Invest.)/Divest. Working Capital'] = N:
+ ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.099.008'] = N:
 
 ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.030.001']
    -
- ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'Working Capital'] 
+ ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.099.006'] 
    
    +
-  ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WC adjust by buy/sale of company'] 
+  ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.099.007'] 
   
    ;
 # --------------------------------------------------------------------------------------------
@@ -988,14 +973,14 @@ DB( 'DFS.160.Working_Capital',
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
- ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'Cash Conversion Cycle'] =
+ ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.030.003'] =
 
-['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'Account Receivable - Days o/ Rev']
+['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.030.002']
    +
  ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.010.007'] 
    
    -
-  ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'Suppliers - Days o/ VC'] 
+  ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.020.001'] 
   
    ;
 # --------------------------------------------------------------------------------------------
@@ -1037,7 +1022,7 @@ DB( 'DFS.160.Working_Capital',
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'Working Capital'
+['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.099.006'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
 ]=> 
 DB( 'DFS.160.Working_Capital',
@@ -1057,32 +1042,32 @@ DB( 'DFS.160.Working_Capital',
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'PROJECTED BALANCE - ASSETS',
+['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.099.005',
 'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'Working Capital'];
+]=>['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.099.006'];
 
-['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'PROJECTED BALANCE - LIABILITIES',
+['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.099.009',
 'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'Working Capital'];
+]=>['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.099.006'];
 
 
 # --------------------------------------------------------------------------------------------
-# Name: (Invest.)/Divest. Working Capital
-# Desc: (Invest.)/Divest. Working Capital'
+# Name: WKC.099.008
+# Desc: WKC.099.008'
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
 ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.030.001',
 'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'(Invest.)/Divest. Working Capital'];
+]=>['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.099.008'];
 
-['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'Working Capital',
+['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.099.006',
 'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'(Invest.)/Divest. Working Capital'];
+]=>['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.099.008'];
 
-['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WC adjust by buy/sale of company',
+['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.099.007',
 'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'(Invest.)/Divest. Working Capital'];
+]=>['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.099.008'];
 
 # --------------------------------------------------------------------------------------------
 # Name: Cash Conversion Cycle
@@ -1090,17 +1075,17 @@ DB( 'DFS.160.Working_Capital',
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'Account Receivable - Days o/ Rev',
+['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.030.002',
 'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'Cash Conversion Cycle'];
+]=>['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.030.003'];
 
 ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.010.007',
 'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'Cash Conversion Cycle'];
+]=>['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.030.003'];
 
-['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'Suppliers - Days o/ VC',
+['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.020.001',
 'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'Cash Conversion Cycle'];    
+]=>['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.030.003'];
 
 # --------------------------------------------------------------------------------------------
 #                      			BLOCO DE FEEDERS EXTERNOS
@@ -1110,12 +1095,12 @@ DB( 'DFS.160.Working_Capital',
 #-------------------------------------# DFS.140#-----------------------------------------
 ###############################################################
 # --------------------------------------------------------------------------------------------
-# Name: (Invest.)/Divest. Working Capital
-# Desc:  (Invest.)/Divest. Working Capital
+# Name: WKC.099.008
+# Desc:  WKC.099.008
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'(Invest.)/Divest. Working Capital',
+['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.099.008',
 'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
 ]=>DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Working capital', !DFS.M.160.Working_Capital);
 
@@ -1124,6 +1109,6 @@ DB( 'DFS.160.Working_Capital',
 #-------------------------------------# DFS.200#-----------------------------------------
 ###############################################################
 
-['DFS.M.160.Working_Capital':'DFS.M.160.Working_Capital':'Value','DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'Working Capital',
+['DFS.M.160.Working_Capital':'DFS.M.160.Working_Capital':'Value','DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.099.006',
 'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
 => DB( 'DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'ALL.D.Products':'PROD099', 'Working Capital Balance','Value' );
