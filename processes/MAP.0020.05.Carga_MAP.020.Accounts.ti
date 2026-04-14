@@ -525,6 +525,13 @@ CellPutS ( vCod_BPC, cCuboDestino, vCod, 'BPC Code' );
 CellPutS ( vNomeSTG, cCuboDestino, vCod, 'Nome STG' );
 CellPutS ( vNomeDFS, cCuboDestino, vCod, 'Nome DFs' );
 CellPutS ( vDFS, cCuboDestino, vCod, 'DFs' );
+CellPutS ( vCod_N1, cCuboDestino, vCod, 'Cód Nível 1' );
+CellPutS ( vCod_N2, cCuboDestino, vCod, 'Cód Nível 2' );
+CellPutS ( vCod_N3, cCuboDestino, vCod, 'Cód Nível 3' );
+CellPutS ( vCod_N4, cCuboDestino, vCod, 'Cód Nível 4' );
+CellPutS ( vCod_N5, cCuboDestino, vCod, 'Cód Nível 5' );
+
+
 #endregion
 #region Epilog
 # ===============================================================================================================

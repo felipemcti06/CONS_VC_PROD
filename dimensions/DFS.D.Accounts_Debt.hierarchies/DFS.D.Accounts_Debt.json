@@ -1,38 +1,17 @@
 {
 	"@type":"Hierarchy",
 	"Name":"DFS.D.Accounts_Debt",
+	"ElementsSortType":"ByHierarchy",
+	"ComponentsSortType":"ByName",
+	"ComponentsSortSense":"Ascending",
 	"Elements":
 	[
 		{
+			"Name":"DEB.099.005",
+			"Type":"Consolidated"
+		},
+		{
 			"Name":"DEB.010.001",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"DEB.010.002",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"DEB.010.003",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"DEB.010.004",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"DEB.010.005",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"DEB.010.006",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"DEB.010.007",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"DEB.010.008",
 			"Type":"Numeric"
 		},
 		{
@@ -40,7 +19,23 @@
 			"Type":"Numeric"
 		},
 		{
+			"Name":"DEB.099.006",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"DEB.010.002",
+			"Type":"Numeric"
+		},
+		{
 			"Name":"DEB.020.002",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DEB.099.007",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"DEB.010.003",
 			"Type":"Numeric"
 		},
 		{
@@ -48,7 +43,23 @@
 			"Type":"Numeric"
 		},
 		{
+			"Name":"DEB.099.013",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"DEB.010.004",
+			"Type":"Numeric"
+		},
+		{
 			"Name":"DEB.020.004",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DEB.099.008",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"DEB.010.005",
 			"Type":"Numeric"
 		},
 		{
@@ -56,7 +67,23 @@
 			"Type":"Numeric"
 		},
 		{
+			"Name":"DEB.099.009",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"DEB.010.006",
+			"Type":"Numeric"
+		},
+		{
 			"Name":"DEB.020.006",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DEB.099.010",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"DEB.010.007",
 			"Type":"Numeric"
 		},
 		{
@@ -64,16 +91,143 @@
 			"Type":"Numeric"
 		},
 		{
+			"Name":"DEB.099.011",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"DEB.010.008",
+			"Type":"Numeric"
+		},
+		{
 			"Name":"DEB.020.008",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"DEB.99.003",
+			"Name":"DEB.099.014",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"DEB.099.003",
 			"Type":"Numeric"
 		},
 		{
 			"Name":"DEB.099.004",
 			"Type":"Numeric"
+		},
+		{
+			"Name":"DEB.099.012",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"DEB.099.002",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DEB.099.015",
+			"Type":"Numeric"
+		}
+	],
+	"Edges":
+	[
+		{
+			"ParentName":"DEB.099.005",
+			"ComponentName":"DEB.010.001",
+			"Weight":1
+		},
+		{
+			"ParentName":"DEB.099.005",
+			"ComponentName":"DEB.020.001",
+			"Weight":1
+		},
+		{
+			"ParentName":"DEB.099.006",
+			"ComponentName":"DEB.010.002",
+			"Weight":1
+		},
+		{
+			"ParentName":"DEB.099.006",
+			"ComponentName":"DEB.020.002",
+			"Weight":1
+		},
+		{
+			"ParentName":"DEB.099.007",
+			"ComponentName":"DEB.010.003",
+			"Weight":1
+		},
+		{
+			"ParentName":"DEB.099.007",
+			"ComponentName":"DEB.020.003",
+			"Weight":1
+		},
+		{
+			"ParentName":"DEB.099.013",
+			"ComponentName":"DEB.010.004",
+			"Weight":1
+		},
+		{
+			"ParentName":"DEB.099.013",
+			"ComponentName":"DEB.020.004",
+			"Weight":1
+		},
+		{
+			"ParentName":"DEB.099.008",
+			"ComponentName":"DEB.010.005",
+			"Weight":1
+		},
+		{
+			"ParentName":"DEB.099.008",
+			"ComponentName":"DEB.020.005",
+			"Weight":1
+		},
+		{
+			"ParentName":"DEB.099.009",
+			"ComponentName":"DEB.010.006",
+			"Weight":1
+		},
+		{
+			"ParentName":"DEB.099.009",
+			"ComponentName":"DEB.020.006",
+			"Weight":1
+		},
+		{
+			"ParentName":"DEB.099.010",
+			"ComponentName":"DEB.010.007",
+			"Weight":1
+		},
+		{
+			"ParentName":"DEB.099.010",
+			"ComponentName":"DEB.020.007",
+			"Weight":1
+		},
+		{
+			"ParentName":"DEB.099.011",
+			"ComponentName":"DEB.010.008",
+			"Weight":1
+		},
+		{
+			"ParentName":"DEB.099.011",
+			"ComponentName":"DEB.020.008",
+			"Weight":1
+		},
+		{
+			"ParentName":"DEB.099.014",
+			"ComponentName":"DEB.099.003",
+			"Weight":1
+		},
+		{
+			"ParentName":"DEB.099.014",
+			"ComponentName":"DEB.099.004",
+			"Weight":1
+		},
+		{
+			"ParentName":"DEB.099.012",
+			"ComponentName":"DEB.099.002",
+			"Weight":1
+		},
+		{
+			"ParentName":"DEB.099.012",
+			"ComponentName":"DEB.099.015",
+			"Weight":1
 		}
 	],
 	"Subsets@Code.links":[]

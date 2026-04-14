@@ -10,7 +10,7 @@
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-[ 'DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':{'DEB.99.003', 'DEB.099.004' , 'Closing Balance Debt Total'}]=
+[ 'DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':{'DEB.099.003', 'DEB.099.004' , 'DEB.099.014'}]=
     IF( DTYPE( 'ALL.D.Month', !ALL.D.Month )@='C', 
   DB( 'DFS.180.Gross_Debt', 
       !ALL.D.Year ,
@@ -18,7 +18,7 @@
       !ALL.D.Version,
       !ALL.D.Currency,
       !ALL.D.Region,
-      'DFS.D.Accounts_Debt':'DEB.99.003',
+      'DFS.D.Accounts_Debt':'DEB.099.003',
       'DFS.M.180.Gross_Debt':'Total Value'
     )
     , CONTINUE );
@@ -31,7 +31,7 @@
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
 
-[ 'DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt': { 'DEB.010.001' , 'DEB.020.001' , 'Initial Gross Debt Total' }]=
+[ 'DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt': { 'DEB.010.001' , 'DEB.020.001' , 'DEB.099.005' }]=
     IF( DTYPE( 'ALL.D.Month', !ALL.D.Month )@='C', 
   DB( 'DFS.180.Gross_Debt', 
       !ALL.D.Year ,
@@ -113,7 +113,7 @@
 
 
 #-------------------------------------# VALOR FINAL  #-----------------------------------------
-  ['ALL.D.Currency':'ALL.D.Currency':'USD Conv.', 'DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':{'DEB.99.003' , 'DEB.099.004'} ] = N:
+  ['ALL.D.Currency':'ALL.D.Currency':'USD Conv.', 'DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':{'DEB.099.003' , 'DEB.099.004'} ] = N:
 
   #USD  
   ['ALL.D.Currency':'ALL.D.Currency':'USD']
@@ -197,7 +197,7 @@
 
 
 #-------------------------------------# VALOR FINAL  #-----------------------------------------
-  ['ALL.D.Currency':'ALL.D.Currency':'BRL Conv.' , 'DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':{ 'DEB.99.003' , 'DEB.099.004'} ] = N:
+  ['ALL.D.Currency':'ALL.D.Currency':'BRL Conv.' , 'DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':{ 'DEB.099.003' , 'DEB.099.004'} ] = N:
   #    #BRL  
   ['ALL.D.Currency':'ALL.D.Currency':'BRL']
      +
@@ -300,7 +300,7 @@
 
 
 #-------------------------------------# VALOR FINAL  #-----------------------------------------
-  ['ALL.D.Currency':'ALL.D.Currency':'EUR Conv.' , 'DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':{ 'DEB.99.003' , 'DEB.099.004'}  ] = N: 
+  ['ALL.D.Currency':'ALL.D.Currency':'EUR Conv.' , 'DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':{ 'DEB.099.003' , 'DEB.099.004'}  ] = N: 
 #EUR     
   ['ALL.D.Currency':'ALL.D.Currency':'EUR']
      +
@@ -387,7 +387,7 @@
       !ALL.D.Version,
       !ALL.D.Currency,
       !ALL.D.Region,
-      'DFS.D.Accounts_Debt':'DEB.99.003',
+      'DFS.D.Accounts_Debt':'DEB.099.003',
       'DFS.M.180.Gross_Debt':'Total Value'
     )
   
@@ -554,7 +554,7 @@
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-[ 'DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.99.003']=N:
+[ 'DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.003']=N:
 ['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.010.001']
 +
 ['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.010.002']
@@ -581,7 +581,7 @@
 #       !ALL.D.Version,
 #       !ALL.D.Currency,
 #       !ALL.D.Region,
-#       'DFS.D.Accounts_Debt':'DEB.99.003',
+#       'DFS.D.Accounts_Debt':'DEB.099.003',
 #       'DFS.M.180.Gross_Debt':'Total Value'
 #     )
 #     , CONTINUE );
@@ -592,9 +592,9 @@
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-[ 'DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'FIN.020.004' ,
+[ 'DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.002' ,
  'ALL.D.Currency':'ALL.D.Currency':{'BRL Conv.','EUR Conv.','USD Conv.'}]=N:
-['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.99.003']
+['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.003']
   -
 (['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.010.001' ]
 +
@@ -829,7 +829,7 @@
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-[ 'DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'FIN.020.004' ,
+[ 'DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.015' ,
  'ALL.D.Currency':'ALL.D.Currency':{'BRL Conv.','EUR Conv.','USD Conv.'}]=N:
 ['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.004']
   -
@@ -895,10 +895,10 @@
 # --------------------------------------------------------------------------------------------
 
 ['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.010.001'  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'FIN.020.004'];
+]=>['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.002'];
 
-['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.99.003' ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'FIN.020.004'];
+['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.003' ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.015'];
 
 
     
@@ -911,33 +911,33 @@
 
 
 ['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.010.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.99.003'];
+]=>['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.003'];
 
 ['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.010.002','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.99.003'];
+]=>['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.003'];
 
 ['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.010.003','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.99.003'];
+]=>['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.003'];
 
 ['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.010.004','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.99.003'];
+]=>['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.003'];
 
 ['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.010.005','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.99.003'];
+]=>['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.003'];
 
 ['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.010.006','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.99.003'];    
+]=>['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.003'];    
 
 ['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.010.007','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.99.003'];        
+]=>['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.003'];        
 
 ['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.010.008','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.99.003'];     
+]=>['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.003'];     
 
-['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'FIN.020.004','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.99.003'];         
+['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.002','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.003'];         
     
-['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.99.003'
+['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.003'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
 ]=> 
   DB( 'DFS.180.Gross_Debt',
@@ -1018,7 +1018,7 @@
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
 
-['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'FIN.020.004'
+['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.012'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
 , 'ALL.D.Currency':'ALL.D.Currency':{'BRL Conv.','EUR Conv.','USD Conv.'}
   
@@ -1043,7 +1043,7 @@
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
 
-['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'Interest Amortization Total'
+['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.009'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
 #, 'ALL.D.Currency':'ALL.D.Currency':{'BRL Conv.','EUR Conv.','USD Conv.'}  
 ]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Debt Amortization', !DFS.M.180.Gross_Debt );
@@ -1054,7 +1054,7 @@
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
-['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'Funding Total'
+['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.006'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' } 
 ]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Funding', !DFS.M.180.Gross_Debt );
 
@@ -1065,7 +1065,7 @@
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
-['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'Principal Amortization Total'
+['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.008'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' } 
 ]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Amortization', !DFS.M.180.Gross_Debt);
 
@@ -1076,7 +1076,7 @@
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
-['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'Closing Balance Debt Total'
+['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.014'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' } 
 ]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Final Debt Position', !DFS.M.180.Gross_Debt);
 
@@ -1092,6 +1092,6 @@
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
-['DFS.M.180.Gross_Debt':'DFS.M.180.Gross_Debt':'Value','DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.99.003'
+['DFS.M.180.Gross_Debt':'DFS.M.180.Gross_Debt':'Value','DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.003'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' } ]
 => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'ALL.D.Products':'PROD099', 'IFRS16','Value' );
