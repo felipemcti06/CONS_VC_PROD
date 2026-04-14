@@ -263,27 +263,12 @@
 		},
 		{
 			"ParentName":"WKC.099.003",
-			"ComponentName":"WKC.030.001",
-			"Weight":1
-		},
-		{
-			"ParentName":"WKC.099.003",
 			"ComponentName":"WKC.020.006",
 			"Weight":1
 		},
 		{
 			"ParentName":"WKC.099.003",
-			"ComponentName":"WKC.099.006",
-			"Weight":1
-		},
-		{
-			"ParentName":"WKC.099.003",
 			"ComponentName":"WKC.099.007",
-			"Weight":1
-		},
-		{
-			"ParentName":"WKC.099.003",
-			"ComponentName":"WKC.099.008",
 			"Weight":1
 		},
 		{

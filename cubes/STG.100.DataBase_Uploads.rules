@@ -992,3 +992,45 @@
 ['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'WKC.010.015','ALL.D.Products':'ALL.D.Products':'Total Products'
 ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
   => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'WKC.010.015','Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name: Finished Product Inventory - Days o/ CPS - Other
+# Desc: Finished Product Inventory - Days o/ CPS - Other
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'WKC.010.011','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'WKC.010.011','Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name: Finished Product Inventory
+# Desc: Finished Product Inventory
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'WKC.010.011','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'WKC.010.002','Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name: Concentrate Inventory - Days o/ VC
+# Desc: Concentrate Inventory - Days o/ VC
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'WKC.010.013','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'WKC.010.013','Value' );
+
+
+# --------------------------------------------------------------------------------------------
+# Name: Concentrate Inventory 
+# Desc: Concentrate Inventory
+# Date 02/2026
+# Author: Miranda / Helder
+#-------------------------------------------------------------------------------------------- 
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value','ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line','ALL.D.Accounts':'ALL.D.Accounts':'WKC.010.013','ALL.D.Products':'ALL.D.Products':'Total Products'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.160.Working_Capital', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'WKC.010.017','Value' );
+

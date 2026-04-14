@@ -797,7 +797,7 @@
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
- ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.010.004','DFS.M.160.Working_Capital':'Value'] = N:
+ ['DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.010.017','DFS.M.160.Working_Capital':'Value'] = N:
 
          DB('STG.100.DataBase_Uploads', 
           !ALL.D.Year, 
