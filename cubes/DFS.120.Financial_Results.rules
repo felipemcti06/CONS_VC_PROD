@@ -267,7 +267,7 @@
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'Foreign Exchange Variation (LC)',
+['DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'FCF.099.009',
  'ALL.D.Currency':'ALL.D.Currency':{'BRL Conv.','EUR Conv.','USD Conv.'}
 ]=N:
 DB( 'DFS.180.Gross_Debt', 

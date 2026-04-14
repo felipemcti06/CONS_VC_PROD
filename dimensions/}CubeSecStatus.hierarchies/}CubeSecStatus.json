@@ -1,0 +1,12 @@
+{
+	"@type":"Hierarchy",
+	"Name":"}CubeSecStatus",
+	"Elements":
+	[
+		{
+			"Name":"LOCK",
+			"Type":"String"
+		}
+	],
+	"Subsets@Code.links":[]
+}

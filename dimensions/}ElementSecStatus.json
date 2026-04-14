@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"}ElementSecStatus",
+	"Hierarchies@Code.links":
+	[
+		"}ElementSecStatus.hierarchies/}ElementSecStatus.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('}ElementSecStatus')/Hierarchies('}ElementSecStatus')"
+	}
+}

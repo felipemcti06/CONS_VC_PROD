@@ -26,6 +26,26 @@
 		{
 			"Name":"DFs",
 			"Type":"String"
+		},
+		{
+			"Name":"Cód Nível 1",
+			"Type":"String"
+		},
+		{
+			"Name":"Cód Nível 2",
+			"Type":"String"
+		},
+		{
+			"Name":"Cód Nível 3",
+			"Type":"String"
+		},
+		{
+			"Name":"Cód Nível 4",
+			"Type":"String"
+		},
+		{
+			"Name":"Cód Nível 5",
+			"Type":"String"
 		}
 	],
 	"Subsets@Code.links":[]

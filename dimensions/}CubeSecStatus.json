@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"}CubeSecStatus",
+	"Hierarchies@Code.links":
+	[
+		"}CubeSecStatus.hierarchies/}CubeSecStatus.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('}CubeSecStatus')/Hierarchies('}CubeSecStatus')"
+	}
+}

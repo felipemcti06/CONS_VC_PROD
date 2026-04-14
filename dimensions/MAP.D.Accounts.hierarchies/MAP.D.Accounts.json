@@ -514,6 +514,14 @@
 		{
 			"Name":"FCF.099.003",
 			"Type":"Numeric"
+		},
+		{
+			"Name":"DEB.99.003",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DEB.099.004",
+			"Type":"Numeric"
 		}
 	],
 	"Subsets@Code.links":[]

@@ -776,16 +776,16 @@
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.016' , 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Value' , 'ALL.D.Currency':'ALL.D.Currency':'BRL Conv.']=N:
-  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004' , 'ALL.D.Currency':'ALL.D.Currency':'USD Conv.']
-  *
-  DB( 'ALL.010.Economic_Assumptions', 
-      !ALL.D.Year,
-      !ALL.D.Month,
-      !ALL.D.Version,
-      'EBITDA FX R$/US$',
-      'ALL.M.010.Economic_Assumptions':'Value' )
-  ;
+# ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.016' , 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Value' , 'ALL.D.Currency':'ALL.D.Currency':'BRL Conv.']=N:
+#   ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004' , 'ALL.D.Currency':'ALL.D.Currency':'USD Conv.']
+#   *
+#   DB( 'ALL.010.Economic_Assumptions', 
+#       !ALL.D.Year,
+#       !ALL.D.Month,
+#       !ALL.D.Version,
+#       'EBITDA FX R$/US$',
+#       'ALL.M.010.Economic_Assumptions':'Value' )
+#   ;
 
 # --------------------------------------------------------------------------------------------
 #
