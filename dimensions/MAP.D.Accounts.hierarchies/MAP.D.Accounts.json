@@ -56,10 +56,6 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"FIN.020.003",
-			"Type":"Numeric"
-		},
-		{
 			"Name":"FIN.020.004",
 			"Type":"Numeric"
 		},
@@ -505,6 +501,18 @@
 		},
 		{
 			"Name":"WKC.010.017",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FCF.099.009",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DEB.099.001",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FCF.099.003",
 			"Type":"Numeric"
 		}
 	],

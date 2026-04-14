@@ -434,15 +434,15 @@
 
  
 # --------------------------------------------------------------------------------------------
-# Name:FIN.020.003'
-# Desc:FIN.020.003'
+# Name:DEB.099.001
+# Desc:DEB.099.001
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
 
-['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.020.003' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'DEB.099.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
  'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.020.003', 'Value' );
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'DEB.099.001', 'Value' );
    
  
 # --------------------------------------------------------------------------------------------
@@ -539,7 +539,7 @@
 
 ['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.040.002' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
  'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.099.006 Adjustment', 'Value' );    
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.040.002', 'Value' );    
 
 
 
@@ -612,7 +612,7 @@
 
 ['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 'ALL.D.Accounts':'ALL.D.Accounts':'FIN.060.001' , 'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
  'ALL.D.Products':'ALL.D.Products':'Total Products','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.040.001 - (Non Cash)', 'Value' );   
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.060.001', 'Value' );   
 
 # --------------------------------------------------------------------------------------------
 # Name : FIN.030.006

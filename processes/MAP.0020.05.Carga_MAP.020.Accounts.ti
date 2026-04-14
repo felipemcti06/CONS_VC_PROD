@@ -228,6 +228,7 @@ IF( FileExists( cNomeArquivoFonteCompleto ) = 0 );
 ENDIF;
 
 
+#DimensionDeleteAllElements( 'MAP.D.Accounts'  );
 
 
 

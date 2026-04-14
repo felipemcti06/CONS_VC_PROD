@@ -227,7 +227,7 @@
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.M.120.Financial_Results':'DFS.M.120.Financial_Results':'Value','DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'Foreign Exchange Variation Over Cash']=N:
+['DFS.M.120.Financial_Results':'DFS.M.120.Financial_Results':'Value','DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'FIN.020.001']=N:
     DB('STG.100.DataBase_Uploads', 
      !ALL.D.Year, 
      !ALL.D.Month,
@@ -286,7 +286,7 @@ DB( 'DFS.180.Gross_Debt',
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.M.120.Financial_Results':'DFS.M.120.Financial_Results':'Value','DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'Hedge Accounting International investments']=N:
+['DFS.M.120.Financial_Results':'DFS.M.120.Financial_Results':'Value','DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'DEB.099.001']=N:
     DB('STG.100.DataBase_Uploads', 
      !ALL.D.Year, 
      !ALL.D.Month,
@@ -294,7 +294,7 @@ DB( 'DFS.180.Gross_Debt',
      !ALL.D.Currency,
      !ALL.D.Region,
      'ALL.D.Products':'Total Products',
-     'FIN.020.003',
+     'DEB.099.001',
       'ALL.D.Account_Line':'Total Accounts Line', 
      'Value'
 );
@@ -442,7 +442,7 @@ DB( 'DFS.180.Gross_Debt',
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'Financial Revenues']=N:
+['DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'FIN.099.003']=N:
 DB( 'DFS.140.Indirect_Cash_Flow',
     !ALL.D.Year,
     !ALL.D.Month,
@@ -479,7 +479,7 @@ DB( 'DFS.140.Indirect_Cash_Flow',
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.M.120.Financial_Results':'DFS.M.120.Financial_Results':'Value','DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'Financial Revenues Adjustment']=N:
+['DFS.M.120.Financial_Results':'DFS.M.120.Financial_Results':'Value','DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'FIN.040.002']=N:
     DB('STG.100.DataBase_Uploads', 
      !ALL.D.Year, 
      !ALL.D.Month,
@@ -598,7 +598,7 @@ DB( 'DFS.140.Indirect_Cash_Flow',
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.M.120.Financial_Results':'DFS.M.120.Financial_Results':'Value','DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'Other Financial Revenues - (Non Cash)' ]=N:
+['DFS.M.120.Financial_Results':'DFS.M.120.Financial_Results':'Value','DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'FIN.060.001' ]=N:
     DB('STG.100.DataBase_Uploads', 
      !ALL.D.Year, 
      !ALL.D.Month,
@@ -671,7 +671,7 @@ DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'USD
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
  
-[ 'DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'Financial Expenses'
+[ 'DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'FIN.099.004'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
 ]=>DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'PROD099', 'Financial Expenses', !DFS.M.120.Financial_Results );
 
@@ -682,7 +682,7 @@ DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'USD
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
  
-[ 'DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'Total Financial Revenues'
+[ 'DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'FIN.099.006'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
 ]=>DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'PROD099', 'Financial Revenues', !DFS.M.120.Financial_Results);
 
@@ -695,7 +695,7 @@ DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'USD
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
  
-[ 'DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'Total Foreign Exchange Variation'
+[ 'DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'FIN.099.003'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
 ]=>DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'PROD099', 'FX Variation', !DFS.M.120.Financial_Results );
 
@@ -707,7 +707,7 @@ DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'USD
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
  
-[ 'DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'Total Hedge Results'
+[ 'DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'FIN.099.007'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
 ]=>DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'PROD099', 'Others', !DFS.M.120.Financial_Results );
 
@@ -718,7 +718,7 @@ DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'USD
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
  
-[ 'DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'Total Other Financial Revenues'
+[ 'DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'FIN.099.008'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
 ]=>DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'PROD099', 'Others', !DFS.M.120.Financial_Results );
 
@@ -734,7 +734,7 @@ DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'USD
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
  
-[ 'DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'Financial Expenses - Cash'
+[ 'DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'FIN.099.005'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
 ]=>DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Other Financial Expenses', !DFS.M.120.Financial_Results );
 

@@ -4,7 +4,7 @@
 	"MDX@Code.link":"Default.mdx",
 	"Meta": {
 		"Aliases": {
-			"[ALL.D.Month].[ALL.D.Month]": "Desc"
+			"[DFS.D.Accounts_Fin_Results].[DFS.D.Accounts_Fin_Results]": "Description"
 		},
 		"ExpandAboves": {
 			"[ALL.D.Month].[ALL.D.Month]": false,

@@ -115,6 +115,7 @@ CellPutS( s05 , cCuboParametro, cProcesso, 'Tempo de Execução' );
 # =================================================================================
 #DimensionElementInsert ( cDimensao, '', cTotalizador, 'C' );
 
+#DimensionDeleteAllElements( cDimensao );
 
 
 
@@ -201,6 +202,7 @@ sDesc = sDescElement;
 
 If  (  sCod @<>'' & sDesc @<> '' );
     AttrPutS( sCod | ' - ' | sDesc, cDimensao, sCod, sAlias );
+    AttrPutS( sDesc, cDimensao, sCod, 'Description' );    
 EndIf;
 
 

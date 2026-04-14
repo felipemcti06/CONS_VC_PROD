@@ -1,0 +1,6 @@
+{
+	"@type":"Subset",
+	"Name":"Default",
+	"Alias":"Description",
+	"Expression":"TM1IGNORE_BADTUPLES {[DFS.D.Accounts_Fin_Results].[DFS.D.Accounts_Fin_Results].MEMBERS}"
+}
