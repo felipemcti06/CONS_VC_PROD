@@ -581,7 +581,7 @@ DB( 'DFS.160.Working_Capital',
      !ALL.D.Currency,
      !ALL.D.Region,
      'ALL.D.Products':'Total Products',
-     'Other Financial income',
+     'FCF.099.024',
       'ALL.D.Account_Line':'Total Accounts Line', 
      'Value'
        );
@@ -670,7 +670,7 @@ DB( 'DFS.120.Financial_Results',
      !ALL.D.Currency,
      !ALL.D.Region,
      'ALL.D.Products':'Total Products',
-     'Additions/Low in Cash Investments',
+     'FCF.099.025',
       'ALL.D.Account_Line':'Total Accounts Line', 
      'Value'
        )
@@ -695,7 +695,7 @@ DB( 'DFS.120.Financial_Results',
        !ALL.D.Currency,
        !ALL.D.Region,
        'ALL.D.Products':'Total Products',
-       'Other Change in Assets / Current Liabilities',
+       'FCF.099.026',
        'ALL.D.Account_Line':'Total Accounts Line',
        'Value' 
      )
@@ -707,7 +707,7 @@ DB( 'DFS.120.Financial_Results',
        !ALL.D.Currency,
        !ALL.D.Region,
        'ALL.D.Products':'Total Products',
-       'Non Operating - Cash (Before Inc Tax)',
+       'FCF.099.027',
        'ALL.D.Account_Line':'Total Accounts Line',
        'Value' 
      );
@@ -785,7 +785,7 @@ DB( 'DFS.120.Financial_Results',
      !ALL.D.Currency,
      !ALL.D.Region,
      'ALL.D.Products':'Total Products',
-     'Investments in Associates and Subsidiaries',
+     'FCF.099.028',
       'ALL.D.Account_Line':'Total Accounts Line', 
      'Value'
 )
@@ -798,7 +798,7 @@ DB( 'DFS.120.Financial_Results',
      !ALL.D.Currency,
      !ALL.D.Region,
      'ALL.D.Products':'Total Products',
-     'Divestments of subsidiaries and affiliates',
+     'FCF.099.029',
       'ALL.D.Account_Line':'Total Accounts Line', 
      'Value'
 )   
@@ -896,7 +896,7 @@ DB( 'DFS.120.Financial_Results',
      !ALL.D.Currency,
      !ALL.D.Region,
      'ALL.D.Products':'Total Products',
-     'Non Operating (Other - Cash Flow)',
+     'FCF.099.030',
       'ALL.D.Account_Line':'Total Accounts Line', 
      'Value')
 
@@ -909,7 +909,7 @@ DB( 'DFS.120.Financial_Results',
      !ALL.D.Currency,
      !ALL.D.Region,
      'ALL.D.Products':'Total Products',
-     'Other - Cash Flow',
+     'FCF.099.031',
       'ALL.D.Account_Line':'Total Accounts Line', 
      'Value')
  )   ;

@@ -1054,3 +1054,50 @@
 ]=>
   DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Accounts, 'Value' );
 
+# --------------------------------------------------------------------------------------------
+# Name :STG para DFS.140 mapeados
+# Desc: Feeders dos elementos STG para contas mapeadas no DFS.140
+# Date 04/2026
+# Author: Codex
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
+'ALL.D.Accounts':'ALL.D.Accounts':'FCF.099.024'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+,'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+'ALL.D.Products':'ALL.D.Products':'Total Products'
+]=>
+  DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FCF.099.003', 'Value' );
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
+'ALL.D.Accounts':'ALL.D.Accounts':'FCF.099.025'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+,'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+'ALL.D.Products':'ALL.D.Products':'Total Products'
+]=>
+  DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FCF.099.004', 'Value' );
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
+'ALL.D.Accounts':{'FCF.099.026' , 'FCF.099.027'}
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+,'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+'ALL.D.Products':'ALL.D.Products':'Total Products'
+]=>
+  DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FCF.099.005', 'Value' );
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
+'ALL.D.Accounts':{'FCF.099.028' , 'FCF.099.029'}
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+,'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+'ALL.D.Products':'ALL.D.Products':'Total Products'
+]=>
+  DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FCF.099.008', 'Value' );
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' ,
+'ALL.D.Accounts':{'FCF.099.030' , 'FCF.099.031'}
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+,'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+'ALL.D.Products':'ALL.D.Products':'Total Products'
+]=>
+  DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FCF.099.011', 'Value' );
+
