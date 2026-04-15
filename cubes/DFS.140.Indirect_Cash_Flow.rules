@@ -500,7 +500,7 @@ DB( 'DFS.160.Working_Capital',
     !ALL.D.Version,
     !ALL.D.Currency,
     !ALL.D.Region,
-    '(Invest.)/Divest. Working Capital',
+    'WKC.099.008',
     !DFS.M.140.Indirect_Cash_Flow
   );
 # # --------------------------------------------------------------------------------------------
@@ -554,7 +554,7 @@ DB( 'DFS.160.Working_Capital',
     !ALL.D.Version,
     !ALL.D.Currency,
     !ALL.D.Region,
-    'DFS.D.Accounts_Debt':'Interest Amortization Total',
+    'DFS.D.Accounts_Debt':'DEB.099.009',
     !DFS.M.140.Indirect_Cash_Flow 
   );
 
@@ -643,7 +643,7 @@ DB( 'DFS.120.Financial_Results',
     !ALL.D.Version,
     !ALL.D.Currency,
     !ALL.D.Region,
-    'DFS.D.Accounts_Fin_Results':'Liquidation', 
+    'DFS.D.Accounts_Fin_Results':'FIN.050.002', 
     !DFS.M.140.Indirect_Cash_Flow
   );
 
@@ -947,7 +947,7 @@ DB( 'DFS.120.Financial_Results',
     !ALL.D.Version,
     !ALL.D.Currency,
     !ALL.D.Region,
-    'DFS.D.Accounts_Debt':'Principal Amortization Total',
+    'DFS.D.Accounts_Debt':'DEB.099.008',
     !DFS.M.140.Indirect_Cash_Flow
   );
 
@@ -964,7 +964,7 @@ DB( 'DFS.120.Financial_Results',
     !ALL.D.Version,
     !ALL.D.Currency,
     !ALL.D.Region,
-    'DFS.D.Accounts_Debt':'Funding Total',
+    'DFS.D.Accounts_Debt':'DEB.099.006',
     !DFS.M.140.Indirect_Cash_Flow
   );
 
@@ -1106,7 +1106,7 @@ DB( 'DFS.180.Gross_Debt',
     !ALL.D.Version,
     !ALL.D.Currency,
     !ALL.D.Region,
-    'DFS.D.Accounts_Debt':'Closing Balance Debt Total',
+    'DFS.D.Accounts_Debt':'DEB.099.014',
     !DFS.M.140.Indirect_Cash_Flow
   );
 
@@ -1652,7 +1652,7 @@ DB( 'DFS.140.Indirect_Cash_Flow',
  
 ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.003'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Financial Revenues',!DFS.M.140.Indirect_Cash_Flow );
+]=>DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.099.006',!DFS.M.140.Indirect_Cash_Flow );
 
 
 ###############################################################
