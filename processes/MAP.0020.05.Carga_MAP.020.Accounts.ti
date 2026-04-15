@@ -520,16 +520,16 @@ s01 = vCod;
 s02 = vCod_BPC;
 
 
-CellPutS ( vCod, cCuboDestino, vCod, 'Code' );
-CellPutS ( vCod_BPC, cCuboDestino, vCod, 'BPC Code' );
-CellPutS ( vNomeSTG, cCuboDestino, vCod, 'Nome STG' );
-CellPutS ( vNomeDFS, cCuboDestino, vCod, 'Nome DFs' );
-CellPutS ( vDFS, cCuboDestino, vCod, 'DFs' );
-CellPutS ( vCod_N1, cCuboDestino, vCod, 'Cód Nível 1' );
-CellPutS ( vCod_N2, cCuboDestino, vCod, 'Cód Nível 2' );
-CellPutS ( vCod_N3, cCuboDestino, vCod, 'Cód Nível 3' );
-CellPutS ( vCod_N4, cCuboDestino, vCod, 'Cód Nível 4' );
-CellPutS ( vCod_N5, cCuboDestino, vCod, 'Cód Nível 5' );
+CellPutS ( vCod, cCuboDestino, vCod , vDFS, 'Code' );
+CellPutS ( vCod_BPC, cCuboDestino, vCod , vDFS , 'BPC Code' );
+CellPutS ( vNomeSTG, cCuboDestino, vCod , vDFS , 'Nome STG' );
+CellPutS ( vNomeDFS, cCuboDestino, vCod , vDFS , 'Nome DFs' );
+CellPutS ( vDFS, cCuboDestino, vCod , vDFS , 'DFs' );
+CellPutS ( vCod_N1, cCuboDestino, vCod , vDFS , 'Cód Nível 1' );
+CellPutS ( vCod_N2, cCuboDestino, vCod , vDFS , 'Cód Nível 2' );
+CellPutS ( vCod_N3, cCuboDestino, vCod , vDFS , 'Cód Nível 3' );
+CellPutS ( vCod_N4, cCuboDestino, vCod , vDFS , 'Cód Nível 4' );
+CellPutS ( vCod_N5, cCuboDestino, vCod , vDFS , 'Cód Nível 5' );
 
 
 #endregion

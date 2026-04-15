@@ -4,7 +4,7 @@
 	"MDX@Code.link":"Default.mdx",
 	"Meta": {
 		"Aliases": {
-			"[ALL.D.Month].[ALL.D.Month]": "Desc"
+			"[DFS.D.Accounts_ICF].[DFS.D.Accounts_ICF]": "Description"
 		},
 		"ExpandAboves": {
 			"[DFS.D.Accounts_ICF].[DFS.D.Accounts_ICF]": false,

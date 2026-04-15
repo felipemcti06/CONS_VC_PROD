@@ -7,8 +7,14 @@
 			"@id":"Dimensions('MAP.D.Accounts')"
 		},
 		{
+			"@id":"Dimensions('MAP.D.DFs')"
+		},
+		{
 			"@id":"Dimensions('MAP.M.020.Accounts')"
 		}
 	],
-	"Views@Code.links":[]
+	"Views@Code.links":
+	[
+		"MAP.020.Accounts.views/Default.json"
+	]
 }

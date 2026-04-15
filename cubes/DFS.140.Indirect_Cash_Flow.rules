@@ -16,7 +16,7 @@
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Initial Cash Balance'] = 
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.014'] = 
     IF( DTYPE( 'ALL.D.Month', !ALL.D.Month )@='C', 
 
     DB( 'DFS.140.Indirect_Cash_Flow',
@@ -37,7 +37,7 @@
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Final Cash Position'] = 
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.015'] = 
     
     IF( DTYPE( 'ALL.D.Month', !ALL.D.Month )@='C', 
 
@@ -57,7 +57,7 @@
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'MTM'] = 
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.090.001'] = 
     
     IF( DTYPE( 'ALL.D.Month', !ALL.D.Month )@='C', 
 
@@ -258,7 +258,7 @@
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Final Cash Position Aux' , 'ALL.D.Currency':'ALL.D.Currency':'BRL Conv.'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.016' , 'ALL.D.Currency':'ALL.D.Currency':'BRL Conv.'] = N:
     
   #    #BRL  
   ['ALL.D.Currency':'ALL.D.Currency':'BRL']
@@ -312,7 +312,7 @@
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
 
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Final Cash Position Aux' , 'ALL.D.Currency':'ALL.D.Currency':'USD Conv.'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.016' , 'ALL.D.Currency':'ALL.D.Currency':'USD Conv.'] = N:
     
  #USD  
   ['ALL.D.Currency':'ALL.D.Currency':'USD']
@@ -353,7 +353,7 @@
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
 
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Final Cash Position Aux' , 'ALL.D.Currency':'ALL.D.Currency':'EUR Conv.'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.016' , 'ALL.D.Currency':'ALL.D.Currency':'EUR Conv.'] = N:
 #EUR     
   ['ALL.D.Currency':'ALL.D.Currency':'EUR']
      +
@@ -409,7 +409,7 @@
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Initial Cash Balance','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.014','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
   DB('STG.100.DataBase_Uploads', 
      !ALL.D.Year, 
      !ALL.D.Month,
@@ -429,7 +429,7 @@ DB( 'DFS.140.Indirect_Cash_Flow',
     !ALL.D.Version,
     !ALL.D.Currency,
     !ALL.D.Region,
-    'Final Cash Position',
+    'FCF.099.015',
     !DFS.M.140.Indirect_Cash_Flow 
   )    
 ;
@@ -456,7 +456,7 @@ DB( 'DFS.140.Indirect_Cash_Flow',
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'EBITDA'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'DRE.099.004'] = N:
    DB( 'DFS.100.Profit_and_Loss',
        !ALL.D.Year,
        !ALL.D.Month,
@@ -464,7 +464,7 @@ DB( 'DFS.140.Indirect_Cash_Flow',
        !ALL.D.Currency,
        !ALL.D.Region,
        'ALL.D.Products':'Total Products',
-       'EBITDA',
+       'DRE.099.004',
        !DFS.M.140.Indirect_Cash_Flow
      );
 
@@ -474,7 +474,7 @@ DB( 'DFS.140.Indirect_Cash_Flow',
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Income tax on transactions','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.020.001','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
   DB('STG.100.DataBase_Uploads', 
      !ALL.D.Year, 
      !ALL.D.Month,
@@ -492,14 +492,14 @@ DB( 'DFS.140.Indirect_Cash_Flow',
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Working capital'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'WKC.099.002'] = N:
 DB( 'DFS.160.Working_Capital',
     !ALL.D.Year,
     !ALL.D.Month,
     !ALL.D.Version,
     !ALL.D.Currency,
     !ALL.D.Region,
-    '(Invest.)/Divest. Working Capital',
+    'WKC.099.008',
     !DFS.M.140.Indirect_Cash_Flow
   );
 # # --------------------------------------------------------------------------------------------
@@ -508,7 +508,7 @@ DB( 'DFS.160.Working_Capital',
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Non expansion capex','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.030.001','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
   DB('STG.100.DataBase_Uploads', 
      !ALL.D.Year, 
      !ALL.D.Month,
@@ -527,7 +527,7 @@ DB( 'DFS.160.Working_Capital',
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Dividends received','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.040.001','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
   DB('STG.100.DataBase_Uploads', 
      !ALL.D.Year, 
      !ALL.D.Month,
@@ -546,14 +546,14 @@ DB( 'DFS.160.Working_Capital',
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Debt Amortization'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'DEB.010.006'] = N:
 -DB( 'DFS.180.Gross_Debt',
     !ALL.D.Year, 
     !ALL.D.Month,
     !ALL.D.Version,
     !ALL.D.Currency,
     !ALL.D.Region,
-    'DFS.D.Accounts_Debt':'Interest Amortization Total',
+    'DFS.D.Accounts_Debt':'DEB.099.009',
     !DFS.M.140.Indirect_Cash_Flow 
   );
 
@@ -564,9 +564,9 @@ DB( 'DFS.160.Working_Capital',
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Financial Revenue','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.003','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
 
-    ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Initial Cash Balance']
+    ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.014']
     *
     DB( 'ALL.015.Region_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Region, '% Caixa Invested', 'Value' )
 
@@ -590,9 +590,9 @@ DB( 'DFS.160.Working_Capital',
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Invested Cash','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.023','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
 
-    ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Initial Cash Balance']
+    ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.014']
     *
     DB( 'ALL.015.Region_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Region, '% Caixa Invested', 'Value' )
 
@@ -618,7 +618,7 @@ DB( 'DFS.160.Working_Capital',
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Other Financial Expenses'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FIN.099.005'] = N:
 DB( 'DFS.120.Financial_Results',
     !ALL.D.Year,
     !ALL.D.Month,
@@ -635,7 +635,7 @@ DB( 'DFS.120.Financial_Results',
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Derivatives settlement'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FIN.050.002'] = N:
 DB( 'DFS.120.Financial_Results',
     !ALL.D.Year,
     !ALL.D.Month,
@@ -652,14 +652,14 @@ DB( 'DFS.120.Financial_Results',
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Tax on Financial Revenue','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.004','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
 (DB( 'DFS.140.Indirect_Cash_Flow', 
     !ALL.D.Year,
     !ALL.D.Month,
     !ALL.D.Version, 
     !ALL.D.Currency,
     !ALL.D.Region,
-    'Financial Revenue', 
+    'FCF.099.003', 
     'DFS.M.140.Indirect_Cash_Flow':'Total Value' )
     +
     DB('STG.100.DataBase_Uploads', 
@@ -718,7 +718,7 @@ DB( 'DFS.120.Financial_Results',
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Payment of dividends to Controlling','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.040.002','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
   DB('STG.100.DataBase_Uploads', 
      !ALL.D.Year, 
      !ALL.D.Month,
@@ -737,7 +737,7 @@ DB( 'DFS.120.Financial_Results',
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Payment of dividends to Minority','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.040.003','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
   DB('STG.100.DataBase_Uploads', 
      !ALL.D.Year, 
      !ALL.D.Month,
@@ -757,7 +757,7 @@ DB( 'DFS.120.Financial_Results',
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Expansion capex','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.030.002','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
   DB('STG.100.DataBase_Uploads', 
      !ALL.D.Year, 
      !ALL.D.Month,
@@ -776,7 +776,7 @@ DB( 'DFS.120.Financial_Results',
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Inv/Div in Subsidiaries and Affiliates','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.008','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
   DB('STG.100.DataBase_Uploads', 
      !ALL.D.Year, 
      !ALL.D.Month,
@@ -809,7 +809,7 @@ DB( 'DFS.120.Financial_Results',
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Others','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'DRE.099.008','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
 
     #======#FIDC#======#
 # (  DB('STG.100.DataBase_Uploads', 
@@ -920,7 +920,7 @@ DB( 'DFS.120.Financial_Results',
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Intercompany dividends','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.080.001','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
   DB('STG.100.DataBase_Uploads', 
      !ALL.D.Year, 
      !ALL.D.Month,
@@ -939,14 +939,14 @@ DB( 'DFS.120.Financial_Results',
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Amortization'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'DEB.010.005'] = N:
 -DB( 'DFS.180.Gross_Debt',
     !ALL.D.Year, 
     !ALL.D.Month,
     !ALL.D.Version,
     !ALL.D.Currency,
     !ALL.D.Region,
-    'DFS.D.Accounts_Debt':'Principal Amortization Total',
+    'DFS.D.Accounts_Debt':'DEB.099.008',
     !DFS.M.140.Indirect_Cash_Flow
   );
 
@@ -956,14 +956,14 @@ DB( 'DFS.120.Financial_Results',
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Funding'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'DEB.010.002'] = N:
 -DB( 'DFS.180.Gross_Debt',
     !ALL.D.Year, 
     !ALL.D.Month,
     !ALL.D.Version,
     !ALL.D.Currency,
     !ALL.D.Region,
-    'DFS.D.Accounts_Debt':'Funding Total',
+    'DFS.D.Accounts_Debt':'DEB.099.006',
     !DFS.M.140.Indirect_Cash_Flow
   );
 
@@ -973,18 +973,18 @@ DB( 'DFS.120.Financial_Results',
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'SCF before dividends'] = N:
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'EBITDA' ]
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.006'] = N:
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'DRE.099.004' ]
     +
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Income tax on transactions']
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.020.001']
     +
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Working capital' ]
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'WKC.099.002' ]
     +
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Non expansion capex']
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.030.001']
      +
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Dividends received']
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.040.001']
     +
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Financial Results']
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'DRE.099.007']
     +
 ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'OOR.010.001' ]
              
@@ -995,12 +995,12 @@ DB( 'DFS.120.Financial_Results',
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Sustainable Cash Flow'] = N:
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'SCF before dividends']
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.007'] = N:
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.006']
     +
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Payment of dividends to Controlling' ]
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.040.002' ]
     +
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Payment of dividends to Minority']
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.040.003']
     ;
 
 # # --------------------------------------------------------------------------------------------
@@ -1009,14 +1009,14 @@ DB( 'DFS.120.Financial_Results',
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Cash generation before financing'] = N:
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Sustainable Cash Flow' ]
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.012'] = N:
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.007' ]
     +
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Expansion capex']
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.030.002']
     +
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Inv/Div in Subsidiaries and Affiliates' ]   
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.008' ]   
     +
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FX/Others' ]      
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.009' ]      
     ;
 # # --------------------------------------------------------------------------------------------
 # # Name: Cash generation before financing
@@ -1024,15 +1024,15 @@ DB( 'DFS.120.Financial_Results',
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Change in cash'] = 
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.013'] = 
     
- ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Cash generation before financing' ]   
+ ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.012' ]   
     +
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Intercompany dividends' ]
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.080.001' ]
     +
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Amortization' ]
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'DEB.010.005' ]
     +
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Funding' ]
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'DEB.010.002' ]
     
      
     ;
@@ -1044,11 +1044,11 @@ DB( 'DFS.120.Financial_Results',
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Final Cash Position','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.015','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
     
- ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Initial Cash Balance' ]    
+ ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.014' ]    
     +
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Change in cash']
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.013']
 
     
      
@@ -1077,11 +1077,11 @@ DB( 'DFS.120.Financial_Results',
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Final Cash Position Aux'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.016'] = N:
     
- ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Initial Cash Balance' ]    
+ ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.014' ]    
     +
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Change in cash']
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.013']
 
     
      
@@ -1098,14 +1098,14 @@ DB( 'DFS.120.Financial_Results',
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Final Debt Position'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'DEB.99.003'] = N:
 DB( 'DFS.180.Gross_Debt',
     !ALL.D.Year, 
     !ALL.D.Month,
     !ALL.D.Version,
     !ALL.D.Currency,
     !ALL.D.Region,
-    'DFS.D.Accounts_Debt':'Closing Balance Debt Total',
+    'DFS.D.Accounts_Debt':'DEB.099.014',
     !DFS.M.140.Indirect_Cash_Flow
   );
 
@@ -1128,7 +1128,7 @@ C:
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'MTM','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.090.001','DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value'] = N:
   DB('STG.100.DataBase_Uploads', 
      !ALL.D.Year, 
      !ALL.D.Month,
@@ -1159,13 +1159,13 @@ C:
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Final Net Debt'] = N:
+  ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.017'] = N:
     
- ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Final Cash Position' ]    
+ ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.015' ]    
     +
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Final Debt Position' ]
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'DEB.99.003' ]
     +
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'MTM']
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.090.001']
     
      
     ;
@@ -1190,26 +1190,26 @@ C:
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-   ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FX on Cash Position' , 'ALL.D.Currency':'ALL.D.Currency': {'BRL Conv.','EUR Conv.','USD Conv.'}]=N:
+   ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.010' , 'ALL.D.Currency':'ALL.D.Currency': {'BRL Conv.','EUR Conv.','USD Conv.'}]=N:
 
-   ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Final Cash Position Aux' ]    
+   ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.016' ]    
      
           -
     (
-    ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Sustainable Cash Flow']+
-    ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Expansion capex']+
-    ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Inv/Div in Subsidiaries and Affiliates']+
-    ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Intercompany dividends']+
-    ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Amortization']+
-    ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Funding']+
+    ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.007']+
+    ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.030.002']+
+    ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.008']+
+    ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.080.001']+
+    ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'DEB.010.005']+
+    ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'DEB.010.002']+
 
 
-    ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Initial Cash Balance']  
+    ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.014']  
 
       
     ) 
     -
-    ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Others' ]
+    ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'DRE.099.008' ]
   
 
       
@@ -1221,7 +1221,7 @@ C:
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
- ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Adj EBITDA LTM' ]=N:
+ ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.019' ]=N:
 # # EBITDA
    (
     DB( 'DFS.140.Indirect_Cash_Flow',
@@ -1230,7 +1230,7 @@ C:
     !ALL.D.Version,
     !ALL.D.Currency,
     !ALL.D.Region,
-    'EBITDA',
+    'DRE.099.004',
     !DFS.M.140.Indirect_Cash_Flow )
 - 
    DB( 'DFS.140.Indirect_Cash_Flow',
@@ -1239,7 +1239,7 @@ C:
     !ALL.D.Version,
     !ALL.D.Currency,
     !ALL.D.Region,
-    'EBITDA',
+    'DRE.099.004',
     !DFS.M.140.Indirect_Cash_Flow )
 +
     DB( 'DFS.140.Indirect_Cash_Flow',
@@ -1248,7 +1248,7 @@ C:
     !ALL.D.Version,
     !ALL.D.Currency,
     !ALL.D.Region,
-    'EBITDA',
+    'DRE.099.004',
     !DFS.M.140.Indirect_Cash_Flow )
    
    )
@@ -1263,7 +1263,7 @@ C:
     !ALL.D.Version,
     !ALL.D.Currency,
     !ALL.D.Region,
-    'Dividends received',
+    'FCF.040.001',
     !DFS.M.140.Indirect_Cash_Flow )
 - 
    DB( 'DFS.140.Indirect_Cash_Flow',
@@ -1272,7 +1272,7 @@ C:
     !ALL.D.Version,
     !ALL.D.Currency,
     !ALL.D.Region,
-    'Dividends received',
+    'FCF.040.001',
     !DFS.M.140.Indirect_Cash_Flow )
 +
     DB( 'DFS.140.Indirect_Cash_Flow',
@@ -1281,12 +1281,12 @@ C:
     !ALL.D.Version,
     !ALL.D.Currency,
     !ALL.D.Region,
-    'Dividends received',
+    'FCF.040.001',
     !DFS.M.140.Indirect_Cash_Flow )
    
    )
    +
-   [ 'DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Adjusts LTM'];
+   [ 'DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.020'];
    
    C:
     IF( DTYPE( 'ALL.D.Month', !ALL.D.Month )@='C', 
@@ -1308,10 +1308,10 @@ C:
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
- ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Leverage' ]=
-   [ 'DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Final Net Debt']
+ ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.018' ]=
+   [ 'DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.017']
    \
-   ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Adj EBITDA LTM'];
+   ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.019'];
 
 # C:
 #     IF( DTYPE( 'ALL.D.Month', !ALL.D.Month )@='C', 
@@ -1327,25 +1327,25 @@ C:
 
 #     , CONTINUE );
  # # --------------------------------------------------------------------------------------------
-# # Name: FCL EconÃ´mico
-# # Desc: FCL EconÃ´mico
+# # Name: FCL Econômico
+# # Desc: FCL Econômico
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
- ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCL EconÃ´mico' ]=N:
-   [ 'DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Cash generation before financing']
+ ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.021' ]=N:
+   [ 'DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.012']
    *
   DB( 'ALL.015.Region_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Region, '% Participation', 'Value' )
 ;
 
  # # --------------------------------------------------------------------------------------------
-# # Name: FCL EconÃ´mico
-# # Desc: FCL EconÃ´mico
+# # Name: DL Econômico
+# # Desc: DL Econômico
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
- ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'DL EconÃ´mica' ]=N:
-   [ 'DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Final Net Debt']
+ ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.022' ]=N:
+   [ 'DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.017']
    *
   DB( 'ALL.015.Region_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Region, '% Participation', 'Value' )
 ;
@@ -1387,8 +1387,8 @@ C:
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'EBITDA'] => ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Adj EBITDA LTM'];
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Dividends received'] => ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Adj EBITDA LTM'];
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'DRE.099.004'] => ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.019'];
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.040.001'] => ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.019'];
 
 # # --------------------------------------------------------------------------------------------
 # # Name: Leverage
@@ -1397,8 +1397,8 @@ C:
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
     
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'EBITDA'] => ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Leverage'];
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Dividends received'] => ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Leverage'];    
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'DRE.099.004'] => ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.018'];
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.040.001'] => ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.018'];    
 # --------------------------------------------------------------------------------------------
 # Name: ConversÃ£o de Moedas
 # Desc: ConversÃ£o de moedas para os padrÃµes USD, BRL e EUR
@@ -1419,10 +1419,10 @@ C:
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
  
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Final Cash Position','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' } , 'ALL.D.Currency':'ALL.D.Currency':'Total Currency'
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FX on Cash Position' , 'ALL.D.Currency':'ALL.D.Currency':'BRL Conv.'],
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FX on Cash Position' , 'ALL.D.Currency':'ALL.D.Currency':'EUR Conv.'],
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FX on Cash Position' , 'ALL.D.Currency':'ALL.D.Currency':'USD Conv.'];
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.015','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' } , 'ALL.D.Currency':'ALL.D.Currency':'Total Currency'
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.010' , 'ALL.D.Currency':'ALL.D.Currency':'BRL Conv.'],
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.010' , 'ALL.D.Currency':'ALL.D.Currency':'EUR Conv.'],
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.010' , 'ALL.D.Currency':'ALL.D.Currency':'USD Conv.'];
     
  
 
@@ -1435,8 +1435,8 @@ C:
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
  
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Financial Revenue','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Tax on Financial Revenue'];
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.003','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.004'];
 
 
 
@@ -1447,26 +1447,26 @@ C:
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
  
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'EBITDA','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'SCF before dividends'];
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'DRE.099.004','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.006'];
 
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Income tax on transactions','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'SCF before dividends'];    
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.020.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.006'];    
     
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Working capital','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'SCF before dividends'];    
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'WKC.099.002','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.006'];    
     
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Non expansion capex','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'SCF before dividends'];
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.030.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.006'];
 
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Dividends received','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'SCF before dividends'];     
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.040.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.006'];     
 
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Financial Results','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'SCF before dividends'];        
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'DRE.099.007','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.006'];        
         
 ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'OOR.010.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'SCF before dividends'];        
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.006'];        
 
 
 
@@ -1479,14 +1479,14 @@ C:
 
     
  
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'SCF before dividends','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Sustainable Cash Flow'];
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.006','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.007'];
  
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Payment of dividends to Controlling','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Sustainable Cash Flow'];
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.040.002','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.007'];
 
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Payment of dividends to Minority','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Sustainable Cash Flow'];    
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.040.003','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.007'];    
 
 
 # --------------------------------------------------------------------------------------------
@@ -1496,34 +1496,34 @@ C:
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
 
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Sustainable Cash Flow','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Cash generation before financing'];
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.007','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.012'];
 
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Expansion capex','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Cash generation before financing'];
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.030.002','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.012'];
 
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Inv/Div in Subsidiaries and Affiliates','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Cash generation before financing'];   
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.008','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.012'];   
 
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FX/Others','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Cash generation before financing'];        
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.009','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.012'];        
 # --------------------------------------------------------------------------------------------
 # Name:Change in cash
 # Desc: Change in cash
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Cash generation before financing','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Change in cash'];
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.012','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.013'];
     
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Intercompany dividends','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Change in cash'];
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.080.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.013'];
     
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Amortization','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Change in cash'];   
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'DEB.010.005','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.013'];   
     
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Funding','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Change in cash'];    
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'DEB.010.002','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.013'];    
  # --------------------------------------------------------------------------------------------
 # Name:Final Cash Position
 # Desc: Final Cash Position
@@ -1531,11 +1531,11 @@ C:
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------       
 
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Initial Cash Balance','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Final Cash Position'];
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.014','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.015'];
 
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Change in cash','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Final Cash Position'];
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.013','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.015'];
 
 
  # --------------------------------------------------------------------------------------------
@@ -1545,8 +1545,8 @@ C:
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------       
 
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Initial Cash Balance','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Financial Revenue'];
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.014','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.003'];
     
 # --------------------------------------------------------------------------------------------
 # Name:Final Net Debt
@@ -1556,14 +1556,14 @@ C:
 # --------------------------------------------------------------------------------------------    
     
 
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Final Cash Position','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Final Net Debt'];
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.015','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.017'];
 
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Final Debt Position','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Final Net Debt'];
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'DEB.99.003','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.017'];
 
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'MTM','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Final Net Debt'];
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.090.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.017'];
 
 
 # --------------------------------------------------------------------------------------------
@@ -1575,32 +1575,32 @@ C:
  
 
 
- ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Initial Cash Balance' ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' } 
- ]=>   [ 'DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Final Cash Position Aux'];
+ ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.014' ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' } 
+ ]=>   [ 'DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.016'];
     
- ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Change in cash', 'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' } 
- ]=>   [ 'DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Final Cash Position Aux'];
+ ['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.013', 'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' } 
+ ]=>   [ 'DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.016'];
 
 
 # --------------------------------------------------------------------------------------------
-# Name:FCL EconÃ´mico
-# Desc: FCL EconÃ´mico
+# Name:FCL Econômico
+# Desc: FCL Econômico
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
 
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Cash generation before financing','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCL EconÃ´mico'];    
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.012','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.021'];    
 
 # --------------------------------------------------------------------------------------------
-# Name:DL EconÃ´mica
-# Desc:DL EconÃ´mica
+# Name:DL Econômico
+# Desc:DL Econômico
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
 
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Final Net Debt','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'DL EconÃ´mica'];    
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.017','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.022'];    
     
 
 # --------------------------------------------------------------------------------------------
@@ -1609,7 +1609,7 @@ C:
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Final Cash Position'
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.015'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
 ]=> 
 DB( 'DFS.140.Indirect_Cash_Flow',
@@ -1618,7 +1618,7 @@ DB( 'DFS.140.Indirect_Cash_Flow',
     !ALL.D.Version,
     !ALL.D.Currency,
     !ALL.D.Region,
-    'Initial Cash Balance',
+    'FCF.099.014',
     !DFS.M.140.Indirect_Cash_Flow
   );
 # --------------------------------------------------------------------------------------------
@@ -1628,8 +1628,8 @@ DB( 'DFS.140.Indirect_Cash_Flow',
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------    
 
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Initial Cash Balance','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Invested Cash'];    
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.014','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.023'];    
     
 
 # --------------------------------------------------------------------------------------------
@@ -1649,9 +1649,9 @@ DB( 'DFS.140.Indirect_Cash_Flow',
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
  
-['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Financial Revenue'
+['DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.003'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Financial Revenues',!DFS.M.140.Indirect_Cash_Flow );
+]=>DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.099.006',!DFS.M.140.Indirect_Cash_Flow );
 
 
 ###############################################################
@@ -1664,7 +1664,7 @@ DB( 'DFS.140.Indirect_Cash_Flow',
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value','DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'EBITDA'   ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+['DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value','DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'DRE.099.004'   ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
   => DB( 'DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'ALL.D.Products':'PROD099', 'EBITDA LTM' ,'Value');
 
 # --------------------------------------------------------------------------------------------
@@ -1673,6 +1673,5 @@ DB( 'DFS.140.Indirect_Cash_Flow',
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Total Value','DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'Sustainable Cash Flow' , 'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+['DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Total Value','DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.007' , 'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
   => DB( 'DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'ALL.D.Products':'PROD099', 'Sust. Cash Flow in Hard Currency' ,'Value');
-

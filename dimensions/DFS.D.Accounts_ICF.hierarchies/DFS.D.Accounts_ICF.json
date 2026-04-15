@@ -4,193 +4,193 @@
 	"Elements":
 	[
 		{
-			"Name":"EBITDA",
+			"Name":"FIN.050.002",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Income tax on transactions",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Working capital",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Non expansion capex",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Dividends received",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Financial Results",
+			"Name":"FCF.099.002",
 			"Type":"Consolidated"
 		},
 		{
-			"Name":"Debt Amortization",
+			"Name":"FCF.020.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Financial Revenue",
+			"Name":"FCF.030.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other Financial Expenses",
+			"Name":"FCF.040.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Derivatives settlement",
+			"Name":"FCF.040.002",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Tax on Financial Revenue",
+			"Name":"FCF.040.003",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other",
+			"Name":"FCF.030.002",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"SCF before dividends",
+			"Name":"FCF.080.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Payment of dividends to Controlling",
+			"Name":"FCF.090.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Payment of dividends to Minority",
+			"Name":"DEB.010.002",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Sustainable Cash Flow",
+			"Name":"DEB.010.005",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Expansion capex",
+			"Name":"DEB.010.006",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Inv/Div in Subsidiaries and Affiliates",
+			"Name":"DRE.099.004",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"FX/Others",
+			"Name":"FCF.099.009",
 			"Type":"Consolidated"
 		},
 		{
-			"Name":"FX on Cash Position",
+			"Name":"FCF.099.003",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Others",
+			"Name":"WKC.099.002",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Cash generation before financing",
+			"Name":"FIN.099.005",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Intercompany dividends",
+			"Name":"FCF.099.004",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Amortization",
+			"Name":"FCF.099.005",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Funding",
+			"Name":"FCF.099.006",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Change in cash",
+			"Name":"FCF.099.007",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Initial Cash Balance",
+			"Name":"FCF.099.008",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Final Cash Position",
+			"Name":"FCF.099.010",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Final Cash Position Aux",
+			"Name":"FCF.099.011",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Final Debt Position",
+			"Name":"FCF.099.012",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"MTM",
+			"Name":"FCF.099.013",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Final Net Debt",
+			"Name":"FCF.099.014",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Adj EBITDA LTM",
+			"Name":"FCF.099.015",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Adjusts LTM",
+			"Name":"FCF.099.016",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Leverage",
+			"Name":"DEB.99.003",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"FCL Econômico",
+			"Name":"FCF.099.017",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"DL Econômica",
+			"Name":"FCF.099.018",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Invested Cash",
+			"Name":"FCF.099.019",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FCF.099.020",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FCF.099.021",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FCF.099.022",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FCF.099.023",
 			"Type":"Numeric"
 		}
 	],
 	"Edges":
 	[
 		{
-			"ParentName":"Financial Results",
-			"ComponentName":"Debt Amortization",
+			"ParentName":"FCF.099.002",
+			"ComponentName":"FIN.050.002",
 			"Weight":1
 		},
 		{
-			"ParentName":"Financial Results",
-			"ComponentName":"Financial Revenue",
+			"ParentName":"FCF.099.002",
+			"ComponentName":"DEB.010.006",
 			"Weight":1
 		},
 		{
-			"ParentName":"Financial Results",
-			"ComponentName":"Other Financial Expenses",
+			"ParentName":"FCF.099.002",
+			"ComponentName":"FCF.099.003",
 			"Weight":1
 		},
 		{
-			"ParentName":"Financial Results",
-			"ComponentName":"Derivatives settlement",
+			"ParentName":"FCF.099.002",
+			"ComponentName":"FIN.099.005",
 			"Weight":1
 		},
 		{
-			"ParentName":"Financial Results",
-			"ComponentName":"Tax on Financial Revenue",
+			"ParentName":"FCF.099.002",
+			"ComponentName":"FCF.099.004",
 			"Weight":1
 		},
 		{
-			"ParentName":"FX/Others",
-			"ComponentName":"FX on Cash Position",
+			"ParentName":"FCF.099.009",
+			"ComponentName":"FCF.099.010",
 			"Weight":1
 		},
 		{
-			"ParentName":"FX/Others",
-			"ComponentName":"Others",
+			"ParentName":"FCF.099.009",
+			"ComponentName":"FCF.099.011",
 			"Weight":1
 		}
 	],
