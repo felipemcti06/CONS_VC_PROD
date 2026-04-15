@@ -3,6 +3,7 @@
   FEEDSTRINGS;
 # =============
 
+
 # --------------------------------------------------------------------------------------------
 #
 #                      			INICIO DO BLOCO CALCULOS 
@@ -417,7 +418,7 @@
      !ALL.D.Currency,
      !ALL.D.Region,
      'ALL.D.Products':'Total Products',
-     'INITIAL CASH BALANCE',
+     !DFS.D.Accounts_ICF,
       'ALL.D.Account_Line':'Total Accounts Line', 
      'Value'
 )

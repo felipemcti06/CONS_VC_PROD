@@ -178,7 +178,7 @@ sDim = cDimensao;
 # ==========================
 
 
-sDescElement =  CellGetS( cCuboMapa, vElement, 'Nome STG' );
+#sDescElement =  CellGetS( cCuboMapa, vElement, 'Nome STG' );
 
 # =================================================================================
 # Adiciona Alias com codigo e descrição
@@ -186,17 +186,17 @@ sDescElement =  CellGetS( cCuboMapa, vElement, 'Nome STG' );
 
 # Adiciona Alias Cod+Desc
 #==========================================
-sAlias       = 'Código e Descrição';
+#sAlias       = 'Código e Descrição';
 
 
 #Element
 #===========
-sCod   = vElement;
-sDesc = sDescElement;
+# sCod   = vElement;
+# sDesc = sDescElement;
 
-If  (  sCod @<>'' & sDesc @<> '' );
-    AttrPutS( sCod | ' - ' | sDesc, cDimensao, sCod, sAlias );
-EndIf;
+# If  (  sCod @<>'' & sDesc @<> '' );
+#     AttrPutS( sCod | ' - ' | sDesc, cDimensao, sCod, sAlias );
+# EndIf;
 
 
 

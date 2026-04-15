@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(grep \"\\\\.ti$\")",
-      "Bash(sed 's/\\\\.ti$//')"
-    ]
-  }
-}

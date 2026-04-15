@@ -4,6 +4,8 @@
 # =============
 
 
+
+
 # --------------------------------------------------------------------------------------------
 # Name: Define versões calculadas
 # Desc: A partir desta regra, só calcula para versões dinâmicas
@@ -1045,9 +1047,10 @@
 # --------------------------------------------------------------------------------------------    
 
 ['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 
-'ALL.D.Accounts':'ALL.D.Accounts':{'FCF.020.001' , 'FCF.099.014' , 'FCF.030.001' , 'FCF.040.001' , 'FCF.099.003' , 'FCF.099.004' , 'FCF.099.005' , 'FCF.040.002' , 'FCF.040.003' , 'FCF.030.002' , 'FCF.099.008' , 'FCF.099.011' , 'FCF.080.001' , 'FCF.090.001'}
- ,
-'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+'ALL.D.Accounts':{'FCF.020.001' , 'FCF.099.014' , 'FCF.030.001' , 'FCF.040.001' , 'FCF.099.003' , 'FCF.099.004' , 'FCF.099.005' , 'FCF.040.002' , 'FCF.040.003' , 'FCF.030.001','FCF.030.002' , 'FCF.099.008' , 'FCF.099.011' , 'FCF.080.001' , 'FCF.090.001'}
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+,'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
 'ALL.D.Products':'ALL.D.Products':'Total Products'
-]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Accounts, 'Value' );
+]=>
+  DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Accounts, 'Value' );
 
