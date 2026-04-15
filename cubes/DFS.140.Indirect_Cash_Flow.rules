@@ -482,7 +482,7 @@ DB( 'DFS.140.Indirect_Cash_Flow',
      !ALL.D.Currency,
      !ALL.D.Region,
      'ALL.D.Products':'Total Products',
-     'Income Tax Payments - Cash',
+     !DFS.D.Accounts_ICF,
       'ALL.D.Account_Line':'Total Accounts Line', 
      'Value'
 );
@@ -516,7 +516,7 @@ DB( 'DFS.160.Working_Capital',
      !ALL.D.Currency,
      !ALL.D.Region,
      'ALL.D.Products':'Total Products',
-     'Non Expansion Capex',
+     !DFS.D.Accounts_ICF,
       'ALL.D.Account_Line':'Total Accounts Line', 
      'Value'
 );
@@ -535,7 +535,7 @@ DB( 'DFS.160.Working_Capital',
      !ALL.D.Currency,
      !ALL.D.Region,
      'ALL.D.Products':'Total Products',
-     'Dividends Received (Paid) - Cash Flow',
+     !DFS.D.Accounts_ICF,
       'ALL.D.Account_Line':'Total Accounts Line', 
      'Value'
 );
@@ -726,7 +726,7 @@ DB( 'DFS.120.Financial_Results',
      !ALL.D.Currency,
      !ALL.D.Region,
      'ALL.D.Products':'Total Products',
-     'Payments of Dividens to Controlling',
+     !DFS.D.Accounts_ICF,
       'ALL.D.Account_Line':'Total Accounts Line', 
      'Value'
 );
@@ -745,7 +745,7 @@ DB( 'DFS.120.Financial_Results',
      !ALL.D.Currency,
      !ALL.D.Region,
      'ALL.D.Products':'Total Products',
-     'Payments of Dividens to Minority',
+     !DFS.D.Accounts_ICF,
       'ALL.D.Account_Line':'Total Accounts Line', 
      'Value'
 );
@@ -765,7 +765,7 @@ DB( 'DFS.120.Financial_Results',
      !ALL.D.Currency,
      !ALL.D.Region,
      'ALL.D.Products':'Total Products',
-     'Expansion Capex',
+     !DFS.D.Accounts_ICF,
       'ALL.D.Account_Line':'Total Accounts Line', 
      'Value'
 );
@@ -928,7 +928,7 @@ DB( 'DFS.120.Financial_Results',
      !ALL.D.Currency,
      !ALL.D.Region,
      'ALL.D.Products':'Total Products',
-     'Intercompany Dividends',
+     !DFS.D.Accounts_ICF,
       'ALL.D.Account_Line':'Total Accounts Line', 
      'Value'
 );
@@ -1136,7 +1136,7 @@ C:
      !ALL.D.Currency,
      !ALL.D.Region,
      'ALL.D.Products':'Total Products',
-     'HEDGE/MTM',
+     !DFS.D.Accounts_ICF,
       'ALL.D.Account_Line':'Total Accounts Line', 
      'Value'
 );
