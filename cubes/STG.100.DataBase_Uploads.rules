@@ -1102,3 +1102,25 @@
 ]=>
   DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FCF.099.011', 'Value' );
 
+###############################################################
+#-------------------------------------# DFS.200#-----------------------------------------
+###############################################################
+# --------------------------------------------------------------------------------------------
+# Name :Geral todas Contas
+# Desc: Geral todas Contas
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------    
+
+['STG.M.100.DataBaseUploads':'STG.M.100.DataBaseUploads':'Value' , 
+'ALL.D.Accounts':{'KPI.010.001' , 'KPI.010.002' , 'KPI.010.003' , 'KPI.010.024' , 'KPI.010.004' , 'KPI.010.005' , 'KPI.010.006' ,
+ 'KPI.010.007' , 'KPI.010.008' , 'KPI.010.009' , 'KPI.010.010' , 'KPI.010.011' , 'KPI.010.012' , 'KPI.010.013' , 'KPI.010.014' ,
+  'KPI.010.015' , 'KPI.010.016' , 'KPI.010.017' , 'KPI.010.018' , 'KPI.010.019' , 'KPI.010.020' , 'KPI.010.041' , 'KPI.010.042' ,
+   'NOP.020.001' , 'KPI.010.029' , 'KPI.010.030' , 'KPI.010.031' , 'KPI.010.032' , 'KPI.010.033' , 'KPI.010.034' , 'KPI.010.035' , 
+   'KPI.010.036' , 'OBZ.010.001' , 'OBZ.010.002' , 'OBZ.010.003' , 'OBZ.010.004' , 'OBZ.010.005' , 'OBZ.010.006' , 'OBZ.010.007' ,
+    'OBZ.010.008' , 'OBZ.010.009' , 'OBZ.010.010' , 'OBZ.010.011' , 'OBZ.010.012'}
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+,'ALL.D.Account_Line':'ALL.D.Account_Line':'Total Accounts Line',
+'ALL.D.Products':'ALL.D.Products':'Total Products'
+]=>
+DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products,!ALL.D.Accounts,'Value');   
