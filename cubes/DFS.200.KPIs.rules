@@ -651,7 +651,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
                !ALL.D.Currency, 
                !ALL.D.Region, 
                !ALL.D.Products, 
-               'Depreciation',
+               'DEP.010.001',
                  'DFS.M.100.Profit_and_Loss':'Total Value'  );
 # --------------------------------------------------------------------------------------------
 # Name 
@@ -667,7 +667,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
   #              !ALL.D.Currency, 
   #              !ALL.D.Region, 
   #              !ALL.D.Products, 
-  #              'Depreciation',
+  #              'DEP.010.001',
   #               'DFS.M.100.Profit_and_Loss':'Total Value' )
   # +
   #     DB('DFS.200.KPIs', 
@@ -685,7 +685,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
               !ALL.D.Currency, 
               !ALL.D.Region, 
               !ALL.D.Products, 
-              'Depreciation' , 
+              'DEP.010.001' , 
               'DFS.M.100.Profit_and_Loss':'Total Value' )
    -
       DB('DFS.100.Profit_and_Loss', 
@@ -695,7 +695,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
               !ALL.D.Currency, 
               !ALL.D.Region, 
               !ALL.D.Products, 
-              'Depreciation' , 
+              'DEP.010.001' , 
               'DFS.M.100.Profit_and_Loss':'Total Value' )
    +
          DB('DFS.100.Profit_and_Loss', 
@@ -705,7 +705,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
               !ALL.D.Currency, 
               !ALL.D.Region, 
               !ALL.D.Products, 
-              'Depreciation' , 
+              'DEP.010.001' , 
               'DFS.M.100.Profit_and_Loss':'Total Value' );
 # --------------------------------------------------------------------------------------------
 # Name 
@@ -729,7 +729,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
              !ALL.D.Currency, 
              !ALL.D.Region, 
              !ALL.D.Products, 
-               'Other Op. Results', 
+               'OOR.010.001', 
                'DFS.M.100.Profit_and_Loss':'Total Value' )
      -
      DB('DFS.200.KPIs', 
@@ -747,7 +747,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
              !ALL.D.Currency, 
              !ALL.D.Region, 
              !ALL.D.Products, 
-               'DFS.D.Accounts_PnL':'Financial Results', 
+               'DFS.D.Accounts_PnL':'DRE.099.007', 
               'Value')
       +
       
@@ -845,7 +845,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
               !ALL.D.Currency, 
               !ALL.D.Region, 
               !ALL.D.Products, 
-              'Equity Pickup' , 
+              'NOP.010.001' , 
               'DFS.M.100.Profit_and_Loss':'Total Value' )
    -
       DB('DFS.100.Profit_and_Loss', 
@@ -855,7 +855,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
               !ALL.D.Currency, 
               !ALL.D.Region, 
               !ALL.D.Products, 
-              'Equity Pickup' , 
+              'NOP.010.001' , 
               'DFS.M.100.Profit_and_Loss':'Total Value' )
    +
          DB('DFS.100.Profit_and_Loss', 
@@ -865,7 +865,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
               !ALL.D.Currency, 
               !ALL.D.Region, 
               !ALL.D.Products, 
-              'Equity Pickup' , 
+              'NOP.010.001' , 
               'DFS.M.100.Profit_and_Loss':'Total Value' );
 # --------------------------------------------------------------------------------------------
 # Name  (+) Gross Fixed Assets
@@ -1068,7 +1068,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
            !ALL.D.Currency, 
            !ALL.D.Region, 
            !ALL.D.Products, 
-           'Income Tax',
+           'DRE.099.010',
            'DFS.M.100.Profit_and_Loss':'Total Value')
   +
       DB('DFS.100.Profit_and_Loss', 
@@ -1078,7 +1078,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
            !ALL.D.Currency, 
            !ALL.D.Region, 
            !ALL.D.Products, 
-           'Equity Pickup',
+           'NOP.010.001',
            'DFS.M.100.Profit_and_Loss':'Total Value')
     +
       DB('DFS.200.KPIs', 
@@ -1104,7 +1104,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
            !ALL.D.Currency, 
            !ALL.D.Region, 
            !ALL.D.Products, 
-           'Contribution Margin',
+           'DRE.099.002',
            'Value')
   +
       DB('DFS.100.Profit_and_Loss', 
@@ -1124,7 +1124,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
            !ALL.D.Currency, 
            !ALL.D.Region, 
            !ALL.D.Products, 
-           'Depreciation',
+           'DEP.010.001',
            'Value')
   +    
       DB('DFS.100.Profit_and_Loss', 
@@ -1134,7 +1134,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
            !ALL.D.Currency, 
            !ALL.D.Region, 
            !ALL.D.Products, 
-           'Operational Expenses',
+           'EXP.020.001',
            'Value')
   +
         DB('DFS.100.Profit_and_Loss', 
@@ -1144,7 +1144,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
            !ALL.D.Currency, 
            !ALL.D.Region, 
            !ALL.D.Products, 
-           'Other Op. Results',
+           'OOR.010.001',
            'Value');
 
 # --------------------------------------------------------------------------------------------
@@ -1483,7 +1483,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
               !ALL.D.Currency, 
               !ALL.D.Region, 
               !ALL.D.Products, 
-                'EBITDA', 
+                'DRE.099.004', 
               'DFS.M.100.Profit_and_Loss':'Total Value' ));    
  
 
@@ -1505,7 +1505,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
               !ALL.D.Currency, 
               !ALL.D.Region, 
               !ALL.D.Products, 
-                'EBITDA', 
+                'DRE.099.004', 
               'DFS.M.100.Profit_and_Loss':'Total Value' ));  
 
  # --------------------------------------------------------------------------------------------
@@ -1523,7 +1523,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
                 !ALL.D.Currency, 
                 'ALL.D.Region':'Hard Currency', 
                 !ALL.D.Products, 
-                'EBITDA', 
+                'DRE.099.004', 
                 'DFS.M.100.Profit_and_Loss':'Total Value' )
   \
    DB('DFS.100.Profit_and_Loss', 
@@ -1533,7 +1533,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
                 !ALL.D.Currency, 
                 'ALL.D.Region':'Global', 
                 !ALL.D.Products, 
-                'EBITDA', 
+                'DRE.099.004', 
                 'DFS.M.100.Profit_and_Loss':'Total Value' )
   ,0 ); 
 
@@ -1614,7 +1614,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
                   !ALL.D.Currency, 
                   !ALL.D.Region, 
                   !ALL.D.Products, 
-                  'Contribution Margin (%)', 
+                  'DRE.099.003', 
                   'DFS.M.100.Profit_and_Loss':'Total Value' );
  # --------------------------------------------------------------------------------------------
 # Name 
@@ -1630,7 +1630,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
                   !ALL.D.Currency, 
                   !ALL.D.Region, 
                   !ALL.D.Products, 
-                  'EBITDA', 
+                  'DRE.099.004', 
                   'DFS.M.100.Profit_and_Loss':'Total Value' )
   \
   ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.038'];
@@ -1648,7 +1648,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
                   !ALL.D.Currency, 
                   !ALL.D.Region, 
                   !ALL.D.Products, 
-                  'Operational Expenses', 
+                  'EXP.020.001', 
                   'DFS.M.100.Profit_and_Loss':'Total Value' )
 ;
 # --------------------------------------------------------------------------------------------
@@ -1718,7 +1718,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
             !ALL.D.Currency, 
             !ALL.D.Region,
             !ALL.D.Products, 
-            'Income Tax', 
+            'DRE.099.010', 
             'DFS.M.100.Profit_and_Loss':'Total Value' );
 # --------------------------------------------------------------------------------------------
 # Name 
@@ -1743,7 +1743,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
             !ALL.D.Currency, 
             !ALL.D.Region,
             !ALL.D.Products, 
-            'Equity Pickup', 
+            'NOP.010.001', 
             'DFS.M.100.Profit_and_Loss':'Total Value' );
 
 # --------------------------------------------------------------------------------------------
