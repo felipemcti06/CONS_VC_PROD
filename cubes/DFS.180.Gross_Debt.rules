@@ -1094,4 +1094,4 @@
 # --------------------------------------------------------------------------------------------  
 ['DFS.M.180.Gross_Debt':'DFS.M.180.Gross_Debt':'Value','DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.003'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' } ]
-=> DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'ALL.D.Products':'PROD099', 'IFRS16','Value' );
+=> DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'ALL.D.Products':'PROD099', 'KPI.010.025','Value' );

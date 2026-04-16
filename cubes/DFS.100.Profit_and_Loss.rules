@@ -1047,12 +1047,11 @@
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
 ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DEP.010.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
-=> DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Depreciação LTM' ,'Value');
+=> DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.026' ,'Value');
 
  ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DEP.010.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
-=> DB('DFS.200.KPIs', !ALL.D.Year, DB('SYS.200.Time_Travel', !ALL.D.Year, !ALL.D.Month, '1','Mes'), !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Depreciação LTM' ,'Value');   
+=> DB('DFS.200.KPIs', !ALL.D.Year, DB('SYS.200.Time_Travel', !ALL.D.Year, !ALL.D.Month, '1','Mes'), !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.026' ,'Value');   
 
-    
 # --------------------------------------------------------------------------------------------
 # Name: Income Tax Theoretical
 # Desc:  Income Tax Theoretical
@@ -1060,7 +1059,7 @@
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
 ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':{'DRE.099.007','OOR.010.001'},'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
-=> DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Income Tax Theoretical' ,'Value');
+=> DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.044' ,'Value');
 
 # --------------------------------------------------------------------------------------------
 # Name: Income Tax Theoretical
@@ -1069,7 +1068,7 @@
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
 ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'NOP.010.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
-=> DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Equity LTM','Value' );
+=> DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.045','Value' );
 
 
 # --------------------------------------------------------------------------------------------
@@ -1079,7 +1078,7 @@
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
 ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':{'DRE.099.010','NOP.010.001'},'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
-=> DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'NOPAT + Equity Pick Up','Value' );
+=> DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.046','Value' );
 
 # --------------------------------------------------------------------------------------------
 # Name: EBIT
@@ -1088,7 +1087,7 @@
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
 ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':{'DRE.099.002','CST.020.001','DEP.010.001','EXP.020.001','OOR.010.001'},'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
-  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'EBIT','Value' );
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.047','Value' );
 
 
 
@@ -1099,7 +1098,7 @@
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
 ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.003','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
-  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Margem de Contribuição por produto','Value' );
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.055','Value' );
 
 # --------------------------------------------------------------------------------------------
 # Name: 
@@ -1108,7 +1107,7 @@
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
 ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
-  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Margem por produto','Value' );
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.056','Value' );
 
 # --------------------------------------------------------------------------------------------
 # Name: 
@@ -1117,7 +1116,7 @@
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
 ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
-  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'EBITDA in Hard Currency','Value' );
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.053','Value' );
 
 
 # --------------------------------------------------------------------------------------------
@@ -1127,7 +1126,7 @@
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
 ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'EXP.020.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
-  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'SG&A','Value' );
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.057','Value' );
 
 # --------------------------------------------------------------------------------------------
 # Name: 
@@ -1136,7 +1135,7 @@
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
 ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.010','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
-  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'DRE.099.010','Value' );
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.046','Value' );
 
 # --------------------------------------------------------------------------------------------
 # Name: 
@@ -1145,4 +1144,4 @@
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
 ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'NOP.010.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
-  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Equity Pick Up','Value' );
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.063','Value' );

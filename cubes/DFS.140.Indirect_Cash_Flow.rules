@@ -1667,7 +1667,7 @@ DB( 'DFS.140.Indirect_Cash_Flow',
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
 ['DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Value','DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'DRE.099.004'   ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
-  => DB( 'DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'ALL.D.Products':'PROD099', 'EBITDA LTM' ,'Value');
+  => DB( 'DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'ALL.D.Products':'PROD099', 'KPI.010.043' ,'Value');
 
 # --------------------------------------------------------------------------------------------
 # Name: 
@@ -1676,5 +1676,5 @@ DB( 'DFS.140.Indirect_Cash_Flow',
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
 ['DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Total Value','DFS.D.Accounts_ICF':'DFS.D.Accounts_ICF':'FCF.099.007' , 'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
-  => DB( 'DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'ALL.D.Products':'PROD099', 'Sust. Cash Flow in Hard Currency' ,'Value');
+  => DB( 'DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'ALL.D.Products':'PROD099', 'KPI.010.054' ,'Value');
 

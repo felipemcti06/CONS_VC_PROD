@@ -1131,4 +1131,4 @@ DB( 'DFS.160.Working_Capital',
 
 ['DFS.M.160.Working_Capital':'DFS.M.160.Working_Capital':'Value','DFS.D.Accounts_WC':'DFS.D.Accounts_WC':'WKC.099.006',
 'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
-=> DB( 'DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'ALL.D.Products':'PROD099', 'Working Capital Balance','Value' );
+=> DB( 'DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'ALL.D.Products':'PROD099', 'KPI.010.045','Value' );
