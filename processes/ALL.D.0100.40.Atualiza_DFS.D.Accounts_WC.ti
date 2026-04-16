@@ -49,7 +49,7 @@
 # ========================================
 cDimensao		= 'DFS.D.Accounts_WC';
 cCuboMapa		= 'MAP.020.Accounts';
-
+cCuboOrigem = cCuboMapa;
 
 
 
@@ -119,10 +119,76 @@ DimensionDeleteAllElements( cDimensao );
 
 
 
+
+
+# =================================================================================
+#
+# Definição View de Leitura do Cubo de Origem
+#
+# =================================================================================
+
+cSuprimirConsolidado	= 'S';
+cSuprimirZero		= 'S'; 
+cSuprimirCamposCalculados	= 'N';
+cViewTemporaria	 	= 'S';
+nViewTemporaria		= If( cViewTemporaria @= 'S', 1, 0);
+
+
+
+
+# Define nome da view e subset de origem
+# ======================================================
+cViewOrigem	= 'processo.' | cProcesso | '.' | 'Leitura' | '.' | TimSt( cHorarioInicio, '\Y-\m-\d \hh\im\ss' );
+cSubsetOrigem	= cViewOrigem;
+
+
+
+# Cria a view que será utilizada para a leitura
+# ======================================================
+ViewCreate( cCuboOrigem , cViewOrigem , nViewTemporaria );
+
+
+
+# Cria os subsets que serão utilizados para filtrar a view de leitura
+# ======================================================
+
+cDimensaoView	= 'MAP.D.DFs';
+cElemento	= 'working_capital';
+If( cDimensaoView @<> '');
+  SubsetCreate( cDimensaoView, cSubsetOrigem, nViewTemporaria );  
+  ViewSubsetAssign( cCuboOrigem , cViewOrigem, cDimensaoView , cSubsetOrigem );  
+  SubsetElementInsert( cDimensaoView, cSubsetOrigem, cElemento	, 1 );
+EndIf;
+
+
+
+
+
+
+
+
+# Configuração da View de Leitura
+# ======================================================
+ViewExtractSkipCalcsSet( cCuboOrigem, cViewOrigem, If( cSuprimirConsolidado @= 'S', 1, 0) );
+ViewExtractSkipZeroesSet( cCuboOrigem, cViewOrigem, If( cSuprimirZero @= 'S', 1, 0)  );
+ViewExtractSkipRuleValuesSet( cCuboOrigem, cViewOrigem, If( cSuprimirCamposCalculados @= 'S', 1, 0) );
+
+
+
+# Define Cubo de Origem como Datasource
+# ==================================
+DataSourceCubeView = cViewOrigem;
+
+
 # =================================================================================
 # Define a Ordem da Dimensão 
 # =================================================================================
 DimensionSortOrder ( cDimensao, 'ByName', 'Ascending', 'ByHierarchy' , 'Ascending' );
+
+
+
+
+
 #endregion
 #region Metadata
 
@@ -141,12 +207,12 @@ sElm = vElement;
 sDim = cDimensao;
 
 
-sFlagDFS = CellGetS( cCuboMapa, vElement, 'DFs' );
+
 
 
 # Adiciona elemento
 # ==========================
-if( SCAN('Working_Capital' , sFlagDFS ) <> 0);
+
 
     if (DIMIX( cDimensao, vElement )=0); 
         DimensionElementInsertDirect( cDimensao, '' , vElement, 'N' );
@@ -378,7 +444,7 @@ EndIf;
 
     
 
-ENDIF;
+
 
 
 
@@ -404,12 +470,7 @@ sElm = vElement;
 sDim = cDimensao;
 
 
-sFlagDFS = CellGetS( cCuboMapa, vElement, 'DFs' );
 
-
-# Adiciona elemento
-# ==========================
-if( SCAN('Working_Capital' , sFlagDFS ) <> 0);
 
 
 
@@ -435,7 +496,7 @@ If  (  sCod @<>'' & sDesc @<> '' );
 EndIf;
 
 
-ENDIF;
+
 
 
 #endregion
