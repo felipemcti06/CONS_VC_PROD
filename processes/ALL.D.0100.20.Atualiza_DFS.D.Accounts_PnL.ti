@@ -49,6 +49,7 @@
 # ========================================
 cDimensao		= 'DFS.D.Accounts_PnL';
 cCuboMapa		= 'MAP.020.Accounts';
+cCuboOrigem = cCuboMapa;
 
 
 
@@ -119,13 +120,76 @@ CellPutS( s05 , cCuboParametro, cProcesso, 'Tempo de Execução' );
 
 
 
+
+
+
+# =================================================================================
+#
+# Definição View de Leitura do Cubo de Origem
+#
+# =================================================================================
+
+cSuprimirConsolidado	= 'S';
+cSuprimirZero		= 'S'; 
+cSuprimirCamposCalculados	= 'N';
+cViewTemporaria	 	= 'S';
+nViewTemporaria		= If( cViewTemporaria @= 'S', 1, 0);
+
+
+
+
+# Define nome da view e subset de origem
+# ======================================================
+cViewOrigem	= 'processo.' | cProcesso | '.' | 'Leitura' | '.' | TimSt( cHorarioInicio, '\Y-\m-\d \hh\im\ss' );
+cSubsetOrigem	= cViewOrigem;
+
+
+
+# Cria a view que será utilizada para a leitura
+# ======================================================
+ViewCreate( cCuboOrigem , cViewOrigem , nViewTemporaria );
+
+
+
+# Cria os subsets que serão utilizados para filtrar a view de leitura
+# ======================================================
+
+cDimensaoView	= 'MAP.D.DFs';
+cElemento	= 'DRE';
+If( cDimensaoView @<> '');
+  SubsetCreate( cDimensaoView, cSubsetOrigem, nViewTemporaria );  
+  ViewSubsetAssign( cCuboOrigem , cViewOrigem, cDimensaoView , cSubsetOrigem );  
+  SubsetElementInsert( cDimensaoView, cSubsetOrigem, cElemento	, 1 );
+EndIf;
+
+
+
+
+
+
+
+
+# Configuração da View de Leitura
+# ======================================================
+ViewExtractSkipCalcsSet( cCuboOrigem, cViewOrigem, If( cSuprimirConsolidado @= 'S', 1, 0) );
+ViewExtractSkipZeroesSet( cCuboOrigem, cViewOrigem, If( cSuprimirZero @= 'S', 1, 0)  );
+ViewExtractSkipRuleValuesSet( cCuboOrigem, cViewOrigem, If( cSuprimirCamposCalculados @= 'S', 1, 0) );
+
+
+
+# Define Cubo de Origem como Datasource
+# ==================================
+DataSourceCubeView = cViewOrigem;
+
+
 # =================================================================================
 # Define a Ordem da Dimensão 
 # =================================================================================
 DimensionSortOrder ( cDimensao, 'ByName', 'Ascending', 'ByHierarchy' , 'Ascending' );
+
+
 #endregion
 #region Metadata
-
 
 # ===============================================================================================================
 #METADATACOMMENT        Descrição:  Atualiza estrutura da dimensão desbalanceada considerando os niveis existentes no cubo mapa.
@@ -141,19 +205,238 @@ sElm = vElement;
 sDim = cDimensao;
 
 
-sFlagDFS = CellGetS( cCuboMapa, vElement, 'DFs' );
 
-
-# Adiciona elemento
-# ==========================
-if( SCAN('DRE' , sFlagDFS ) <> 0);
 
     if (DIMIX( cDimensao, vElement )=0); 
-        DimensionElementInsert( cDimensao, '' , vElement, 'N' );
+        DimensionElementInsertDirect( cDimensao, '' , vElement, 'N' );
     endif;
 
 
-ENDIF;
+
+# =================================================================================
+# Busca Variáveis do Cubo Mapa
+# =================================================================================
+
+
+
+sNivel1 	= CellGetS ( cCuboMapa, vElement,vDFS, 'Cód Nível 1' );
+sNivel2 	= CellGetS ( cCuboMapa, vElement, vDFS, 'Cód Nível 2' );
+sNivel3 	= CellGetS ( cCuboMapa, vElement, vDFS, 'Cód Nível 3' );
+sNivel4 	=CellGetS ( cCuboMapa, vElement, vDFS, 'Cód Nível 4' );
+sNivel5 	= CellGetS ( cCuboMapa, vElement, vDFS, 'Cód Nível 5' );
+sNivel6 	= '';
+sNivel7 	= '';
+sNivel8 	= '';
+sNivel9 	= '';
+sNivel10 	= '';
+
+    DimensionElementInsertDirect( cDimensao, '' , sNivel1, 'N' );
+    DimensionElementInsertDirect( cDimensao, '' , sNivel2, 'N' );
+    DimensionElementInsertDirect( cDimensao, '' , sNivel3, 'N' );
+    DimensionElementInsertDirect( cDimensao, '' , sNivel4, 'N' );
+    DimensionElementInsertDirect( cDimensao, '' , sNivel5, 'N' );
+
+# Nivel Total
+# ==========================
+    #If ( sNivel1 @<> '' );
+    
+    
+   # DimensionElementComponentAdd ( sDim, sTot, sNivel1, 1 );
+    
+# ElseIf ( sNivel2 @<> '' );
+#     DimensionElementComponentAdd ( sDim, sTot, sNivel2, 1 );
+# ElseIf ( sNivel3 @<> ''  );
+#     DimensionElementComponentAdd ( sDim, sTot, sNivel3, 1 );
+# ElseIf ( sNivel4 @<> ''  );
+#     DimensionElementComponentAdd ( sDim, sTot, sNivel4, 1 );
+# ElseIf ( sNivel5 @<> ''  );
+#     DimensionElementComponentAdd ( sDim, sTot, sNivel5, 1 );
+# ElseIf ( sNivel6 @<> ''  );
+#     DimensionElementComponentAdd ( sDim, sTot, sNivel6, 1 );
+# ElseIf ( sNivel7 @<> ''  );
+#     DimensionElementComponentAdd ( sDim, sTot, sNivel7, 1 );
+# ElseIf ( sNivel8 @<> ''  );
+#     DimensionElementComponentAdd ( sDim, sTot, sNivel8, 1 );
+# ElseIf ( sNivel9 @<> ''  );
+#     DimensionElementComponentAdd ( sDim, sTot, sNivel9, 1 );
+# ElseIf ( sNivel10 @<> ''  );
+#     DimensionElementComponentAdd ( sDim, sTot, sNivel10, 1 );
+# Else;
+#     DimensionElementComponentAdd ( sDim, sTot, sElm, 1 );
+# EndIf;
+
+
+
+# Nivel 1
+# ==========================
+If ( sNivel2 @<> '' & sNivel1 @<> ''  );
+    DimensionElementComponentAdd ( sDim, sNivel1, sNivel2, 1 );
+ElseIf ( sNivel3 @<> '' & sNivel1 @<> ''  );
+    DimensionElementComponentAdd ( sDim, sNivel1, sNivel3, 1 );
+ElseIf ( sNivel4 @<> ''  & sNivel1 @<> ''  );
+    DimensionElementComponentAdd ( sDim, sNivel1, sNivel4, 1 );
+ElseIf ( sNivel5 @<> ''  & sNivel1 @<> ''  );
+    DimensionElementComponentAdd ( sDim, sNivel1, sNivel5, 1 );
+ElseIf ( sNivel6 @<> ''  & sNivel1 @<> ''  );
+    DimensionElementComponentAdd ( sDim, sNivel1, sNivel6, 1 );
+ElseIf ( sNivel7 @<> ''  & sNivel1 @<> ''  );
+    DimensionElementComponentAdd ( sDim, sNivel1, sNivel7, 1 );
+ElseIf ( sNivel8 @<> ''  & sNivel1 @<> ''  );
+    DimensionElementComponentAdd ( sDim, sNivel1, sNivel8, 1 );
+ElseIf ( sNivel9 @<> ''  & sNivel1 @<> ''  );
+    DimensionElementComponentAdd ( sDim, sNivel1, sNivel9, 1 );
+ElseIf ( sNivel10 @<> ''  & sNivel1 @<> ''  );
+    DimensionElementComponentAdd ( sDim, sNivel1, sNivel10, 1 );
+ElseIf ( sNivel1 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel1, sElm, 1 );
+EndIf;
+
+
+
+# Nivel 2
+# ==========================
+If ( sNivel3 @<> '' & sNivel2 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel2, sNivel3, 1 );
+ElseIf ( sNivel4 @<> '' & sNivel2 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel2, sNivel4, 1 );
+ElseIf ( sNivel5 @<> '' & sNivel2 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel2, sNivel5, 1 );
+ElseIf ( sNivel6 @<> '' & sNivel2 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel2, sNivel6, 1 );
+ElseIf ( sNivel7 @<> '' & sNivel2 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel2, sNivel7, 1 );
+ElseIf ( sNivel8 @<> '' & sNivel2 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel2, sNivel8, 1 );
+ElseIf ( sNivel9 @<> '' & sNivel2 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel2, sNivel9, 1 );
+ElseIf ( sNivel10 @<> '' & sNivel2 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel2, sNivel10, 1 );
+ElseIf ( sNivel2 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel2, sElm, 1 );
+EndIf;
+
+
+
+# Nivel 3
+# ==========================
+If ( sNivel4 @<> '' & sNivel3 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel3, sNivel4, 1 );
+ElseIf ( sNivel5 @<> '' & sNivel3 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel3, sNivel5, 1 );
+ElseIf ( sNivel6 @<> '' & sNivel3 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel3, sNivel6, 1 );
+ElseIf ( sNivel7 @<> '' & sNivel3 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel3, sNivel7, 1 );
+ElseIf ( sNivel8 @<> '' & sNivel3 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel3, sNivel8, 1 );
+ElseIf ( sNivel9 @<> '' & sNivel3 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel3, sNivel9, 1 );
+ElseIf ( sNivel10 @<> '' & sNivel3 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel3, sNivel10, 1 );
+ElseIf ( sNivel3 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel3, sElm, 1 );
+EndIf;
+
+
+
+# Nivel 4
+# ==========================
+If ( sNivel5 @<> '' & sNivel4 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel4, sNivel5, 1 );
+ElseIf ( sNivel6 @<> '' & sNivel4 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel4, sNivel6, 1 );
+ElseIf ( sNivel7 @<> '' & sNivel4 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel4, sNivel7, 1 );
+ElseIf ( sNivel8 @<> '' & sNivel4 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel4, sNivel8, 1 );
+ElseIf ( sNivel9 @<> '' & sNivel4 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel4, sNivel9, 1 );
+ElseIf ( sNivel10 @<> '' & sNivel4 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel4, sNivel10, 1 );
+ElseIf ( sNivel4 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel4, sElm, 1 );
+EndIf;
+
+
+
+# Nivel 5
+# ==========================
+If ( sNivel6 @<> '' & sNivel5 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel5, sNivel6, 1 );
+ElseIf ( sNivel7 @<> '' & sNivel5 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel5, sNivel7, 1 );
+ElseIf ( sNivel8 @<> '' & sNivel5 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel5, sNivel8, 1 );
+ElseIf ( sNivel9 @<> '' & sNivel5 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel5, sNivel9, 1 );
+ElseIf ( sNivel10 @<> '' & sNivel5 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel5, sNivel10, 1 );
+ElseIf ( sNivel5 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel5, sElm, 1 );
+EndIf;
+
+
+
+# Nivel 6
+# ==========================
+If ( sNivel7 @<> '' & sNivel6 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel6, sNivel7, 1 );
+ElseIf ( sNivel8 @<> '' & sNivel6 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel6, sNivel8, 1 );
+ElseIf ( sNivel9 @<> '' & sNivel6 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel6, sNivel9, 1 );
+ElseIf ( sNivel10 @<> '' & sNivel6 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel6, sNivel10, 1 );
+ElseIf ( sNivel6 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel6, sElm, 1 );
+EndIf;
+
+
+
+# Nivel 7
+# ==========================
+If ( sNivel8 @<> '' & sNivel7 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel7, sNivel8, 1 );
+ElseIf ( sNivel9 @<> '' & sNivel7 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel7, sNivel9, 1 );
+ElseIf ( sNivel10 @<> '' & sNivel7 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel7, sNivel10, 1 );
+ElseIf ( sNivel7 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel7, sElm, 1 );
+EndIf;
+
+
+
+# Nivel 8
+# ==========================
+If ( sNivel9 @<> '' & sNivel8 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel8, sNivel9, 1 );
+ElseIf ( sNivel10 @<> '' & sNivel8 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel8, sNivel10, 1 );
+ElseIf ( sNivel8 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel8, sElm, 1 );
+EndIf;
+
+
+
+# Nivel 9
+# ==========================
+If ( sNivel10 @<> '' & sNivel9 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel9, sNivel10, 1 );
+ElseIf ( sNivel9 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel9, sElm, 1 );
+EndIf;
+
+
+
+# Nivel 10
+# ==========================
+If ( sNivel10 @<> '' );
+    DimensionElementComponentAdd ( sDim, sNivel10, sElm, 1 );
+EndIf;
+
+    
+
 
 #endregion
 #region Data
@@ -175,16 +458,10 @@ sElm = vElement;
 sDim = cDimensao;
 
 
-sFlagDFS = CellGetS( cCuboMapa, vElement, 'DFs' );
-
-
-# Adiciona elemento
-# ==========================
-if( SCAN('DRE' , sFlagDFS ) <> 0);
 
 
 
-sDescElement =  CellGetS( cCuboMapa, vElement, 'Nome DFs' );
+sDescElement =  CellGetS( cCuboMapa, vElement, vDFS, 'Nome DFs' );
 
 # =================================================================================
 # Adiciona Alias com codigo e descrição
@@ -202,11 +479,9 @@ sDesc = sDescElement;
 
 If  (  sCod @<>'' & sDesc @<> '' );
     AttrPutS( sCod | ' - ' | sDesc, cDimensao, sCod, sAlias );
-        AttrPutS(  sDesc, cDimensao, sCod, 'Description' );
+     #   AttrPutS(  sDesc, cDimensao, sCod, 'Description' );
 EndIf;
 
-
-ENDIF;
 
 
 #endregion

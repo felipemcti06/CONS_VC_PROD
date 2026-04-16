@@ -5,10 +5,10 @@
 	"Code@Code.link":"ALL.D.0100.20.Atualiza_DFS.D.Accounts_PnL.ti",
 	"DataSource":
 	{
-		"Type":"TM1DimensionSubset",
-		"dataSourceNameForServer":"MAP.D.Accounts:MAP.D.Accounts",
-		"dataSourceNameForClient":"MAP.D.Accounts:MAP.D.Accounts",
-		"subset":"All"
+		"Type":"TM1CubeView",
+		"dataSourceNameForServer":"MAP.020.Accounts",
+		"dataSourceNameForClient":"MAP.020.Accounts",
+		"view":"Default"
 	},
 	"Parameters":[],
 	"Variables":
@@ -19,10 +19,33 @@
 			"Position":1,
 			"StartByte":0,
 			"EndByte":0
+		},
+		{
+			"Name":"vDFS",
+			"Type":"String",
+			"Position":2,
+			"StartByte":0,
+			"EndByte":0
+		},
+		{
+			"Name":"vMetrica",
+			"Type":"String",
+			"Position":3,
+			"StartByte":0,
+			"EndByte":0
+		},
+		{
+			"Name":"vValor",
+			"Type":"String",
+			"Position":4,
+			"StartByte":0,
+			"EndByte":0
 		}
 	],
-	"UID": "1776087653000",
 	"VariablesUIData": [
+		"VarType=32\fColType=827\f",
+		"VarType=32\fColType=827\f",
+		"VarType=32\fColType=827\f",
 		"VarType=32\fColType=827\f"
 	]
 }
