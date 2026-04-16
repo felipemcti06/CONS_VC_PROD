@@ -15,6 +15,11 @@ If (vValue1 @<> '');
 
     if( DIMIX( 'MAP.D.Accounts_Names' , vDim7_1 )<>0 );
 sCodConta = CellGetS( 'MAP.021.Accounts_Depara',vDim7_1 , 'Code' );
+if (sCodConta@='NA'); 
+    ItemSkip; 
+endif;
+
+        
 CellPutN(StringToNumberEx(vValue1,'.',','),'STG.100.DataBase_Uploads',vDim1_1,vDim2_1,vDim3_1,vDim4_1,vDim5_1,vDim6_1,sCodConta,vDim8_1,vDim9_1);
 NumRowsProcessed = NumRowsProcessed + 1;
 

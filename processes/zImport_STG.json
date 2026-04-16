@@ -6,8 +6,8 @@
 	"DataSource":
 	{
 		"Type":"ASCII",
-		"dataSourceNameForServer":"STG.100.DataBase_Uploads_VCNA_2026.csv",
-		"dataSourceNameForClient":"",
+		"dataSourceNameForServer":"STG.100.DataBase_Uploads_VCBR_2025.csv",
+		"dataSourceNameForClient":"STG.100.DataBase_Uploads_VCBR_2025.csv",
 		"asciiHeaderRecords":1,
 		"asciiQuoteCharacter":"\"",
 		"asciiDecimalSeparator":".",

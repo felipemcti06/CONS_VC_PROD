@@ -694,6 +694,50 @@
 		{
 			"Name":"Other - Cash Flow",
 			"Type":"Numeric"
+		},
+		{
+			"Name":"Income Tax Payments - Cash",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Company Cash Cost",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Equity Pick-Up (Consolidation)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Account Receivable - Days o/ Rev - (DSO)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Accounts Receivables - Days o/ CPS",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"HEDGE/MTM",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Dividends Received (Paid) - Cash Flow",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Payments of Dividens to Controlling",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Non Operating (Without Cash Effect)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Dividens Received",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Payments of Dividens to Minority",
+			"Type":"Numeric"
 		}
 	],
 	"Subsets@Code.links":[]
