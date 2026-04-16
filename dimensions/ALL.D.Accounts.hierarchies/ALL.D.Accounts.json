@@ -698,6 +698,38 @@
 		{
 			"Name":"FCF.099.023",
 			"Type":"Numeric"
+		},
+		{
+			"Name":"FCF.099.024",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FCF.099.025",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FCF.099.026",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FCF.099.027",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FCF.099.028",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FCF.099.029",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FCF.099.030",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FCF.099.031",
+			"Type":"Numeric"
 		}
 	],
 	"Subsets@Code.links":

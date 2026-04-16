@@ -1046,7 +1046,7 @@
 ['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.009'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
 #, 'ALL.D.Currency':'ALL.D.Currency':{'BRL Conv.','EUR Conv.','USD Conv.'}  
-]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Debt Amortization', !DFS.M.180.Gross_Debt );
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'DEB.010.006', !DFS.M.180.Gross_Debt );
 
 # --------------------------------------------------------------------------------------------
 # Name: Funding
@@ -1056,7 +1056,7 @@
 # --------------------------------------------------------------------------------------------    
 ['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.006'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' } 
-]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Funding', !DFS.M.180.Gross_Debt );
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'DEB.010.002', !DFS.M.180.Gross_Debt );
 
 
 # --------------------------------------------------------------------------------------------
@@ -1067,7 +1067,7 @@
 # --------------------------------------------------------------------------------------------    
 ['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.008'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' } 
-]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Amortization', !DFS.M.180.Gross_Debt);
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'DEB.010.005', !DFS.M.180.Gross_Debt);
 
 
 # --------------------------------------------------------------------------------------------
@@ -1078,7 +1078,7 @@
 # --------------------------------------------------------------------------------------------    
 ['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.014'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' } 
-]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Final Debt Position', !DFS.M.180.Gross_Debt);
+]=> DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'DEB.99.003', !DFS.M.180.Gross_Debt);
 
 
 ###############################################################

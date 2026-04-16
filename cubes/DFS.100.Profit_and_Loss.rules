@@ -669,7 +669,7 @@
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'FIN.010.002' ,'ALL.D.Products':'ALL.D.Products':'PROD099'] = N:
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'FIN.010.001' ,'ALL.D.Products':'ALL.D.Products':'PROD099'] = N:
     DB( 'DFS.120.Financial_Results',
         !ALL.D.Year,
         !ALL.D.Month,
@@ -771,21 +771,21 @@
       );
 
 # --------------------------------------------------------------------------------------------
-# Name EBITDA FX
-# Desc EBITDA FX
+# Name  FX
+# Desc  FX
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-# ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.016' , 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Value' , 'ALL.D.Currency':'ALL.D.Currency':'BRL Conv.']=N:
-#   ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004' , 'ALL.D.Currency':'ALL.D.Currency':'USD Conv.']
-#   *
-#   DB( 'ALL.010.Economic_Assumptions', 
-#       !ALL.D.Year,
-#       !ALL.D.Month,
-#       !ALL.D.Version,
-#       'EBITDA FX R$/US$',
-#       'ALL.M.010.Economic_Assumptions':'Value' )
-#   ;
+[ 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'FX' , 'ALL.D.Currency':'ALL.D.Currency':'BRL Conv.']=N:
+  ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Value', 'ALL.D.Currency':'ALL.D.Currency':'USD Conv.']
+  *
+  DB( 'ALL.010.Economic_Assumptions', 
+      !ALL.D.Year,
+      !ALL.D.Month,
+      !ALL.D.Version,
+      'FX R$/US$',
+      'ALL.M.010.Economic_Assumptions':'Value' )
+  ;
 
 # --------------------------------------------------------------------------------------------
 #
@@ -803,6 +803,15 @@
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
  ['ALL.D.Version':'ALL.D.Version':'RE'] => ['ALL.D.Version':'ALL.D.Version':'Dynamic Versions'];
+# =============
+# # --------------------------------------------------------------------------------------------
+# # Name: Feedes FX 
+# # Desc: Feedes FX 
+# # Date 01/2026
+# # Author: Miranda / Helder
+# # --------------------------------------------------------------------------------------------
+['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value', 'ALL.D.Currency':'ALL.D.Currency':'Total Currency','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['ALL.D.Currency':'ALL.D.Currency':'BRL Conv.','DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'FX'];
 
 # --------------------------------------------------------------------------------------------
 # Name: ConversÃ£o de Moedas

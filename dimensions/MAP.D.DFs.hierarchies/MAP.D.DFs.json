@@ -34,6 +34,10 @@
 		{
 			"Name":"Cash_Flow",
 			"Type":"Numeric"
+		},
+		{
+			"Name":"STG",
+			"Type":"Numeric"
 		}
 	],
 	"Subsets@Code.links":[]

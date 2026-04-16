@@ -220,7 +220,7 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"EBITDA FX R$/US$",
+			"Name":"FX R$/US$",
 			"Type":"Numeric"
 		}
 	],

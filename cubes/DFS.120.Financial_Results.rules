@@ -276,7 +276,7 @@ DB( 'DFS.180.Gross_Debt',
     !ALL.D.Version,
     !ALL.D.Currency,
     !ALL.D.Region,
-    'DFS.D.Accounts_Debt':'FIN.020.004',
+    'DFS.D.Accounts_Debt':'DEB.099.012',
     !DFS.M.120.Financial_Results
   );
 
@@ -442,14 +442,14 @@ DB( 'DFS.180.Gross_Debt',
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
-['DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'FIN.099.003']=N:
+['DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'FCF.099.003']=N:
 DB( 'DFS.140.Indirect_Cash_Flow',
     !ALL.D.Year,
     !ALL.D.Month,
     !ALL.D.Version,
     !ALL.D.Currency,
     !ALL.D.Region,
-    'Financial Revenue',
+    'FCF.099.003',
     !DFS.M.120.Financial_Results );
 
 
@@ -661,9 +661,9 @@ DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'USD
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
  
-[ 'DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'FIN.010.001'
+[ 'DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'FIN.099.002'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'PROD099', 'Interest Accrual', !DFS.M.120.Financial_Results );
+]=>DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'PROD099', 'FIN.010.001', !DFS.M.120.Financial_Results );
 # --------------------------------------------------------------------------------------------
 # Name:Financial Expenses
 # Desc: Financial Expenses
@@ -673,7 +673,7 @@ DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'USD
  
 [ 'DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'FIN.099.004'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'PROD099', 'Financial Expenses', !DFS.M.120.Financial_Results );
+]=>DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'PROD099', 'FIN.099.004', !DFS.M.120.Financial_Results );
 
 # --------------------------------------------------------------------------------------------
 # Name:Total Financial Revenues
@@ -684,7 +684,7 @@ DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'USD
  
 [ 'DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'FIN.099.006'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'PROD099', 'Financial Revenues', !DFS.M.120.Financial_Results);
+]=>DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'PROD099', 'FIN.099.006', !DFS.M.120.Financial_Results);
 
 
 
@@ -697,7 +697,7 @@ DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'USD
  
 [ 'DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'FIN.099.003'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'PROD099', 'FX Variation', !DFS.M.120.Financial_Results );
+]=>DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'PROD099', 'FIN.099.003', !DFS.M.120.Financial_Results );
 
 
 # --------------------------------------------------------------------------------------------
@@ -709,7 +709,7 @@ DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'USD
  
 [ 'DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'FIN.099.007'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'PROD099', 'Others', !DFS.M.120.Financial_Results );
+]=>DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'PROD099', 'DRE.099.008', !DFS.M.120.Financial_Results );
 
 # --------------------------------------------------------------------------------------------
 # Name: Total Other Financial Revenues
@@ -720,7 +720,7 @@ DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'USD
  
 [ 'DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'FIN.099.008'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'PROD099', 'Others', !DFS.M.120.Financial_Results );
+]=>DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'PROD099', 'DRE.099.008', !DFS.M.120.Financial_Results );
 
 
 ###############################################################
@@ -736,7 +736,7 @@ DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'USD
  
 [ 'DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'FIN.099.005'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Other Financial Expenses', !DFS.M.120.Financial_Results );
+]=>DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.099.005', !DFS.M.120.Financial_Results );
 
 
 
@@ -749,4 +749,4 @@ DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'USD
  
 [ 'DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'FIN.050.002'
  ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'Derivatives settlement', !DFS.M.120.Financial_Results );
+]=>DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.050.002', !DFS.M.120.Financial_Results );

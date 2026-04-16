@@ -353,6 +353,24 @@ sDim = 'MAP.D.Accounts';
 If( sElm @<> '' & DimIx( sDim, sElm ) = 0 );
     DimensionElementInsert( sDim, '', sElm,  'n' );
 EndIf;
+
+
+sElm = vDFS;
+sDim ='MAP.D.DFs';
+
+If( sElm @<> '' & DimIx( sDim, sElm ) = 0 );
+    DimensionElementInsert( sDim, '', sElm,  'n' );
+EndIf;
+
+
+sElm = vNomeSTG;
+sDim ='MAP.D.Accounts_Names';
+
+If( sElm @<> '' & DimIx( sDim, sElm ) = 0 );
+    DimensionElementInsert( sDim, '', sElm,  'n' );
+EndIf;
+
+
 #endregion
 #region Data
 # ===============================================================================================================
@@ -531,6 +549,9 @@ CellPutS ( vCod_N3, cCuboDestino, vCod , vDFS , 'Cód Nível 3' );
 CellPutS ( vCod_N4, cCuboDestino, vCod , vDFS , 'Cód Nível 4' );
 CellPutS ( vCod_N5, cCuboDestino, vCod , vDFS , 'Cód Nível 5' );
 
+
+CellPutS ( vCod, 'MAP.021.Accounts_Depara', vNomeSTG , 'Code' );
+CellPutS ( vNomeSTG, 'MAP.021.Accounts_Depara', vNomeSTG , 'Nome STG' );
 
 #endregion
 #region Epilog

@@ -1,0 +1,700 @@
+{
+	"@type":"Hierarchy",
+	"Name":"MAP.D.Accounts_Names",
+	"Elements":
+	[
+		{
+			"Name":"Final Variable Sales Expenses",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Variable Costs",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Fixed Costs",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Depreciation / amortization / depletion - Corporate",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Operating Expenses",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Equity Pick-Up Results",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Non Operating Results",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Additions/Low IT Income Statement",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Accrual of Interest (LC)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Interest Expenses",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Foreign Exchange Cash Flow Impact",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Monetary Variation (LC)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Foreign Exchange Variation",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"IOF - Cash",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"CPMF - Cash",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Taxes (Except Income Tax) - Cash",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Bank Expenses - Cash",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Financial Expenses- Cash",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Financial Expenses - Non Cash",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Financial Revenues",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Financial Revenues Adjustments",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Mutual Net Results",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Balance Variation",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Liquidation",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Hedge Accounting - Derivatives",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Hedge Results",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Financial Results - (Non Cash Effect)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Account Receivable - Days o/ Rev",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Input Inventory- Days o/ VC",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Accounts Receivables - Days o/ DSO",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Suppliers - Days o/ VC (DPO)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Accounts Receivable",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Inputs Inventory",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Accounts Receivable",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Suppliers",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Operating Taxes Payable - % o/ Rev.",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Labor Obligations",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Accounts Payable",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Finished Product Inventory",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Product in Process Inventory",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"MRO Inventory",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Opex Adavancement",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Initial Working Capital Balance",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"INITIAL GROSS DEBT (LC)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Funding (LC)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Principal Amortization (LC)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Interest Amortization (LC)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Variation (LC)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Variation by buy/sale of company (LC)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Initial Gross Debt Leasing",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Funding Leasing",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Accrual of Interest Leasing",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Monetary Variation Leasing",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Principal Amortization Leasing",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Interest Amortization Leasing",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Variation Leasing",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Variation by buy/sale of company Leasing",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Reference Price [$/ton]",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Local Market Sales Volume [kt]",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Export Market Sales Volume [kt]",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Third Part Sales Volume [kt]",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Local Market Price Premium [$/ton]",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Export Market Price Premium [$/ton]",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"% Operational Tax",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"i - Personnel Expenses",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"ii - Maintenance",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"iii - Facilities",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"iv - Professionais Services",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"v - Legal",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"vi - IT",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"vii - Operating Materiais",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"viii - Shared Services center",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"ix - Institucional",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"x - Marketing",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"xi - Operating Vehicles",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"xii - Travel and refunds",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Gross Revenue",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Tax on Sales",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Net Revenue",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Contribution Margin",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Contribution Margin (%)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"EBITDA",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"EBITDA/Net Revenue (%)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Operating Profit",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Financial Results",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Financial Expenses",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Financial Revenues",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FX Variation",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Others",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Profit Before Income Tax",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Income Tax",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Net Profit Before Minority Int.",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Minority Interests",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Net Profit",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"% Income Tax",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"EBITDA Econômico",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"EBITDA FX",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Finished Product Inventory - Days o/ CPS - Other",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Product in Process Inventory- Days o/ CPS",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Concentrate Inventory - Days o/ VC",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"MRO Inventory - Days o/ FC",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Opex Advancement - Days o/ VC",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Accounts Payable - Days o/ CPS",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Foreign Exchange Variation (LC)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Hedge Accounting International investments",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Closing Balance Debt",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Closing Balance Debt Leasing",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Initial Gross Debt Total",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Funding Total",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Accrual of Interest Total",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Principal Amortization Total",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Interest Amortization Total",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Variation Total",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Variation by buy/sale of company Total",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Foreign Exchange Variation Total",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Monetary Variation Total",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Closing Balance Debt Total",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Foreign Exchange Variation Leasing",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPIs Assets Accounts",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Assets Accounts",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Liabilities Accounts",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPIs Liabilities Accounts",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"PROJECTED BALANCE - ASSETS",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Concentrate Inventory",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Working Capital",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"WC adjust by buy/sale of company",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"(Invest.)/Divest. Working Capital",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"PROJECTED BALANCE - LIABILITIES",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Labor Obligations - Days o/ FC",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Operating Taxes Payable",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Cash Conversion Cycle",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Income tax on transactions",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Non expansion capex",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Dividends received",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Debt Amortization",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Financial Revenue",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Financial Expenses",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Derivatives settlement",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Tax on Financial Revenue",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"SCF before dividends",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Payment of dividends to Controlling",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Payment of dividends to Minority",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Sustainable Cash Flow",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Expansion capex",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Inv/Div in Subsidiaries and Affiliates",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FX/Others",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FX on Cash Position",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Cash generation before financing",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Intercompany dividends",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Amortization",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Funding",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Change in cash",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Initial Cash Balance",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Final Cash Position",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Final Cash Position Aux",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Final Debt Position",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"MTM",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Final Net Debt",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Leverage",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Adj EBITDA LTM",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Adjusts LTM",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FCL Econômico",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"DL Econômica",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Invested Cash",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Financial income",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Additions/Low in Cash Investments",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other Change in Assets / Current Liabilities",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Non Operating - Cash (Before Inc Tax)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Investments in Associates and Subsidiaries",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Divestments of subsidiaries and affiliates",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Non Operating (Other - Cash Flow)",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Other - Cash Flow",
+			"Type":"Numeric"
+		}
+	],
+	"Subsets@Code.links":[]
+}

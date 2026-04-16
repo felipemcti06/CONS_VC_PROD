@@ -1,0 +1,33 @@
+#region Prolog
+MinorErrorLogMax = -1;
+OnMinorErrorDoItemSkip = 1;
+NumMetaRowsRead = 0;
+NumMetaRowsProcessed = 0;
+NumRowsRead = 0;
+NumRowsProcessed = 0;
+SetInputCharacterSet('TM1CS_UTF8');
+
+#endregion
+#region Data
+NumRowsRead = NumRowsRead + 1;
+If (vValue1 @<> '');
+
+
+    if( DIMIX( 'MAP.D.Accounts_Names' , vDim7_1 )<>0 );
+sCodConta = CellGetS( 'MAP.021.Accounts_Depara',vDim7_1 , 'Code' );
+CellPutN(StringToNumberEx(vValue1,'.',','),'STG.100.DataBase_Uploads',vDim1_1,vDim2_1,vDim3_1,vDim4_1,vDim5_1,vDim6_1,sCodConta,vDim8_1,vDim9_1);
+NumRowsProcessed = NumRowsProcessed + 1;
+
+    else;
+        TextOutput('Account_Names.txt',vDim7_1);
+endif;
+
+EndIf;
+
+#endregion
+#region Epilog
+If (pResult @<> '');
+TextOutput(pResult, NumberToString(NumRowsRead), NumberToString(NumRowsProcessed), NumberToString(NumMetaRowsRead), NumberToString(NumMetaRowsProcessed));
+EndIf;
+
+#endregion

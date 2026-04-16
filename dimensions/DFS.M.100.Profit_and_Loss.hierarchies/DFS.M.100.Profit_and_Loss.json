@@ -18,6 +18,10 @@
 		{
 			"Name":"EBITDA Econômico",
 			"Type":"Numeric"
+		},
+		{
+			"Name":"FX",
+			"Type":"Numeric"
 		}
 	],
 	"Edges":
