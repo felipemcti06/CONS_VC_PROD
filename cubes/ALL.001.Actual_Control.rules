@@ -1,3 +1,9 @@
+# --------------------------------------------------------------------------------------------
+# Name:  Definir Flag ACTUAL em RE
+# Desc:  Retorna 'ACTUAL' quando o valor na versão T3 for 'ACTUAL' ou 'MONTHLY CLOSING'.
+# Date:  2026-04-17
+# Author: Miranda
+# --------------------------------------------------------------------------------------------
 ['ALL.D.Version':'ALL.D.Version':'RE' , 'ALL.M.001.Actual_Control':'ALL.M.001.Actual_Control':'Flag']=S: 
 IF( DB( 'ALL.001.Actual_Control', !ALL.D.Year, !ALL.D.Month, 'T3',!ALL.M.001.Actual_Control )@= 'ACTUAL' 
   %DB( 'ALL.001.Actual_Control', !ALL.D.Year, !ALL.D.Month, 'T3',!ALL.M.001.Actual_Control )@='MONTHLY CLOSING'

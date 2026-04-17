@@ -1,4 +1,4 @@
-# =============
+﻿# =============
   SKIPCHECK;
   FEEDSTRINGS;
 # =============
@@ -10,8 +10,8 @@
 #
 # --------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------
-# Name Define versÃµes calculadas
-# Desc A partir dessa regra sÃ³ calcula para versÃµes dinÃ¢micas
+# Name Define versões calculadas
+# Desc A partir dessa regra só calcula para versões dinâmicas
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -21,6 +21,12 @@
   ,STET
   ); 
 
+# --------------------------------------------------------------------------------------------
+# Name: Definir versão RE para ACTUAL
+# Desc: Para versões dinâmicas com flag ACTUAL, direciona cálculo para RE.
+# Date 04/2026
+# Author: Miranda 
+# --------------------------------------------------------------------------------------------
 []=IF(
   ELISANC( 'ALL.D.Version', 'Dynamic Versions', !ALL.D.Version ) <> 0 
   &
@@ -30,8 +36,8 @@
 
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Production volume (kt)
+# Desc: Calculo de Production volume (kt).
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -47,8 +53,8 @@
             'N/A',
             'Value');
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Thermal Sub. (%)
+# Desc: Calculo de Thermal Sub. (%).
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -60,8 +66,8 @@
   \ 
   ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.001'];
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Thermal Sub. (%)
+# Desc: Calculo de Thermal Sub. (%).
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -71,8 +77,8 @@
   *
   DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.001', 'Value' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Thermal Sub. (%)
+# Desc: Calculo de Thermal Sub. (%).
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -88,8 +94,8 @@
                'N/A', 
                  'Value' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Thermal C. (kcal/t kk)
+# Desc: Calculo de Thermal C. (kcal/t kk).
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -106,7 +112,7 @@
                  'Value' );
 # --------------------------------------------------------------------------------------------
 # Name Petcoke Price (LMU/t)
-# Desc 
+# Desc: Calculo de Petcoke Price (LMU/t).
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -122,7 +128,7 @@
 
 # --------------------------------------------------------------------------------------------
 # Name Petcoke Price (LMU/t)
-# Desc 
+# Desc: Calculo de Petcoke Price (LMU/t).
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -137,8 +143,8 @@
                                      , !ALL.D.Products
                                      , 'KPI.010.024','Value' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Petcoke Price (LMU/t)
+# Desc: Calculo de Petcoke Price (LMU/t).
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -155,8 +161,8 @@
                  'Value' );
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Fuel (LMU/t)
+# Desc: Calculo de Fuel (LMU/t).
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -172,8 +178,8 @@
                'N/A', 
                  'Value' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Package
+# Desc: Calculo de Package.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -189,8 +195,8 @@
                'N/A', 
                  'Value' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Aux. Materials
+# Desc: Calculo de Aux. Materials.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -206,8 +212,8 @@
                'N/A', 
                  'Value' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Operacional Services
+# Desc: Calculo de Operacional Services.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -223,8 +229,8 @@
                'N/A', 
                  'Value' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Internal Freight
+# Desc: Calculo de Internal Freight.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -240,8 +246,8 @@
                'N/A', 
                  'Value' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Variavel maintenance
+# Desc: Calculo de Variavel maintenance.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -257,8 +263,8 @@
                'N/A', 
                  'Value' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: CO2 Gross (kg/ton)
+# Desc: Calculo de CO2 Gross (kg/ton).
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -274,8 +280,8 @@
                'N/A', 
                  'Value' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: CO2 Net (kg/ton)
+# Desc: Calculo de CO2 Net (kg/ton).
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -291,8 +297,8 @@
                'N/A', 
                  'Value' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Power Price (LMU/MWh)
+# Desc: Calculo de Power Price (LMU/MWh).
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -308,8 +314,8 @@
                'N/A', 
                  'Value' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Power Cons. (kWh/t)
+# Desc: Calculo de Power Cons. (kWh/t).
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -325,8 +331,8 @@
                'N/A', 
                  'Value' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Clinker Factor (%)
+# Desc: Calculo de Clinker Factor (%).
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -342,8 +348,8 @@
                'N/A', 
                  'Value' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Power (LMU/t)
+# Desc: Calculo de Power (LMU/t).
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -359,8 +365,8 @@
                'N/A', 
                  'Value' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Raw Material (LMU/t)
+# Desc: Calculo de Raw Material (LMU/t).
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -376,8 +382,8 @@
                'N/A', 
                  'Value' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Other Variable (LMU/t)
+# Desc: Calculo de Other Variable (LMU/t).
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -393,8 +399,8 @@
                'N/A', 
                  'Value' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Labor (LMU/t)
+# Desc: Calculo de Labor (LMU/t).
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -410,8 +416,8 @@
                'N/A', 
                  'Value' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Maintenance (LMU/t)
+# Desc: Calculo de Maintenance (LMU/t).
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -427,8 +433,8 @@
                'N/A', 
                  'Value' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Other Fixed Costs (LMU/t)
+# Desc: Calculo de Other Fixed Costs (LMU/t).
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -450,8 +456,8 @@
 # --------------------------------------------------------------------------------------------
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: IFRS16
+# Desc: Calculo de IFRS16.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -488,8 +494,8 @@
 
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Revenue
+# Desc: Calculo de Revenue.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -505,8 +511,8 @@
              'REV.M.100.Revenue_Consolidated':'Net Revenue [$MM]' );
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Volume
+# Desc: Calculo de Volume.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -521,8 +527,8 @@
             'ALL.D.Market':'Total Market',
              'REV.M.100.Revenue_Consolidated':'Sales Volume [kt]' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Price
+# Desc: Calculo de Price.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -533,8 +539,8 @@
   \
   ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.039'];
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Price
+# Desc: Calculo de Price.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -543,8 +549,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
 *
 DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.039', 'Value' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Price
+# Desc: Calculo de Price.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -559,8 +565,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
              'ALL.D.Market':'Total Market',
              'REV.M.100.Revenue_Consolidated':'Price Premium [$/ton]' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Market Share Cement (%)
+# Desc: Calculo de Market Share Cement (%).
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -586,8 +592,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
              'KPI.010.042', 
              'Value' ) ;
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Market Share Cement (%)
+# Desc: Calculo de Market Share Cement (%).
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -603,8 +609,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
                'N/A', 
                  'Value' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Demand of Cement
+# Desc: Calculo de Demand of Cement.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -622,8 +628,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
 
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: EBITDA LTM
+# Desc: Calculo de EBITDA LTM.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -638,8 +644,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
               'Value');
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Depreciation LTM
+# Desc: Calculo de Depreciation LTM.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -654,8 +660,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
                'DEP.010.001',
                  'DFS.M.100.Profit_and_Loss':'Total Value'  );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Depreciation LTM
+# Desc: Calculo de Depreciation LTM.
 # Date 02/2026
 # Author: Miranda / HelderDFS.100.Profit_and_Loss
 # --------------------------------------------------------------------------------------------
@@ -708,8 +714,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
               'DEP.010.001' , 
               'DFS.M.100.Profit_and_Loss':'Total Value' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Income Tax Theoretical
+# Desc: Calculo de Income Tax Theoretical.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -775,8 +781,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
 # --------------------------------------------------------------------------------------------
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Income Tax LTM
+# Desc: Calculo de Income Tax LTM.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -789,8 +795,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
   
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Equity LTM
+# Desc: Calculo de Equity LTM.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -806,8 +812,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
 #                'Equity Pickup',
 #                 'DFS.M.100.Profit_and_Loss':'Total Value' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Equity LTM
+# Desc: Calculo de Equity LTM.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -832,8 +838,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
 #                 !DFS.D.KPI, 
 #                 !DFS.M.200.KPIs );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Equity LTM
+# Desc: Calculo de Equity LTM.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -874,7 +880,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
 
 # --------------------------------------------------------------------------------------------
 # Name  (+) Gross Fixed Assets
-# Desc 
+# Desc: Calculo de (+) Gross Fixed Assets.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -895,8 +901,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
 # --------------------------------------------------------------------------------------------
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: (-) Accumulated Depreciation
+# Desc: Calculo de (-) Accumulated Depreciation.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -917,8 +923,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
 # --------------------------------------------------------------------------------------------
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: (+) Adjustment Hyperinflation
+# Desc: Calculo de (+) Adjustment Hyperinflation.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -935,8 +941,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
                  'Value' );
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: (+) Inflation adjustment
+# Desc: Calculo de (+) Inflation adjustment.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -957,8 +963,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
 # --------------------------------------------------------------------------------------------
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: (+) Right of Use
+# Desc: Calculo de (+) Right of Use.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -980,7 +986,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
 
 # --------------------------------------------------------------------------------------------
 # Name (+) Investments
-# Desc  
+# Desc: Calculo de (+) Investments.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -1001,8 +1007,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
 # --------------------------------------------------------------------------------------------
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: (+) Goodwill
+# Desc: Calculo de (+) Goodwill.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -1023,8 +1029,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
 # --------------------------------------------------------------------------------------------
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: (+) Intangible
+# Desc: Calculo de (+) Intangible.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -1040,8 +1046,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
                'N/A', 
                  'Value' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Working Capital Balance
+# Desc: Calculo de Working Capital Balance.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -1055,8 +1061,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
           'Working Capital',
           'Value');
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: NOPAT + Equity Pick Up
+# Desc: Calculo de NOPAT + Equity Pick Up.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -1091,8 +1097,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
            'KPI.010.047' );
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: EBIT
+# Desc: Calculo de EBIT.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -1148,8 +1154,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !
            'Value');
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Invested Capital Avg
+# Desc: Calculo de Invested Capital Avg.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -1207,8 +1213,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
 # --------------------------------------------------------------------------------------------
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: % ROIC
+# Desc: Calculo de % ROIC.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -1220,8 +1226,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
 #REGRAS DO OBZ
 # --------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: i - Personnel Expenses
+# Desc: Calculo de i - Personnel Expenses.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -1237,8 +1243,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
              'N/A', 
             'Value');
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: ii - Maintenance
+# Desc: Calculo de ii - Maintenance.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -1254,8 +1260,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
              'N/A', 
             'Value');
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: iii - Facilities
+# Desc: Calculo de iii - Facilities.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1271,8 +1277,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
              'N/A', 
             'Value');
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: iv - Professionais Services
+# Desc: Calculo de iv - Professionais Services.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1288,8 +1294,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
              'N/A', 
             'Value');
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: v - Legal
+# Desc: Calculo de v - Legal.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1305,8 +1311,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
              'N/A', 
             'Value');  
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: vi - IT
+# Desc: Calculo de vi - IT.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1322,8 +1328,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
              'N/A', 
             'Value');
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: vii - Operating Materiais
+# Desc: Calculo de vii - Operating Materiais.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1339,8 +1345,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
              'N/A', 
             'Value');  
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: viii - Shared Services center
+# Desc: Calculo de viii - Shared Services center.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1356,8 +1362,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
              'N/A', 
             'Value');
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: ix - Institucional
+# Desc: Calculo de ix - Institucional.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1373,8 +1379,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
              'N/A', 
             'Value');  
  # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: x - Marketing
+# Desc: Calculo de x - Marketing.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1390,8 +1396,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
              'N/A', 
             'Value');   
  # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: xi - Operating Vehicles
+# Desc: Calculo de xi - Operating Vehicles.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1407,8 +1413,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
              'N/A', 
             'Value');     
  # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: xii - Travel and refunds
+# Desc: Calculo de xii - Travel and refunds.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1426,8 +1432,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
 
 
  # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Receita adjacencias
+# Desc: Calculo de Receita adjacencias.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1446,8 +1452,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
            'Value' ));    
 
  # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Receita adjacencias ex RMX
+# Desc: Calculo de Receita adjacencias ex RMX.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1467,8 +1473,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
            'Value' ));   
 
  # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: EBITDA Adjacencias
+# Desc: Calculo de EBITDA Adjacencias.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1488,8 +1494,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
  
 
  # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: EBITDA Adjacencias ex RMX
+# Desc: Calculo de EBITDA Adjacencias ex RMX.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1509,8 +1515,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
               'DFS.M.100.Profit_and_Loss':'Total Value' ));  
 
  # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: EBITDA in Hard Currency
+# Desc: Calculo de EBITDA in Hard Currency.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1540,8 +1546,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
 
 
  # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Sust. Cash Flow in Hard Currency
+# Desc: Calculo de Sust. Cash Flow in Hard Currency.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1559,8 +1565,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
 #    ['ALL.D.Region':'ALL.D.Region':'Global','DFS.M.200.KPIs':'DFS.M.200.KPIs':'Aux']  ;   
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Sust. Cash Flow in Hard Currency
+# Desc: Calculo de Sust. Cash Flow in Hard Currency.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1575,8 +1581,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
 #                 'DFS.M.140.Indirect_Cash_Flow':'Total Value' )  ; 
 
  # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Sust. Cash Flow in Hard Currency
+# Desc: Calculo de Sust. Cash Flow in Hard Currency.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1601,8 +1607,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
                 'DFS.M.140.Indirect_Cash_Flow':'Total Value' )
   ,0 ); 
  # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Margem de Contribuicao por produto
+# Desc: Calculo de Margem de Contribuicao por produto.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1617,8 +1623,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
                   'DRE.099.003', 
                   'DFS.M.100.Profit_and_Loss':'Total Value' );
  # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Margem por produto
+# Desc: Calculo de Margem por produto.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1635,8 +1641,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
   \
   ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.038'];
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: SG&A
+# Desc: Calculo de SG&A.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1652,8 +1658,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
                   'DFS.M.100.Profit_and_Loss':'Total Value' )
 ;
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: % FC + SG&A/Net Revenue
+# Desc: Calculo de % FC + SG&A/Net Revenue.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1664,8 +1670,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
 ;
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: % FC/NetRevenue
+# Desc: Calculo de % FC/NetRevenue.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1675,8 +1681,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
   ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.038']
 ;
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: % SG&/NetRevenue
+# Desc: Calculo de % SG&/NetRevenue.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1687,8 +1693,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
 ;
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Income Tax
+# Desc: Calculo de Income Tax.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1696,8 +1702,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
 #  DB();
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Income Tax
+# Desc: Calculo de Income Tax.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1705,8 +1711,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
 #  DB();
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Income Tax
+# Desc: Calculo de Income Tax.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1721,8 +1727,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
             'DRE.099.010', 
             'DFS.M.100.Profit_and_Loss':'Total Value' );
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: NOPAT
+# Desc: Calculo de NOPAT.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1730,8 +1736,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
 ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.047'] + ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.061'];
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Equity Pick Up
+# Desc: Calculo de Equity Pick Up.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1747,8 +1753,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
             'DFS.M.100.Profit_and_Loss':'Total Value' );
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Invested Capital (End of Period)
+# Desc: Calculo de Invested Capital (End of Period).
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1756,8 +1762,8 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
 ['DFS.D.KPI':'DFS.D.KPI':'Assets'] - ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.045'];
 
 # --------------------------------------------------------------------------------------------
-# Name 
-# Desc 
+# Name: Working Capital Balance
+# Desc: Calculo de Working Capital Balance.
 # Date 02/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
@@ -1773,25 +1779,91 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
 # # Date 01/2026
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------
+# Name: Feeder RE para versões dinâmicas
+# Desc: Alimenta versões dinâmicas a partir da versão RE.
+# Date 04/2026
+# Author: Miranda 
+# --------------------------------------------------------------------------------------------
  ['ALL.D.Version':'ALL.D.Version':'RE'] => ['ALL.D.Version':'ALL.D.Version':'Dynamic Versions'];
 
 ['DFS.D.KPI':'DFS.D.KPI':{'KPI.010.040','KPI.010.001','KPI.010.002','KPI.010.003','KPI.010.004','KPI.010.005','KPI.010.006','KPI.010.007','KPI.010.008','KPI.010.009','KPI.010.010','KPI.010.011','KPI.010.012','KPI.010.013','Clinker Factor (%)
 ','KPI.010.015','KPI.010.016','KPI.010.017','KPI.010.018','KPI.010.019','KPI.010.020','KPI.010.021','KPI.010.022','KPI.010.023'},'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' },'DFS.M.200.KPIs':'DFS.M.200.KPIs':'Value'] => ['DFS.M.200.KPIs':'DFS.M.200.KPIs':'Aux'];
 
 
+# --------------------------------------------------------------------------------------------
+# Name: Feeder KPI.010.049
+# Desc: Receita adjacências.
+# Date 04/2026
+# Author: Miranda 
+# --------------------------------------------------------------------------------------------
 ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.038','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' },'DFS.M.200.KPIs':'DFS.M.200.KPIs':'Value'] => ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.049'];
+# --------------------------------------------------------------------------------------------
+# Name: Feeder KPI.010.050
+# Desc: Receita adjacências ex RMX.
+# Date 04/2026
+# Author: Miranda 
+# --------------------------------------------------------------------------------------------
 ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.038','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' },'DFS.M.200.KPIs':'DFS.M.200.KPIs':'Value'] => ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.050'];
 
+# --------------------------------------------------------------------------------------------
+# Name: Feeder KPI.010.051
+# Desc: EBITDA Adjacências.
+# Date 04/2026
+# Author: Miranda 
+# --------------------------------------------------------------------------------------------
 ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.043','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' },'DFS.M.200.KPIs':'DFS.M.200.KPIs':'Value'] => ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.051'];
+# --------------------------------------------------------------------------------------------
+# Name: Feeder KPI.010.052
+# Desc: EBITDA Adjacências ex RMX.
+# Date 04/2026
+# Author: Miranda 
+# --------------------------------------------------------------------------------------------
 ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.043','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' },'DFS.M.200.KPIs':'DFS.M.200.KPIs':'Value'] => ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.052'];
 
+# --------------------------------------------------------------------------------------------
+# Name: Feeder KPI.010.058
+# Desc: % FC + SG&A/Net Revenue.
+# Date 04/2026
+# Author: Miranda 
+# --------------------------------------------------------------------------------------------
 ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.038','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' },'DFS.M.200.KPIs':'DFS.M.200.KPIs':'Value'] => ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.058'];
+# --------------------------------------------------------------------------------------------
+# Name: Feeder KPI.010.059
+# Desc: % FC/NetRevenue.
+# Date 04/2026
+# Author: Miranda 
+# --------------------------------------------------------------------------------------------
 ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.038','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' },'DFS.M.200.KPIs':'DFS.M.200.KPIs':'Value'] => ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.059'];
+# --------------------------------------------------------------------------------------------
+# Name: Feeder KPI.010.060
+# Desc: % SG&/NetRevenue.
+# Date 04/2026
+# Author: Miranda 
+# --------------------------------------------------------------------------------------------
 ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.038','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' },'DFS.M.200.KPIs':'DFS.M.200.KPIs':'Value'] => ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.060'];
     
+# --------------------------------------------------------------------------------------------
+# Name: Feeder KPI.010.062
+# Desc: NOPAT.
+# Date 04/2026
+# Author: Miranda 
+# --------------------------------------------------------------------------------------------
 ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.061','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' },'DFS.M.200.KPIs':'DFS.M.200.KPIs':'Value'] => ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.062'];
 
+# --------------------------------------------------------------------------------------------
+# Name: Feeder KPI.010.064
+# Desc: Invested Capital (End of Period).
+# Date 04/2026
+# Author: Miranda 
+# --------------------------------------------------------------------------------------------
 ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.045','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' },'DFS.M.200.KPIs':'DFS.M.200.KPIs':'Value'] => ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.064'];
 
+# --------------------------------------------------------------------------------------------
+# Name: Feeder KPI.010.037
+# Desc: % ROIC.
+# Date 04/2026
+# Author: Miranda 
+# --------------------------------------------------------------------------------------------
 ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.048','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' },'DFS.M.200.KPIs':'DFS.M.200.KPIs':'Value'] => ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.037'];
 

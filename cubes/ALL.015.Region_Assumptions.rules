@@ -5,15 +5,15 @@ FEEDSTRINGS;
 
 
 # --------------------------------------------------------------------------------------------
-# INÃCIO DO BLOCO DE CÃLCULOS
+# INÍCIO DO BLOCO DE CÁLCULOS
 # Cubo: ALL.015.Region_Assumptions
-# Objetivo: CÃ¡lculo de percentuais e premissas regionais
+# Objetivo: Cálculo de percentuais e premissas regionais
 # --------------------------------------------------------------------------------------------
 
 
 # --------------------------------------------------------------------------------------------
-# % MinoritÃ¡rios
-# FÃ³rmula:
+# % Minoritários
+# Fórmula:
 # Minority Interests / Net Profit Before Minority Int.
 # --------------------------------------------------------------------------------------------
 ['ALL.D.Region_Assumptions':'ALL.D.Region_Assumptions':'% MinoritÃ¡rios'] = C:
@@ -45,8 +45,8 @@ FEEDSTRINGS;
 
 # --------------------------------------------------------------------------------------------
 # % Participation
-# FÃ³rmula:
-# EBITDA EconÃ´mico / EBITDA
+# Fórmula:
+# EBITDA Econômico / EBITDA
 # --------------------------------------------------------------------------------------------
 ['ALL.D.Region_Assumptions':'ALL.D.Region_Assumptions':'% Participation'] = C:
 
@@ -77,8 +77,8 @@ FEEDSTRINGS;
 
 # --------------------------------------------------------------------------------------------
 # % Income Tax
-# FÃ³rmula:
-# Income Tax / Base TributÃ¡vel
+# Fórmula:
+# Income Tax / Base Tributável
 # --------------------------------------------------------------------------------------------
 ['ALL.D.Region_Assumptions':'ALL.D.Region_Assumptions':'% Income Tax'] = C:
 
@@ -168,7 +168,7 @@ FEEDSTRINGS;
 
 # --------------------------------------------------------------------------------------------
 # % Rate Over Financial Investments
-# FÃ³rmula:
+# Fórmula:
 # Tax on Financial Revenue / Receita Financeira Total
 # --------------------------------------------------------------------------------------------
 ['ALL.D.Region_Assumptions':'ALL.D.Region_Assumptions':'% Rate Over Financial Investments'] = C:
@@ -215,7 +215,7 @@ FEEDSTRINGS;
 
 # --------------------------------------------------------------------------------------------
 # % Caixa Invested
-# FÃ³rmula:
+# Fórmula:
 # Invested Cash / Initial Cash Balance
 # --------------------------------------------------------------------------------------------
 ['ALL.D.Region_Assumptions':'ALL.D.Region_Assumptions':'% Caixa Invested'] = C:
@@ -245,7 +245,7 @@ FEEDSTRINGS;
 
 # --------------------------------------------------------------------------------------------
 # % Cash Investment Return
-# FÃ³rmula:
+# Fórmula:
 # Financial Revenue / Invested Cash
 # --------------------------------------------------------------------------------------------
 ['ALL.D.Region_Assumptions':'ALL.D.Region_Assumptions':'% Cash Investment Return'] = C:
@@ -275,8 +275,8 @@ FEEDSTRINGS;
 
 # --------------------------------------------------------------------------------------------
 # % Income Tax Theoretical
-# FÃ³rmula:
-# Income Tax Theoretical / Base TeÃ³rica
+# Fórmula:
+# Income Tax Theoretical / Base Teórica
 # --------------------------------------------------------------------------------------------
 [
     'ALL.D.Region_Assumptions':'ALL.D.Region_Assumptions':'% Income Tax Theoretical',

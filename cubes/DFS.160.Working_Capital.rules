@@ -4,8 +4,8 @@
 # =============
 
 # --------------------------------------------------------------------------------------------
-# Name Define versÃµes calculadas
-# Desc A partir dessa regra sÃ³ calcula para versÃµes dinÃ¢micas
+# Name Define versões calculadas
+# Desc A partir dessa regra só calcula para versões dinâmicas
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -26,12 +26,12 @@
 
 # --------------------------------------------------------------------------------------------
 #
-#                      			INICIO DO BLOCO CALCULOS CONVERSÃƒO MOEDA
+#                      			INICIO DO BLOCO CALCULOS CONVERSÃO MOEDA
 #
 # --------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------
-# Name: ConversÃ£o de Moedas para mertica ajuste
-# Desc: ConversÃ£o de moedas para os padrÃµes USD, BRL e EUR
+# Name: Conversão de Moedas para métrica ajuste
+# Desc: Conversão de moedas para os padrões USD, BRL e EUR
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -1024,8 +1024,8 @@ DB( 'DFS.160.Working_Capital',
 
     
 # --------------------------------------------------------------------------------------------
-# Name: ConversÃ£o de Moedas
-# Desc: ConversÃ£o de moedas para os padrÃµes USD, BRL e EUR
+# Name: Conversão de Moedas
+# Desc: Conversão de moedas para os padrões USD, BRL e EUR
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------

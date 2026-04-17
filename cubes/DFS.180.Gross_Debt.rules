@@ -47,8 +47,8 @@
 
 
 # --------------------------------------------------------------------------------------------
-# Name Define versÃµes calculadas
-# Desc A partir dessa regra sÃ³ calcula para versÃµes dinÃ¢micas
+# Name Define versões calculadas
+# Desc A partir dessa regra só calcula para versões dinâmicas
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -64,12 +64,12 @@
 
 # --------------------------------------------------------------------------------------------
 #
-#                      			INICIO DO BLOCO CALCULOS CONVERSÃƒO MOEDA SALDO INICIAL E SALDO FINAL
+#                      			INICIO DO BLOCO CALCULOS CONVERSÃO MOEDA SALDO INICIAL E SALDO FINAL
 #
 # --------------------------------------------------------------------------------------------
 # --------------------------------------------------------------------------------------------
-# Name: ConversÃ£o de Moedas
-# Desc: ConversÃ£o de moedas para os padrÃµes USD, BRL e EUR
+# Name: Conversão de Moedas
+# Desc: Conversão de moedas para os padrões USD, BRL e EUR
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
@@ -354,7 +354,7 @@
 
 # --------------------------------------------------------------------------------------------
 #
-#                      			INICIO DO BLOCO CALCULOS DÃVIDA
+#                      			INICIO DO BLOCO CALCULOS DÍVIDA
 #
 # --------------------------------------------------------------------------------------------
 
@@ -617,7 +617,7 @@
 
 # --------------------------------------------------------------------------------------------
 #
-#                      			INICIO DO BLOCO CALCULOS DÃVIDA LEASING
+#                      			INICIO DO BLOCO CALCULOS DÍVIDA LEASING
 #
 # --------------------------------------------------------------------------------------------
 
@@ -875,8 +875,8 @@
 
 
 # --------------------------------------------------------------------------------------------
-# Name: ConversÃ£o de Moedas
-# Desc: ConversÃ£o de moedas para os padrÃµes USD, BRL e EUR
+# Name: Conversão de Moedas
+# Desc: Conversão de moedas para os padrões USD, BRL e EUR
 # Date 01/2026
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
