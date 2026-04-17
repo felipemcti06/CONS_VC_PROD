@@ -38,6 +38,10 @@
 		{
 			"Name":"STG",
 			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI",
+			"Type":"Numeric"
 		}
 	],
 	"Subsets@Code.links":[]

@@ -1,8 +1,8 @@
 {
 	"@type":"Process",
-	"Name":"ALL.D.0100.30.Atualiza_DFS.D.Accounts_Debt",
+	"Name":"ALL.D.0100.60.Atualiza_DFS.D.KPI",
 	"HasSecurityAccess":false,
-	"Code@Code.link":"ALL.D.0100.30.Atualiza_DFS.D.Accounts_Debt.ti",
+	"Code@Code.link":"ALL.D.0100.60.Atualiza_DFS.D.KPI.ti",
 	"DataSource":
 	{
 		"Type":"TM1CubeView",
@@ -43,6 +43,9 @@
 		}
 	],
 	"VariablesUIData": [
+		"VarType=32\fColType=827\f",
+		"VarType=32\fColType=827\f",
+		"VarType=32\fColType=827\f",
 		"VarType=32\fColType=827\f"
 	]
 }

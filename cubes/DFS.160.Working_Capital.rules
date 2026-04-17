@@ -2,6 +2,7 @@
   SKIPCHECK;
   FEEDSTRINGS;
 # =============
+
 # --------------------------------------------------------------------------------------------
 # Name Define versÃµes calculadas
 # Desc A partir dessa regra sÃ³ calcula para versÃµes dinÃ¢micas

@@ -1,6 +1,6 @@
 #region Prolog
 
-
+  
 # ===============================================================================================================
 #GENERALCOMMENT             Descrição:          	Atualiza dimensão 
 #GENERALCOMMENT             Responsável:   	Hélder/Felipe
@@ -165,7 +165,7 @@ EndIf;
 
 
 
-
+ 
 
 # Configuração da View de Leitura
 # ======================================================
@@ -226,11 +226,11 @@ sDim = cDimensao;
 
 
 
-sNivel1 	= CellGetS ( cCuboMapa, vElement, 'Cód Nível 1' );
-sNivel2 	= CellGetS ( cCuboMapa, vElement, 'Cód Nível 2' );
-sNivel3 	= CellGetS ( cCuboMapa, vElement, 'Cód Nível 3' );
-sNivel4 	=CellGetS ( cCuboMapa, vElement, 'Cód Nível 4' );
-sNivel5 	= CellGetS ( cCuboMapa, vElement, 'Cód Nível 5' );
+sNivel1 	= CellGetS ( cCuboMapa, vElement ,vDFS, 'Cód Nível 1' );
+sNivel2 	= CellGetS ( cCuboMapa, vElement,vDFS, 'Cód Nível 2' );
+sNivel3 	= CellGetS ( cCuboMapa, vElement,vDFS, 'Cód Nível 3' );
+sNivel4 	=CellGetS ( cCuboMapa, vElement,vDFS, 'Cód Nível 4' );
+sNivel5 	= CellGetS ( cCuboMapa, vElement,vDFS, 'Cód Nível 5' );
 sNivel6 	= '';
 sNivel7 	= '';
 sNivel8 	= '';
@@ -474,7 +474,7 @@ sDim = cDimensao;
 
 
 
-sDescElement =  CellGetS( cCuboMapa, vElement, 'Nome DFs' );
+sDescElement =  CellGetS( cCuboMapa, vElement,vDFS, 'Nome DFs' );
 
 # =================================================================================
 # Adiciona Alias com codigo e descrição

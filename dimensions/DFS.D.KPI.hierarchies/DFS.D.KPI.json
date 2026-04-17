@@ -4,506 +4,501 @@
 	"Elements":
 	[
 		{
-			"Name":"Production volume (kt)",
+			"Name":"OBZ.010.001",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Thermal Sub. (%)",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Thermal C. (kcal/t kk)",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Petcoke Price (LMU/t)",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Fuel (LMU/t)",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"CO2 Gross (kg/ton)",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"CO2 Net (kg/ton)",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Power Price (LMU/MWh)",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Power Cons. (kWh/t)",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Clinker Factor (%)",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Power (LMU/t)",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Raw Material (LMU/t)",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Other Variable (LMU/t)",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Labor (LMU/t)",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Maintenance (LMU/t)",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Other Fixed Costs (LMU/t)",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Cash Cost (LMU/t)",
+			"Name":"OBZ.010.013",
 			"Type":"Consolidated"
 		},
 		{
-			"Name":"Cement Var. Costs (LMU/t)",
+			"Name":"OBZ.010.002",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"OBZ.010.003",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"OBZ.010.004",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"OBZ.010.005",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"OBZ.010.006",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"OBZ.010.007",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"OBZ.010.008",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"OBZ.010.009",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"OBZ.010.010",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"OBZ.010.011",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"OBZ.010.012",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.001",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.002",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.003",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.004",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.021",
 			"Type":"Consolidated"
 		},
 		{
-			"Name":"Cement Fix. Costs (LMU/t)",
+			"Name":"KPI.010.022",
 			"Type":"Consolidated"
 		},
 		{
-			"Name":"IFRS16",
+			"Name":"KPI.010.005",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Revenue",
+			"Name":"KPI.010.006",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Receita adjacências",
+			"Name":"KPI.010.007",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Receita adjacências ex RMX",
+			"Name":"KPI.010.008",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Volume",
+			"Name":"KPI.010.009",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Price",
+			"Name":"KPI.010.010",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Market Share Cement (%)",
+			"Name":"KPI.010.011",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Demand of Cement",
+			"Name":"KPI.010.012",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"EBITDA LTM",
+			"Name":"KPI.010.013",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"EBITDA Adjacências",
+			"Name":"KPI.010.014",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"EBITDA Adjacências ex RMX",
+			"Name":"KPI.010.015",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Depreciação LTM",
+			"Name":"KPI.010.016",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Income Tax Theoretical",
+			"Name":"KPI.010.017",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Income Tax LTM",
+			"Name":"KPI.010.018",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Equity LTM",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Assets",
+			"Name":"KPI.010.023",
 			"Type":"Consolidated"
 		},
 		{
-			"Name":"(+) Gross Fixed Assets",
+			"Name":"KPI.010.019",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"(-) Accumulated Depreciation",
+			"Name":"KPI.010.020",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"(+) Adjustment Hyperinflation",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"(+) Inflation adjustment",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"(+) Right of Use",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"(+) Investments",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"(+) Goodwill",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"(+) Intangible",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Working Capital Balance",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"NOPAT + Equity Pick Up",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"EBIT",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Invested Capital Avg",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"% ROIC",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Package",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Aux. Materials",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Operacional Services",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Internal Freight",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Variavel maintenance",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"ZBB Total",
+			"Name":"KPI.010.067",
 			"Type":"Consolidated"
 		},
 		{
-			"Name":"Personnel Expenses",
+			"Name":"KPI.010.024",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Maintenance",
+			"Name":"KPI.010.025",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Facilities",
+			"Name":"KPI.010.026",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Professionais Services",
+			"Name":"KPI.010.027",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Legal",
+			"Name":"KPI.010.028",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"IT",
+			"Name":"KPI.010.029",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Operating Materiais",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Shared Services center",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Institucional",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Marketing",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Operating Vehicles",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Travel and refunds",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"EBITDA in Hard Currency",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Margem de Contribuição por produto",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Margem por produto",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"SG&A",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Sust. Cash Flow in Hard Currency",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"FC + SG&A",
+			"Name":"KPI.010.065",
 			"Type":"Consolidated"
 		},
 		{
-			"Name":"% FC + SG&A/Net Revenue",
+			"Name":"KPI.010.030",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"% FC/NetRevenue",
+			"Name":"KPI.010.031",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"% SG&/NetRevenue",
+			"Name":"KPI.010.032",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Effective Tax Rate (%)",
+			"Name":"KPI.010.033",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"NOPAT",
+			"Name":"KPI.010.034",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Equity Pick Up",
+			"Name":"KPI.010.035",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Invested Capital (End of Period)",
+			"Name":"KPI.010.036",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Income Tax",
+			"Name":"KPI.010.037",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.038",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.039",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.040",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.041",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.042",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.043",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.044",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.045",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.046",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.047",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.048",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.049",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.050",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.051",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.052",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.053",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.054",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.055",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.056",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.057",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.058",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.059",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.060",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.061",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.062",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.063",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.064",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.066",
 			"Type":"Numeric"
 		}
 	],
 	"Edges":
 	[
 		{
-			"ParentName":"Cash Cost (LMU/t)",
-			"ComponentName":"Cement Var. Costs (LMU/t)",
+			"ParentName":"OBZ.010.013",
+			"ComponentName":"OBZ.010.001",
 			"Weight":1
 		},
 		{
-			"ParentName":"Cash Cost (LMU/t)",
-			"ComponentName":"Cement Fix. Costs (LMU/t)",
+			"ParentName":"OBZ.010.013",
+			"ComponentName":"OBZ.010.002",
 			"Weight":1
 		},
 		{
-			"ParentName":"Cement Var. Costs (LMU/t)",
-			"ComponentName":"Fuel (LMU/t)",
+			"ParentName":"OBZ.010.013",
+			"ComponentName":"OBZ.010.003",
 			"Weight":1
 		},
 		{
-			"ParentName":"Cement Var. Costs (LMU/t)",
-			"ComponentName":"Power (LMU/t)",
+			"ParentName":"OBZ.010.013",
+			"ComponentName":"OBZ.010.004",
 			"Weight":1
 		},
 		{
-			"ParentName":"Cement Var. Costs (LMU/t)",
-			"ComponentName":"Raw Material (LMU/t)",
+			"ParentName":"OBZ.010.013",
+			"ComponentName":"OBZ.010.005",
 			"Weight":1
 		},
 		{
-			"ParentName":"Cement Var. Costs (LMU/t)",
-			"ComponentName":"Package",
+			"ParentName":"OBZ.010.013",
+			"ComponentName":"OBZ.010.006",
 			"Weight":1
 		},
 		{
-			"ParentName":"Cement Var. Costs (LMU/t)",
-			"ComponentName":"Aux. Materials",
+			"ParentName":"OBZ.010.013",
+			"ComponentName":"OBZ.010.007",
 			"Weight":1
 		},
 		{
-			"ParentName":"Cement Var. Costs (LMU/t)",
-			"ComponentName":"Operacional Services",
+			"ParentName":"OBZ.010.013",
+			"ComponentName":"OBZ.010.008",
 			"Weight":1
 		},
 		{
-			"ParentName":"Cement Var. Costs (LMU/t)",
-			"ComponentName":"Internal Freight",
+			"ParentName":"OBZ.010.013",
+			"ComponentName":"OBZ.010.009",
 			"Weight":1
 		},
 		{
-			"ParentName":"Cement Var. Costs (LMU/t)",
-			"ComponentName":"Variavel maintenance",
+			"ParentName":"OBZ.010.013",
+			"ComponentName":"OBZ.010.010",
 			"Weight":1
 		},
 		{
-			"ParentName":"Cement Var. Costs (LMU/t)",
-			"ComponentName":"Other Variable (LMU/t)",
+			"ParentName":"OBZ.010.013",
+			"ComponentName":"OBZ.010.011",
 			"Weight":1
 		},
 		{
-			"ParentName":"Cement Fix. Costs (LMU/t)",
-			"ComponentName":"Labor (LMU/t)",
+			"ParentName":"OBZ.010.013",
+			"ComponentName":"OBZ.010.012",
 			"Weight":1
 		},
 		{
-			"ParentName":"Cement Fix. Costs (LMU/t)",
-			"ComponentName":"Maintenance (LMU/t)",
+			"ParentName":"KPI.010.021",
+			"ComponentName":"KPI.010.022",
 			"Weight":1
 		},
 		{
-			"ParentName":"Cement Fix. Costs (LMU/t)",
-			"ComponentName":"Other Fixed Costs (LMU/t)",
+			"ParentName":"KPI.010.021",
+			"ComponentName":"KPI.010.023",
 			"Weight":1
 		},
 		{
-			"ParentName":"Assets",
-			"ComponentName":"(+) Gross Fixed Assets",
+			"ParentName":"KPI.010.022",
+			"ComponentName":"KPI.010.004",
 			"Weight":1
 		},
 		{
-			"ParentName":"Assets",
-			"ComponentName":"(-) Accumulated Depreciation",
+			"ParentName":"KPI.010.022",
+			"ComponentName":"KPI.010.005",
 			"Weight":1
 		},
 		{
-			"ParentName":"Assets",
-			"ComponentName":"(+) Adjustment Hyperinflation",
+			"ParentName":"KPI.010.022",
+			"ComponentName":"KPI.010.006",
 			"Weight":1
 		},
 		{
-			"ParentName":"Assets",
-			"ComponentName":"(+) Inflation adjustment",
+			"ParentName":"KPI.010.022",
+			"ComponentName":"KPI.010.007",
 			"Weight":1
 		},
 		{
-			"ParentName":"Assets",
-			"ComponentName":"(+) Right of Use",
+			"ParentName":"KPI.010.022",
+			"ComponentName":"KPI.010.008",
 			"Weight":1
 		},
 		{
-			"ParentName":"Assets",
-			"ComponentName":"(+) Investments",
+			"ParentName":"KPI.010.022",
+			"ComponentName":"KPI.010.009",
 			"Weight":1
 		},
 		{
-			"ParentName":"Assets",
-			"ComponentName":"(+) Goodwill",
+			"ParentName":"KPI.010.022",
+			"ComponentName":"KPI.010.015",
 			"Weight":1
 		},
 		{
-			"ParentName":"Assets",
-			"ComponentName":"(+) Intangible",
+			"ParentName":"KPI.010.022",
+			"ComponentName":"KPI.010.016",
 			"Weight":1
 		},
 		{
-			"ParentName":"ZBB Total",
-			"ComponentName":"Personnel Expenses",
+			"ParentName":"KPI.010.022",
+			"ComponentName":"KPI.010.017",
 			"Weight":1
 		},
 		{
-			"ParentName":"ZBB Total",
-			"ComponentName":"Maintenance",
+			"ParentName":"KPI.010.023",
+			"ComponentName":"KPI.010.018",
 			"Weight":1
 		},
 		{
-			"ParentName":"ZBB Total",
-			"ComponentName":"Facilities",
+			"ParentName":"KPI.010.023",
+			"ComponentName":"KPI.010.019",
 			"Weight":1
 		},
 		{
-			"ParentName":"ZBB Total",
-			"ComponentName":"Professionais Services",
+			"ParentName":"KPI.010.023",
+			"ComponentName":"KPI.010.020",
 			"Weight":1
 		},
 		{
-			"ParentName":"ZBB Total",
-			"ComponentName":"Legal",
+			"ParentName":"KPI.010.067",
+			"ComponentName":"KPI.010.023",
 			"Weight":1
 		},
 		{
-			"ParentName":"ZBB Total",
-			"ComponentName":"IT",
+			"ParentName":"KPI.010.065",
+			"ComponentName":"KPI.010.029",
 			"Weight":1
 		},
 		{
-			"ParentName":"ZBB Total",
-			"ComponentName":"Operating Materiais",
+			"ParentName":"KPI.010.065",
+			"ComponentName":"KPI.010.030",
 			"Weight":1
 		},
 		{
-			"ParentName":"ZBB Total",
-			"ComponentName":"Shared Services center",
+			"ParentName":"KPI.010.065",
+			"ComponentName":"KPI.010.031",
 			"Weight":1
 		},
 		{
-			"ParentName":"ZBB Total",
-			"ComponentName":"Institucional",
+			"ParentName":"KPI.010.065",
+			"ComponentName":"KPI.010.032",
 			"Weight":1
 		},
 		{
-			"ParentName":"ZBB Total",
-			"ComponentName":"Marketing",
+			"ParentName":"KPI.010.065",
+			"ComponentName":"KPI.010.033",
 			"Weight":1
 		},
 		{
-			"ParentName":"ZBB Total",
-			"ComponentName":"Operating Vehicles",
+			"ParentName":"KPI.010.065",
+			"ComponentName":"KPI.010.034",
 			"Weight":1
 		},
 		{
-			"ParentName":"ZBB Total",
-			"ComponentName":"Travel and refunds",
+			"ParentName":"KPI.010.065",
+			"ComponentName":"KPI.010.035",
 			"Weight":1
 		},
 		{
-			"ParentName":"FC + SG&A",
-			"ComponentName":"Cement Fix. Costs (LMU/t)",
-			"Weight":1
-		},
-		{
-			"ParentName":"FC + SG&A",
-			"ComponentName":"SG&A",
+			"ParentName":"KPI.010.065",
+			"ComponentName":"KPI.010.036",
 			"Weight":1
 		}
 	],

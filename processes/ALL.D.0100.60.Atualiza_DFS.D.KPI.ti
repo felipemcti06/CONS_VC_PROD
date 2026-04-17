@@ -47,7 +47,7 @@
 
 # Informações da dimensão e cubo mapa
 # ========================================
-cDimensao		= 'DFS.D.Accounts_Fin_Results';
+cDimensao		= 'DFS.D.KPI';
 cCuboMapa		= 'MAP.020.Accounts';
 cCuboOrigem = cCuboMapa;
 
@@ -105,7 +105,7 @@ CellPutS( s05 , cCuboParametro, cProcesso, 'Tempo de Execução' );
       WHILE(vCount <> 0);
       vElementoN = DimNm(cDimensao, vCount);
                              IF(DTYPE(cDimensao, vElementoN) @= 'C');
-                         #        DimensionElementDelete(cDimensao, vElementoN);
+                                 DimensionElementDelete(cDimensao, vElementoN);
                              ENDIF;
       vCount = vCount - 1;
       END;
@@ -115,9 +115,7 @@ CellPutS( s05 , cCuboParametro, cProcesso, 'Tempo de Execução' );
 # =================================================================================
 #DimensionElementInsert ( cDimensao, '', cTotalizador, 'C' );
 
-#DimensionDeleteAllElements( cDimensao );
-
-
+DimensionDeleteAllElements( cDimensao );
 
 
 
@@ -153,11 +151,13 @@ ViewCreate( cCuboOrigem , cViewOrigem , nViewTemporaria );
 # ======================================================
 
 cDimensaoView	= 'MAP.D.DFs';
-cElemento	= 'Fin_Results';
+cElemento	= 'KPI';
+cElemento2	= 'OBZ';
 If( cDimensaoView @<> '');
   SubsetCreate( cDimensaoView, cSubsetOrigem, nViewTemporaria );  
   ViewSubsetAssign( cCuboOrigem , cViewOrigem, cDimensaoView , cSubsetOrigem );  
   SubsetElementInsert( cDimensaoView, cSubsetOrigem, cElemento	, 1 );
+  SubsetElementInsert( cDimensaoView, cSubsetOrigem, cElemento2	, 1 );    
 EndIf;
 
 
@@ -187,6 +187,7 @@ DimensionSortOrder ( cDimensao, 'ByName', 'Ascending', 'ByHierarchy' , 'Ascendin
 
 
 
+
 #endregion
 #region Metadata
 
@@ -206,9 +207,12 @@ sDim = cDimensao;
 
 
 
-    if (DIMIX( cDimensao, vElement )=0); 
-        DimensionElementInsert( cDimensao, '', vElement, 'N' );
-    endif;
+# Adiciona elemento
+# ==========================
+
+
+        DimensionElementInsertDirect( cDimensao, '' , vElement, 'N' );
+
 
 
 
@@ -218,11 +222,11 @@ sDim = cDimensao;
 
 
 
-sNivel1 	= CellGetS ( cCuboMapa, vElement,vDFs, 'Cód Nível 1' );
-sNivel2 	= CellGetS ( cCuboMapa, vElement, vDFs, 'Cód Nível 2' );
-sNivel3 	= CellGetS ( cCuboMapa, vElement, vDFs, 'Cód Nível 3' );
-sNivel4 	=CellGetS ( cCuboMapa, vElement, vDFs, 'Cód Nível 4' );
-sNivel5 	= CellGetS ( cCuboMapa, vElement, vDFs, 'Cód Nível 5' );
+sNivel1 	= CellGetS ( cCuboMapa, vElement , vDFS, 'Cód Nível 1' );
+sNivel2 	= CellGetS ( cCuboMapa, vElement,vDFS, 'Cód Nível 2' );
+sNivel3 	= CellGetS ( cCuboMapa, vElement,vDFS, 'Cód Nível 3' );
+sNivel4 	=CellGetS ( cCuboMapa, vElement,vDFS, 'Cód Nível 4' );
+sNivel5 	= CellGetS ( cCuboMapa, vElement,vDFS, 'Cód Nível 5' );
 sNivel6 	= '';
 sNivel7 	= '';
 sNivel8 	= '';
@@ -438,6 +442,9 @@ EndIf;
 
 
 
+
+
+
 #endregion
 #region Data
 
@@ -459,8 +466,12 @@ sDim = cDimensao;
 
 
 
+# Adiciona elemento
+# ==========================
 
-sDescElement =  CellGetS( cCuboMapa, vElement, vDFS, 'Nome DFs' );
+
+
+sDescElement =  CellGetS( cCuboMapa, vElement,vDFS, 'Nome DFs' );
 
 # =================================================================================
 # Adiciona Alias com codigo e descrição
@@ -478,10 +489,10 @@ sDesc = sDescElement;
 
 If  (  sCod @<>'' & sDesc @<> '' );
     AttrPutS( sCod | ' - ' | sDesc, cDimensao, sCod, sAlias );
-    AttrPutS( sDesc, cDimensao, sCod, 'Description' );    
+       AttrPutS(  sDesc, cDimensao, sCod, 'Description' );
 EndIf;
 
- 
+
 
 
 
