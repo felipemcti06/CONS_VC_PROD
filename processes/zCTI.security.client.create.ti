@@ -3,7 +3,7 @@
 ################################################################################################# 
 ##~~Join the bedrock TM1 community on GitHub https://github.com/cubewise-code/bedrock Ver 4.0~~##
 ################################################################################################# 
-
+ 
 #Region @DOC
 # Description:
 # This process will create clients, assign a password and max ports.
@@ -127,12 +127,12 @@ If( nErrors = 0 );
       sClients  = Trim( Subst( sClients, nDelimiterIndex + Long(pDelim), Long( sClients ) ) );
     EndIf;
     
-    If( DimIx( '}Clients', sClient ) > 0 );
-      AssignClientPassword( sClient, pPassword );
-      If( sAlias @<> '' );
-        AttrPutS( sAlias, '}Clients', sClient, '}TM1_DefaultDisplayValue', 1 );
-      EndIf;
-    EndIf;
+    # If( DimIx( '}Clients', sClient ) > 0 );
+    #   AssignClientPassword( sClient, pPassword );
+    #   If( sAlias @<> '' );
+    #     AttrPutS( sAlias, '}Clients', sClient, '}TM1_DefaultDisplayValue', 1 );
+    #   EndIf;
+    # EndIf;
   End;
 
 EndIf;
