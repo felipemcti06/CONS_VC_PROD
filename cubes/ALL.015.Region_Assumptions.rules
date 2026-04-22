@@ -16,7 +16,7 @@ FEEDSTRINGS;
 # Fórmula:
 # Minority Interests / Net Profit Before Minority Int.
 # --------------------------------------------------------------------------------------------
-['ALL.D.Region_Assumptions':'ALL.D.Region_Assumptions':'% MinoritÃ¡rios'] = C:
+['ALL.D.Region_Assumptions':'ALL.D.Region_Assumptions':'% Minoritários'] = C:
 
     DB(
         'DFS.100.Profit_and_Loss',

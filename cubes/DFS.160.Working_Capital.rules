@@ -2,7 +2,7 @@
   SKIPCHECK;
   FEEDSTRINGS;
 # =============
-
+ 
 # --------------------------------------------------------------------------------------------
 # Name Define versões calculadas
 # Desc A partir dessa regra só calcula para versões dinâmicas

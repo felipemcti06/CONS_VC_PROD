@@ -159,7 +159,7 @@
                'KPI.010.024', 
                'N/A', 
                  'Value' );
-
+ 
 # --------------------------------------------------------------------------------------------
 # Name: Fuel (LMU/t)
 # Desc: Calculo de Fuel (LMU/t).
@@ -1759,7 +1759,7 @@ DB('DFS.200.KPIs', !ALL.D.Year, '02', !ALL.D.Version, !ALL.D.Currency, !ALL.D.Re
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------  
 ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.064','DFS.M.200.KPIs':'DFS.M.200.KPIs':'Value'] = N:
-['DFS.D.KPI':'DFS.D.KPI':'Assets'] - ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.045'];
+['DFS.D.KPI':'DFS.D.KPI':'KPI.010.065'] - ['DFS.D.KPI':'DFS.D.KPI':'KPI.010.045'];
 
 # --------------------------------------------------------------------------------------------
 # Name: Working Capital Balance
