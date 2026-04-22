@@ -166,7 +166,7 @@ pAnoInicial = CellGetS( 'ALL.100.Assumptions_Upload', 'Planning Start Year', 'Va
 
 
 #sStatus = CellGetS( 'ALL.002.Uploads_Status', sVersaoInput, pRegion, 'Status' );
-sStatus = CellGetS( 'ALL.004.Uploads_Status_Planning', sVersaoInput, pRegion,'Status'  );
+sStatus = CellGetS( 'ALL.004.Uploads_Status_Planning', sVersaoInput, pRegion, 'Financial_Planning','Status'  );
 
 if (sStatus@='Closed'); 
     cMensagemProcesso 			= 'The requested period is not available for updates. Please, contact administrator';  
@@ -825,7 +825,7 @@ EndIf;
 
 
 #sStatus = CellGetS( 'ALL.002.Uploads_Status', sVersaoInput, vRegiao, 'Status' );
-sStatus = CellGetS( 'ALL.004.Uploads_Status_Planning', sVersaoInput, pRegion,'Status'  );
+sStatus = CellGetS( 'ALL.004.Uploads_Status_Planning', sVersaoInput,'Financial_Planning', pRegion,'Status'  );
 if (sStatus@='Closed'); 
     cMensagemRegistro 			= 'The requested region is not available for updates. Please, contact administrator';  
        cExisteRegistroRejeitado = 1;
