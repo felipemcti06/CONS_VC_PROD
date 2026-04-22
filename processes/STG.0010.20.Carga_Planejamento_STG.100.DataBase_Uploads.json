@@ -40,6 +40,13 @@
 			"EndByte":0
 		},
 		{
+			"Name":"vDescricaoConta",
+			"Type":"String",
+			"Position":1,
+			"StartByte":0,
+			"EndByte":0
+		},
+		{
 			"Name":"vSubConta",
 			"Type":"String",
 			"Position":2,
