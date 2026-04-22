@@ -191,17 +191,17 @@
 # Author: Miranda / Helder
 # --------------------------------------------------------------------------------------------
 ['DFS.M.120.Financial_Results':'DFS.M.120.Financial_Results':'Value','DFS.D.Accounts_Fin_Results':'DFS.D.Accounts_Fin_Results':'FIN.010.001']=N:
-    DB('STG.100.DataBase_Uploads', 
-     !ALL.D.Year, 
-     !ALL.D.Month,
-     !ALL.D.Version,
-     !ALL.D.Currency,
-     !ALL.D.Region,
-     'ALL.D.Products':'Total Products',
-     'FIN.010.001',
-      'ALL.D.Account_Line':'Total Accounts Line', 
-     'Value'
-);
+DB( 'DFS.180.Gross_Debt', 
+    !ALL.D.Year,
+    !ALL.D.Month,
+    !ALL.D.Version,
+    !ALL.D.Currency,
+    !ALL.D.Region,
+    'DFS.D.Accounts_Debt':'DEB.099.007',
+    !DFS.M.120.Financial_Results
+  );
+
+
 # --------------------------------------------------------------------------------------------
 # Name: Accrual of Interest (LC)
 # Desc: Accrual of Interest (LC)

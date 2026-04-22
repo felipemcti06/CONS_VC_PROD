@@ -1026,6 +1026,17 @@
 ]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FCF.099.009', !DFS.M.180.Gross_Debt );
 
 
+# --------------------------------------------------------------------------------------------
+# Name: Accrual of Interest (LC)
+# Desc: Feeder para FIN.010.001 (origem DEB.099.007)
+# Date 04/2026
+# Author: Cursor Agent
+# --------------------------------------------------------------------------------------------
+['DFS.D.Accounts_Debt':'DFS.D.Accounts_Debt':'DEB.099.007'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'FIN.010.001', !DFS.M.180.Gross_Debt );
+
+
 
 
 
