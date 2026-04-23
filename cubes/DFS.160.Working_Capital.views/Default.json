@@ -4,7 +4,8 @@
 	"MDX@Code.link":"Default.mdx",
 	"Meta": {
 		"Aliases": {
-			"[ALL.D.Month].[ALL.D.Month]": "Desc"
+			"[ALL.D.Month].[ALL.D.Month]": "Desc",
+			"[DFS.D.Accounts_WC].[DFS.D.Accounts_WC]": "Código e Descrição"
 		},
 		"ExpandAboves": {
 			"[ALL.D.Month].[ALL.D.Month]": false,
@@ -27,7 +28,7 @@
 				"Expression": "{Descendants({[ALL.D.Region].[ALL.D.Region].[VCBR]},1, SELF_AND_BEFORE)}"
 			},
 			"[ALL.D.Year].[ALL.D.Year]": {
-				"Expression": "{Descendants({[ALL.D.Year].[ALL.D.Year].[2025]},1, SELF_AND_BEFORE)}"
+				"Expression": "{Descendants({[ALL.D.Year].[ALL.D.Year].[2026]},1, SELF_AND_BEFORE)}"
 			},
 			"[ALL.D.Version].[ALL.D.Version]": {
 				"Expression": "{[ALL.D.Version].[ALL.D.Version].MEMBERS}"
