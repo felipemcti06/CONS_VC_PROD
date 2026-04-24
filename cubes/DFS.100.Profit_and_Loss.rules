@@ -209,6 +209,26 @@
     ;
 
 
+# --------------------------------------------------------------------------------------------
+# Name  FX
+# Desc  FX
+# Date 02/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['ALL.D.Currency':'ALL.D.Currency':'BRL FX Var'] =N:
+['ALL.D.Currency':'ALL.D.Currency':'Total Currency']
+*
+  DB( 'ALL.010.Economic_Assumptions', 
+      DB( 'ALL.020.Exchange_Parameters',
+          !ALL.D.Year,
+          !ALL.D.Version,
+          'Year' ), 
+      !ALL.D.Month, 
+      DB( 'ALL.020.Exchange_Parameters',
+          !ALL.D.Year,
+          !ALL.D.Version,
+          'Version' ),
+      DB('MAP.030.Region', !ALL.D.Region, 'FX Rate' ), 'Value' );
 
 
 # --------------------------------------------------------------------------------------------
@@ -772,22 +792,7 @@
         !DFS.M.100.Profit_and_Loss
       );
 
-# --------------------------------------------------------------------------------------------
-# Name  FX
-# Desc  FX
-# Date 02/2026
-# Author: Miranda / Helder
-# --------------------------------------------------------------------------------------------
-[ 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'FX' , 'ALL.D.Currency':'ALL.D.Currency':'BRL Conv.']=N:
-  ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Value', 'ALL.D.Currency':'ALL.D.Currency':'USD Conv.']
-  *
-  DB( 'ALL.010.Economic_Assumptions', 
-      !ALL.D.Year,
-      !ALL.D.Month,
-      !ALL.D.Version,
-      'FX R$/US$',
-      'ALL.M.010.Economic_Assumptions':'Value' )
-  ;
+
 
 # --------------------------------------------------------------------------------------------
 #

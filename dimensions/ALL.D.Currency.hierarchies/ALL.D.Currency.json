@@ -50,6 +50,10 @@
 		{
 			"Name":"TRY",
 			"Type":"Numeric"
+		},
+		{
+			"Name":"BRL FX Var",
+			"Type":"Numeric"
 		}
 	],
 	"Edges":
