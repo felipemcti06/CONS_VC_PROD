@@ -406,6 +406,29 @@
     ;
 
 
+# --------------------------------------------------------------------------------------------
+# Name  FX
+# Desc  FX
+# Date 02/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['ALL.D.Currency':'ALL.D.Currency':'BRL FX Var'] =N:
+['ALL.D.Currency':'ALL.D.Currency':'Total Currency']
+*
+  DB( 'ALL.010.Economic_Assumptions', 
+      DB( 'ALL.020.Exchange_Parameters',
+          !ALL.D.Year,
+          !ALL.D.Version,
+          'Year' ), 
+      !ALL.D.Month, 
+      DB( 'ALL.020.Exchange_Parameters',
+          !ALL.D.Year,
+          !ALL.D.Version,
+          'Version' ),
+      DB('MAP.030.Region', !ALL.D.Region, 'FX Rate' ), 'Value' );
+
+
+
 # # --------------------------------------------------------------------------------------------
 # # Name: INITIAL CASH BALANCE
 # # Desc: INITIAL CASH BALANCE
@@ -1414,6 +1437,15 @@ C:
     DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'USD Conv.', !ALL.D.Region, !DFS.D.Accounts_ICF, 'Adjustments' )
     
     ;
+# # --------------------------------------------------------------------------------------------
+# # Name: Feedes FX 
+# # Desc: Feedes FX 
+# # Date 01/2026
+# # Author: Miranda / Helder
+# # --------------------------------------------------------------------------------------------
+['DFS.M.140.Indirect_Cash_Flow':'DFS.M.140.Indirect_Cash_Flow':'Total Value', 'ALL.D.Currency':'ALL.D.Currency':'Total Currency','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['ALL.D.Currency':'ALL.D.Currency':'BRL FX Var'];
+
 
 # --------------------------------------------------------------------------------------------
 # Name:FX on Cash Position

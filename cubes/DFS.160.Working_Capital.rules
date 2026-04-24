@@ -2,7 +2,84 @@
   SKIPCHECK;
   FEEDSTRINGS;
 # =============
- 
+ # # --------------------------------------------------------------------------------------------
+# # Name: Calculo Saldo ou Posicao final
+# # Desc:Calculo Saldo ou Posicao final
+# # Date 01/2026
+# # Author: Miranda / Helder
+# # --------------------------------------------------------------------------------------------
+  [] = 
+    
+    IF( DTYPE( 'ALL.D.Month', !ALL.D.Month )@='C', 
+    IF( ELISANC( 'DFS.D.Accounts_WC' , 'WKC.099.005',!DFS.D.Accounts_WC )<>0
+    %
+     ELISANC( 'DFS.D.Accounts_WC' , 'WKC.099.009',!DFS.D.Accounts_WC )<>0
+    
+
+    ,
+
+    DB( 'DFS.160.Working_Capital',
+        !ALL.D.Year,
+        DB('}ElementAttributes_ALL.D.Month', !ALL.D.Month, 'Aux Totalizadores'),
+        !ALL.D.Version,
+        !ALL.D.Currency,
+        !ALL.D.Region,
+        !DFS.D.Accounts_WC,
+        !DFS.M.160.Working_Capital )
+
+
+
+
+    , CONTINUE ) , CONTINUE);
+
+ # # --------------------------------------------------------------------------------------------
+# # Name: Calculo Saldo ou Posicao final
+# # Desc:Calculo Saldo ou Posicao final
+# # Date 01/2026
+# # Author: Miranda / Helder
+# # --------------------------------------------------------------------------------------------
+  ['DFS.D.Accounts_WC':{ 'WKC.099.006', 'WKC.099.007', 'WKC.099.008'}]= 
+    
+    IF( DTYPE( 'ALL.D.Month', !ALL.D.Month )@='C', 
+
+  
+    DB( 'DFS.160.Working_Capital',
+        !ALL.D.Year,
+        DB('}ElementAttributes_ALL.D.Month', !ALL.D.Month, 'Aux Totalizadores'),
+        !ALL.D.Version,
+        !ALL.D.Currency,
+        !ALL.D.Region,
+        !DFS.D.Accounts_WC,
+        !DFS.M.160.Working_Capital )
+
+
+
+ , CONTINUE);
+
+ # # --------------------------------------------------------------------------------------------
+# # Name: Calculo Saldo ou Posicao iNICIAL
+# # Desc:Calculo Saldo ou Posicao Inicial
+# # Date 01/2026
+# # Author: Miranda / Helder
+# # --------------------------------------------------------------------------------------------
+  ['DFS.D.Accounts_WC':'WKC.030.001']= 
+    
+    IF( DTYPE( 'ALL.D.Month', !ALL.D.Month )@='C', 
+
+  
+    DB( 'DFS.160.Working_Capital',
+        !ALL.D.Year,
+        DB('}ElementAttributes_ALL.D.Month', !ALL.D.Month, 'Aux Totalizadores Inicial'),
+        !ALL.D.Version,
+        !ALL.D.Currency,
+        !ALL.D.Region,
+        !DFS.D.Accounts_WC,
+        !DFS.M.160.Working_Capital )
+
+
+
+ , CONTINUE);
+
 # --------------------------------------------------------------------------------------------
 # Name Define versões calculadas
 # Desc A partir dessa regra só calcula para versões dinâmicas
@@ -23,7 +100,7 @@
 
 
 
-
+	
 # --------------------------------------------------------------------------------------------
 #
 #                      			INICIO DO BLOCO CALCULOS CONVERSÃO MOEDA
@@ -40,7 +117,7 @@
 #-------------------------------------# USD CONV #-----------------------------------------
 ###############################################################
 
-  ['ALL.D.Currency':'ALL.D.Currency':'USD Conv.', 'DFS.M.160.Working_Capital':'DFS.M.160.Working_Capital':'Adjustments'] = N:
+  ['ALL.D.Currency':'ALL.D.Currency':'USD Conv.'] = N:
 
   #USD  
   ['ALL.D.Currency':'ALL.D.Currency':'USD']
@@ -75,7 +152,7 @@
 #-------------------------------------# BRL CONV #-----------------------------------------
 ###############################################################
 
-  ['ALL.D.Currency':'ALL.D.Currency':'BRL Conv.' , 'DFS.M.160.Working_Capital':'DFS.M.160.Working_Capital':'Adjustments'] = N:
+  ['ALL.D.Currency':'ALL.D.Currency':'BRL Conv.' ] = N:
   #    #BRL  
   ['ALL.D.Currency':'ALL.D.Currency':'BRL']
      +
@@ -127,7 +204,7 @@
 #-------------------------------------# EUR CONV #-----------------------------------------
 ###############################################################
 
-  ['ALL.D.Currency':'ALL.D.Currency':'EUR Conv.' , 'DFS.M.160.Working_Capital':'DFS.M.160.Working_Capital':'Adjustments'] = N:
+  ['ALL.D.Currency':'ALL.D.Currency':'EUR Conv.' ] = N:
   #EUR     
   ['ALL.D.Currency':'ALL.D.Currency':'EUR']
      +
@@ -175,6 +252,26 @@
  )
     
     ;
+# --------------------------------------------------------------------------------------------
+# Name  FX
+# Desc  FX
+# Date 02/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['ALL.D.Currency':'ALL.D.Currency':'BRL FX Var'] =N:
+['ALL.D.Currency':'ALL.D.Currency':'Total Currency']
+*
+  DB( 'ALL.010.Economic_Assumptions', 
+      DB( 'ALL.020.Exchange_Parameters',
+          !ALL.D.Year,
+          !ALL.D.Version,
+          'Year' ), 
+      !ALL.D.Month, 
+      DB( 'ALL.020.Exchange_Parameters',
+          !ALL.D.Year,
+          !ALL.D.Version,
+          'Version' ),
+      DB('MAP.030.Region', !ALL.D.Region, 'FX Rate' ), 'Value' );
 
 # --------------------------------------------------------------------------------------------
 #
@@ -1036,6 +1133,14 @@ DB( 'DFS.160.Working_Capital',
     
     
     ;
+# # --------------------------------------------------------------------------------------------
+# # Name: Feedes FX 
+# # Desc: Feedes FX 
+# # Date 01/2026
+# # Author: Miranda / Helder
+# # --------------------------------------------------------------------------------------------
+['DFS.M.160.Working_Capital':'DFS.M.160.Working_Capital':'Total Value', 'ALL.D.Currency':'ALL.D.Currency':'Total Currency','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['ALL.D.Currency':'ALL.D.Currency':'BRL FX Var'];
 
 # --------------------------------------------------------------------------------------------
 # Name: Working Capital

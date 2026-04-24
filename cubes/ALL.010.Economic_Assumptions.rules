@@ -1,7 +1,7 @@
 # =============
 SKIPCHECK;
 # =============
-
+ 
 # --------------------------------------------------------------------------------------------
 # Cubo: ALL.010.Economic_Assumptions
 # Dimensões: ALL.D.Year, ALL.D.Month, ALL.D.Version, ALL.D.Assumptions, ALL.M.010.Economic_Assumptions
@@ -37,7 +37,7 @@ SKIPCHECK;
     !ALL.D.Year,
     !ALL.D.Month,
     !ALL.D.Version,
-    'ALL.D.Assumptions':'Average FX R$/US$',
+    'Average FX US$/EUR',
     'ALL.M.010.Economic_Assumptions':'Value'
   )
   *
@@ -136,7 +136,7 @@ FEEDERS;
 ['ALL.D.Assumptions':'Average FX R$/US$','ALL.M.010.Economic_Assumptions':'Value']
   => ['ALL.D.Assumptions':'FX Rate USD/BRL','ALL.M.010.Economic_Assumptions':'Value'];
 
-['ALL.D.Assumptions':'Average FX R$/US$','ALL.M.010.Economic_Assumptions':'Value']
+['ALL.D.Assumptions':'Average FX US$/EUR','ALL.M.010.Economic_Assumptions':'Value']
   => ['ALL.D.Assumptions':'FX Rate EUR/BRL','ALL.M.010.Economic_Assumptions':'Value'];
 
 ['ALL.D.Assumptions':'Average FX R$/US$','ALL.M.010.Economic_Assumptions':'Value']

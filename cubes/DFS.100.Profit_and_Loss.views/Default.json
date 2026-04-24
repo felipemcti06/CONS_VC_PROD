@@ -33,7 +33,7 @@
 				"Expression": "{Descendants({[ALL.D.Year].[ALL.D.Year].[2026]},1, SELF_AND_BEFORE)}"
 			},
 			"[ALL.D.Version].[ALL.D.Version]": {
-				"Expression": "{Descendants({[ALL.D.Version].[ALL.D.Version].[T4]},1, SELF_AND_BEFORE)}"
+				"Expression": "{[ALL.D.Version].[ALL.D.Version].[T3]}"
 			}
 		}
 	},

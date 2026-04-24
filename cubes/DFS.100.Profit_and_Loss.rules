@@ -818,7 +818,7 @@
 # # Author: Miranda / Helder
 # # --------------------------------------------------------------------------------------------
 ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value', 'ALL.D.Currency':'ALL.D.Currency':'Total Currency','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
-]=>['ALL.D.Currency':'ALL.D.Currency':'BRL Conv.','DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'FX'];
+]=>['ALL.D.Currency':'ALL.D.Currency':'BRL FX Var'];
 
 # --------------------------------------------------------------------------------------------
 # Name: Conversão de Moedas

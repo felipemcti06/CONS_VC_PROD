@@ -176,7 +176,26 @@
     ;
 
 
-
+# --------------------------------------------------------------------------------------------
+# Name  FX
+# Desc  FX
+# Date 02/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['ALL.D.Currency':'ALL.D.Currency':'BRL FX Var'] =N:
+['ALL.D.Currency':'ALL.D.Currency':'Total Currency']
+*
+  DB( 'ALL.010.Economic_Assumptions', 
+      DB( 'ALL.020.Exchange_Parameters',
+          !ALL.D.Year,
+          !ALL.D.Version,
+          'Year' ), 
+      !ALL.D.Month, 
+      DB( 'ALL.020.Exchange_Parameters',
+          !ALL.D.Year,
+          !ALL.D.Version,
+          'Version' ),
+      DB('MAP.030.Region', !ALL.D.Region, 'FX Rate' ), 'Value' );
 
 
 # --------------------------------------------------------------------------------------------
@@ -645,6 +664,14 @@ DB( 'DFS.120.Financial_Results', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'USD
     
     ;
 
+# # --------------------------------------------------------------------------------------------
+# # Name: Feedes FX 
+# # Desc: Feedes FX 
+# # Date 01/2026
+# # Author: Miranda / Helder
+# # --------------------------------------------------------------------------------------------
+[ 'DFS.M.120.Financial_Results':'DFS.M.120.Financial_Results':'Total Value', 'ALL.D.Currency':'ALL.D.Currency':'Total Currency','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['ALL.D.Currency':'ALL.D.Currency':'BRL FX Var'];
     
 # --------------------------------------------------------------------------------------------
 #                      			BLOCO DE FEEDERS EXTERNOS
