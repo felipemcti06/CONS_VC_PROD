@@ -72,10 +72,6 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"T4",
-			"Type":"Numeric"
-		},
-		{
 			"Name":"L100",
 			"Type":"Numeric"
 		},
@@ -103,11 +99,6 @@
 		{
 			"ParentName":"Dynamic Versions",
 			"ComponentName":"T3",
-			"Weight":1
-		},
-		{
-			"ParentName":"Dynamic Versions",
-			"ComponentName":"T4",
 			"Weight":1
 		}
 	],

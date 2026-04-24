@@ -12,9 +12,6 @@
 		},
 		{
 			"@id":"Dimensions('ALL.D.Version')/Hierarchies('ALL.D.Version')/Elements('T3')"
-		},
-		{
-			"@id":"Dimensions('ALL.D.Version')/Hierarchies('ALL.D.Version')/Elements('T4')"
 		}
 	]
 }
