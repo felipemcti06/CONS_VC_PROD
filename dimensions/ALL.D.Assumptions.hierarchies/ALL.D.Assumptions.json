@@ -220,7 +220,27 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"FX R$/US$",
+			"Name":"FX Rate BRL/BRL",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FX Rate USD/BRL",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FX Rate EUR/BRL",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FX Rate TRY/BRL",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FX Rate UYU/BRL",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"FX Rate BOB/BRL",
 			"Type":"Numeric"
 		}
 	],
