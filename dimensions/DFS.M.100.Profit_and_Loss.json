@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"DFS.M.100.Profit_and_Loss",
+	"Hierarchies@Code.links":
+	[
+		"DFS.M.100.Profit_and_Loss.hierarchies/DFS.M.100.Profit_and_Loss.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('DFS.M.100.Profit_and_Loss')/Hierarchies('DFS.M.100.Profit_and_Loss')"
+	}
+}

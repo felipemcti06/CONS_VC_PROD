@@ -1,0 +1,21 @@
+{
+	"@type":"Cube",
+	"Name":"ALL.002.Uploads_Status",
+	"Dimensions":
+	[
+		{
+			"@id":"Dimensions('ALL.D.Version')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Region')"
+		},
+		{
+			"@id":"Dimensions('ALL.M.002.Uploads_Status')"
+		}
+	],
+	"Rules@Code.link":"ALL.002.Uploads_Status.rules",
+	"Views@Code.links":
+	[
+		"ALL.002.Uploads_Status.views/Default.json"
+	]
+}

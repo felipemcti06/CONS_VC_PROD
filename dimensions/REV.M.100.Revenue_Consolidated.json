@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"REV.M.100.Revenue_Consolidated",
+	"Hierarchies@Code.links":
+	[
+		"REV.M.100.Revenue_Consolidated.hierarchies/REV.M.100.Revenue_Consolidated.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('REV.M.100.Revenue_Consolidated')/Hierarchies('REV.M.100.Revenue_Consolidated')"
+	}
+}

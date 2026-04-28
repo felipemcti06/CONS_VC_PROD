@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"ALL.M.001.Actual_Control",
+	"Hierarchies@Code.links":
+	[
+		"ALL.M.001.Actual_Control.hierarchies/ALL.M.001.Actual_Control.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('ALL.M.001.Actual_Control')/Hierarchies('ALL.M.001.Actual_Control')"
+	}
+}

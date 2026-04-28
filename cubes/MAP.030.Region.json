@@ -1,0 +1,14 @@
+{
+	"@type":"Cube",
+	"Name":"MAP.030.Region",
+	"Dimensions":
+	[
+		{
+			"@id":"Dimensions('MAP.D.Region')"
+		},
+		{
+			"@id":"Dimensions('MAP.M.030.Region')"
+		}
+	],
+	"Views@Code.links":[]
+}

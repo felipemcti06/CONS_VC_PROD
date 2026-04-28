@@ -1,0 +1,44 @@
+{
+	"@type":"Hierarchy",
+	"Name":"MAP.M.010.Products",
+	"Elements":
+	[
+		{
+			"Name":"Description",
+			"Type":"String"
+		},
+		{
+			"Name":"Level 1",
+			"Type":"String"
+		},
+		{
+			"Name":"Description Level 1",
+			"Type":"String"
+		},
+		{
+			"Name":"Level 2",
+			"Type":"String"
+		},
+		{
+			"Name":"Description Level 2",
+			"Type":"String"
+		},
+		{
+			"Name":"Level 3",
+			"Type":"String"
+		},
+		{
+			"Name":"Description Level 3",
+			"Type":"String"
+		},
+		{
+			"Name":"BPC Code",
+			"Type":"String"
+		},
+		{
+			"Name":"Data Atualização",
+			"Type":"String"
+		}
+	],
+	"Subsets@Code.links":[]
+}

@@ -1,0 +1,23 @@
+{
+	"@type":"Cube",
+	"Name":"ALL.010.Economic_Assumptions",
+	"Dimensions":
+	[
+		{
+			"@id":"Dimensions('ALL.D.Year')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Month')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Version')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Assumptions')"
+		},
+		{
+			"@id":"Dimensions('ALL.M.010.Economic_Assumptions')"
+		}
+	],
+	"Views@Code.links":[]
+}

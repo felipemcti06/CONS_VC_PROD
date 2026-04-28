@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"MAP.D.DFs",
+	"Hierarchies@Code.links":
+	[
+		"MAP.D.DFs.hierarchies/MAP.D.DFs.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('MAP.D.DFs')/Hierarchies('MAP.D.DFs')"
+	}
+}

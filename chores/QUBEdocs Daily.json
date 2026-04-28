@@ -1,0 +1,34 @@
+{
+	"@type":"Chore",
+	"Name":"QUBEdocs Daily",
+	"StartTime":"2017-06-12T11:02:42Z",
+	"DSTSensitive":false,
+	"Active":false,
+	"ExecutionMode":"SingleCommit",
+	"Frequency":"P1DT00H00M00S",
+	"Tasks":
+	[
+		{
+			"Step":0,
+			"Parameters":
+			[
+				{
+					"Name":"pDestFolder",
+					"Value":".\\"
+				}
+			],
+			"Process":
+			{
+				"@id":"Processes('QUBEdocs Create Package')"
+			}
+		},
+		{
+			"Step":1,
+			"Parameters":[],
+			"Process":
+			{
+				"@id":"Processes('}QUBEdocs Clear Stats')"
+			}
+		}
+	]
+}

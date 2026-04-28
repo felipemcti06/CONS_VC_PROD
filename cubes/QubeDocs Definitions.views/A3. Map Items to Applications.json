@@ -1,0 +1,59 @@
+{
+	"@type":"NativeView",
+	"Name":"A3. Map Items to Applications",
+	"Columns":
+	[
+		{
+			"Subset":
+			{
+				"Hierarchy":
+				{
+					"@id":"Dimensions('QubeDocs Measure')/Hierarchies('QubeDocs Measure')"
+				},
+				"Elements":
+				[
+					{
+						"@id":"Dimensions('QubeDocs Measure')/Hierarchies('QubeDocs Measure')/Elements('#IncludeInApplication')"
+					},
+					{
+						"@id":"Dimensions('QubeDocs Measure')/Hierarchies('QubeDocs Measure')/Elements('#AppGroup')"
+					},
+					{
+						"@id":"Dimensions('QubeDocs Measure')/Hierarchies('QubeDocs Measure')/Elements('#CustomAppGroup')"
+					},
+					{
+						"@id":"Dimensions('QubeDocs Measure')/Hierarchies('QubeDocs Measure')/Elements('#DocumentName')"
+					},
+					{
+						"@id":"Dimensions('QubeDocs Measure')/Hierarchies('QubeDocs Measure')/Elements('#DocumentLink')"
+					}
+				]
+			}
+		}
+	],
+	"Rows":
+	[
+		{
+			"Subset":
+			{
+				"@id":"Dimensions('QubeDocs Definition')/Hierarchies('QubeDocs Definition')/Subsets('QubeDocs.All')"
+			}
+		}
+	],
+	"Titles":
+	[
+		{
+			"Subset":
+			{
+				"@id":"Dimensions('QubeDocs Application')/Hierarchies('QubeDocs Application')/Subsets('QubeDocs.Applications')"
+			},
+			"Selected":
+			{
+				"@id":"Dimensions('QubeDocs Application')/Hierarchies('QubeDocs Application')/Elements('Application Folders')"
+			}
+		}
+	],
+	"SuppressEmptyColumns":false,
+	"SuppressEmptyRows":false,
+	"FormatString":"0.00"
+}

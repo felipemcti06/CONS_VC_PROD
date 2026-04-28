@@ -1,0 +1,15 @@
+{
+	"@type":"Cube",
+	"Name":"SYS.900.Version_Copy_Parameter",
+	"Dimensions":
+	[
+		{
+			"@id":"Dimensions('SYS.D.Value')"
+		},
+		{
+			"@id":"Dimensions('SYS.M.900.Version_Copy_Parameter')"
+		}
+	],
+	"Rules@Code.link":"SYS.900.Version_Copy_Parameter.rules",
+	"Views@Code.links":[]
+}

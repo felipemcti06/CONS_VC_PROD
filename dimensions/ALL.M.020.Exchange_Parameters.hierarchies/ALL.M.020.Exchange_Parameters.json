@@ -1,0 +1,16 @@
+{
+	"@type":"Hierarchy",
+	"Name":"ALL.M.020.Exchange_Parameters",
+	"Elements":
+	[
+		{
+			"Name":"Year",
+			"Type":"String"
+		},
+		{
+			"Name":"Version",
+			"Type":"String"
+		}
+	],
+	"Subsets@Code.links":[]
+}

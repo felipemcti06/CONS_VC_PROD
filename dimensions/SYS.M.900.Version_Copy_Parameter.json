@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"SYS.M.900.Version_Copy_Parameter",
+	"Hierarchies@Code.links":
+	[
+		"SYS.M.900.Version_Copy_Parameter.hierarchies/SYS.M.900.Version_Copy_Parameter.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('SYS.M.900.Version_Copy_Parameter')/Hierarchies('SYS.M.900.Version_Copy_Parameter')"
+	}
+}

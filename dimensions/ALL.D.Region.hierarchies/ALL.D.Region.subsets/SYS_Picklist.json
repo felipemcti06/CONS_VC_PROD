@@ -1,0 +1,6 @@
+{
+	"@type":"Subset",
+	"Name":"SYS_Picklist",
+	"Alias":"MEMBER_NAME",
+	"Expression":"TM1IGNORE_BADTUPLES {EXCEPT(DISTINCT(DESCENDANTS([ALL.D.Region].[ALL.D.Region].[Global])) , {[ALL.D.Region].[ALL.D.Region].[Global]} , ALL)}"
+}

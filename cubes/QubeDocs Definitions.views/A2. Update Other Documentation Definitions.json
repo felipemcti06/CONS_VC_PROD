@@ -1,0 +1,38 @@
+{
+	"@type":"NativeView",
+	"Name":"A2. Update Other Documentation Definitions",
+	"Columns":
+	[
+		{
+			"Subset":
+			{
+				"@id":"Dimensions('QubeDocs Measure')/Hierarchies('QubeDocs Measure')/Subsets('QUBEdocs.Other Documentation')"
+			}
+		}
+	],
+	"Rows":
+	[
+		{
+			"Subset":
+			{
+				"@id":"Dimensions('QubeDocs Definition')/Hierarchies('QubeDocs Definition')/Subsets('QUBEdocs.Other Documentation')"
+			}
+		}
+	],
+	"Titles":
+	[
+		{
+			"Subset":
+			{
+				"@id":"Dimensions('QubeDocs Application')/Hierarchies('QubeDocs Application')/Subsets('QubeDocs.Entire Model')"
+			},
+			"Selected":
+			{
+				"@id":"Dimensions('QubeDocs Application')/Hierarchies('QubeDocs Application')/Elements('Entire Model')"
+			}
+		}
+	],
+	"SuppressEmptyColumns":false,
+	"SuppressEmptyRows":false,
+	"FormatString":"0.#########"
+}

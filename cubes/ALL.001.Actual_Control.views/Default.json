@@ -1,0 +1,30 @@
+{
+	"@type":"MDXView",
+	"Name":"Default",
+	"MDX@Code.link":"Default.mdx",
+	"Meta": {
+		"Aliases": {
+			"[ALL.D.Month].[ALL.D.Month]": "Desc"
+		},
+		"ExpandAboves": {
+			"[ALL.D.Month].[ALL.D.Month]": false,
+			"[ALL.M.001.Actual_Control].[ALL.M.001.Actual_Control]": false,
+			"[ALL.D.Year].[ALL.D.Year]": false,
+			"[ALL.D.Version].[ALL.D.Version]": false
+		},
+		"ContextSets": {
+			"[ALL.M.001.Actual_Control].[ALL.M.001.Actual_Control]": {
+				"Expression": "{[ALL.M.001.Actual_Control].[ALL.M.001.Actual_Control].MEMBERS}"
+			},
+			"[ALL.D.Year].[ALL.D.Year]": {
+				"Expression": "{[ALL.D.Year].[ALL.D.Year].[2025]}"
+			}
+		}
+	},
+	"ViewExtractSkipRuleValues": false,
+	"ViewExtractSkipConsolidatedValues": true,
+	"ViewExtractSkipZeroes": true,
+	"IsSuppressComputeOnOpen": false,
+	"IsAutocalculate": true,
+	"IsDeferComputeOnLeafDataEntry": false
+}

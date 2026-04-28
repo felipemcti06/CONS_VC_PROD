@@ -1,0 +1,172 @@
+{
+	"@type":"Hierarchy",
+	"Name":"SYS.M.250.Rejeitados",
+	"Elements":
+	[
+		{
+			"Name":"Mensagem",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 01",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 02",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 03",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 04",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 05",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 06",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 07",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 08",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 09",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 10",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 11",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 12",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 13",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 14",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 15",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 16",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 17",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 18",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 19",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 20",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 21",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 22",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 23",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 24",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 25",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 26",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 27",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 28",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 29",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 30",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 31",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 32",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 33",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 34",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 35",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 36",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 37",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 38",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 39",
+			"Type":"String"
+		},
+		{
+			"Name":"Coluna 40",
+			"Type":"String"
+		}
+	],
+	"Subsets@Code.links":[]
+}

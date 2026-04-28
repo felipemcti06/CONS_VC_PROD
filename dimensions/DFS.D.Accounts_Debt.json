@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"DFS.D.Accounts_Debt",
+	"Hierarchies@Code.links":
+	[
+		"DFS.D.Accounts_Debt.hierarchies/DFS.D.Accounts_Debt.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('DFS.D.Accounts_Debt')/Hierarchies('DFS.D.Accounts_Debt')"
+	}
+}

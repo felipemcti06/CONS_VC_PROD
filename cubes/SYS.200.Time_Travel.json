@@ -1,0 +1,23 @@
+{
+	"@type":"Cube",
+	"Name":"SYS.200.Time_Travel",
+	"Dimensions":
+	[
+		{
+			"@id":"Dimensions('SYS.D.Ano')"
+		},
+		{
+			"@id":"Dimensions('SYS.D.Mes')"
+		},
+		{
+			"@id":"Dimensions('SYS.D.Parametro_Mes')"
+		},
+		{
+			"@id":"Dimensions('SYS.M.200.Time_Travel')"
+		}
+	],
+	"Views@Code.links":
+	[
+		"SYS.200.Time_Travel.views/Default.json"
+	]
+}

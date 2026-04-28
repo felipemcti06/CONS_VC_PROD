@@ -1,0 +1,33 @@
+{
+	"@type":"Cube",
+	"Name":"DFS.180.Gross_Debt",
+	"Dimensions":
+	[
+		{
+			"@id":"Dimensions('ALL.D.Year')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Month')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Version')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Currency')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Region')"
+		},
+		{
+			"@id":"Dimensions('DFS.D.Accounts_Debt')"
+		},
+		{
+			"@id":"Dimensions('DFS.M.180.Gross_Debt')"
+		}
+	],
+	"Rules@Code.link":"DFS.180.Gross_Debt.rules",
+	"Views@Code.links":
+	[
+		"DFS.180.Gross_Debt.views/Default.json"
+	]
+}

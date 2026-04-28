@@ -1,0 +1,478 @@
+# =============
+  SKIPCHECK;
+  FEEDSTRINGS;
+# =============
+# --------------------------------------------------------------------------------------------
+# Name:Price Premium [$/ton]
+# Desc: Price Premium [$/ton]
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+
+  ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Price Premium [$/ton]'] = 
+        IF( DTYPE( 'ALL.D.Month', !ALL.D.Month )@='C' 
+       % DTYPE( 'ALL.D.Products', !ALL.D.Products )@='C' ,
+
+(
+  ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Net Revenue [$MM]'] *1000
+    \
+['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Sales Volume [kt]']
+)
+    
+   ,CONTINUE) ;
+
+# --------------------------------------------------------------------------------------------
+# Name Define versÃµes calculadas
+# Desc A partir dessa regra sÃ³ calcula para versÃµes dinÃ¢micas
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+[]=IF(ELISANC( 'ALL.D.Version', 'Dynamic Versions', !ALL.D.Version ) <> 0
+  ,CONTINUE
+  ,STET
+  ); 
+
+[]=IF(ELISANC( 'ALL.D.Version', 'Dynamic Versions', !ALL.D.Version ) <> 0 
+  &
+  DB( 'ALL.001.Actual_Control', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Flag' )@='ACTUAL',
+        ['ALL.D.Version':'ALL.D.Version':'RE'],
+        CONTINUE) ;
+
+
+# --------------------------------------------------------------------------------------------
+#
+#                      			INICIO DO BLOCO CALCULOS CONVERSÃƒO MOEDA
+#
+# --------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------
+# Name: ConversÃ£o de Moedas para mertica ajuste
+# Desc: ConversÃ£o de moedas para os padrÃµes USD, BRL e EUR
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+
+###############################################################
+#-------------------------------------# USD CONV #-----------------------------------------
+###############################################################
+
+  ['ALL.D.Currency':'ALL.D.Currency':'USD Conv.' , 'REV.M.100.Revenue_Consolidated':{'REV.M.100.Revenue_Consolidated':'Net Revenue [$MM]','REV.M.100.Revenue_Consolidated':'Gross Revenue [$MM]'}] = N:
+
+  #USD  
+  ['ALL.D.Currency':'ALL.D.Currency':'USD']
+     +
+  # BRL PARA USD 
+  ['ALL.D.Currency':'ALL.D.Currency':'BRL'] \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' )
+
++         
+  #   EUR PARA USD  
+ ['ALL.D.Currency':'ALL.D.Currency':'EUR'] * DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+                                              
+      +
+  # ARS PARA USD 
+  ['ALL.D.Currency':'ALL.D.Currency':'ARS'] \  DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX ARS$/US$', 'Value' )  
+      +
+  # BOB  PARA USD 
+  ['ALL.D.Currency':'ALL.D.Currency':'BOB'] \  DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX BOB$/US$', 'Value' )  
+      +
+  # CAD  PARA USD 
+  ['ALL.D.Currency':'ALL.D.Currency':'CAD'] \  DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX CAD$/US$', 'Value' )  
+
+          +
+  # TRY  PARA USD 
+  ['ALL.D.Currency':'ALL.D.Currency':'TRY'] \  DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX TRY$/US$', 'Value' )  
+
+     +
+ # UYU PARA USD  
+  ['ALL.D.Currency':'ALL.D.Currency':'UYU'] \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX UYU$/US$', 'Value' )  
+    ;
+
+###############################################################
+#-------------------------------------# BRL CONV #-----------------------------------------
+###############################################################
+
+  ['ALL.D.Currency':'ALL.D.Currency':'BRL Conv.' ,  'REV.M.100.Revenue_Consolidated':{'REV.M.100.Revenue_Consolidated':'Net Revenue [$MM]','REV.M.100.Revenue_Consolidated':'Gross Revenue [$MM]'}] = N:
+  #    #BRL  
+  ['ALL.D.Currency':'ALL.D.Currency':'BRL']
+     +
+  #  USD PARA BRL  
+  ['ALL.D.Currency':'ALL.D.Currency':'USD'] * DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' )
+
++         
+  #   EUR PARA BRL  
+ ['ALL.D.Currency':'ALL.D.Currency':'EUR'] * DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+                                              *DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' )
+
+    
+    +
+  #  ARS PARA BRL  
+  ['ALL.D.Currency':'ALL.D.Currency':'ARS'] * 
+    (DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' )   \
+     DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX ARS$/US$', 'Value' ) )
+    +
+  #  BOB PARA BRL  
+  ['ALL.D.Currency':'ALL.D.Currency':'BOB'] * 
+    (DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' )   \
+     DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX BOB$/US$', 'Value' ) )
+        +
+  #  CAD PARA BRL  
+  ['ALL.D.Currency':'ALL.D.Currency':'CAD'] *
+      (DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' )   \
+     DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX CAD$/US$', 'Value' ) )
+
+            +
+  #  TRY PARA BRL  
+  ['ALL.D.Currency':'ALL.D.Currency':'TRY'] *
+      (DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' )   \
+     DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX TRY$/US$', 'Value' ) )
+
+      +
+    # UYU PARA BRL
+  ['ALL.D.Currency':'ALL.D.Currency':'UYU'] * 
+    
+    (DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' )   \
+     DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX UYU$/US$', 'Value' ) )
+    ;
+
+
+
+
+
+
+###############################################################
+#-------------------------------------# EUR CONV #-----------------------------------------
+###############################################################
+
+  ['ALL.D.Currency':'ALL.D.Currency':'EUR Conv.' , 'REV.M.100.Revenue_Consolidated':{'REV.M.100.Revenue_Consolidated':'Net Revenue [$MM]','REV.M.100.Revenue_Consolidated':'Gross Revenue [$MM]'}] = N:
+  #EUR     
+  ['ALL.D.Currency':'ALL.D.Currency':'EUR']
+     +
+   # USD PARA EUR  
+  ['ALL.D.Currency':'ALL.D.Currency':'USD'] \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+       +
+    # BRL PARA EUR  
+ ( 
+   ( ['ALL.D.Currency':'ALL.D.Currency':'BRL']  \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' ) )
+ \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+ )
+
+       +
+    # ARS PARA EUR  
+ ( 
+   ( ['ALL.D.Currency':'ALL.D.Currency':'ARS']  \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX ARS$/US$', 'Value' ) )
+ \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+ )
+
+           +
+    # BOB PARA EUR  
+ ( 
+   ( ['ALL.D.Currency':'ALL.D.Currency':'BOB']  \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX BOB$/US$', 'Value' ) )
+ \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+ )
+
+               +
+    # CAD PARA EUR  
+ ( 
+   ( ['ALL.D.Currency':'ALL.D.Currency':'CAD']  \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX CAD$/US$', 'Value' ) )
+ \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+ )
+               +
+    # TRY PARA EUR  
+ ( 
+   ( ['ALL.D.Currency':'ALL.D.Currency':'TRY']  \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX TRY$/US$', 'Value' ) )
+ \DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+ )
+
+                   +
+    # UYU PARA EUR  
+ ( 
+   ( ['ALL.D.Currency':'ALL.D.Currency':'UYU']  \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX UYU$/US$', 'Value' ) )
+ \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+ )
+    
+    ;
+
+# --------------------------------------------------------------------------------------------
+# Name: Regra Totalizador Volume e Preco no Total Produto
+# Desc: 
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':{'Price Premium [$/ton]' , 'Reference Price [$/ton]' , 'Sales Volume [kt]'} , 'ALL.D.Products':'ALL.D.Products':'Total Products']=C:
+  0;
+
+# --------------------------------------------------------------------------------------------
+# Name: % Operational Tax'
+# Desc: % Operational Tax'
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'% Operational Tax' ] = N:
+  DB( 'STG.100.DataBase_Uploads',
+      !ALL.D.Year,
+      !ALL.D.Month,
+      !ALL.D.Version,
+     !ALL.D.Currency,
+     !ALL.D.Region,
+     !ALL.D.Products,
+     'REV.030.001',
+     'ALL.D.Account_Line':'Total Accounts Line',
+     'STG.M.100.DataBaseUploads':'Value' 
+     );
+
+C:
+(
+    ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Gross Revenue [$MM]']
+  -
+  ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Net Revenue [$MM]'] 
+  )
+
+\
+  ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Net Revenue [$MM]'] 
+
+  ;
+    
+# --------------------------------------------------------------------------------------------
+# Name: Reference Price [$/ton]
+# Desc: Reference Price [$/ton]
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Reference Price [$/ton]' , 'ALL.D.Market':'ALL.D.Market':'Domestic'] = N:
+  DB( 'STG.100.DataBase_Uploads',
+      !ALL.D.Year,
+      !ALL.D.Month,
+      !ALL.D.Version,
+     !ALL.D.Currency,
+     !ALL.D.Region,
+     !ALL.D.Products,
+     'REV.010.001',
+     'ALL.D.Account_Line':'Total Accounts Line',
+     'STG.M.100.DataBaseUploads':'Value' 
+     );
+
+
+# --------------------------------------------------------------------------------------------
+# Name:'Sales Volume [kt]
+# Desc: 'Sales Volume [kt]
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Sales Volume [kt]' , 'ALL.D.Market':'ALL.D.Market':'Domestic'] = N:
+  DB( 'STG.100.DataBase_Uploads',
+      !ALL.D.Year,
+      !ALL.D.Month,
+      !ALL.D.Version,
+     !ALL.D.Currency,
+     !ALL.D.Region,
+     !ALL.D.Products,
+     'REV.020.001',
+     'ALL.D.Account_Line':'Total Accounts Line',
+     'STG.M.100.DataBaseUploads':'Value' 
+     );
+
+
+  ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Sales Volume [kt]' , 'ALL.D.Market':'ALL.D.Market':'Export'] = N:
+  DB( 'STG.100.DataBase_Uploads',
+      !ALL.D.Year,
+      !ALL.D.Month,
+      !ALL.D.Version,
+     !ALL.D.Currency,
+     !ALL.D.Region,
+     !ALL.D.Products,
+     'REV.020.002',
+     'ALL.D.Account_Line':'Total Accounts Line',
+     'STG.M.100.DataBaseUploads':'Value' 
+     );
+
+# --------------------------------------------------------------------------------------------
+# Name:Third Part Sales Volume [kt]
+# Desc: Third Part Sales Volume [kt]
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Third Part Sales Volume [kt]' , 'ALL.D.Market':'ALL.D.Market':'Domestic'] = N:
+  DB( 'STG.100.DataBase_Uploads',
+      !ALL.D.Year,
+      !ALL.D.Month,
+      !ALL.D.Version,
+     !ALL.D.Currency,
+     !ALL.D.Region,
+     !ALL.D.Products,
+     'REV.020.003',
+     'ALL.D.Account_Line':'Total Accounts Line',
+     'STG.M.100.DataBaseUploads':'Value' 
+     );
+# --------------------------------------------------------------------------------------------
+# Name:Price Premium [$/ton]
+# Desc: Price Premium [$/ton]
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+
+#   ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Price Premium [$/ton]'] = 
+#         IF( DTYPE( 'ALL.D.Month', !ALL.D.Month )@='C' 
+#        % DTYPE( 'ALL.D.Products', !ALL.D.Products )@='C' ,
+
+# (
+#   ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Net Revenue [$MM]'] *1000
+#     \
+# ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Sales Volume [kt]']
+# )
+    
+#    ,CONTINUE) ;
+
+  ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Price Premium [$/ton]' , 'ALL.D.Market':'ALL.D.Market':'Domestic'] = N:
+  DB( 'STG.100.DataBase_Uploads',
+      !ALL.D.Year,
+      !ALL.D.Month,
+      !ALL.D.Version,
+     !ALL.D.Currency,
+     !ALL.D.Region,
+     !ALL.D.Products,
+     'REV.010.002',
+     'ALL.D.Account_Line':'Total Accounts Line',
+     'STG.M.100.DataBaseUploads':'Value' 
+     );
+
+  ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Price Premium [$/ton]' , 'ALL.D.Market':'ALL.D.Market':'Export'] = N:
+  DB( 'STG.100.DataBase_Uploads',
+      !ALL.D.Year,
+      !ALL.D.Month,
+      !ALL.D.Version,
+     !ALL.D.Currency,
+     !ALL.D.Region,
+     !ALL.D.Products,
+     'REV.010.003',
+     'ALL.D.Account_Line':'Total Accounts Line',
+     'STG.M.100.DataBaseUploads':'Value' 
+     );
+
+# --------------------------------------------------------------------------------------------
+# Name:Net Revenue [$MM]
+# Desc: Net Revenue [$MM]
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Net Revenue [$MM]' ] = N:
+(['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Sales Volume [kt]'] 
+    *
+(  ['REV.M.100.Revenue_Consolidated': 'REV.M.100.Revenue_Consolidated':'Reference Price [$/ton]']
+    +
+  ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Price Premium [$/ton]'])
+   \1000 );
+
+
+# --------------------------------------------------------------------------------------------
+# Name:Net Revenue [$MM]
+# Desc: Net Revenue [$MM]
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Gross Revenue [$MM]' ] = N:
+ ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Net Revenue [$MM]' ]
+    *(1+[ 'REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'% Operational Tax']
+  # DB( 'ALL.015.Region_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Region, 'REV.030.001', 'Value' )
+                                                                                            
+                                                                                            );
+
+# --------------------------------------------------------------------------------------------
+#
+#                      			INICIO DO BLOCO DE FEEDERS
+#
+# --------------------------------------------------------------------------------------------
+
+# =============
+  FEEDERS;
+# =============
+# # --------------------------------------------------------------------------------------------
+# # Name: Feedes Forecast 
+# # Desc: Feedes Forecast 
+# # Date 01/2026
+# # Author: Miranda / Helder
+# # --------------------------------------------------------------------------------------------
+ ['ALL.D.Version':'ALL.D.Version':'RE'] => ['ALL.D.Version':'ALL.D.Version':'Dynamic Versions'];
+
+
+# --------------------------------------------------------------------------------------------
+# Name:Net Revenue [$MM]
+# Desc: Net Revenue [$MM]
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+ 
+['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Sales Volume [kt]','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Net Revenue [$MM]' ] ; 
+
+['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Reference Price [$/ton]','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Net Revenue [$MM]' ] ; 
+
+['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Price Premium [$/ton]','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Net Revenue [$MM]' ] ;    
+# --------------------------------------------------------------------------------------------
+# Name:Gross Revenue [$MM]'
+# Desc:Gross Revenue [$MM]'
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+ 
+['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Sales Volume [kt]','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=> ['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Gross Revenue [$MM]' ] ; 
+
+# --------------------------------------------------------------------------------------------
+#                      			BLOCO DE FEEDERS EXTERNOS
+# --------------------------------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------------------------------
+# Name: Gross Revenue [$MM]
+# Desc:Gross Revenue [$MM]
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Gross Revenue [$MM]','ALL.D.Market':'ALL.D.Market':'Total Market','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'REV.099.002', 'Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name: Net Revenue [$MM]'
+# Desc:Net Revenue [$MM]'
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Net Revenue [$MM]','ALL.D.Market':'ALL.D.Market':'Total Market','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'REV.099.001', 'Value' );
+
+# --------------------------------------------------------------------------------------------
+#                      			DFS.200.KPIs
+# --------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------
+# Name: Net Revenue [$MM]'
+# Desc:Net Revenue [$MM]'
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Net Revenue [$MM]','ALL.D.Market':'ALL.D.Market':'Total Market'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }] 
+  =>DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Revenue' ,'Value');
+
+# --------------------------------------------------------------------------------------------
+# Name: Sales Volume [kt]
+# Desc:Sales Volume [kt]
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Sales Volume [kt]','ALL.D.Market':'ALL.D.Market':'Total Market'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }] 
+  =>DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Volume','Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name: Price
+# Desc:Price
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['REV.M.100.Revenue_Consolidated':'REV.M.100.Revenue_Consolidated':'Price Premium [$/ton]','ALL.D.Market':'ALL.D.Market':'Total Market'
+,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }] 
+  =>DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'Price','Value' );
+
+
+

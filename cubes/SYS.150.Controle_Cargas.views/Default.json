@@ -1,0 +1,30 @@
+{
+	"@type":"NativeView",
+	"Name":"Default",
+	"Columns":
+	[
+		{
+			"Subset":
+			{
+				"@id":"Dimensions('SYS.M.150.Controle_Cargas')/Hierarchies('SYS.M.150.Controle_Cargas')/Subsets('Default')"
+			}
+		}
+	],
+	"Rows":
+	[
+		{
+			"Subset":
+			{
+				"Hierarchy":
+				{
+					"@id":"Dimensions('}Processes')/Hierarchies('}Processes')"
+				},
+				"Expression":"TM1SubsetAll([}Processes])"
+			}
+		}
+	],
+	"Titles":[],
+	"SuppressEmptyColumns":true,
+	"SuppressEmptyRows":true,
+	"FormatString":"0.#########"
+}

@@ -1,0 +1,17 @@
+{
+	"@type":"Cube",
+	"Name":"SYS.999.Version_Copy_Rejects",
+	"Dimensions":
+	[
+		{
+			"@id":"Dimensions('}Processes')"
+		},
+		{
+			"@id":"Dimensions('SYS.D.Version_Copy_Rejects')"
+		},
+		{
+			"@id":"Dimensions('SYS.M.999.Version_Copy_Rejects')"
+		}
+	],
+	"Views@Code.links":[]
+}

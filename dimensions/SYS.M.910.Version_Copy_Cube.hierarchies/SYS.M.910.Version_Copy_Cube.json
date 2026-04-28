@@ -1,0 +1,48 @@
+{
+	"@type":"Hierarchy",
+	"Name":"SYS.M.910.Version_Copy_Cube",
+	"Elements":
+	[
+		{
+			"Name":"Copy Version (Y/N)",
+			"Type":"String"
+		},
+		{
+			"Name":"Copy Version(Y/N) Scenario 1",
+			"Type":"String"
+		},
+		{
+			"Name":"Copy Version(Y/N) Scenario 2",
+			"Type":"String"
+		},
+		{
+			"Name":"Copy Version(Y/N) Scenario 3",
+			"Type":"String"
+		},
+		{
+			"Name":"Dimension Version",
+			"Type":"String"
+		},
+		{
+			"Name":"Dimension Year",
+			"Type":"String"
+		},
+		{
+			"Name":"Dimension Month",
+			"Type":"String"
+		},
+		{
+			"Name":"Dimension Year and Month",
+			"Type":"String"
+		},
+		{
+			"Name":"Dimension Driver",
+			"Type":"String"
+		},
+		{
+			"Name":"Copy Priority",
+			"Type":"Numeric"
+		}
+	],
+	"Subsets@Code.links":[]
+}

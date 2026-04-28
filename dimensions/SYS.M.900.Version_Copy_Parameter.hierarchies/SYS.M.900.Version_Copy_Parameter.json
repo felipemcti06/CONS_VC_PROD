@@ -1,0 +1,52 @@
+{
+	"@type":"Hierarchy",
+	"Name":"SYS.M.900.Version_Copy_Parameter",
+	"Elements":
+	[
+		{
+			"Name":"Start Period",
+			"Type":"String"
+		},
+		{
+			"Name":"End Period",
+			"Type":"String"
+		},
+		{
+			"Name":"Start Period Target",
+			"Type":"String"
+		},
+		{
+			"Name":"Qty Months",
+			"Type":"String"
+		},
+		{
+			"Name":"Consider Rules",
+			"Type":"String"
+		},
+		{
+			"Name":"Qty Threads",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Copy Type",
+			"Type":"String"
+		},
+		{
+			"Name":"Status",
+			"Type":"String"
+		},
+		{
+			"Name":"Source Version",
+			"Type":"String"
+		},
+		{
+			"Name":"Target Version",
+			"Type":"String"
+		},
+		{
+			"Name":"ExportArqPath",
+			"Type":"String"
+		}
+	],
+	"Subsets@Code.links":[]
+}

@@ -1,0 +1,12 @@
+{
+	"@type":"Hierarchy",
+	"Name":"ALL.M.010.Economic_Assumptions",
+	"Elements":
+	[
+		{
+			"Name":"Value",
+			"Type":"Numeric"
+		}
+	],
+	"Subsets@Code.links":[]
+}

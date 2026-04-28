@@ -1,0 +1,18 @@
+{
+	"@type":"Cube",
+	"Name":"SYS.150.Controle_Cargas",
+	"Dimensions":
+	[
+		{
+			"@id":"Dimensions('}Processes')"
+		},
+		{
+			"@id":"Dimensions('SYS.M.150.Controle_Cargas')"
+		}
+	],
+	"Views@Code.links":
+	[
+		"SYS.150.Controle_Cargas.views/Default.json",
+		"SYS.150.Controle_Cargas.views/Padrão.json"
+	]
+}

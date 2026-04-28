@@ -1,0 +1,6 @@
+{
+	"@type":"Subset",
+	"Name":"OBZ",
+	"Alias":"MEMBER_NAME",
+	"Expression":"TM1IGNORE_BADTUPLES {DRILLDOWNMEMBER({[DFS.D.KPI].[DFS.D.KPI].[ZBB Total]} , {[DFS.D.KPI].[DFS.D.KPI].[ZBB Total]} , RECURSIVE)}"
+}

@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"ALL.D.Assumptions",
+	"Hierarchies@Code.links":
+	[
+		"ALL.D.Assumptions.hierarchies/ALL.D.Assumptions.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('ALL.D.Assumptions')/Hierarchies('ALL.D.Assumptions')"
+	}
+}

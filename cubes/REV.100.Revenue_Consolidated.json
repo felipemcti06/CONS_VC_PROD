@@ -1,0 +1,36 @@
+{
+	"@type":"Cube",
+	"Name":"REV.100.Revenue_Consolidated",
+	"Dimensions":
+	[
+		{
+			"@id":"Dimensions('ALL.D.Year')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Month')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Version')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Currency')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Region')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Products')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Market')"
+		},
+		{
+			"@id":"Dimensions('REV.M.100.Revenue_Consolidated')"
+		}
+	],
+	"Rules@Code.link":"REV.100.Revenue_Consolidated.rules",
+	"Views@Code.links":
+	[
+		"REV.100.Revenue_Consolidated.views/Default.json"
+	]
+}

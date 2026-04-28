@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"STG.M.100.DataBaseUploads",
+	"Hierarchies@Code.links":
+	[
+		"STG.M.100.DataBaseUploads.hierarchies/STG.M.100.DataBaseUploads.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('STG.M.100.DataBaseUploads')/Hierarchies('STG.M.100.DataBaseUploads')"
+	}
+}

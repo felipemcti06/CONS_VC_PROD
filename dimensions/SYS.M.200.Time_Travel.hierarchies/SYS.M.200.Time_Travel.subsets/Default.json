@@ -1,0 +1,5 @@
+{
+	"@type":"Subset",
+	"Name":"Default",
+	"Expression":"TM1SubsetAll([SYS.M.200.Time_Travel])"
+}

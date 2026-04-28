@@ -1,0 +1,21 @@
+{
+	"@type":"Cube",
+	"Name":"ALL.004.Uploads_Status_Planning",
+	"Dimensions":
+	[
+		{
+			"@id":"Dimensions('ALL.D.Version')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Region')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Planning_Module')"
+		},
+		{
+			"@id":"Dimensions('ALL.M.004.Uploads_Status_Planning')"
+		}
+	],
+	"Rules@Code.link":"ALL.004.Uploads_Status_Planning.rules",
+	"Views@Code.links":[]
+}

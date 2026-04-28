@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"ALL.M.020.Exchange_Parameters",
+	"Hierarchies@Code.links":
+	[
+		"ALL.M.020.Exchange_Parameters.hierarchies/ALL.M.020.Exchange_Parameters.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('ALL.M.020.Exchange_Parameters')/Hierarchies('ALL.M.020.Exchange_Parameters')"
+	}
+}

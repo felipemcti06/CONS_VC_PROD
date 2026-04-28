@@ -1,0 +1,12 @@
+{
+	"@type":"Hierarchy",
+	"Name":"SYS.M.Backup_Shadow_Copy",
+	"Elements":
+	[
+		{
+			"Name":"String",
+			"Type":"String"
+		}
+	],
+	"Subsets@Code.links":[]
+}

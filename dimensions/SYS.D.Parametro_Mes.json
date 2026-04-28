@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"SYS.D.Parametro_Mes",
+	"Hierarchies@Code.links":
+	[
+		"SYS.D.Parametro_Mes.hierarchies/SYS.D.Parametro_Mes.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('SYS.D.Parametro_Mes')/Hierarchies('SYS.D.Parametro_Mes')"
+	}
+}

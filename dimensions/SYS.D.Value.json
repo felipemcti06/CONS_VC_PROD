@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"SYS.D.Value",
+	"Hierarchies@Code.links":
+	[
+		"SYS.D.Value.hierarchies/SYS.D.Value.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('SYS.D.Value')/Hierarchies('SYS.D.Value')"
+	}
+}
