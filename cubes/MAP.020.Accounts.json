@@ -15,6 +15,7 @@
 	],
 	"Views@Code.links":
 	[
+		"MAP.020.Accounts.views/CargaMapa.json",
 		"MAP.020.Accounts.views/Default.json"
 	]
 }

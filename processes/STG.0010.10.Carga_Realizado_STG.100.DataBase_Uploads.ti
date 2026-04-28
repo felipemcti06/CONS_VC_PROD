@@ -132,7 +132,7 @@ pMes = CellGetS( 'ALL.100.Assumptions_Upload', 'Real Month', 'Value' );
 pAno = CellGetS( 'ALL.100.Assumptions_Upload', 'Real Year', 'Value' );
 pVersao = sVersaoInput;
 
-sStatus = CellGetS('ALL.003.Uploads_Status_Actual', pANo, pMes, sVersaoInput, pRegion, 'Status' );
+sStatus = CellGetS('ALL.003.Uploads_Status_Actual', pANo, pMes, sVersaoInput, pRegion,'Financial_Planning', 'Status' );
 
 
 if (sStatus@='Closed'); 

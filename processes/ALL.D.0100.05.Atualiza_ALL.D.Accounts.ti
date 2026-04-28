@@ -49,7 +49,7 @@
 # ========================================
 cDimensao		= 'ALL.D.Accounts';
 cCuboMapa		= 'MAP.020.Accounts';
-
+cCuboOrigem = cCuboMapa;
 
 
 
@@ -111,15 +111,68 @@ CellPutS( s05 , cCuboParametro, cProcesso, 'Tempo de Execução' );
       END;
 
 
-DimensionDeleteAllElements( cDimensao );
+#DimensionDeleteAllElements( cDimensao );
+
+
 
 
 # =================================================================================
-# Insere Totalizador na Dimensão 
+#
+# Definição View de Leitura do Cubo de Origem
+#
 # =================================================================================
-#DimensionElementInsert ( cDimensao, '', cTotalizador, 'C' );
+
+cSuprimirConsolidado	= 'S';
+cSuprimirZero		= 'S'; 
+cSuprimirCamposCalculados	= 'N';
+cViewTemporaria	 	= 'S';
+nViewTemporaria		= If( cViewTemporaria @= 'S', 1, 0);
 
 
+
+
+# Define nome da view e subset de origem
+# ======================================================
+cViewOrigem	= 'processo.' | cProcesso | '.' | 'Leitura' | '.' | TimSt( cHorarioInicio, '\Y-\m-\d \hh\im\ss' );
+cSubsetOrigem	= cViewOrigem;
+
+
+
+# Cria a view que será utilizada para a leitura
+# ======================================================
+ViewCreate( cCuboOrigem , cViewOrigem , nViewTemporaria );
+
+
+
+# Cria os subsets que serão utilizados para filtrar a view de leitura
+# ======================================================
+
+cDimensaoView	= 'MAP.M.020.Accounts';
+cElemento	= 'Code';
+If( cDimensaoView @<> '');
+  SubsetCreate( cDimensaoView, cSubsetOrigem, nViewTemporaria );  
+  ViewSubsetAssign( cCuboOrigem , cViewOrigem, cDimensaoView , cSubsetOrigem );  
+  SubsetElementInsert( cDimensaoView, cSubsetOrigem, cElemento	, 1 );
+EndIf;
+
+
+
+
+
+
+
+
+# Configuração da View de Leitura
+# ======================================================
+ViewExtractSkipCalcsSet( cCuboOrigem, cViewOrigem, If( cSuprimirConsolidado @= 'S', 1, 0) );
+ViewExtractSkipZeroesSet( cCuboOrigem, cViewOrigem, If( cSuprimirZero @= 'S', 1, 0)  );
+ViewExtractSkipRuleValuesSet( cCuboOrigem, cViewOrigem, If( cSuprimirCamposCalculados @= 'S', 1, 0) );
+
+
+
+# Define Cubo de Origem como Datasource
+# ==================================
+DataSourceCubeView = cViewOrigem;
 
 
 # =================================================================================
@@ -178,7 +231,7 @@ sDim = cDimensao;
 # ==========================
 
 
-#sDescElement =  CellGetS( cCuboMapa, vElement, 'Nome STG' );
+sDescElement =  CellGetS( cCuboMapa, vElement,vDfs, 'Nome STG' );
 
 # =================================================================================
 # Adiciona Alias com codigo e descrição
@@ -186,19 +239,31 @@ sDim = cDimensao;
 
 # Adiciona Alias Cod+Desc
 #==========================================
-#sAlias       = 'Código e Descrição';
+sAlias       = 'Código e Descrição';
 
 
 #Element
 #===========
-# sCod   = vElement;
-# sDesc = sDescElement;
+sCod   = vElement;
+sDesc = sDescElement;
 
-# If  (  sCod @<>'' & sDesc @<> '' );
-#     AttrPutS( sCod | ' - ' | sDesc, cDimensao, sCod, sAlias );
-# EndIf;
+If  (  sCod @<>'' & sDesc @<> '' );
+    AttrPutS( sCod | ' - ' | sDesc, cDimensao, sCod, sAlias );
+EndIf;
+
+# Adiciona Alias Cod+Desc
+#==========================================
+sAlias       = 'Descrição';
 
 
+#Element
+#===========
+sCod   = vElement;
+sDesc = sDescElement;
+
+If  (  sCod @<>'' & sDesc @<> '' );
+    AttrPutS( sDesc, cDimensao, sCod, sAlias );
+EndIf;
 
 
 

@@ -8,364 +8,348 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Facilities",
+			"Name":"ACL.OOR.010.001.01",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Institutional",
+			"Name":"ACL.OOR.010.001.02",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Operational Expenses - IT",
+			"Name":"ACL.OOR.010.001.03",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Legal",
+			"Name":"ACL.OOR.010.001.04",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Maintenance",
+			"Name":"ACL.OOR.010.001.05",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Marketing",
+			"Name":"ACL.OOR.010.001.06",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Operating Materiais",
+			"Name":"ACL.OOR.010.001.07",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Operating Vehicles",
+			"Name":"ACL.OOR.010.001.08",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Personnel Expenses",
+			"Name":"ACL.OOR.010.001.09",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Professionais Services",
+			"Name":"ACL.OOR.010.001.10",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Shared Services center",
+			"Name":"ACL.OOR.010.001.11",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Travel and refunds",
+			"Name":"ACL.OOR.010.001.12",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Operational Expenses - Others",
+			"Name":"ACL.OOR.010.001.13",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other Op. Results - Asset Write-off",
+			"Name":"ACL.OOR.010.001.14",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Slow moving",
+			"Name":"ACL.OOR.010.001.15",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Clinker",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Contingencies",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Non-recurring Expenses",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Gain on assets",
-			"Type":"Numeric"
+			"Name":"ACL.OOR.010.001",
+			"Type":"Consolidated"
 		},
 		{
-			"Name":"Tax benefits",
+			"Name":"ACL.NOR.010.001.01",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other Op. Results - Machadinho",
+			"Name":"ACL.NOR.010.001.02",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"MOTZ",
+			"Name":"ACL.NOR.010.001.03",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Non Op. Taxes",
+			"Name":"ACL.NOR.010.001.04",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other products",
+			"Name":"ACL.NOR.010.001.05",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Non-recurring Revenues",
+			"Name":"ACL.NOR.010.001.06",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Power results",
+			"Name":"ACL.NOR.010.001.07",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Trading Margin",
+			"Name":"ACL.NOR.010.001.08",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other Op. Results - Others",
+			"Name":"ACL.NOR.010.001.09",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other Non Op. Results - ARO",
+			"Name":"ACL.NOR.010.001.10",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other Non Op. Results - FC x BPC Adjustment",
-			"Type":"Numeric"
+			"Name":"ACL.NOR.010.001",
+			"Type":"Consolidated"
 		},
 		{
-			"Name":"Hyperinflation",
+			"Name":"ACL.FCF.040.001.01",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Impairment",
+			"Name":"ACL.FCF.040.001.02",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"M&A Gain/Loss",
+			"Name":"ACL.FCF.040.001.03",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"MTM Energia",
-			"Type":"Numeric"
+			"Name":"ACL.FCF.040.001",
+			"Type":"Consolidated"
 		},
 		{
-			"Name":"Discontinued operations",
+			"Name":"ACL.FCF.030.001.01",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Results from assets sales",
+			"Name":"ACL.FCF.030.001.02",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Trasaction costs",
+			"Name":"ACL.FCF.030.001.03",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other Non Op. Results - Others",
+			"Name":"ACL.FCF.030.001.04",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Avellaneda",
+			"Name":"ACL.FCF.030.001.05",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Dividens Received from JVs",
-			"Type":"Numeric"
+			"Name":"ACL.FCF.030.001",
+			"Type":"Consolidated"
 		},
 		{
-			"Name":"Dividends received - Others",
+			"Name":"ACL.FCF.050.001.01",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Health Safety & Environment",
+			"Name":"ACL.FCF.050.001.02",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Non expansion capex - IT",
+			"Name":"ACL.FCF.050.001.03",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Modernization",
+			"Name":"ACL.FCF.050.001.04",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"P&D",
+			"Name":"ACL.FCF.050.001.05",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Sustaining",
+			"Name":"ACL.FCF.050.001.06",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Non expansion capex - Others",
+			"Name":"ACL.FCF.050.001.07",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other  - ARO",
-			"Type":"Numeric"
+			"Name":"ACL.FCF.050.001",
+			"Type":"Consolidated"
 		},
 		{
-			"Name":"Other  - Asset Write-off",
+			"Name":"ACL.FCF.060.000.01",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"DIFAL",
+			"Name":"ACL.FCF.060.000.02",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Legal Deposits",
+			"Name":"ACL.FCF.060.000.03",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Proceeds on Sales of Assets not in EBITDA",
+			"Name":"ACL.FCF.060.000.04",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Provision/ payments  and other variation on Long asset & Liabilities Operations",
+			"Name":"ACL.FCF.060.000.05",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other  - Others",
+			"Name":"ACL.FCF.060.000.06",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Pangea",
+			"Name":"ACL.FCF.060.000.07",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Project 1",
+			"Name":"ACL.FCF.060.000.08",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Project 2",
+			"Name":"ACL.FCF.060.000.09",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Project 3",
+			"Name":"ACL.FCF.060.000.10",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Project 4",
+			"Name":"ACL.FCF.060.000.11",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Project 5",
-			"Type":"Numeric"
+			"Name":"ACL.FCF.060.000",
+			"Type":"Consolidated"
 		},
 		{
-			"Name":"Project 6",
+			"Name":"ACL.FCF.040.002.01",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Project 7",
+			"Name":"ACL.FCF.040.002.02",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Project 8",
-			"Type":"Numeric"
+			"Name":"ACL.FCF.040.002",
+			"Type":"Consolidated"
 		},
 		{
-			"Name":"Project 9",
+			"Name":"ACL.FCF.040.003.01",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Project 10",
+			"Name":"ACL.FCF.040.003.02",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"VSA",
+			"Name":"ACL.FCF.040.003.03",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Payments of Dividens to Controlling - Others",
-			"Type":"Numeric"
+			"Name":"ACL.FCF.040.003",
+			"Type":"Consolidated"
 		},
 		{
-			"Name":"CDPQ",
+			"Name":"ACL.FCF.080.001.01",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Payments of Dividens to Minority - Machadinho",
+			"Name":"ACL.FCF.080.001.02",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Payments of Dividens to Minority - Others",
+			"Name":"ACL.FCF.080.001.03",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Expansion",
+			"Name":"ACL.FCF.080.001.04",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"From/To Artigas",
+			"Name":"ACL.FCF.080.001.05",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"From/To CEISA",
+			"Name":"ACL.FCF.080.001.06",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"From/To Itacamba",
+			"Name":"ACL.FCF.080.001.07",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"From/To Trading",
+			"Name":"ACL.FCF.080.001.08",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"From/To VCBR",
+			"Name":"ACL.FCF.080.001.09",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"From/To VCEA",
-			"Type":"Numeric"
+			"Name":"ACL.FCF.080.001",
+			"Type":"Consolidated"
 		},
 		{
-			"Name":"From/To VCI",
+			"Name":"ACL.FCF.070.002.01",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"From/To VCNA",
+			"Name":"ACL.FCF.070.002.02",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Intercompany dividends - Others",
+			"Name":"ACL.FCF.070.002.03",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Bank/Financial fees",
+			"Name":"ACL.FCF.070.002.04",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Cross Guarantee",
+			"Name":"ACL.FCF.070.002.05",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"FX/Others - FC x BPC Adjustment",
+			"Name":"ACL.FCF.070.002.06",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Management Fees",
+			"Name":"ACL.FCF.070.002.07",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Securtization",
+			"Name":"ACL.FCF.070.002.08",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Withholding",
-			"Type":"Numeric"
+			"Name":"ACL.FCF.070.002",
+			"Type":"Consolidated"
 		},
 		{
-			"Name":"Other adjustments",
+			"Name":"ACL.FCF.030.002.02",
 			"Type":"Numeric"
 		},
 		{
-			"Name":"FX Variation",
-			"Type":"Numeric"
+			"Name":"ACL.FCF.030.002",
+			"Type":"Consolidated"
 		},
 		{
 			"Name":"Total Accounts Line",
 			"Type":"Consolidated"
-		},
-		{
-			"Name":"Others",
-			"Type":"Numeric"
 		},
 		{
 			"Name":"Local Market Sales Volume [kt]",
@@ -404,19 +388,11 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Other",
-			"Type":"Numeric"
-		},
-		{
 			"Name":"Depreciation / amortization / depletion - Corporate",
 			"Type":"Numeric"
 		},
 		{
 			"Name":"Equity Pick-Up Results",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Other Non Operating Results",
 			"Type":"Numeric"
 		},
 		{
@@ -608,60 +584,386 @@
 			"Type":"Numeric"
 		},
 		{
-			"Name":"Expansion Capex",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Intercompany Dividends",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"Other - Cash Flow",
-			"Type":"Numeric"
-		},
-		{
 			"Name":"INITIAL CASH BALANCE",
 			"Type":"Numeric"
 		},
 		{
 			"Name":"MTM",
 			"Type":"Numeric"
-		},
-		{
-			"Name":"PRODCE010 - Cement",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"PRODAL010 - Ag. Lime",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"PRODAG010 - Aggregates",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"PRODCORP - Corporate",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"PRODLM010 - Lime",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"PRODMZ010 - Motz",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"PRODMT010 - Mortars",
-			"Type":"Numeric"
-		},
-		{
-			"Name":"PRODRM010 - Ready Mix",
-			"Type":"Numeric"
 		}
 	],
 	"Edges":
 	[
+		{
+			"ParentName":"ACL.OOR.010.001",
+			"ComponentName":"ACL.OOR.010.001.01",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.OOR.010.001",
+			"ComponentName":"ACL.OOR.010.001.02",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.OOR.010.001",
+			"ComponentName":"ACL.OOR.010.001.03",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.OOR.010.001",
+			"ComponentName":"ACL.OOR.010.001.04",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.OOR.010.001",
+			"ComponentName":"ACL.OOR.010.001.05",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.OOR.010.001",
+			"ComponentName":"ACL.OOR.010.001.06",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.OOR.010.001",
+			"ComponentName":"ACL.OOR.010.001.07",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.OOR.010.001",
+			"ComponentName":"ACL.OOR.010.001.08",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.OOR.010.001",
+			"ComponentName":"ACL.OOR.010.001.09",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.OOR.010.001",
+			"ComponentName":"ACL.OOR.010.001.10",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.OOR.010.001",
+			"ComponentName":"ACL.OOR.010.001.11",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.OOR.010.001",
+			"ComponentName":"ACL.OOR.010.001.12",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.OOR.010.001",
+			"ComponentName":"ACL.OOR.010.001.13",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.OOR.010.001",
+			"ComponentName":"ACL.OOR.010.001.14",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.OOR.010.001",
+			"ComponentName":"ACL.OOR.010.001.15",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.NOR.010.001",
+			"ComponentName":"ACL.NOR.010.001.01",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.NOR.010.001",
+			"ComponentName":"ACL.NOR.010.001.02",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.NOR.010.001",
+			"ComponentName":"ACL.NOR.010.001.03",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.NOR.010.001",
+			"ComponentName":"ACL.NOR.010.001.04",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.NOR.010.001",
+			"ComponentName":"ACL.NOR.010.001.05",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.NOR.010.001",
+			"ComponentName":"ACL.NOR.010.001.06",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.NOR.010.001",
+			"ComponentName":"ACL.NOR.010.001.07",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.NOR.010.001",
+			"ComponentName":"ACL.NOR.010.001.08",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.NOR.010.001",
+			"ComponentName":"ACL.NOR.010.001.09",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.NOR.010.001",
+			"ComponentName":"ACL.NOR.010.001.10",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.040.001",
+			"ComponentName":"ACL.FCF.040.001.01",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.040.001",
+			"ComponentName":"ACL.FCF.040.001.02",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.040.001",
+			"ComponentName":"ACL.FCF.040.001.03",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.030.001",
+			"ComponentName":"ACL.FCF.030.001.01",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.030.001",
+			"ComponentName":"ACL.FCF.030.001.02",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.030.001",
+			"ComponentName":"ACL.FCF.030.001.03",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.030.001",
+			"ComponentName":"ACL.FCF.030.001.04",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.030.001",
+			"ComponentName":"ACL.FCF.030.001.05",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.050.001",
+			"ComponentName":"ACL.FCF.050.001.01",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.050.001",
+			"ComponentName":"ACL.FCF.050.001.02",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.050.001",
+			"ComponentName":"ACL.FCF.050.001.03",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.050.001",
+			"ComponentName":"ACL.FCF.050.001.04",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.050.001",
+			"ComponentName":"ACL.FCF.050.001.05",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.050.001",
+			"ComponentName":"ACL.FCF.050.001.06",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.050.001",
+			"ComponentName":"ACL.FCF.050.001.07",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.060.000",
+			"ComponentName":"ACL.FCF.060.000.01",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.060.000",
+			"ComponentName":"ACL.FCF.060.000.02",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.060.000",
+			"ComponentName":"ACL.FCF.060.000.03",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.060.000",
+			"ComponentName":"ACL.FCF.060.000.04",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.060.000",
+			"ComponentName":"ACL.FCF.060.000.05",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.060.000",
+			"ComponentName":"ACL.FCF.060.000.06",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.060.000",
+			"ComponentName":"ACL.FCF.060.000.07",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.060.000",
+			"ComponentName":"ACL.FCF.060.000.08",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.060.000",
+			"ComponentName":"ACL.FCF.060.000.09",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.060.000",
+			"ComponentName":"ACL.FCF.060.000.10",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.060.000",
+			"ComponentName":"ACL.FCF.060.000.11",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.040.002",
+			"ComponentName":"ACL.FCF.040.002.01",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.040.002",
+			"ComponentName":"ACL.FCF.040.002.02",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.040.003",
+			"ComponentName":"ACL.FCF.040.003.01",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.040.003",
+			"ComponentName":"ACL.FCF.040.003.02",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.040.003",
+			"ComponentName":"ACL.FCF.040.003.03",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.080.001",
+			"ComponentName":"ACL.FCF.080.001.01",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.080.001",
+			"ComponentName":"ACL.FCF.080.001.02",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.080.001",
+			"ComponentName":"ACL.FCF.080.001.03",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.080.001",
+			"ComponentName":"ACL.FCF.080.001.04",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.080.001",
+			"ComponentName":"ACL.FCF.080.001.05",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.080.001",
+			"ComponentName":"ACL.FCF.080.001.06",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.080.001",
+			"ComponentName":"ACL.FCF.080.001.07",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.080.001",
+			"ComponentName":"ACL.FCF.080.001.08",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.080.001",
+			"ComponentName":"ACL.FCF.080.001.09",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.070.002",
+			"ComponentName":"ACL.FCF.070.002.01",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.070.002",
+			"ComponentName":"ACL.FCF.070.002.02",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.070.002",
+			"ComponentName":"ACL.FCF.070.002.03",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.070.002",
+			"ComponentName":"ACL.FCF.070.002.04",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.070.002",
+			"ComponentName":"ACL.FCF.070.002.05",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.070.002",
+			"ComponentName":"ACL.FCF.070.002.06",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.070.002",
+			"ComponentName":"ACL.FCF.070.002.07",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.070.002",
+			"ComponentName":"ACL.FCF.070.002.08",
+			"Weight":1
+		},
+		{
+			"ParentName":"ACL.FCF.030.002",
+			"ComponentName":"ACL.FCF.030.002.02",
+			"Weight":1
+		},
 		{
 			"ParentName":"Total Accounts Line",
 			"ComponentName":"N/A",
@@ -669,447 +971,57 @@
 		},
 		{
 			"ParentName":"Total Accounts Line",
-			"ComponentName":"Facilities",
+			"ComponentName":"ACL.OOR.010.001",
 			"Weight":1
 		},
 		{
 			"ParentName":"Total Accounts Line",
-			"ComponentName":"Institutional",
+			"ComponentName":"ACL.NOR.010.001",
 			"Weight":1
 		},
 		{
 			"ParentName":"Total Accounts Line",
-			"ComponentName":"Operational Expenses - IT",
+			"ComponentName":"ACL.FCF.040.001",
 			"Weight":1
 		},
 		{
 			"ParentName":"Total Accounts Line",
-			"ComponentName":"Legal",
+			"ComponentName":"ACL.FCF.030.001",
 			"Weight":1
 		},
 		{
 			"ParentName":"Total Accounts Line",
-			"ComponentName":"Maintenance",
+			"ComponentName":"ACL.FCF.050.001",
 			"Weight":1
 		},
 		{
 			"ParentName":"Total Accounts Line",
-			"ComponentName":"Marketing",
+			"ComponentName":"ACL.FCF.060.000",
 			"Weight":1
 		},
 		{
 			"ParentName":"Total Accounts Line",
-			"ComponentName":"Operating Materiais",
+			"ComponentName":"ACL.FCF.040.002",
 			"Weight":1
 		},
 		{
 			"ParentName":"Total Accounts Line",
-			"ComponentName":"Operating Vehicles",
+			"ComponentName":"ACL.FCF.040.003",
 			"Weight":1
 		},
 		{
 			"ParentName":"Total Accounts Line",
-			"ComponentName":"Personnel Expenses",
+			"ComponentName":"ACL.FCF.080.001",
 			"Weight":1
 		},
 		{
 			"ParentName":"Total Accounts Line",
-			"ComponentName":"Professionais Services",
+			"ComponentName":"ACL.FCF.070.002",
 			"Weight":1
 		},
 		{
 			"ParentName":"Total Accounts Line",
-			"ComponentName":"Shared Services center",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Travel and refunds",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Operational Expenses - Others",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Other Op. Results - Asset Write-off",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Slow moving",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Clinker",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Contingencies",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Non-recurring Expenses",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Gain on assets",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Tax benefits",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Other Op. Results - Machadinho",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"MOTZ",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Non Op. Taxes",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Other products",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Non-recurring Revenues",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Power results",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Trading Margin",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Other Op. Results - Others",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Other Non Op. Results - ARO",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Other Non Op. Results - FC x BPC Adjustment",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Hyperinflation",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Impairment",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"M&A Gain/Loss",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"MTM Energia",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Discontinued operations",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Results from assets sales",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Trasaction costs",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Other Non Op. Results - Others",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Avellaneda",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Dividens Received from JVs",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Dividends received - Others",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Health Safety & Environment",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Non expansion capex - IT",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Modernization",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"P&D",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Sustaining",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Non expansion capex - Others",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Other  - ARO",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Other  - Asset Write-off",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"DIFAL",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Legal Deposits",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Proceeds on Sales of Assets not in EBITDA",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Provision/ payments  and other variation on Long asset & Liabilities Operations",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Other  - Others",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Pangea",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Project 1",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Project 2",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Project 3",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Project 4",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Project 5",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Project 6",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Project 7",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Project 8",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Project 9",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Project 10",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"VSA",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Payments of Dividens to Controlling - Others",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"CDPQ",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Payments of Dividens to Minority - Machadinho",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Payments of Dividens to Minority - Others",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Expansion",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"From/To Artigas",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"From/To CEISA",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"From/To Itacamba",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"From/To Trading",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"From/To VCBR",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"From/To VCEA",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"From/To VCI",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"From/To VCNA",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Intercompany dividends - Others",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Bank/Financial fees",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Cross Guarantee",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"FX/Others - FC x BPC Adjustment",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Management Fees",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Securtization",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Withholding",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Other adjustments",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"FX Variation",
-			"Weight":1
-		},
-		{
-			"ParentName":"Total Accounts Line",
-			"ComponentName":"Others",
+			"ComponentName":"ACL.FCF.030.002",
 			"Weight":1
 		}
 	],

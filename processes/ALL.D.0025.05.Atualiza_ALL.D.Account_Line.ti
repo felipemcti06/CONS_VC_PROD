@@ -47,7 +47,7 @@
 
 # Informações da dimensão e cubo mapa
 # ========================================
-cDimensao		= 'ALL.D.Account_Line_Teste';
+cDimensao		= 'ALL.D.Account_Line';
 cCuboMapa		= 'MAP.025.Accounts_Line';
 
 cTotalizador		= 'Total Accounts Line';
@@ -111,6 +111,9 @@ CellPutS( s05 , cCuboParametro, cProcesso, 'Tempo de Execução' );
       vCount = vCount - 1;
       END;
 
+#DimensionDeleteAllElements( cDimensao );
+
+
 # =================================================================================
 # Insere Totalizador na Dimensão 
 # =================================================================================
@@ -156,7 +159,7 @@ sElm = vElement;
 sDim = cDimensao;
 sTot =cTotalizador;
 
-
+DimensionElementComponentAdd ( sDim, sTot,'N/A' , 1 );
 
 # Nivel Total
 # ==========================
@@ -428,7 +431,19 @@ sDescNivel10 	= '';
 # =================================================================================
 # Adiciona Alias com codigo e descrição
 # =================================================================================
+# Adiciona Alias Desc
+#==========================================
+# sAlias       = 'Descrição';
 
+
+# #Element
+# #===========
+# sCod   = vElement;
+# sDesc = sDescElement;
+
+# If  (  sCod @<>'' & sDesc @<> '' );
+#     AttrPutS( sDesc, cDimensao, sCod, sAlias );
+# EndIf;
 # Adiciona Alias Cod+Desc
 #==========================================
 sAlias       = 'Código e Descrição';
@@ -561,7 +576,139 @@ sDesc = sDescNivel10;
 If  (  sCod @<>'' & sDesc @<> '' );
     AttrPutS( sCod | ' - ' | sDesc, cDimensao, sCod, sAlias );
 EndIf;
+#########################################################################################
+# Adiciona Alias Cod+Desc
+#==========================================
+sAlias       = 'Descrição';
 
+
+#Element
+#===========
+sCod   = vElement;
+sDesc = sDescElement;
+
+If  (  sCod @<>'' & sDesc @<> '' );
+    AttrPutS(sDesc, cDimensao, sCod, sAlias );
+EndIf;
+
+
+
+#Nivel 1
+#===========
+sCod   = sNivel1;
+sDesc = sDescNivel1;
+
+If  (  sCod @<>'' & sDesc @<> '' );
+    AttrPutS(sDesc, cDimensao, sCod, sAlias );
+EndIf;
+
+
+
+
+#Nivel 2
+#===========
+sCod   = sNivel2;
+sDesc = sDescNivel2;
+
+If  (  sCod @<>'' & sDesc @<> '' );
+    AttrPutS(sDesc, cDimensao, sCod, sAlias );
+EndIf;
+
+
+
+
+#Nivel 3
+#===========
+sCod   = sNivel3;
+sDesc = sDescNivel3;
+
+If  (  sCod @<>'' & sDesc @<> '' );
+    AttrPutS(sDesc, cDimensao, sCod, sAlias );
+EndIf;
+
+
+
+
+#Nivel 4
+#===========
+sCod   = sNivel4;
+sDesc = sDescNivel4;
+
+If  (  sCod @<>'' & sDesc @<> '' );
+    AttrPutS(sDesc, cDimensao, sCod, sAlias );
+EndIf;
+
+
+
+
+#Nivel 5
+#===========
+sCod   = sNivel5;
+sDesc = sDescNivel5;
+
+If  (  sCod @<>'' & sDesc @<> '' );
+    AttrPutS(sDesc, cDimensao, sCod, sAlias );
+EndIf;
+
+
+
+
+#Nivel 6
+#===========
+sCod   = sNivel6;
+sDesc = sDescNivel6;
+
+If  (  sCod @<>'' & sDesc @<> '' );
+    AttrPutS(sDesc, cDimensao, sCod, sAlias );
+EndIf;
+
+
+
+
+#Nivel 7
+#===========
+sCod   = sNivel7;
+sDesc = sDescNivel7;
+
+If  (  sCod @<>'' & sDesc @<> '' );
+    AttrPutS(sDesc, cDimensao, sCod, sAlias );
+EndIf;
+
+
+
+
+#Nivel 8
+#===========
+sCod   = sNivel8;
+sDesc = sDescNivel8;
+
+If  (  sCod @<>'' & sDesc @<> '' );
+    AttrPutS(sDesc, cDimensao, sCod, sAlias );
+EndIf;
+
+
+
+
+#Nivel 9
+#===========
+sCod   = sNivel9;
+sDesc = sDescNivel9;
+
+If  (  sCod @<>'' & sDesc @<> '' );
+    AttrPutS(sDesc, cDimensao, sCod, sAlias );
+EndIf;
+
+
+
+
+#Nivel 10
+#===========
+sCod   = sNivel10;
+sDesc = sDescNivel10;
+
+If  (  sCod @<>'' & sDesc @<> '' );
+    AttrPutS(sDesc, cDimensao, sCod, sAlias );
+EndIf;
 
 
 #endregion

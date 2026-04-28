@@ -1,6 +1,9 @@
 {
 	"@type":"Hierarchy",
 	"Name":"ALL.D.Accounts",
+	"ElementsSortType":"ByHierarchy",
+	"ComponentsSortType":"ByName",
+	"ComponentsSortSense":"Ascending",
 	"Elements":
 	[
 		{
@@ -985,6 +988,22 @@
 		},
 		{
 			"Name":"KPI.010.064",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"OBZ.010.013",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.065",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.066",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"KPI.010.067",
 			"Type":"Numeric"
 		}
 	],

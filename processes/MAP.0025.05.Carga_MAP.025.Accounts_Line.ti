@@ -57,7 +57,7 @@
 # Informações do cubo de Destino
 # ========================================
 cCuboDestino		= 'MAP.025.Accounts_Line';
-
+cCuboDestinoDepara		='MAP.026.Accounts_Line_Depara' ;
 cCuboReject                                      = 'SYS.250.Rejeitados';
 
 # =================================================================================
@@ -352,6 +352,16 @@ sDim = 'MAP.D.Accounts_Line';
 If( sElm @<> '' & DimIx( sDim, sElm ) = 0 );
     DimensionElementInsert( sDim, '', sElm,  'n' );
 EndIf;
+
+
+sElm = vNomeConta;
+sDim = 'MAP.D.Accounts_Line_Names';
+
+
+If( sElm @<> '' & DimIx( sDim, sElm ) = 0 );
+    DimensionElementInsert( sDim, '', sElm,  'n' );
+EndIf;
+
 #endregion
 #region Data
 # ===============================================================================================================
@@ -538,6 +548,10 @@ CellPutS ( vCod, cCuboDestino, vCod, 'Código Accounts Line' );
 
 CellPutS ( vCod_Pai, cCuboDestino, vCod, 'Código Consolidador' );
 CellPutS ( vNomePai, cCuboDestino, vCod, 'Desc Consolidador' );
+
+
+CellPutS ( vCod, cCuboDestinoDepara, vNomeConta, 'Código Accounts Line' );
+
 
 #endregion
 #region Epilog
