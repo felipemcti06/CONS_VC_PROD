@@ -1,6 +1,0 @@
-{
-	"@type":"Subset",
-	"Name":"Products",
-	"Alias":"MEMBER_NAME",
-	"Expression":"TM1IGNORE_BADTUPLES {EXCEPT(DRILLDOWNMEMBER({[ALL.D.Products].[ALL.D.Products].[Total Products]} , {[ALL.D.Products].[ALL.D.Products].[Total Products]} , RECURSIVE) , {[ALL.D.Products].[ALL.D.Products].[Total Products]} , ALL)}"
-}

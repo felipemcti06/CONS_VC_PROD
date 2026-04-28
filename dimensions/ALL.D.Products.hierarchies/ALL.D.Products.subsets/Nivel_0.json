@@ -1,6 +1,0 @@
-{
-	"@type":"Subset",
-	"Name":"Nivel_0",
-	"Alias":"Código e Descrição",
-	"Expression":"TM1IGNORE_BADTUPLES {TM1FILTERBYLEVEL(TM1SUBSETALL([ALL.D.Products].[ALL.D.Products]) , 0)}"
-}

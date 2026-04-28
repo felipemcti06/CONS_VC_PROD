@@ -1,5 +1,0 @@
-{
-	"@type":"Subset",
-	"Name":"QubeDocs.Applications",
-	"Expression":"{ EXCEPT( {TM1SUBSETALL( [QubeDocs Application] )}, { [QubeDocs Application].[Entire Model] }) }"
-}

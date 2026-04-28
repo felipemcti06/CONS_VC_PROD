@@ -1,6 +1,0 @@
-{
-	"@type":"Subset",
-	"Name":"SYS_Picklist",
-	"Alias":"MEMBER_NAME",
-	"Expression":"TM1IGNORE_BADTUPLES {{TM1FILTERBYLEVEL(TM1SUBSETALL([ALL.D.Year].[ALL.D.Year]) , 0)}}"
-}

@@ -1,6 +1,0 @@
-{
-	"@type":"Subset",
-	"Name":"SYS.ROIC",
-	"Alias":"MEMBER_NAME",
-	"Expression":"TM1IGNORE_BADTUPLES {[DFS.D.KPI].[DFS.D.KPI].[EBIT],[DFS.D.KPI].[DFS.D.KPI].[Effective Tax Rate (%)],[DFS.D.KPI].[DFS.D.KPI].[Income Tax],[DFS.D.KPI].[DFS.D.KPI].[NOPAT],[DFS.D.KPI].[DFS.D.KPI].[Equity Pick Up],[DFS.D.KPI].[DFS.D.KPI].[NOPAT + Equity Pick Up],[DFS.D.KPI].[DFS.D.KPI].[Working Capital Balance],DRILLDOWNMEMBER({[DFS.D.KPI].[DFS.D.KPI].[Assets]} , {[DFS.D.KPI].[DFS.D.KPI].[Assets]} , RECURSIVE),EXCEPT(TM1FILTERBYPATTERN(DRILLDOWNMEMBER([DFS.D.KPI].[DFS.D.KPI].LEVELS(0).MEMBERS , {[DFS.D.KPI].[DFS.D.KPI].[Assets]} , RECURSIVE) , \"*capital*\" , \"MEMBER_NAME\") , {[DFS.D.KPI].[DFS.D.KPI].[Working Capital Balance],[DFS.D.KPI].[DFS.D.KPI].[Invested Capital Avg],[DFS.D.KPI].[DFS.D.KPI].[Invested Capital (Average)]}),[DFS.D.KPI].[DFS.D.KPI].[Invested Capital Avg],[DFS.D.KPI].[DFS.D.KPI].[% ROIC]}"
-}

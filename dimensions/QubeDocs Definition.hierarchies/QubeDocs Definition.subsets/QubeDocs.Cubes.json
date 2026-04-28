@@ -1,5 +1,0 @@
-{
-	"@type":"Subset",
-	"Name":"QubeDocs.Cubes",
-	"Expression":"{[QubeDocs Definition].[All Cubes].children}"
-}

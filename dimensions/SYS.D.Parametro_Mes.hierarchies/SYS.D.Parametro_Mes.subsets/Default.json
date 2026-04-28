@@ -1,5 +1,0 @@
-{
-	"@type":"Subset",
-	"Name":"Default",
-	"Expression":"TM1SubsetAll([SYS.D.Parametro_Mes])"
-}

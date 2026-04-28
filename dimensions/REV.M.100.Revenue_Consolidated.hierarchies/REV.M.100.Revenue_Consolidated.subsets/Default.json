@@ -1,6 +1,0 @@
-{
-	"@type":"Subset",
-	"Name":"Default",
-	"Alias":"MEMBER_NAME",
-	"Expression":"TM1IGNORE_BADTUPLES {[REV.M.100.Revenue_Consolidated].[REV.M.100.Revenue_Consolidated].MEMBERS}"
-}

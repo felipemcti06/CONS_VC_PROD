@@ -1,5 +1,0 @@
-{
-	"@type":"Subset",
-	"Name":"SYS.Level0",
-	"Expression":"{TM1FILTERBYLEVEL( {TM1SUBSETALL( [QubeDocs Definition] )}, 0)}"
-}

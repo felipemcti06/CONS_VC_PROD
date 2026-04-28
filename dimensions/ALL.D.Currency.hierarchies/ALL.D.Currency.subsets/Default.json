@@ -1,6 +1,0 @@
-{
-	"@type":"Subset",
-	"Name":"Default",
-	"Alias":"Nome alternativo",
-	"Expression":"TM1IGNORE_BADTUPLES {TM1FILTERBYLEVEL(TM1SUBSETALL([ALL.D.Currency].[ALL.D.Currency]) , 0)}"
-}

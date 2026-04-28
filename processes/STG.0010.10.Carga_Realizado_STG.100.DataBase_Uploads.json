@@ -6,8 +6,8 @@
 	"DataSource":
 	{
 		"Type":"ASCII",
-		"dataSourceNameForServer":"Carga_UpLoad_Planejamento_ITACA.csv",
-		"dataSourceNameForClient":"Carga_UpLoad_Planejamento_ITACA.csv",
+		"dataSourceNameForServer":"Upload_VCBR_RF02.csv",
+		"dataSourceNameForClient":"Upload_VCBR_RF02.csv",
 		"asciiHeaderRecords":1,
 		"asciiQuoteCharacter":"\"",
 		"asciiDecimalSeparator":",",
