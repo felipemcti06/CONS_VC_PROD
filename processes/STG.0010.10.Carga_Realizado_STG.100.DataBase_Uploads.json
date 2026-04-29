@@ -40,162 +40,170 @@
 			"EndByte":0
 		},
 		{
-			"Name":"vSubConta",
+			"Name":"vDescricaoConta",
 			"Type":"String",
 			"Position":2,
 			"StartByte":0,
 			"EndByte":0
 		},
 		{
-			"Name":"vCod_Produto",
+			"Name":"vSubConta",
 			"Type":"String",
 			"Position":3,
 			"StartByte":0,
 			"EndByte":0
 		},
 		{
-			"Name":"vRegiao",
+			"Name":"vCod_Produto",
 			"Type":"String",
 			"Position":4,
 			"StartByte":0,
 			"EndByte":0
 		},
 		{
-			"Name":"vMoeda",
+			"Name":"vRegiao",
 			"Type":"String",
 			"Position":5,
 			"StartByte":0,
 			"EndByte":0
 		},
 		{
-			"Name":"vAno",
+			"Name":"vMoeda",
 			"Type":"String",
 			"Position":6,
 			"StartByte":0,
 			"EndByte":0
 		},
 		{
-			"Name":"v01",
+			"Name":"vAno",
 			"Type":"String",
 			"Position":7,
 			"StartByte":0,
 			"EndByte":0
 		},
 		{
-			"Name":"v02",
+			"Name":"v01",
 			"Type":"String",
 			"Position":8,
 			"StartByte":0,
 			"EndByte":0
 		},
 		{
-			"Name":"v03",
+			"Name":"v02",
 			"Type":"String",
 			"Position":9,
 			"StartByte":0,
 			"EndByte":0
 		},
 		{
-			"Name":"v04",
+			"Name":"v03",
 			"Type":"String",
 			"Position":10,
 			"StartByte":0,
 			"EndByte":0
 		},
 		{
-			"Name":"v05",
+			"Name":"v04",
 			"Type":"String",
 			"Position":11,
 			"StartByte":0,
 			"EndByte":0
 		},
 		{
-			"Name":"v06",
+			"Name":"v05",
 			"Type":"String",
 			"Position":12,
 			"StartByte":0,
 			"EndByte":0
 		},
 		{
-			"Name":"v07",
+			"Name":"v06",
 			"Type":"String",
 			"Position":13,
 			"StartByte":0,
 			"EndByte":0
 		},
 		{
-			"Name":"v08",
+			"Name":"v07",
 			"Type":"String",
 			"Position":14,
 			"StartByte":0,
 			"EndByte":0
 		},
 		{
-			"Name":"v09",
+			"Name":"v08",
 			"Type":"String",
 			"Position":15,
 			"StartByte":0,
 			"EndByte":0
 		},
 		{
-			"Name":"v10",
+			"Name":"v09",
 			"Type":"String",
 			"Position":16,
 			"StartByte":0,
 			"EndByte":0
 		},
 		{
-			"Name":"v11",
+			"Name":"v10",
 			"Type":"String",
 			"Position":17,
 			"StartByte":0,
 			"EndByte":0
 		},
 		{
-			"Name":"v12",
+			"Name":"v11",
 			"Type":"String",
 			"Position":18,
 			"StartByte":0,
 			"EndByte":0
 		},
 		{
-			"Name":"vMesPE1",
+			"Name":"v12",
 			"Type":"String",
 			"Position":19,
 			"StartByte":0,
 			"EndByte":0
 		},
 		{
-			"Name":"vMesPE2",
+			"Name":"vMesPE1",
 			"Type":"String",
 			"Position":20,
 			"StartByte":0,
 			"EndByte":0
 		},
 		{
-			"Name":"vMesPE3",
+			"Name":"vMesPE2",
 			"Type":"String",
 			"Position":21,
 			"StartByte":0,
 			"EndByte":0
 		},
 		{
-			"Name":"vMesPE4",
+			"Name":"vMesPE3",
 			"Type":"String",
 			"Position":22,
 			"StartByte":0,
 			"EndByte":0
 		},
 		{
-			"Name":"vMesPE5",
+			"Name":"vMesPE4",
 			"Type":"String",
 			"Position":23,
+			"StartByte":0,
+			"EndByte":0
+		},
+		{
+			"Name":"vMesPE5",
+			"Type":"String",
+			"Position":24,
 			"StartByte":0,
 			"EndByte":0
 		}
 	],
 	"UID": "1775748255000160",
 	"VariablesUIData": [
+		"VarType=32\fColType=827\f",
 		"VarType=32\fColType=827\f",
 		"VarType=32\fColType=827\f",
 		"VarType=32\fColType=827\f",
