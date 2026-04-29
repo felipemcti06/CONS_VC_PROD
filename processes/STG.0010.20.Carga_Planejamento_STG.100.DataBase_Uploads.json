@@ -20,13 +20,13 @@
 		{
 			"Name":"pFileName",
 			"Prompt":"",
-			"Value":"Carga_UpLoad_Planejamento_ITACA",
+			"Value":"",
 			"Type":"String"
 		},
 		{
 			"Name":"pRegion",
 			"Prompt":"",
-			"Value":"ITACA",
+			"Value":"",
 			"Type":"String"
 		}
 	],

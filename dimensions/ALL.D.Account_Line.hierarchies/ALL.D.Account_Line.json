@@ -590,6 +590,38 @@
 		{
 			"Name":"MTM",
 			"Type":"Numeric"
+		},
+		{
+			"Name":"PRODCE010 - Cement",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"PRODAL010 - Ag. Lime",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"PRODAG010 - Aggregates",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"PRODCORP - Corporate",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"PRODLM010 - Lime",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"PRODMZ010 - Motz",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"PRODMT010 - Mortars",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"PRODRM010 - Ready Mix",
+			"Type":"Numeric"
 		}
 	],
 	"Edges":

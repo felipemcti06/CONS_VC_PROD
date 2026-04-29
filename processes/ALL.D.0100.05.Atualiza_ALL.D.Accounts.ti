@@ -265,7 +265,21 @@ If  (  sCod @<>'' & sDesc @<> '' );
     AttrPutS( sDesc, cDimensao, sCod, sAlias );
 EndIf;
 
+# # Adiciona Alias Cod+Desc
+# #==========================================
+# sAlias       = vDfs;
+# sDescElement =  CellGetS( cCuboMapa, vElement,vDfs, 'Nome STG' );
 
+# #Element
+# #===========
+# sCod   = vElement;
+# sDesc = sDescElement;
+# if (DIMIX( '}ElementAttributes_ALL.D.Accounts', vDfs )<>0);
+
+# If  (  sCod @<>'' & sDesc @<> '' );
+#     AttrPutS(  sDesc, cDimensao, sCod, sAlias );
+# EndIf;
+# endif;
 
 #endregion
 #region Epilog
