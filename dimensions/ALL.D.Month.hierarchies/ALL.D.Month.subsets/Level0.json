@@ -1,6 +1,0 @@
-{
-	"@type":"Subset",
-	"Name":"Level0",
-	"Alias":"Desc",
-	"Expression":"TM1IGNORE_BADTUPLES {{TM1FILTERBYLEVEL(TM1SUBSETALL([ALL.D.Month].[ALL.D.Month]) , 0)}}"
-}

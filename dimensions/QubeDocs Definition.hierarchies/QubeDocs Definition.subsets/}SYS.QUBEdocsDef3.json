@@ -1,5 +1,0 @@
-{
-	"@type":"Subset",
-	"Name":"}SYS.QUBEdocsDef3",
-	"Expression":"{TM1DRILLDOWNMEMBER( {[QUBEDocs Definition].[All Definitions]}, ALL, RECURSIVE )}"
-}

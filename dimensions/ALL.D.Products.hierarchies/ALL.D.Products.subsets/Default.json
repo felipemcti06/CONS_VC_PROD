@@ -1,6 +1,0 @@
-{
-	"@type":"Subset",
-	"Name":"Default",
-	"Alias":"Código e Descrição",
-	"Expression":"TM1IGNORE_BADTUPLES {{[ALL.D.Products].[ALL.D.Products].MEMBERS}}"
-}

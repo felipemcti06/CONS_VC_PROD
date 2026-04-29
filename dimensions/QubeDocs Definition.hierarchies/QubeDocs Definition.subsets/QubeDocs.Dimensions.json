@@ -1,5 +1,0 @@
-{
-	"@type":"Subset",
-	"Name":"QubeDocs.Dimensions",
-	"Expression":"{[QubeDocs Definition].[All Dimensions].children}"
-}

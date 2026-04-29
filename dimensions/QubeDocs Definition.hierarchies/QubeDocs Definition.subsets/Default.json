@@ -1,5 +1,0 @@
-{
-	"@type":"Subset",
-	"Name":"Default",
-	"Expression":"TM1SubsetAll([QubeDocs Definition])"
-}

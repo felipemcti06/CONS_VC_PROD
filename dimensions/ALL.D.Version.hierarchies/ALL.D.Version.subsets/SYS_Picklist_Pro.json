@@ -1,6 +1,0 @@
-{
-	"@type":"Subset",
-	"Name":"SYS_Picklist_Pro",
-	"Alias":"Descrição",
-	"Expression":"TM1IGNORE_BADTUPLES {EXCEPT(DRILLDOWNMEMBER({[ALL.D.Version].[ALL.D.Version].[Dynamic Versions]} , {[ALL.D.Version].[ALL.D.Version].[Dynamic Versions]} , RECURSIVE) , {[ALL.D.Version].[ALL.D.Version].[Dynamic Versions]}),[ALL.D.Version].[ALL.D.Version].[RE],[ALL.D.Version].[ALL.D.Version].[RE2]}"
-}
