@@ -1,0 +1,95 @@
+#Section Prolog
+
+sURL = pTokenURL;
+sClientID = pClientID;
+sSecret = pSecret;
+
+IF( Trim(sSecret) @= '' );
+	LogOutput('ERROR', 'client_secret (pSecret) não informado. Informe o segredo via parâmetro/automation.', 1);
+	ProcessQuit;
+ENDIF;
+
+sVerb = 'POST';
+sHeader = '-h Content-Type: application/x-www-form-urlencoded';
+sBody = '-d grant_type=client_credentials';
+sBody = sBody | '&client_id=' | sClientID;
+sBody = sBody | '&scope=https://graph.microsoft.com/.default';
+sBody = sBody | '&client_secret=' | sSecret;
+
+ExecuteHttpRequest(sVerb, sURL, sHeader, sBody);
+sResult = HttpResponseGetBody();
+nStatus = HttpResponseGetStatusCode();
+
+IF (nStatus<>200);
+	LogOutput('ERROR', 'Ocorreu o erro ' | NumberToString(nStatus) | ' ao tentar obter o token para envio de email.', 1);
+	ProcessQuit;
+ENDIF;
+
+sToken = JsonToString(sResult, 'access_token');
+
+sString = '';
+j = 1;
+c = Char(10);
+
+
+#Section Metadata
+
+
+#Section Data
+
+sString = sString | pAttachmentText | Char(10);
+
+
+#Section Epilog
+
+sVerb = 'POST';
+sURL = 'https://graph.microsoft.com/v1.0/users/' | pFromUser | '/sendMail';
+sHeader = '-h Content-Type: application/json';
+sBearer = '-h Authorization: Bearer ' | sToken;
+
+# Exemplo de 'to' com mais de um email
+# Notar o uso de StringToJson e JsonAdd para facilitar a criação da string
+stoEmail1 = JsonAdd('{}', 'address', StringToJson(pToEmail1));
+stoEmail1 = JsonAdd('{}', 'emailAddress', stoEmail1);
+stoEmail2 = JsonAdd('{}', 'address', StringToJson(pToEmail2));
+stoEmail2 = JsonAdd('{}', 'emailAddress', stoEmail2);
+stoEmails = JsonAdd('[]', '' , stoEmail1);
+stoEmails = JsonAdd(stoEmails, '', stoEmail2);
+
+# Exemplo de 'cc'
+sccEmail = JsonAdd('{}', 'address', StringToJson(pCcEmail1));
+sccEmail = JsonAdd('{}', 'emailAddress', sccEmail);
+sccEmail = JsonAdd('[]', '' , sccEmail);
+
+sArq = JsonAdd('{}','@odata.type',StringToJson('#microsoft.graph.fileAttachment'));
+sArq = JsonAdd(sArq,'name',StringToJson(pAttachmentName));
+sArq = JsonAdd(sArq,'contentType',StringToJson(pAttachmentContentType));
+sArq = JsonAdd(sArq,'contentBytes',StringToJson(Base64Encode(sString)));
+sArq = JsonAdd('[]','',sArq);
+
+# Formatando o body e payload com os destinatários.
+# contentType = html permite flexibilidade e formatação
+sContent = JsonAdd('{}', 'contentType', StringToJson('html'));
+sContent = JsonAdd(sContent, 'content', StringToJson(pHtmlBody));
+
+sSubject = JsonAdd('{}', 'subject', StringToJson(pSubject));
+sSubject = JsonAdd(sSubject, 'body', sContent);
+sSubject = JsonAdd(sSubject, 'toRecipients', stoEmails);
+sSubject = JsonAdd(sSubject, 'ccRecipients', sccEmail);
+sSubject = JsonAdd(sSubject, 'attachments', sArq);
+
+sMessage = JsonAdd( '{}', 'message', sSubject);
+sMessage = JsonAdd( sMessage, 'saveToSentItems', StringToJson('False'));
+
+# Chamada para enviar o email
+# O return code é 202 neste caso, pois a chamada é assíncrona.
+sBody = '-d ' | sMessage;
+ExecuteHttpRequest(sVerb, sURL, sHeader, sBearer, sBody);
+sResult = HttpResponseGetBody();
+nStatus = HttpResponseGetStatusCode();
+
+IF (nStatus<>202);
+	LogOutput('ERROR', 'Ocorreu o erro ' | NumberToString(nStatus) | ' ao tentar enviar o email.', 1);
+	ProcessQuit;
+ENDIF;
+
