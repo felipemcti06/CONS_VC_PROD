@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"ALLM.100.Assumptions_Upload",
+	"Hierarchies@Code.links":
+	[
+		"ALLM.100.Assumptions_Upload.hierarchies/ALLM.100.Assumptions_Upload.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('ALLM.100.Assumptions_Upload')/Hierarchies('ALLM.100.Assumptions_Upload')"
+	}
+}

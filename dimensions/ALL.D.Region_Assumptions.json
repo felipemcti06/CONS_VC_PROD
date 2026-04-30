@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"ALL.D.Region_Assumptions",
+	"Hierarchies@Code.links":
+	[
+		"ALL.D.Region_Assumptions.hierarchies/ALL.D.Region_Assumptions.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('ALL.D.Region_Assumptions')/Hierarchies('ALL.D.Region_Assumptions')"
+	}
+}

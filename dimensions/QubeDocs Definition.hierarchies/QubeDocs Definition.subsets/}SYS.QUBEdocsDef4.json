@@ -1,0 +1,5 @@
+{
+	"@type":"Subset",
+	"Name":"}SYS.QUBEdocsDef4",
+	"Expression":"{FILTER( {FILTER( { {TM1DRILLDOWNMEMBER( {[QUBEDocs Definition].[All Definitions]}, ALL, RECURSIVE )} }, [QubeDocs Definition].[Type] <> \"SecurityUser\")}, [QubeDocs Definition].[Type] <> \"SecurityGroup\")}"
+}

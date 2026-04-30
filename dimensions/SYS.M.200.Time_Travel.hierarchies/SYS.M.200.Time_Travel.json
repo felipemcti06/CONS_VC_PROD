@@ -1,0 +1,19 @@
+{
+	"@type":"Hierarchy",
+	"Name":"SYS.M.200.Time_Travel",
+	"Elements":
+	[
+		{
+			"Name":"Ano",
+			"Type":"String"
+		},
+		{
+			"Name":"Mes",
+			"Type":"String"
+		}
+	],
+	"Subsets@Code.links":
+	[
+		"SYS.M.200.Time_Travel.subsets/Default.json"
+	]
+}

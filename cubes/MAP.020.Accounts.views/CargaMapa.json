@@ -1,0 +1,24 @@
+{
+	"@type":"MDXView",
+	"Name":"CargaMapa",
+	"MDX@Code.link":"CargaMapa.mdx",
+	"Meta": {
+		"Aliases": {},
+		"ExpandAboves": {
+			"[MAP.D.Accounts].[MAP.D.Accounts]": false,
+			"[MAP.D.DFs].[MAP.D.DFs]": false,
+			"[MAP.M.020.Accounts].[MAP.M.020.Accounts]": false
+		},
+		"ContextSets": {
+			"[MAP.D.DFs].[MAP.D.DFs]": {
+				"Expression": "{[MAP.D.DFs].[MAP.D.DFs].MEMBERS}"
+			}
+		}
+	},
+	"ViewExtractSkipRuleValues": false,
+	"ViewExtractSkipConsolidatedValues": true,
+	"ViewExtractSkipZeroes": true,
+	"IsSuppressComputeOnOpen": false,
+	"IsAutocalculate": true,
+	"IsDeferComputeOnLeafDataEntry": false
+}

@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"ALL.D.Accounts",
+	"Hierarchies@Code.links":
+	[
+		"ALL.D.Accounts.hierarchies/ALL.D.Accounts.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('ALL.D.Accounts')/Hierarchies('ALL.D.Accounts')"
+	}
+}

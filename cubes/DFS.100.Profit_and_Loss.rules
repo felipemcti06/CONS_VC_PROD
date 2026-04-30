@@ -1,0 +1,1153 @@
+# =============
+  SKIPCHECK;
+  FEEDSTRINGS;
+# =============
+
+ 
+# --------------------------------------------------------------------------------------------
+#
+#                      			INICIO DO BLOCO CALCULOS DRE
+#
+# --------------------------------------------------------------------------------------------
+
+
+
+# --------------------------------------------------------------------------------------------
+# Name:Contribution Margin
+# Desc: Contribution Margin
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.003'] = 
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.002']
+    \
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'REV.099.001']
+
+;
+
+# --------------------------------------------------------------------------------------------
+# Name:EBITDA/Net Revenue (%)'
+# Desc: EBITDA/Net Revenue (%)'
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.005'] = 
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004']
+    \
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'REV.099.001']
+    ;
+# --------------------------------------------------------------------------------------------
+# Name Define versões calculadas
+# Desc A partir dessa regra só calcula para versões dinâmicas
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+[]=IF(ELISANC( 'ALL.D.Version', 'Dynamic Versions', !ALL.D.Version ) <> 0 
+  % !ALL.D.Version@='RE' 
+  ,CONTINUE
+  ,STET
+  ); 
+
+[]=IF(
+  ELISANC( 'ALL.D.Version', 'Dynamic Versions', !ALL.D.Version ) <> 0 
+  &
+  DB( 'ALL.001.Actual_Control', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Flag' )@='ACTUAL',
+        ['ALL.D.Version':'ALL.D.Version':'RE'],
+        CONTINUE) ;
+
+
+# --------------------------------------------------------------------------------------------
+#
+#                      			INICIO DO BLOCO CALCULOS CONVERSÃO MOEDA
+#
+# --------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------
+# Name: Conversão de Moedas para métrica ajuste
+# Desc: Conversão de moedas para os padrões USD, BRL e EUR
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+
+###############################################################
+#-------------------------------------# USD CONV #-----------------------------------------
+###############################################################
+
+  ['ALL.D.Currency':'ALL.D.Currency':'USD Conv.' , 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Adjustments'] = N:
+
+  #USD  
+  ['ALL.D.Currency':'ALL.D.Currency':'USD']
+     +
+  # BRL PARA USD 
+  ['ALL.D.Currency':'ALL.D.Currency':'BRL'] \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' )
+
++         
+  #   EUR PARA USD  
+ ['ALL.D.Currency':'ALL.D.Currency':'EUR'] * DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+                                              
+      +
+  # ARS PARA USD 
+  ['ALL.D.Currency':'ALL.D.Currency':'ARS'] \  DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX ARS$/US$', 'Value' )  
+      +
+  # BOB  PARA USD 
+  ['ALL.D.Currency':'ALL.D.Currency':'BOB'] \  DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX BOB$/US$', 'Value' )  
+      +
+  # CAD  PARA USD 
+  ['ALL.D.Currency':'ALL.D.Currency':'CAD'] \  DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX CAD$/US$', 'Value' )  
+
+          +
+  # TRY  PARA USD 
+  ['ALL.D.Currency':'ALL.D.Currency':'TRY'] \  DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX TRY$/US$', 'Value' )  
+
+     +
+ # UYU PARA USD  
+  ['ALL.D.Currency':'ALL.D.Currency':'UYU'] \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX UYU$/US$', 'Value' )  
+    ;
+
+###############################################################
+#-------------------------------------# BRL CONV #-----------------------------------------
+###############################################################
+
+  ['ALL.D.Currency':'ALL.D.Currency':'BRL Conv.' , 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Adjustments'] = N:
+  #    #BRL  
+  ['ALL.D.Currency':'ALL.D.Currency':'BRL']
+     +
+  #  USD PARA BRL  
+  ['ALL.D.Currency':'ALL.D.Currency':'USD'] * DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' )
+
++         
+  #   EUR PARA BRL  
+ ['ALL.D.Currency':'ALL.D.Currency':'EUR'] * DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+                                              *DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' )
+
+    
+    +
+  #  ARS PARA BRL  
+  ['ALL.D.Currency':'ALL.D.Currency':'ARS'] * 
+    (DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' )   \
+     DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX ARS$/US$', 'Value' ) )
+    +
+  #  BOB PARA BRL  
+  ['ALL.D.Currency':'ALL.D.Currency':'BOB'] * 
+    (DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' )   \
+     DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX BOB$/US$', 'Value' ) )
+        +
+  #  CAD PARA BRL  
+  ['ALL.D.Currency':'ALL.D.Currency':'CAD'] *
+      (DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' )   \
+     DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX CAD$/US$', 'Value' ) )
+
+            +
+  #  TRY PARA BRL  
+  ['ALL.D.Currency':'ALL.D.Currency':'TRY'] *
+      (DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' )   \
+     DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX TRY$/US$', 'Value' ) )
+
+      +
+    # UYU PARA BRL
+  ['ALL.D.Currency':'ALL.D.Currency':'UYU'] * 
+    
+    (DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' )   \
+     DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX UYU$/US$', 'Value' ) )
+    ;
+
+
+
+
+
+
+###############################################################
+#-------------------------------------# EUR CONV #-----------------------------------------
+###############################################################
+
+  ['ALL.D.Currency':'ALL.D.Currency':'EUR Conv.' , 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Adjustments'] = N:
+  #EUR     
+  ['ALL.D.Currency':'ALL.D.Currency':'EUR']
+     +
+   # USD PARA EUR  
+  ['ALL.D.Currency':'ALL.D.Currency':'USD'] \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+       +
+    # BRL PARA EUR  
+ ( 
+   ( ['ALL.D.Currency':'ALL.D.Currency':'BRL']  \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX R$/US$', 'Value' ) )
+ \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+ )
+
+       +
+    # ARS PARA EUR  
+ ( 
+   ( ['ALL.D.Currency':'ALL.D.Currency':'ARS']  \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX ARS$/US$', 'Value' ) )
+ \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+ )
+
+           +
+    # BOB PARA EUR  
+ ( 
+   ( ['ALL.D.Currency':'ALL.D.Currency':'BOB']  \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX BOB$/US$', 'Value' ) )
+ \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+ )
+
+               +
+    # CAD PARA EUR  
+ ( 
+   ( ['ALL.D.Currency':'ALL.D.Currency':'CAD']  \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX CAD$/US$', 'Value' ) )
+ \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+ )
+               +
+    # TRY PARA EUR  
+ ( 
+   ( ['ALL.D.Currency':'ALL.D.Currency':'TRY']  \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX TRY$/US$', 'Value' ) )
+ \DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+ )
+
+                   +
+    # UYU PARA EUR  
+ ( 
+   ( ['ALL.D.Currency':'ALL.D.Currency':'UYU']  \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX UYU$/US$', 'Value' ) )
+ \ DB( 'ALL.010.Economic_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'Average FX US$/EUR', 'Value' )
+ )
+    
+    ;
+
+
+# --------------------------------------------------------------------------------------------
+# Name  FX
+# Desc  FX
+# Date 02/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['ALL.D.Currency':'ALL.D.Currency':'BRL FX Var'] =N:
+['ALL.D.Currency':'ALL.D.Currency':'Total Currency']
+*
+  DB( 'ALL.010.Economic_Assumptions', 
+      DB( 'ALL.020.Exchange_Parameters',
+          !ALL.D.Year,
+          !ALL.D.Version,
+          'Year' ), 
+      !ALL.D.Month, 
+      DB( 'ALL.020.Exchange_Parameters',
+          !ALL.D.Year,
+          !ALL.D.Version,
+          'Version' ),
+      DB('MAP.030.Region', !ALL.D.Region, 'FX Rate' ), 'Value' );
+
+
+# --------------------------------------------------------------------------------------------
+# Name: EBITDA Economico
+# Desc: EBITDA Economico
+# Date 03/2026
+# Author: Olga
+# --------------------------------------------------------------------------------------------
+['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'EBITDA Econômico','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004'] = N:
+
+    ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004', 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value'] 
+  *DB('ALL.015.Region_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Region, '% Participation', 'Value' );
+
+
+
+# --------------------------------------------------------------------------------------------
+# Name: Gross Revenue
+# Desc: Gross Revenue
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'REV.099.002'] = N:
+  DB('REV.100.Revenue_Consolidated',
+     !ALL.D.Year,
+     !ALL.D.Month,
+     !ALL.D.Version,
+     !ALL.D.Currency,
+     !ALL.D.Region,
+     !ALL.D.Products,
+    'ALL.D.Market':'Total Market',
+     'REV.M.100.Revenue_Consolidated':'Gross Revenue [$MM]'
+    );
+
+# --------------------------------------------------------------------------------------------
+# Name:Net Revenue
+# Desc: Net Revenue
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'REV.099.001'] = N:
+  DB('REV.100.Revenue_Consolidated',
+     !ALL.D.Year,
+     !ALL.D.Month,
+     !ALL.D.Version,
+     !ALL.D.Currency,
+     !ALL.D.Region,
+     !ALL.D.Products,
+    'ALL.D.Market':'Total Market',
+     'REV.M.100.Revenue_Consolidated':'Net Revenue [$MM]'
+    );
+
+# --------------------------------------------------------------------------------------------
+# Name: Variable Selling Expenses
+# Desc: Variable Selling Expenses
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'EXP.010.001'] = N:
+  -DB('STG.100.DataBase_Uploads', 
+     !ALL.D.Year, 
+     !ALL.D.Month,
+     !ALL.D.Version,
+     !ALL.D.Currency,
+     !ALL.D.Region,
+     !ALL.D.Products,
+     'EXP.010.001',
+      'ALL.D.Account_Line':'Total Accounts Line', 
+     'Value'
+);
+
+# --------------------------------------------------------------------------------------------
+# Name: Variable Costs
+# Desc: Variable Costs
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'CST.010.001'] = N:
+  -DB('STG.100.DataBase_Uploads', 
+     !ALL.D.Year, 
+     !ALL.D.Month,
+     !ALL.D.Version,
+     !ALL.D.Currency,
+     !ALL.D.Region,
+     !ALL.D.Products,
+     'CST.010.001',
+      'ALL.D.Account_Line':'Total Accounts Line', 
+     'Value'
+);
+
+
+# --------------------------------------------------------------------------------------------
+# Name: Fixed Costs
+# Desc: Fixed Costs
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'CST.020.001'] = N:
+  -DB('STG.100.DataBase_Uploads', 
+     !ALL.D.Year, 
+     !ALL.D.Month,
+     !ALL.D.Version,
+     !ALL.D.Currency,
+     !ALL.D.Region,
+     !ALL.D.Products,
+     'CST.020.001',
+      'ALL.D.Account_Line':'Total Accounts Line', 
+     'Value'
+);
+
+
+# --------------------------------------------------------------------------------------------
+# Name: Depreciation
+# Desc: Depreciation
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DEP.010.001'] = N:
+  -DB('STG.100.DataBase_Uploads', 
+     !ALL.D.Year, 
+     !ALL.D.Month,
+     !ALL.D.Version,
+     !ALL.D.Currency,
+     !ALL.D.Region,
+     !ALL.D.Products,
+     'DEP.010.001',
+      'ALL.D.Account_Line':'Total Accounts Line', 
+     'Value'
+);
+
+
+# --------------------------------------------------------------------------------------------
+# Name: Operational Expenses
+# Desc: Operational Expenses
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'EXP.020.001'] = N:
+  -DB('STG.100.DataBase_Uploads', 
+     !ALL.D.Year, 
+     !ALL.D.Month,
+     !ALL.D.Version,
+     !ALL.D.Currency,
+     !ALL.D.Region,
+     !ALL.D.Products,
+     'EXP.020.001',
+      'ALL.D.Account_Line':'Total Accounts Line', 
+     'Value'
+);
+
+# --------------------------------------------------------------------------------------------
+# Name: Other Op. Results
+# Desc: Other Op. Results
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'OOR.010.001'] = N:
+  DB('STG.100.DataBase_Uploads', 
+     !ALL.D.Year, 
+     !ALL.D.Month,
+     !ALL.D.Version,
+     !ALL.D.Currency,
+     !ALL.D.Region,
+     !ALL.D.Products,
+     'OOR.010.001',
+      'ALL.D.Account_Line':'Total Accounts Line', 
+     'Value'
+);
+
+
+# --------------------------------------------------------------------------------------------
+# Name: Other Op. Results
+# Desc: Other Op. Results
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.001', 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':{'Value', 'Adjustments'}] = N:
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'REV.099.001']
+    -
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'REV.099.002'];
+
+
+# --------------------------------------------------------------------------------------------
+# Name:Contribution Margin
+# Desc: Contribution Margin
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.002', 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':{'Value', 'Adjustments'}] = N:
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'REV.099.001']
+    +
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'EXP.010.001']
+        +
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'CST.010.001'];
+
+
+
+# # --------------------------------------------------------------------------------------------
+# # Name:Contribution Margin
+# # Desc: Contribution Margin
+# # Date 01/2026
+# # Author: Miranda / Helder
+# # --------------------------------------------------------------------------------------------
+#   ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.003'] = 
+#   ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.002']
+#     \
+#   ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'REV.099.001']
+
+# ;
+# --------------------------------------------------------------------------------------------
+# Name:EBITDA
+# Desc: EBITDA
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004', 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':{'Value', 'Adjustments'}] = N:
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.002']
+   +
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'CST.020.001']
+     +
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'EXP.020.001']  
+       +
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'OOR.010.001']    
+
+;
+
+# # --------------------------------------------------------------------------------------------
+# # Name:EBITDA/Net Revenue (%)'
+# # Desc: EBITDA/Net Revenue (%)'
+# # Date 01/2026
+# # Author: Miranda / Helder
+# # --------------------------------------------------------------------------------------------
+#   ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.005'] = 
+#   ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004']
+#     \
+#   ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'REV.099.001']
+#     ;
+
+
+# --------------------------------------------------------------------------------------------
+# Name: Operating Profit
+# Desc:  Operating Profit
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.006', 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':{'Value', 'Adjustments'}] =N: 
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004']
+    +
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DEP.010.001']
+    ;
+
+
+# --------------------------------------------------------------------------------------------
+# Name:  Equity Pickup
+# Desc:   Equity Pickup
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'NOP.010.001'] = N:
+  DB('STG.100.DataBase_Uploads', 
+     !ALL.D.Year, 
+     !ALL.D.Month,
+     !ALL.D.Version,
+     !ALL.D.Currency,
+     !ALL.D.Region,
+     !ALL.D.Products,
+     'NOP.010.001',
+      'ALL.D.Account_Line':'Total Accounts Line', 
+     'Value'
+);
+
+
+# --------------------------------------------------------------------------------------------
+# Name:  Other Non Op. Results
+# Desc:   Other Non Op. Results
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'NOR.010.001'] = N:
+  DB('STG.100.DataBase_Uploads', 
+     !ALL.D.Year, 
+     !ALL.D.Month,
+     !ALL.D.Version,
+     !ALL.D.Currency,
+     !ALL.D.Region,
+     !ALL.D.Products,
+     'NOR.010.001',
+      'ALL.D.Account_Line':'Total Accounts Line', 
+     'Value'
+);
+
+
+
+# --------------------------------------------------------------------------------------------
+# Name:  Profit Before Income Tax
+# Desc:   Profit Before Income Tax
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.009', 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':{'Value', 'Adjustments'}] = N:
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.006']
+    +
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.007']  
+      +
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'NOP.010.001']  
+      +
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'NOR.010.001']  ;
+
+
+
+
+# --------------------------------------------------------------------------------------------
+# Name:  Income Tax
+# Desc:   Income Tax
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.010' , 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Value'] = N:
+ # ( ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004']
+ #    +
+ #    ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'NOR.010.001']
+ #       +
+ #   ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DEP.010.001']
+ #    +
+ #   ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.007']
+
+ #    +
+ #   DB('STG.100.DataBase_Uploads', 
+ #     !ALL.D.Year, 
+ #     !ALL.D.Month,
+ #     !ALL.D.Version,
+ #     !ALL.D.Currency,
+ #     !ALL.D.Region,
+ #     !ALL.D.Products,
+ #     'NOP.020.001',
+ #      'ALL.D.Account_Line':'Total Accounts Line', 
+ #     'Value')
+ #    )
+ #    *
+ #   DB( 'ALL.015.Region_Assumptions', 
+ #       !ALL.D.Year, 
+ #       !ALL.D.Month,
+ #       !ALL.D.Version, 
+ #       !ALL.D.Region,
+ #       '% Income Tax', 'Value' )
+ #    ;
+  DB('STG.100.DataBase_Uploads', 
+     !ALL.D.Year, 
+     !ALL.D.Month,
+     !ALL.D.Version,
+     !ALL.D.Currency,
+     !ALL.D.Region,
+     !ALL.D.Products,
+     'DRE.099.010',
+      'ALL.D.Account_Line':'Total Accounts Line', 
+     'Value'
+);
+# --------------------------------------------------------------------------------------------
+# Name:  Income Tax
+# Desc:   Income Tax
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.014' , 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Value'] =
+    ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.010']
+    \
+    ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.009'];
+# --------------------------------------------------------------------------------------------
+# Name:  Income Tax Adjustments
+# Desc:   Income Tax Adjustments
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.010' , 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Adjustments'] = N: 
+(
+     ( ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004']
+    +
+    ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'NOR.010.001']
+       +
+   ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DEP.010.001']
+    +
+   ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.007'] )
+    *
+   DB( 'ALL.015.Region_Assumptions', 
+       !ALL.D.Year, 
+       !ALL.D.Month,
+       !ALL.D.Version, 
+       !ALL.D.Region,
+       '% Income Tax', 'Value' )
+  )
+    ;
+
+
+# --------------------------------------------------------------------------------------------
+# Name:  Net Profit Before Minority Int.
+# Desc:   Net Profit Before Minority Int.
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.011', 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':{'Value', 'Adjustments'}] = N:
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.009']
+    -
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.010']  
+;
+
+
+
+# --------------------------------------------------------------------------------------------
+# Name:  Minority Interests
+# Desc:   Minority Interests
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.012', 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':{'Value', 'Adjustments'}] = N:
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.011']
+    *
+     DB( 'ALL.015.Region_Assumptions', 
+       !ALL.D.Year, 
+       !ALL.D.Month,
+       !ALL.D.Version, 
+       !ALL.D.Region,
+       '% Minoritários', 'Value' )
+;
+
+
+# --------------------------------------------------------------------------------------------
+# Name:  Net Profit 
+# Desc:   Net Profit
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.013', 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':{'Value', 'Adjustments'}] = N:
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.011']
+    -
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.012']  
+;
+
+# --------------------------------------------------------------------------------------------
+# Name:  EBITDA Econômico
+# Desc:   EBITDA Econômico
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.015', 'DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':{'Value', 'Adjustments'}] = N:
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004']
+    *
+  DB( 'ALL.015.Region_Assumptions', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Region, '% Participation', 'Value' )
+;
+
+
+# --------------------------------------------------------------------------------------------
+#
+#                      			INICIO DO BLOCO CALCULOS RESULTADO FINANCEIRO
+#
+# --------------------------------------------------------------------------------------------
+
+
+# --------------------------------------------------------------------------------------------
+# Name: Interest Accrual'
+# Desc: Interest Accrual'
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'FIN.010.001' ,'ALL.D.Products':'ALL.D.Products':'PROD099'] = N:
+    DB( 'DFS.120.Financial_Results',
+        !ALL.D.Year,
+        !ALL.D.Month,
+        !ALL.D.Version,
+        !ALL.D.Currency,
+        !ALL.D.Region,
+        'FIN.010.001',
+        !DFS.M.100.Profit_and_Loss
+      );
+
+
+
+
+# --------------------------------------------------------------------------------------------
+# Name: Financial Expenses
+# Desc: Financial Expenses
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'FIN.099.004' ,'ALL.D.Products':'ALL.D.Products':'PROD099'] = N:
+    DB( 'DFS.120.Financial_Results',
+        !ALL.D.Year,
+        !ALL.D.Month,
+        !ALL.D.Version,
+        !ALL.D.Currency,
+        !ALL.D.Region,
+        'DFS.D.Accounts_Fin_Results':'FIN.099.004',
+        !DFS.M.100.Profit_and_Loss
+      );
+
+
+
+
+# --------------------------------------------------------------------------------------------
+# Name: Financial Revenues
+# Desc: Financial Revenues
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'FIN.099.006' ,'ALL.D.Products':'ALL.D.Products':'PROD099'] = N:
+    DB( 'DFS.120.Financial_Results',
+        !ALL.D.Year,
+        !ALL.D.Month,
+        !ALL.D.Version,
+        !ALL.D.Currency,
+        !ALL.D.Region,
+        'DFS.D.Accounts_Fin_Results':'Total Financial Revenues',
+        !DFS.M.100.Profit_and_Loss
+      );
+
+
+
+    
+
+# --------------------------------------------------------------------------------------------
+# Name: FX Variation
+# Desc: FX Variation
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'FIN.099.003' ,'ALL.D.Products':'ALL.D.Products':'PROD099'] = N:
+    DB( 'DFS.120.Financial_Results',
+        !ALL.D.Year,
+        !ALL.D.Month,
+        !ALL.D.Version,
+        !ALL.D.Currency,
+        !ALL.D.Region,
+        'DFS.D.Accounts_Fin_Results':'Total Foreign Exchange Variation',
+        !DFS.M.100.Profit_and_Loss
+      );
+
+
+
+# --------------------------------------------------------------------------------------------
+# Name: Others
+# Desc: Others
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.008' ,'ALL.D.Products':'ALL.D.Products':'PROD099'] = N:
+    DB( 'DFS.120.Financial_Results',
+        !ALL.D.Year,
+        !ALL.D.Month,
+        !ALL.D.Version,
+        !ALL.D.Currency,
+        !ALL.D.Region,
+        'DFS.D.Accounts_Fin_Results':'Total Hedge Results',
+        !DFS.M.100.Profit_and_Loss
+      )
+    +
+        DB( 'DFS.120.Financial_Results',
+        !ALL.D.Year,
+        !ALL.D.Month,
+        !ALL.D.Version,
+        !ALL.D.Currency,
+        !ALL.D.Region,
+        'DFS.D.Accounts_Fin_Results':'Total Other Financial Revenues',
+        !DFS.M.100.Profit_and_Loss
+      );
+
+
+
+# --------------------------------------------------------------------------------------------
+#
+#                      			INICIO DO BLOCO DE FEEDERS
+#
+# --------------------------------------------------------------------------------------------
+
+# =============
+  FEEDERS;
+# =============
+# # --------------------------------------------------------------------------------------------
+# # Name: Feedes Forecast 
+# # Desc: Feedes Forecast 
+# # Date 01/2026
+# # Author: Miranda / Helder
+# # --------------------------------------------------------------------------------------------
+ ['ALL.D.Version':'ALL.D.Version':'RE'] => ['ALL.D.Version':'ALL.D.Version':'Dynamic Versions'];
+# =============
+# # --------------------------------------------------------------------------------------------
+# # Name: Feedes FX 
+# # Desc: Feedes FX 
+# # Date 01/2026
+# # Author: Miranda / Helder
+# # --------------------------------------------------------------------------------------------
+['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value', 'ALL.D.Currency':'ALL.D.Currency':'Total Currency','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['ALL.D.Currency':'ALL.D.Currency':'BRL FX Var'];
+
+# --------------------------------------------------------------------------------------------
+# Name: Conversão de Moedas
+# Desc: Conversão de moedas para os padrões USD, BRL e EUR
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Adjustments', 'ALL.D.Currency':'ALL.D.Currency':'Total Currency','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'BRL Conv.', !ALL.D.Region, !ALL.D.Products, !DFS.D.Accounts_PnL, 'Adjustments' ),
+    DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'EUR Conv.', !ALL.D.Region, !ALL.D.Products, !DFS.D.Accounts_PnL, 'Adjustments' ),
+    DB( 'DFS.100.Profit_and_Loss', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, 'USD Conv.', !ALL.D.Region, !ALL.D.Products, !DFS.D.Accounts_PnL, 'Adjustments' )
+    
+    ;
+
+
+
+# --------------------------------------------------------------------------------------------
+# Name:tax on Sales
+# Desc: tax on Sales
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+ 
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'REV.099.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.001'];
+
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'REV.099.002','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.001'];
+
+
+# --------------------------------------------------------------------------------------------
+# Name:Contribution Margin
+# Desc: Contribution Margin
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+ 
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'REV.099.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.002'];
+
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'EXP.010.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.002'];
+
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'CST.010.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.002'];
+
+
+# --------------------------------------------------------------------------------------------
+# Name:Contribution Margin (%)'
+# Desc: Contribution Margin (%)'
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+ 
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.002','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.003'];
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'REV.099.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.003'];
+
+# --------------------------------------------------------------------------------------------
+# Name:EBITDA
+# Desc: EBITDA
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+ 
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.002','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004'];
+
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'CST.020.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE'}
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004'];
+
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'EXP.020.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004'];
+
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'OOR.010.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004'];
+# --------------------------------------------------------------------------------------------
+# Name:EBITDA Econômico
+# Desc: EBITDA Econômico
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+ 
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.015'],
+    ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.016']
+    ;
+    
+# --------------------------------------------------------------------------------------------
+# Name:Operating Profit
+# Desc: Operating Profit
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+ 
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.006'];
+
+
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DEP.010.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.006'];
+
+# --------------------------------------------------------------------------------------------
+# Name:EBITDA/Net Revenue (%)'
+# Desc: EBITDA/Net Revenue (%)'
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+ 
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'REV.099.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.005'];
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.005'];    
+# --------------------------------------------------------------------------------------------
+# Name:Profit Before Income Tax
+# Desc: Profit Before Income Tax
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+ 
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.006','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.009'];
+
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.007','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.009'];
+
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'NOP.010.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.009'];
+
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'NOR.010.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.009'];    
+# --------------------------------------------------------------------------------------------
+# Name: Income Tax
+# Desc:  Income Tax
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+ 
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.010'];
+
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'NOR.010.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.010'];
+
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DEP.010.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE'  }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.010'];
+
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.007','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.010'];
+# --------------------------------------------------------------------------------------------
+# Name: %Income Tax
+# Desc:  %Income Tax
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+    ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.009','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.014'];
+
+# --------------------------------------------------------------------------------------------
+# Name: Net Profit Before Minority Int.
+# Desc:  Net Profit Before Minority Int.
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+ 
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.009','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.011'];
+    
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.010','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.011'];
+
+# --------------------------------------------------------------------------------------------
+# Name: Minority Interests
+# Desc:  Minority Interests
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+ 
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.011','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.012'];
+    
+# --------------------------------------------------------------------------------------------
+# Name: Net Profit
+# Desc:  Net Profit
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+ 
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.011','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.013'];
+    
+['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.012','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.013'];
+
+['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004', 'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }] =>
+
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.015'];
+    
+    ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004', 'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }] =>
+
+  ['DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.016'];
+
+
+    
+# --------------------------------------------------------------------------------------------
+#                      			BLOCO DE FEEDERS EXTERNOS
+# --------------------------------------------------------------------------------------------
+
+###############################################################
+#-------------------------------------# DFS.140#-----------------------------------------
+###############################################################
+# --------------------------------------------------------------------------------------------
+# Name: EBITDA
+# Desc:  EBITDA
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['ALL.D.Products':'ALL.D.Products':'Total Products' , 'DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004'
+ ,'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }
+]=>DB( 'DFS.140.Indirect_Cash_Flow', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, 'DRE.099.004', !DFS.M.100.Profit_and_Loss );
+
+
+
+###############################################################
+#-------------------------------------# DFS.200#-----------------------------------------
+###############################################################
+# --------------------------------------------------------------------------------------------
+# Name: Depreciação
+# Desc:  Depreciação
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DEP.010.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+=> DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.026' ,'Value');
+
+ ['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DEP.010.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+=> DB('DFS.200.KPIs', !ALL.D.Year, DB('SYS.200.Time_Travel', !ALL.D.Year, !ALL.D.Month, '1','Mes'), !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.026' ,'Value');   
+
+# --------------------------------------------------------------------------------------------
+# Name: Income Tax Theoretical
+# Desc:  Income Tax Theoretical
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':{'DRE.099.007','OOR.010.001'},'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+=> DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.044' ,'Value');
+
+# --------------------------------------------------------------------------------------------
+# Name: Income Tax Theoretical
+# Desc:  Income Tax Theoretical
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'NOP.010.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+=> DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.045','Value' );
+
+
+# --------------------------------------------------------------------------------------------
+# Name: NOPAT + Equity Pick Up
+# Desc:  NOPAT + Equity Pick Up
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':{'DRE.099.010','NOP.010.001'},'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+=> DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.046','Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name: EBIT
+# Desc:  EBIT
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':{'DRE.099.002','CST.020.001','DEP.010.001','EXP.020.001','OOR.010.001'},'ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.047','Value' );
+
+
+
+# --------------------------------------------------------------------------------------------
+# Name: 
+# Desc:  
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.003','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.055','Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name: 
+# Desc:  
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.056','Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name: 
+# Desc:  
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.004','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.053','Value' );
+
+
+# --------------------------------------------------------------------------------------------
+# Name: 
+# Desc:  
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'EXP.020.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.057','Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name: 
+# Desc:  
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'DRE.099.010','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.046','Value' );
+
+# --------------------------------------------------------------------------------------------
+# Name: 
+# Desc:  
+# Date 01/2026
+# Author: Miranda / Helder
+# --------------------------------------------------------------------------------------------
+['DFS.M.100.Profit_and_Loss':'DFS.M.100.Profit_and_Loss':'Total Value','DFS.D.Accounts_PnL':'DFS.D.Accounts_PnL':'NOP.010.001','ALL.D.Version':'ALL.D.Version':{ 'Dynamic Versions' , 'RE' }]
+  => DB('DFS.200.KPIs', !ALL.D.Year, !ALL.D.Month, !ALL.D.Version, !ALL.D.Currency, !ALL.D.Region, !ALL.D.Products, 'KPI.010.063','Value' );

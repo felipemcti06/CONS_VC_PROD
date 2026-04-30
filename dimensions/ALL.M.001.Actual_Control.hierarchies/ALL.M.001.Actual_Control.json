@@ -1,0 +1,12 @@
+{
+	"@type":"Hierarchy",
+	"Name":"ALL.M.001.Actual_Control",
+	"Elements":
+	[
+		{
+			"Name":"Flag",
+			"Type":"String"
+		}
+	],
+	"Subsets@Code.links":[]
+}

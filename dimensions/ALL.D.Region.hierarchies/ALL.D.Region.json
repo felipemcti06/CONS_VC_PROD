@@ -1,0 +1,206 @@
+{
+	"@type":"Hierarchy",
+	"Name":"ALL.D.Region",
+	"ElementsSortType":"ByHierarchy",
+	"ComponentsSortType":"ByName",
+	"Elements":
+	[
+		{
+			"Name":"Global",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"VCBR",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"VCEAA",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"CORP",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"ESPA",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"TURK",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"VCLATAM",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"ARTI",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"ITACA",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"VCNA",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"VCOTHERS",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Trading",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"VCI",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Global incl. Avellaneda",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"VCLATAM Incl. AVEL",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"AVEL",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Hard Currency",
+			"Type":"Consolidated"
+		}
+	],
+	"Edges":
+	[
+		{
+			"ParentName":"Global",
+			"ComponentName":"VCBR",
+			"Weight":1
+		},
+		{
+			"ParentName":"Global",
+			"ComponentName":"VCEAA",
+			"Weight":1
+		},
+		{
+			"ParentName":"Global",
+			"ComponentName":"VCLATAM",
+			"Weight":1
+		},
+		{
+			"ParentName":"Global",
+			"ComponentName":"VCNA",
+			"Weight":1
+		},
+		{
+			"ParentName":"Global",
+			"ComponentName":"VCOTHERS",
+			"Weight":1
+		},
+		{
+			"ParentName":"VCEAA",
+			"ComponentName":"CORP",
+			"Weight":1
+		},
+		{
+			"ParentName":"VCEAA",
+			"ComponentName":"ESPA",
+			"Weight":1
+		},
+		{
+			"ParentName":"VCEAA",
+			"ComponentName":"TURK",
+			"Weight":1
+		},
+		{
+			"ParentName":"VCLATAM",
+			"ComponentName":"ARTI",
+			"Weight":1
+		},
+		{
+			"ParentName":"VCLATAM",
+			"ComponentName":"ITACA",
+			"Weight":1
+		},
+		{
+			"ParentName":"VCOTHERS",
+			"ComponentName":"Trading",
+			"Weight":1
+		},
+		{
+			"ParentName":"VCOTHERS",
+			"ComponentName":"VCI",
+			"Weight":1
+		},
+		{
+			"ParentName":"Global incl. Avellaneda",
+			"ComponentName":"VCBR",
+			"Weight":1
+		},
+		{
+			"ParentName":"Global incl. Avellaneda",
+			"ComponentName":"VCEAA",
+			"Weight":1
+		},
+		{
+			"ParentName":"Global incl. Avellaneda",
+			"ComponentName":"VCLATAM Incl. AVEL",
+			"Weight":1
+		},
+		{
+			"ParentName":"Global incl. Avellaneda",
+			"ComponentName":"VCNA",
+			"Weight":1
+		},
+		{
+			"ParentName":"Global incl. Avellaneda",
+			"ComponentName":"VCOTHERS",
+			"Weight":1
+		},
+		{
+			"ParentName":"VCLATAM Incl. AVEL",
+			"ComponentName":"AVEL",
+			"Weight":1
+		},
+		{
+			"ParentName":"VCLATAM Incl. AVEL",
+			"ComponentName":"VCLATAM",
+			"Weight":1
+		},
+		{
+			"ParentName":"Hard Currency",
+			"ComponentName":"CORP",
+			"Weight":1
+		},
+		{
+			"ParentName":"Hard Currency",
+			"ComponentName":"ESPA",
+			"Weight":1
+		},
+		{
+			"ParentName":"Hard Currency",
+			"ComponentName":"Trading",
+			"Weight":1
+		},
+		{
+			"ParentName":"Hard Currency",
+			"ComponentName":"VCI",
+			"Weight":1
+		},
+		{
+			"ParentName":"Hard Currency",
+			"ComponentName":"VCNA",
+			"Weight":1
+		}
+	],
+	"Subsets@Code.links":
+	[
+		"ALL.D.Region.subsets/Default.json",
+		"ALL.D.Region.subsets/Nível 0.json",
+		"ALL.D.Region.subsets/SYS_Picklist.json"
+	]
+}

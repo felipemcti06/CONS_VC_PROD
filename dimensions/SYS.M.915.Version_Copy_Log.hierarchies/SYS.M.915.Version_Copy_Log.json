@@ -1,0 +1,60 @@
+{
+	"@type":"Hierarchy",
+	"Name":"SYS.M.915.Version_Copy_Log",
+	"Elements":
+	[
+		{
+			"Name":"Status",
+			"Type":"String"
+		},
+		{
+			"Name":"StartTime",
+			"Type":"String"
+		},
+		{
+			"Name":"EndTime",
+			"Type":"String"
+		},
+		{
+			"Name":"Copy Time",
+			"Type":"String"
+		},
+		{
+			"Name":"Qty Threads",
+			"Type":"String"
+		},
+		{
+			"Name":"Message",
+			"Type":"String"
+		},
+		{
+			"Name":"Source Version",
+			"Type":"String"
+		},
+		{
+			"Name":"Destination Version",
+			"Type":"String"
+		},
+		{
+			"Name":"Copy Period",
+			"Type":"String"
+		},
+		{
+			"Name":"Copy With Rules",
+			"Type":"String"
+		},
+		{
+			"Name":"Copy Type",
+			"Type":"String"
+		},
+		{
+			"Name":"User",
+			"Type":"String"
+		},
+		{
+			"Name":"Validation Status",
+			"Type":"String"
+		}
+	],
+	"Subsets@Code.links":[]
+}

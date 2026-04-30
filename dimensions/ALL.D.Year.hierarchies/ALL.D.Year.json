@@ -1,0 +1,172 @@
+{
+	"@type":"Hierarchy",
+	"Name":"ALL.D.Year",
+	"Elements":
+	[
+		{
+			"Name":"2024",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"2025",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"2026",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Total Years",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"2027",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"2028",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"2029",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"2030",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"2031",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"2032",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"2033",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"2034",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"2035",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"2036",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"2037",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"2038",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"2039",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"2040",
+			"Type":"Numeric"
+		}
+	],
+	"Edges":
+	[
+		{
+			"ParentName":"Total Years",
+			"ComponentName":"2024",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Years",
+			"ComponentName":"2025",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Years",
+			"ComponentName":"2026",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Years",
+			"ComponentName":"2027",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Years",
+			"ComponentName":"2028",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Years",
+			"ComponentName":"2029",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Years",
+			"ComponentName":"2030",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Years",
+			"ComponentName":"2031",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Years",
+			"ComponentName":"2032",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Years",
+			"ComponentName":"2033",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Years",
+			"ComponentName":"2034",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Years",
+			"ComponentName":"2035",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Years",
+			"ComponentName":"2036",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Years",
+			"ComponentName":"2037",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Years",
+			"ComponentName":"2038",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Years",
+			"ComponentName":"2039",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Years",
+			"ComponentName":"2040",
+			"Weight":1
+		}
+	],
+	"Subsets@Code.links":
+	[
+		"ALL.D.Year.subsets/SYS_Picklist.json",
+		"ALL.D.Year.subsets/YEAR_LEAVES.json"
+	]
+}

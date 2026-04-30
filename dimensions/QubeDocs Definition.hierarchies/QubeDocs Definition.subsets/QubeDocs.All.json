@@ -1,0 +1,5 @@
+{
+	"@type":"Subset",
+	"Name":"QubeDocs.All",
+	"Expression":"{TM1DRILLDOWNMEMBER( {[QubeDocs Definition].[All Definitions]}, ALL, RECURSIVE )}"
+}

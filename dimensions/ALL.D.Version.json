@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"ALL.D.Version",
+	"Hierarchies@Code.links":
+	[
+		"ALL.D.Version.hierarchies/ALL.D.Version.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('ALL.D.Version')/Hierarchies('ALL.D.Version')"
+	}
+}

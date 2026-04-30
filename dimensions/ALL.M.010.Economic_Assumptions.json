@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"ALL.M.010.Economic_Assumptions",
+	"Hierarchies@Code.links":
+	[
+		"ALL.M.010.Economic_Assumptions.hierarchies/ALL.M.010.Economic_Assumptions.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('ALL.M.010.Economic_Assumptions')/Hierarchies('ALL.M.010.Economic_Assumptions')"
+	}
+}

@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"SYS.M.910.Version_Copy_Cube",
+	"Hierarchies@Code.links":
+	[
+		"SYS.M.910.Version_Copy_Cube.hierarchies/SYS.M.910.Version_Copy_Cube.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('SYS.M.910.Version_Copy_Cube')/Hierarchies('SYS.M.910.Version_Copy_Cube')"
+	}
+}

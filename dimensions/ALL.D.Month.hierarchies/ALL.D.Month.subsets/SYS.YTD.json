@@ -1,0 +1,44 @@
+{
+	"@type":"Subset",
+	"Name":"SYS.YTD",
+	"Alias":"MEMBER_NAME",
+	"Elements":
+	[
+		{
+			"@id":"Dimensions('ALL.D.Month')/Hierarchies('ALL.D.Month')/Elements('YTD 01')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Month')/Hierarchies('ALL.D.Month')/Elements('YTD 02')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Month')/Hierarchies('ALL.D.Month')/Elements('YTD 03')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Month')/Hierarchies('ALL.D.Month')/Elements('YTD 04')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Month')/Hierarchies('ALL.D.Month')/Elements('YTD 05')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Month')/Hierarchies('ALL.D.Month')/Elements('YTD 06')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Month')/Hierarchies('ALL.D.Month')/Elements('YTD 07')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Month')/Hierarchies('ALL.D.Month')/Elements('YTD 08')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Month')/Hierarchies('ALL.D.Month')/Elements('YTD 09')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Month')/Hierarchies('ALL.D.Month')/Elements('YTD 10')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Month')/Hierarchies('ALL.D.Month')/Elements('YTD 11')"
+		},
+		{
+			"@id":"Dimensions('ALL.D.Month')/Hierarchies('ALL.D.Month')/Elements('YTD 12')"
+		}
+	]
+}

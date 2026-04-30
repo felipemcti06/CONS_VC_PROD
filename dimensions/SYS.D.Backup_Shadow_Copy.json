@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"SYS.D.Backup_Shadow_Copy",
+	"Hierarchies@Code.links":
+	[
+		"SYS.D.Backup_Shadow_Copy.hierarchies/SYS.D.Backup_Shadow_Copy.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('SYS.D.Backup_Shadow_Copy')/Hierarchies('SYS.D.Backup_Shadow_Copy')"
+	}
+}

@@ -1,0 +1,6 @@
+{
+	"@type":"Subset",
+	"Name":"PAW",
+	"Alias":"Descrição",
+	"Expression":"TM1IGNORE_BADTUPLES {EXCEPT([ALL.D.Version].[ALL.D.Version].MEMBERS , {[ALL.D.Version].[ALL.D.Version].[Dynamic Versions]})}"
+}

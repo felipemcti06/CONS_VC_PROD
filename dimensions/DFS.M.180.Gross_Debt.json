@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"DFS.M.180.Gross_Debt",
+	"Hierarchies@Code.links":
+	[
+		"DFS.M.180.Gross_Debt.hierarchies/DFS.M.180.Gross_Debt.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('DFS.M.180.Gross_Debt')/Hierarchies('DFS.M.180.Gross_Debt')"
+	}
+}

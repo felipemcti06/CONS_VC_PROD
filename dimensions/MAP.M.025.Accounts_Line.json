@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"MAP.M.025.Accounts_Line",
+	"Hierarchies@Code.links":
+	[
+		"MAP.M.025.Accounts_Line.hierarchies/MAP.M.025.Accounts_Line.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('MAP.M.025.Accounts_Line')/Hierarchies('MAP.M.025.Accounts_Line')"
+	}
+}

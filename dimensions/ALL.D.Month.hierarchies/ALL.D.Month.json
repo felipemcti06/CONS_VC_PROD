@@ -1,0 +1,1324 @@
+{
+	"@type":"Hierarchy",
+	"Name":"ALL.D.Month",
+	"Elements":
+	[
+		{
+			"Name":"01",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"02",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"03",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"04",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"05",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"06",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"07",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"08",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"09",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"10",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"11",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"12",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Year",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"PE",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Total Quarter",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"1st Quarter",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"2nd Quarter",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"3rd Quarter",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"4th Quarter",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Total Semester",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"1st Semester",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"2nd Semester",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Total YTD",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"YTD 01",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"YTD 02",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"YTD 03",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"YTD 04",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"YTD 05",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"YTD 06",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"YTD 07",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"YTD 08",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"YTD 09",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"YTD 10",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"YTD 11",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"YTD 12",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"Total YTG",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"YTG 01",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"YTG 02",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"YTG 03",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"YTG 04",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"YTG 05",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"YTG 06",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"YTG 07",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"YTG 08",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"YTG 09",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"YTG 10",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"YTG 11",
+			"Type":"Consolidated"
+		},
+		{
+			"Name":"YTG 12",
+			"Type":"Consolidated"
+		}
+	],
+	"Edges":
+	[
+		{
+			"ParentName":"Year",
+			"ComponentName":"01",
+			"Weight":1
+		},
+		{
+			"ParentName":"Year",
+			"ComponentName":"02",
+			"Weight":1
+		},
+		{
+			"ParentName":"Year",
+			"ComponentName":"03",
+			"Weight":1
+		},
+		{
+			"ParentName":"Year",
+			"ComponentName":"04",
+			"Weight":1
+		},
+		{
+			"ParentName":"Year",
+			"ComponentName":"05",
+			"Weight":1
+		},
+		{
+			"ParentName":"Year",
+			"ComponentName":"06",
+			"Weight":1
+		},
+		{
+			"ParentName":"Year",
+			"ComponentName":"07",
+			"Weight":1
+		},
+		{
+			"ParentName":"Year",
+			"ComponentName":"08",
+			"Weight":1
+		},
+		{
+			"ParentName":"Year",
+			"ComponentName":"09",
+			"Weight":1
+		},
+		{
+			"ParentName":"Year",
+			"ComponentName":"10",
+			"Weight":1
+		},
+		{
+			"ParentName":"Year",
+			"ComponentName":"11",
+			"Weight":1
+		},
+		{
+			"ParentName":"Year",
+			"ComponentName":"12",
+			"Weight":1
+		},
+		{
+			"ParentName":"Year",
+			"ComponentName":"PE",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Quarter",
+			"ComponentName":"1st Quarter",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Quarter",
+			"ComponentName":"2nd Quarter",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Quarter",
+			"ComponentName":"3rd Quarter",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Quarter",
+			"ComponentName":"4th Quarter",
+			"Weight":1
+		},
+		{
+			"ParentName":"1st Quarter",
+			"ComponentName":"01",
+			"Weight":1
+		},
+		{
+			"ParentName":"1st Quarter",
+			"ComponentName":"02",
+			"Weight":1
+		},
+		{
+			"ParentName":"1st Quarter",
+			"ComponentName":"03",
+			"Weight":1
+		},
+		{
+			"ParentName":"2nd Quarter",
+			"ComponentName":"04",
+			"Weight":1
+		},
+		{
+			"ParentName":"2nd Quarter",
+			"ComponentName":"05",
+			"Weight":1
+		},
+		{
+			"ParentName":"2nd Quarter",
+			"ComponentName":"06",
+			"Weight":1
+		},
+		{
+			"ParentName":"3rd Quarter",
+			"ComponentName":"07",
+			"Weight":1
+		},
+		{
+			"ParentName":"3rd Quarter",
+			"ComponentName":"08",
+			"Weight":1
+		},
+		{
+			"ParentName":"3rd Quarter",
+			"ComponentName":"09",
+			"Weight":1
+		},
+		{
+			"ParentName":"4th Quarter",
+			"ComponentName":"10",
+			"Weight":1
+		},
+		{
+			"ParentName":"4th Quarter",
+			"ComponentName":"11",
+			"Weight":1
+		},
+		{
+			"ParentName":"4th Quarter",
+			"ComponentName":"12",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Semester",
+			"ComponentName":"1st Semester",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Semester",
+			"ComponentName":"2nd Semester",
+			"Weight":1
+		},
+		{
+			"ParentName":"1st Semester",
+			"ComponentName":"01",
+			"Weight":1
+		},
+		{
+			"ParentName":"1st Semester",
+			"ComponentName":"02",
+			"Weight":1
+		},
+		{
+			"ParentName":"1st Semester",
+			"ComponentName":"03",
+			"Weight":1
+		},
+		{
+			"ParentName":"1st Semester",
+			"ComponentName":"04",
+			"Weight":1
+		},
+		{
+			"ParentName":"1st Semester",
+			"ComponentName":"05",
+			"Weight":1
+		},
+		{
+			"ParentName":"1st Semester",
+			"ComponentName":"06",
+			"Weight":1
+		},
+		{
+			"ParentName":"2nd Semester",
+			"ComponentName":"07",
+			"Weight":1
+		},
+		{
+			"ParentName":"2nd Semester",
+			"ComponentName":"08",
+			"Weight":1
+		},
+		{
+			"ParentName":"2nd Semester",
+			"ComponentName":"09",
+			"Weight":1
+		},
+		{
+			"ParentName":"2nd Semester",
+			"ComponentName":"10",
+			"Weight":1
+		},
+		{
+			"ParentName":"2nd Semester",
+			"ComponentName":"11",
+			"Weight":1
+		},
+		{
+			"ParentName":"2nd Semester",
+			"ComponentName":"12",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total YTD",
+			"ComponentName":"YTD 01",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total YTD",
+			"ComponentName":"YTD 02",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total YTD",
+			"ComponentName":"YTD 03",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total YTD",
+			"ComponentName":"YTD 04",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total YTD",
+			"ComponentName":"YTD 05",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total YTD",
+			"ComponentName":"YTD 06",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total YTD",
+			"ComponentName":"YTD 07",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total YTD",
+			"ComponentName":"YTD 08",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total YTD",
+			"ComponentName":"YTD 09",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total YTD",
+			"ComponentName":"YTD 10",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total YTD",
+			"ComponentName":"YTD 11",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total YTD",
+			"ComponentName":"YTD 12",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 01",
+			"ComponentName":"01",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 02",
+			"ComponentName":"01",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 02",
+			"ComponentName":"02",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 03",
+			"ComponentName":"01",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 03",
+			"ComponentName":"02",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 03",
+			"ComponentName":"03",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 04",
+			"ComponentName":"01",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 04",
+			"ComponentName":"02",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 04",
+			"ComponentName":"03",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 04",
+			"ComponentName":"04",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 05",
+			"ComponentName":"01",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 05",
+			"ComponentName":"02",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 05",
+			"ComponentName":"03",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 05",
+			"ComponentName":"04",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 05",
+			"ComponentName":"05",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 06",
+			"ComponentName":"01",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 06",
+			"ComponentName":"02",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 06",
+			"ComponentName":"03",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 06",
+			"ComponentName":"04",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 06",
+			"ComponentName":"05",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 06",
+			"ComponentName":"06",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 07",
+			"ComponentName":"01",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 07",
+			"ComponentName":"02",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 07",
+			"ComponentName":"03",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 07",
+			"ComponentName":"04",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 07",
+			"ComponentName":"05",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 07",
+			"ComponentName":"06",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 07",
+			"ComponentName":"07",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 08",
+			"ComponentName":"01",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 08",
+			"ComponentName":"02",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 08",
+			"ComponentName":"03",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 08",
+			"ComponentName":"04",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 08",
+			"ComponentName":"05",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 08",
+			"ComponentName":"06",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 08",
+			"ComponentName":"07",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 08",
+			"ComponentName":"08",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 09",
+			"ComponentName":"01",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 09",
+			"ComponentName":"02",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 09",
+			"ComponentName":"03",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 09",
+			"ComponentName":"04",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 09",
+			"ComponentName":"05",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 09",
+			"ComponentName":"06",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 09",
+			"ComponentName":"07",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 09",
+			"ComponentName":"08",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 09",
+			"ComponentName":"09",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 10",
+			"ComponentName":"01",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 10",
+			"ComponentName":"02",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 10",
+			"ComponentName":"03",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 10",
+			"ComponentName":"04",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 10",
+			"ComponentName":"05",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 10",
+			"ComponentName":"06",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 10",
+			"ComponentName":"07",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 10",
+			"ComponentName":"08",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 10",
+			"ComponentName":"09",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 10",
+			"ComponentName":"10",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 11",
+			"ComponentName":"01",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 11",
+			"ComponentName":"02",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 11",
+			"ComponentName":"03",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 11",
+			"ComponentName":"04",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 11",
+			"ComponentName":"05",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 11",
+			"ComponentName":"06",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 11",
+			"ComponentName":"07",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 11",
+			"ComponentName":"08",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 11",
+			"ComponentName":"09",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 11",
+			"ComponentName":"10",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 11",
+			"ComponentName":"11",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 12",
+			"ComponentName":"01",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 12",
+			"ComponentName":"02",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 12",
+			"ComponentName":"03",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 12",
+			"ComponentName":"04",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 12",
+			"ComponentName":"05",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 12",
+			"ComponentName":"06",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 12",
+			"ComponentName":"07",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 12",
+			"ComponentName":"08",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 12",
+			"ComponentName":"09",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 12",
+			"ComponentName":"10",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 12",
+			"ComponentName":"11",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTD 12",
+			"ComponentName":"12",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total YTG",
+			"ComponentName":"YTG 01",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total YTG",
+			"ComponentName":"YTG 02",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total YTG",
+			"ComponentName":"YTG 03",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total YTG",
+			"ComponentName":"YTG 04",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total YTG",
+			"ComponentName":"YTG 05",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total YTG",
+			"ComponentName":"YTG 06",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total YTG",
+			"ComponentName":"YTG 07",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total YTG",
+			"ComponentName":"YTG 08",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total YTG",
+			"ComponentName":"YTG 09",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total YTG",
+			"ComponentName":"YTG 10",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total YTG",
+			"ComponentName":"YTG 11",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total YTG",
+			"ComponentName":"YTG 12",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 01",
+			"ComponentName":"01",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 01",
+			"ComponentName":"02",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 01",
+			"ComponentName":"03",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 01",
+			"ComponentName":"04",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 01",
+			"ComponentName":"05",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 01",
+			"ComponentName":"06",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 01",
+			"ComponentName":"07",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 01",
+			"ComponentName":"08",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 01",
+			"ComponentName":"09",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 01",
+			"ComponentName":"10",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 01",
+			"ComponentName":"11",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 01",
+			"ComponentName":"12",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 02",
+			"ComponentName":"02",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 02",
+			"ComponentName":"03",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 02",
+			"ComponentName":"04",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 02",
+			"ComponentName":"05",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 02",
+			"ComponentName":"06",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 02",
+			"ComponentName":"07",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 02",
+			"ComponentName":"08",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 02",
+			"ComponentName":"09",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 02",
+			"ComponentName":"10",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 02",
+			"ComponentName":"11",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 02",
+			"ComponentName":"12",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 03",
+			"ComponentName":"03",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 03",
+			"ComponentName":"04",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 03",
+			"ComponentName":"05",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 03",
+			"ComponentName":"06",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 03",
+			"ComponentName":"07",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 03",
+			"ComponentName":"08",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 03",
+			"ComponentName":"09",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 03",
+			"ComponentName":"10",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 03",
+			"ComponentName":"11",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 03",
+			"ComponentName":"12",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 04",
+			"ComponentName":"04",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 04",
+			"ComponentName":"05",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 04",
+			"ComponentName":"06",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 04",
+			"ComponentName":"07",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 04",
+			"ComponentName":"08",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 04",
+			"ComponentName":"09",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 04",
+			"ComponentName":"10",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 04",
+			"ComponentName":"11",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 04",
+			"ComponentName":"12",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 05",
+			"ComponentName":"05",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 05",
+			"ComponentName":"06",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 05",
+			"ComponentName":"07",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 05",
+			"ComponentName":"08",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 05",
+			"ComponentName":"09",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 05",
+			"ComponentName":"10",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 05",
+			"ComponentName":"11",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 05",
+			"ComponentName":"12",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 06",
+			"ComponentName":"06",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 06",
+			"ComponentName":"07",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 06",
+			"ComponentName":"08",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 06",
+			"ComponentName":"09",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 06",
+			"ComponentName":"10",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 06",
+			"ComponentName":"11",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 06",
+			"ComponentName":"12",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 07",
+			"ComponentName":"07",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 07",
+			"ComponentName":"08",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 07",
+			"ComponentName":"09",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 07",
+			"ComponentName":"10",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 07",
+			"ComponentName":"11",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 07",
+			"ComponentName":"12",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 08",
+			"ComponentName":"08",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 08",
+			"ComponentName":"09",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 08",
+			"ComponentName":"10",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 08",
+			"ComponentName":"11",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 08",
+			"ComponentName":"12",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 09",
+			"ComponentName":"09",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 09",
+			"ComponentName":"10",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 09",
+			"ComponentName":"11",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 09",
+			"ComponentName":"12",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 10",
+			"ComponentName":"10",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 10",
+			"ComponentName":"11",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 10",
+			"ComponentName":"12",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 11",
+			"ComponentName":"11",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 11",
+			"ComponentName":"12",
+			"Weight":1
+		},
+		{
+			"ParentName":"YTG 12",
+			"ComponentName":"12",
+			"Weight":1
+		}
+	],
+	"Subsets@Code.links":
+	[
+		"ALL.D.Month.subsets/Default.json",
+		"ALL.D.Month.subsets/Level0.json",
+		"ALL.D.Month.subsets/SYS.YTD.json",
+		"ALL.D.Month.subsets/SYS_Picklist.json"
+	]
+}

@@ -1,0 +1,156 @@
+# =============
+SKIPCHECK;
+# =============
+ 
+# --------------------------------------------------------------------------------------------
+# Cubo: ALL.010.Economic_Assumptions
+# Dimensões: ALL.D.Year, ALL.D.Month, ALL.D.Version, ALL.D.Assumptions, ALL.M.010.Economic_Assumptions
+# Medida: Value
+# --------------------------------------------------------------------------------------------
+
+# --------------------------------------------------------------------------------------------
+# FX Rate USD/BRL = Average FX R$/US$
+# --------------------------------------------------------------------------------------------
+[
+  'ALL.D.Assumptions':'FX Rate USD/BRL',
+  'ALL.M.010.Economic_Assumptions':'Value'
+] = N:
+  DB(
+    'ALL.010.Economic_Assumptions',
+    !ALL.D.Year,
+    !ALL.D.Month,
+    !ALL.D.Version,
+    'ALL.D.Assumptions':'Average FX R$/US$',
+    'ALL.M.010.Economic_Assumptions':'Value'
+  );
+
+
+# --------------------------------------------------------------------------------------------
+# FX Rate EUR/BRL = Average FX R$/US$ * FX Rate USD/BRL
+# --------------------------------------------------------------------------------------------
+[
+  'ALL.D.Assumptions':'FX Rate EUR/BRL',
+  'ALL.M.010.Economic_Assumptions':'Value'
+] = N:
+  DB(
+    'ALL.010.Economic_Assumptions',
+    !ALL.D.Year,
+    !ALL.D.Month,
+    !ALL.D.Version,
+    'Average FX US$/EUR',
+    'ALL.M.010.Economic_Assumptions':'Value'
+  )
+  *
+  DB(
+    'ALL.010.Economic_Assumptions',
+    !ALL.D.Year,
+    !ALL.D.Month,
+    !ALL.D.Version,
+    'ALL.D.Assumptions':'FX Rate USD/BRL',
+    'ALL.M.010.Economic_Assumptions':'Value'
+  );
+
+
+# --------------------------------------------------------------------------------------------
+# FX Rate TRY/BRL = Average FX R$/US$ / Average FX TRY$/US$
+# --------------------------------------------------------------------------------------------
+[
+  'ALL.D.Assumptions':'FX Rate TRY/BRL',
+  'ALL.M.010.Economic_Assumptions':'Value'
+] = N:
+  DB(
+    'ALL.010.Economic_Assumptions',
+    !ALL.D.Year,
+    !ALL.D.Month,
+    !ALL.D.Version,
+    'ALL.D.Assumptions':'Average FX R$/US$',
+    'ALL.M.010.Economic_Assumptions':'Value'
+  )
+  \
+  DB(
+    'ALL.010.Economic_Assumptions',
+    !ALL.D.Year,
+    !ALL.D.Month,
+    !ALL.D.Version,
+    'ALL.D.Assumptions':'Average FX TRY$/US$',
+    'ALL.M.010.Economic_Assumptions':'Value'
+  );
+
+
+# --------------------------------------------------------------------------------------------
+# FX Rate UYU/BRL = Average FX R$/US$ / Average FX UYU$/US$
+# --------------------------------------------------------------------------------------------
+[
+  'ALL.D.Assumptions':'FX Rate UYU/BRL',
+  'ALL.M.010.Economic_Assumptions':'Value'
+] = N:
+  DB(
+    'ALL.010.Economic_Assumptions',
+    !ALL.D.Year,
+    !ALL.D.Month,
+    !ALL.D.Version,
+    'ALL.D.Assumptions':'Average FX R$/US$',
+    'ALL.M.010.Economic_Assumptions':'Value'
+  )
+  \
+  DB(
+    'ALL.010.Economic_Assumptions',
+    !ALL.D.Year,
+    !ALL.D.Month,
+    !ALL.D.Version,
+    'ALL.D.Assumptions':'Average FX UYU$/US$',
+    'ALL.M.010.Economic_Assumptions':'Value'
+  );
+
+
+# --------------------------------------------------------------------------------------------
+# FX Rate BOB/BRL = Average FX R$/US$ / Average FX BOB$/US$
+# --------------------------------------------------------------------------------------------
+[
+  'ALL.D.Assumptions':'FX Rate BOB/BRL',
+  'ALL.M.010.Economic_Assumptions':'Value'
+] = N:
+  DB(
+    'ALL.010.Economic_Assumptions',
+    !ALL.D.Year,
+    !ALL.D.Month,
+    !ALL.D.Version,
+    'ALL.D.Assumptions':'Average FX R$/US$',
+    'ALL.M.010.Economic_Assumptions':'Value'
+  )
+  \
+  DB(
+    'ALL.010.Economic_Assumptions',
+    !ALL.D.Year,
+    !ALL.D.Month,
+    !ALL.D.Version,
+    'ALL.D.Assumptions':'Average FX BOB$/US$',
+    'ALL.M.010.Economic_Assumptions':'Value'
+  );
+
+
+# =============
+FEEDERS;
+# =============
+
+['ALL.D.Assumptions':'Average FX R$/US$','ALL.M.010.Economic_Assumptions':'Value']
+  => ['ALL.D.Assumptions':'FX Rate USD/BRL','ALL.M.010.Economic_Assumptions':'Value'];
+
+['ALL.D.Assumptions':'Average FX US$/EUR','ALL.M.010.Economic_Assumptions':'Value']
+  => ['ALL.D.Assumptions':'FX Rate EUR/BRL','ALL.M.010.Economic_Assumptions':'Value'];
+
+['ALL.D.Assumptions':'Average FX R$/US$','ALL.M.010.Economic_Assumptions':'Value']
+  => ['ALL.D.Assumptions':'FX Rate TRY/BRL','ALL.M.010.Economic_Assumptions':'Value'];
+['ALL.D.Assumptions':'Average FX TRY$/US$','ALL.M.010.Economic_Assumptions':'Value']
+  => ['ALL.D.Assumptions':'FX Rate TRY/BRL','ALL.M.010.Economic_Assumptions':'Value'];
+
+['ALL.D.Assumptions':'Average FX R$/US$','ALL.M.010.Economic_Assumptions':'Value']
+  => ['ALL.D.Assumptions':'FX Rate UYU/BRL','ALL.M.010.Economic_Assumptions':'Value'];
+['ALL.D.Assumptions':'Average FX UYU$/US$','ALL.M.010.Economic_Assumptions':'Value']
+  => ['ALL.D.Assumptions':'FX Rate UYU/BRL','ALL.M.010.Economic_Assumptions':'Value'];
+
+['ALL.D.Assumptions':'Average FX R$/US$','ALL.M.010.Economic_Assumptions':'Value']
+  => ['ALL.D.Assumptions':'FX Rate BOB/BRL','ALL.M.010.Economic_Assumptions':'Value'];
+['ALL.D.Assumptions':'Average FX BOB$/US$','ALL.M.010.Economic_Assumptions':'Value']
+  => ['ALL.D.Assumptions':'FX Rate BOB/BRL','ALL.M.010.Economic_Assumptions':'Value'];
+

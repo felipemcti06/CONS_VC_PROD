@@ -1,0 +1,12 @@
+{
+	"@type":"Hierarchy",
+	"Name":"SYS.M.920.Cube_Grouping",
+	"Elements":
+	[
+		{
+			"Name":"Grouping",
+			"Type":"String"
+		}
+	],
+	"Subsets@Code.links":[]
+}

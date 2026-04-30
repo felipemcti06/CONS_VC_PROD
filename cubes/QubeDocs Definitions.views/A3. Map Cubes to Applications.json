@@ -1,0 +1,38 @@
+{
+	"@type":"NativeView",
+	"Name":"A3. Map Cubes to Applications",
+	"Columns":
+	[
+		{
+			"Subset":
+			{
+				"@id":"Dimensions('QubeDocs Application')/Hierarchies('QubeDocs Application')/Subsets('QubeDocs.Applications')"
+			}
+		}
+	],
+	"Rows":
+	[
+		{
+			"Subset":
+			{
+				"@id":"Dimensions('QubeDocs Definition')/Hierarchies('QubeDocs Definition')/Subsets('QubeDocs.Cubes')"
+			}
+		}
+	],
+	"Titles":
+	[
+		{
+			"Subset":
+			{
+				"@id":"Dimensions('QubeDocs Measure')/Hierarchies('QubeDocs Measure')/Subsets('QUBEdocs.Include In Application')"
+			},
+			"Selected":
+			{
+				"@id":"Dimensions('QubeDocs Measure')/Hierarchies('QubeDocs Measure')/Elements('#IncludeInApplication')"
+			}
+		}
+	],
+	"SuppressEmptyColumns":false,
+	"SuppressEmptyRows":false,
+	"FormatString":"0.#########"
+}

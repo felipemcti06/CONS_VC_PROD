@@ -1,0 +1,33 @@
+{
+	"@type":"Hierarchy",
+	"Name":"ALL.D.Market",
+	"Elements":
+	[
+		{
+			"Name":"Domestic",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Export",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Total Market",
+			"Type":"Consolidated"
+		}
+	],
+	"Edges":
+	[
+		{
+			"ParentName":"Total Market",
+			"ComponentName":"Domestic",
+			"Weight":1
+		},
+		{
+			"ParentName":"Total Market",
+			"ComponentName":"Export",
+			"Weight":1
+		}
+	],
+	"Subsets@Code.links":[]
+}

@@ -1,0 +1,34 @@
+{
+	"@type":"NativeView",
+	"Name":"Padrão",
+	"Columns":[],
+	"Rows":
+	[
+		{
+			"Subset":
+			{
+				"@id":"Dimensions('SYS.M.150.Controle_Cargas')/Hierarchies('SYS.M.150.Controle_Cargas')/Subsets('Default')"
+			}
+		}
+	],
+	"Titles":
+	[
+		{
+			"Subset":
+			{
+				"Hierarchy":
+				{
+					"@id":"Dimensions('}Processes')/Hierarchies('}Processes')"
+				},
+				"Expression":"TM1SubsetAll([}Processes])"
+			},
+			"Selected":
+			{
+				"@id":"Dimensions('}Processes')/Hierarchies('}Processes')/Elements('zCTI.Template.Carga.Arquivo.Para.Cubo')"
+			}
+		}
+	],
+	"SuppressEmptyColumns":true,
+	"SuppressEmptyRows":true,
+	"FormatString":"0.#########"
+}

@@ -1,0 +1,38 @@
+{
+	"@type":"NativeView",
+	"Name":"A1. Update Object Definitions",
+	"Columns":
+	[
+		{
+			"Subset":
+			{
+				"@id":"Dimensions('QubeDocs Measure')/Hierarchies('QubeDocs Measure')/Subsets('QUBEdocs.Desc')"
+			}
+		}
+	],
+	"Rows":
+	[
+		{
+			"Subset":
+			{
+				"@id":"Dimensions('QubeDocs Definition')/Hierarchies('QubeDocs Definition')/Subsets('QUBEdocs.Summary')"
+			}
+		}
+	],
+	"Titles":
+	[
+		{
+			"Subset":
+			{
+				"@id":"Dimensions('QubeDocs Application')/Hierarchies('QubeDocs Application')/Subsets('QubeDocs.Entire Model')"
+			},
+			"Selected":
+			{
+				"@id":"Dimensions('QubeDocs Application')/Hierarchies('QubeDocs Application')/Elements('Entire Model')"
+			}
+		}
+	],
+	"SuppressEmptyColumns":false,
+	"SuppressEmptyRows":false,
+	"FormatString":"0.#########"
+}

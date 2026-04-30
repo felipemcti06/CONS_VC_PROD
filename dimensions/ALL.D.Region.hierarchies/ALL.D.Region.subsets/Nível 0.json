@@ -1,0 +1,6 @@
+{
+	"@type":"Subset",
+	"Name":"Nível 0",
+	"Alias":"MEMBER_NAME",
+	"Expression":"{{TM1FILTERBYLEVEL(TM1SUBSETALL([ALL.D.Region].[ALL.D.Region]) , 0)}}"
+}

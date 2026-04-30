@@ -1,0 +1,14 @@
+{
+	"@type":"Cube",
+	"Name":"MAP.010.Products",
+	"Dimensions":
+	[
+		{
+			"@id":"Dimensions('MAP.D.Products')"
+		},
+		{
+			"@id":"Dimensions('MAP.M.010.Products')"
+		}
+	],
+	"Views@Code.links":[]
+}

@@ -1,0 +1,6 @@
+{
+	"@type":"Subset",
+	"Name":"Default",
+	"Alias":"MEMBER_NAME",
+	"Expression":"TM1IGNORE_BADTUPLES {[DFS.M.100.Profit_and_Loss].[DFS.M.100.Profit_and_Loss].MEMBERS}"
+}

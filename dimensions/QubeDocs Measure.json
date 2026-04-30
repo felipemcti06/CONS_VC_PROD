@@ -1,0 +1,12 @@
+{
+	"@type":"Dimension",
+	"Name":"QubeDocs Measure",
+	"Hierarchies@Code.links":
+	[
+		"QubeDocs Measure.hierarchies/QubeDocs Measure.json"
+	],
+	"DefaultHierarchy":
+	{
+		"@id":"Dimensions('QubeDocs Measure')/Hierarchies('QubeDocs Measure')"
+	}
+}

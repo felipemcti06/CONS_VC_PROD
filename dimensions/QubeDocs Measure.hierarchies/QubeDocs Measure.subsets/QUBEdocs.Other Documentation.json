@@ -1,0 +1,16 @@
+{
+	"@type":"Subset",
+	"Name":"QUBEdocs.Other Documentation",
+	"Elements":
+	[
+		{
+			"@id":"Dimensions('QubeDocs Measure')/Hierarchies('QubeDocs Measure')/Elements('#DocumentName')"
+		},
+		{
+			"@id":"Dimensions('QubeDocs Measure')/Hierarchies('QubeDocs Measure')/Elements('#Desc')"
+		},
+		{
+			"@id":"Dimensions('QubeDocs Measure')/Hierarchies('QubeDocs Measure')/Elements('#DocumentLink')"
+		}
+	]
+}

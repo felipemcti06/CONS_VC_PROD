@@ -1,0 +1,16 @@
+{
+	"@type":"Hierarchy",
+	"Name":"DFS.M.200.KPIs",
+	"Elements":
+	[
+		{
+			"Name":"Value",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Aux",
+			"Type":"Numeric"
+		}
+	],
+	"Subsets@Code.links":[]
+}

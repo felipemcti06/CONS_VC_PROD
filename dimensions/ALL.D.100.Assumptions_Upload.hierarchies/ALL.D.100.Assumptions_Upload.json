@@ -1,0 +1,32 @@
+{
+	"@type":"Hierarchy",
+	"Name":"ALL.D.100.Assumptions_Upload",
+	"Elements":
+	[
+		{
+			"Name":"Current Planning Module",
+			"Type":"String"
+		},
+		{
+			"Name":"Current Version Planning",
+			"Type":"String"
+		},
+		{
+			"Name":"Target Version Planning",
+			"Type":"String"
+		},
+		{
+			"Name":"Real Year",
+			"Type":"String"
+		},
+		{
+			"Name":"Real Month",
+			"Type":"String"
+		},
+		{
+			"Name":"Planning Start Year",
+			"Type":"String"
+		}
+	],
+	"Subsets@Code.links":[]
+}

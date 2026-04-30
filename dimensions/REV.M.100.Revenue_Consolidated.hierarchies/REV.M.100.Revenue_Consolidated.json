@@ -1,0 +1,39 @@
+{
+	"@type":"Hierarchy",
+	"Name":"REV.M.100.Revenue_Consolidated",
+	"Elements":
+	[
+		{
+			"Name":"Reference Price [$/ton]",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Sales Volume [kt]",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Third Part Sales Volume [kt]",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Price Premium [$/ton]",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Net Revenue [$MM]",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"Gross Revenue [$MM]",
+			"Type":"Numeric"
+		},
+		{
+			"Name":"% Operational Tax",
+			"Type":"Numeric"
+		}
+	],
+	"Subsets@Code.links":
+	[
+		"REV.M.100.Revenue_Consolidated.subsets/Default.json"
+	]
+}

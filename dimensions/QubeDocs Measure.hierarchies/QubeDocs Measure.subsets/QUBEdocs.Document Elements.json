@@ -1,0 +1,13 @@
+{
+	"@type":"Subset",
+	"Name":"QUBEdocs.Document Elements",
+	"Elements":
+	[
+		{
+			"@id":"Dimensions('QubeDocs Measure')/Hierarchies('QubeDocs Measure')/Elements('#DocumentElements')"
+		},
+		{
+			"@id":"Dimensions('QubeDocs Measure')/Hierarchies('QubeDocs Measure')/Elements('#ShowUndocumentedElements')"
+		}
+	]
+}
